@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="skin_template">
+  <div id="news_sys" :class="skin_template">
     <div id="zt_header_sys"></div>
     <div class="content"><router-view/></div>
     <div id="zt_footer_sys"></div>
@@ -17,7 +17,7 @@
 <script>
 
 export default {
-  name: 'App',
+  name: 'news_sys',
   mounted(){
     this.$store.commit('getSession');
     this.$i18n.locale = this.$store.state.language;
@@ -103,12 +103,12 @@ export default {
     border: 1px solid #eee;
   }
 }
-html,body,#app{
+html,body,#news_sys{
   min-width: 1200px;
   width: 100%;
   height: 100%;
 }
-#app {
+#news_sys {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 *{

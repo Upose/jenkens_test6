@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
 })
 
 new Vue({
-  el: '#app',
+  el: '#news_sys',
   router,
   i18n,
   store,
