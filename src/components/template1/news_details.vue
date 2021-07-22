@@ -102,6 +102,9 @@ h1{
     div.star{
       vertical-align: middle;
       display: inline-block;
+      span{
+        cursor: pointer;
+      }
       img{
         width:18px;
       }
