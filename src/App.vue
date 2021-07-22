@@ -1,5 +1,5 @@
 <template>
-  <div id="news_sys" :class="skin_template">
+  <div :class="skin_template">
     <div id="zt_header_sys"></div>
     <div class="content"><router-view/></div>
     <div id="zt_footer_sys"></div>
