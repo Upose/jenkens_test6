@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+.template1{
+ .skin_template(#972C25,#be3c3c);
+}
+.template2{
+ .skin_template(#1d3c65,#204370);
+}
+.template3{
+ .skin_template(#0f9b55,#0dad5d);
+}
+.template4{
+ .skin_template(#87038b,#9e0ea3);
+}
+
+
+@fff:#fff;
+@555:#555;
+@333:#333;
+@23:#232323;
+@3e3f42:#3e3f42;
+@6b:#6b6b6b;
+
+@8b:#8b8b8b;
+@9ea0a5:#9ea0a5;
+@e0dfdf:#e0dfdf;
+@de:#dedede;
+@bg_clear: rgba(0,0,0,0);//透明背景
+@border_b_shadow:0 2px 5px rgba(0, 0, 0, .15);//底部边框投影
+@border_r_shadow:5px 0 10px rgba(0,0,0,.05);//底部边框投影
+
+//通用模板
+.skin_template(@main:#972C25,@child_color:#be3c3c){
+    .child_color_hover{
+        &:hover{
+            background-color: @child_color;
+        }
+    }
+    .next_hover:hover{
+        .n_hover{
+            background-color: @child_color !important;
+        }
+    }
+    .boxshadow(@right_left:5px,@bottom_top:5px,@box :5px,@box_color:#b6ebf7){
+        box-shadow:@arguments;
+    }
+    .main_bg{
+        background-color: @main;
+    }
+    .child_border_bottom{
+        border-bottom: 1px solid @child_color;
+    }
+    .child_text_color{
+        color: @child_color;
+    }
+    .bgchild{
+        background-color: @child_color;
+    }
+    .fff{
+        color:@fff;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//模板二
+// .skin_template2(){
+//     @main:blue;
+//     @child_color:#5f5ffd;
+//     @child_color_hover:  darken(@child_color,20%);
+//     .boxshadow(@right_left:5px,@bottom_top:5px,@box :5px,@box_color:#b6ebf7){
+//         box-shadow:@arguments;
+//        -moz-box-shadow:@arguments;
+//        -webkit-box-shadow:@arguments;
+//     }
+//     .bg{
+//         background-color: @main;
+//         .boxshadow(7px,7px,7px,black);
+//         &:hover{
+//             background: @child_color_hover;
+//         }
+//     }
+// }

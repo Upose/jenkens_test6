@@ -1,0 +1,46 @@
+@charset "UTF-8";
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html,
+  body,
+  #app {
+    width: 100%;
+    min-height: 100%;
+    font-size: 14px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  }
+  a {
+    line-height: inherit;
+    text-decoration: none;
+  }
+  li {
+    list-style-type: none;
+  }
+  iframe {
+    border: none;
+  }
+  .c-l:after {
+    content: " ";
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+  }
+  /**禁止文字被选中*/
+  .n-text-select {
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .m-width {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
