@@ -2,7 +2,14 @@
   <div class="list-warp">
     <h1>联系我们</h1>
     <div class="details_content">
-      <p>富文本内容</p>
+      <div class="rich-title">
+        <span class="col1"><i class="title">发布人：</i>管理员</span>
+        <span class="col2"><i class="title">发布时间：</i>2021-12-11</span>
+        <span class="col3"><i class="title">范文次数：</i>455</span>
+      </div>
+      <div class="rich-text">
+        <p>富文本内容</p>
+      </div>
     </div>
     <div class="comment">
       <div class="row-score">
@@ -90,6 +97,20 @@ h1{
 .details_content{
   margin-top: 20px;
   min-height: 150px;
+  .rich-title{
+    margin-bottom: 20px;
+    text-align: center;
+    color: @6b;
+    span{
+      padding: 0 15px;
+    }
+    i{
+      font-style: normal;
+    }
+  }
+  .rich-text{
+    margin-bottom: 20px;
+  }
 }
 /***评论****/
 .comment{
@@ -139,6 +160,7 @@ h1{
   .btns{
     text-align: center;
     .btn{
+      color: @fff;
       width: 100px;
       height: 30px;
       outline: none;
@@ -151,7 +173,6 @@ h1{
     }
     .b-clear{
       margin-left: 30px;
-      color: @fff;
       background-color: @9ea0a5;
     }
   }

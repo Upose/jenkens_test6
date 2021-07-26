@@ -1,9 +1,9 @@
 <template>
   <div class="list-warp">
     <div class="articledetails-warp">
-     <div class="body-content m-width">
+     <div class="body-content m-width c-l">
         <div class="left-menu">
-          <div class="menu-top bgchild">新闻公告</div>
+          <div class="menu-top child_bg">新闻公告</div>
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
@@ -12,17 +12,17 @@
                   <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
                 </ul>
               </li>
-              <!-- <li class="child_color_hover" :class="left_index==1?'active bgchild':''" @click="menuClick('智慧图书馆','menu',1)"><a href="javascript:;">智慧图书馆</a></li>
-              <li class="child_color_hover" :class="left_index==2?'active bgchild':''" @click="menuClick('联系我们','text',2)"><a href="javascript:;">联系我们</a></li>
-              <li class="child_color_hover" :class="left_index==3?'active bgchild':''" @click="menuClick('新闻列表','news',3)"><a href="javascript:;">新闻列表</a></li> -->
+              <!-- <li class="child_color_hover" :class="left_index==1?'active child_bg':''" @click="menuClick('智慧图书馆','menu',1)"><a href="javascript:;">智慧图书馆</a></li>
+              <li class="child_color_hover" :class="left_index==2?'active child_bg':''" @click="menuClick('联系我们','text',2)"><a href="javascript:;">联系我们</a></li>
+              <li class="child_color_hover" :class="left_index==3?'active child_bg':''" @click="menuClick('新闻列表','news',3)"><a href="javascript:;">新闻列表</a></li> -->
             </ul>
           </div>
         </div>
         <div class="body-title">
-          <div class="menu-top bgchild">当前位置：{{content_title}}</div>
+          <div class="menu-top child_bg">当前位置：{{content_title}}</div>
           <div class="right-content" v-if="content_type=='news'">
             <ul class="news-ul">
-              <li class="next_hover" @click="menuClick('宣传视频','text',-1)" v-for="item in 4">
+              <li class="next_hover" @click="menuClick('列表详情','text',-1)" v-for="item in 4">
                 <div class="time n_hover">
                   <span class="data">26</span>
                   <span>2019-11</span>
@@ -30,21 +30,13 @@
                 <div class="title-warp">
                   <a href="javascript:void(0)">CNRDS经济、金融、商学数据库高级试用通知</a>
                   <span>点击量：49次</span>
+                  <p class="intros">新闻简介新闻简介新闻简介新闻简介新闻简介新闻简简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</p>
                 </div>
               </li>
             </ul>
             <pages :total="10" :Cindex="1"></pages>
           </div><!--新闻列表 end -->
-          <div class="right-content" v-if="content_type=='menu'">
-            <ul>
-              <li @click="menuClick('宣传视频','video',-1)"><a href="javascript:void(0)">宣传视频</a></li>
-              <li @click="menuClick('宣传视频','video',-1)"><a href="javascript:void(0)">宣传视频</a></li>
-            </ul>
-            <pages :total="3" :Cindex="1"></pages>
-          </div><!--列表页面 end -->
-          <div class="right-content" v-if="content_type=='video'">
-              <video class="video" controls="controls" autoplay src="http://lib.cwnu.edu.cn:8010/ContentDelivery/20210427/1.mp4"></video>
-          </div><!--视频页面 end -->
+
           <div class="right-content" v-if="content_type=='text'">
             <news_details></news_details>
           </div><!--文章详情页面 end -->
@@ -66,10 +58,10 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'关于我们',//内容中的标题
-        content_type:'menu',//右边内容的类型，如：文章(text)，视频(video)，列表(menu)，新闻列表(news)
+        content_type:'news',//右边内容的类型，如：文章(text)，列表(news)
         menu_list:[
-          {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'menu'},
-          {id:1,title:'智慧图书馆',type:'menu'},
+          {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'news'},
+          {id:1,title:'智慧图书馆',type:'news'},
           {id:2,title:'联系我们',type:'text'},
           {id:3,title:'新闻列表',type:'news'},
         ],
@@ -107,7 +99,7 @@ export default {
           cs = 'child-list ';
         }
         if(this.left_index == val.id){
-          cs = 'active bgchild';
+          cs = 'active child_bg';
           if(val.list && val.list.length>0 && check==true){
             cs = cs + ' child-list-active-open';
           }else if(val.list && val.list.length>0 && (check==undefined||check==false)){
@@ -143,6 +135,17 @@ export default {
         color: @fff;
         text-align: center;
       }
+      &::after{
+        position: absolute;
+        right:0;
+        top: 72px;
+        bottom: 0;
+        width: 6px;
+        content: "";
+        background: @fff;
+        box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
+        z-index: 2;
+      }
     }
     .body-title{
       margin-left: 250px;
@@ -155,8 +158,7 @@ export default {
         width: 6px;
         content: "";
         background: #fff;
-        -webkit-box-shadow: 5px 0 10px rgba(0, 0, 0, 0.05);
-        box-shadow: 5px 0 10px rgba(0, 0, 0, 0.05);
+        box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
         z-index: 2;
       }
       .menu-top{
@@ -288,16 +290,11 @@ export default {
       /***新闻列表 */
       ul.news-ul{
         li{
-          position: relative;
-          height: 90px;
+          //min-height: 90px;
           cursor: pointer;
         }
-        .time,.title-warp{
-          position: absolute;
-          top: 0;
-          height: 80px;
-        }
         .time{
+          min-height: 80px;
           left: 15px;
           width: 80px;
           color: @fff;
@@ -306,6 +303,7 @@ export default {
           font-size: 14px;
           font-weight: bold;
           line-height: 30px;
+          float: left;
           .data{
             font-size: 30px;
             display: block;
@@ -313,7 +311,7 @@ export default {
           }
         }
         .title-warp{
-          padding: 0 10px;
+          padding-left: 90px;
           left: 95px;
           right:10px;
           width: auto;
@@ -326,6 +324,15 @@ export default {
             font-size: 12px;
             color: @8b;
             line-height: 22px;
+          }
+          p.intros{
+            color: @8b;
+            font-size: 14px;
+            overflow:hidden; 
+            text-overflow:ellipsis;
+            display:-webkit-box; 
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:2; 
           }
         }
       }

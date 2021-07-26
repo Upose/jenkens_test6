@@ -6,7 +6,7 @@
             <Debounce !isDebounce><a href="javascript:void(0);" @click="first()" title="首页">&lt;&lt;</a>&nbsp;</Debounce>
             <Debounce !isDebounce><a href="javascript:void(0);" @click="pre()" title="上一页">&lt;</a></Debounce>
             <span class="page_num">
-                <a href="javascript:void(0);" v-for="index in pageList" :class="PageIndex==(start_number+index)?'active':''"><Debounce !isDebounce><span @click="current(start_number+index)">{{start_number+index}}</span></Debounce></a>
+                <a href="javascript:void(0);" v-for="index in pageList" :class="PageIndex==(start_number+index)?'active main_bg child_color_hover':'child_color_hover'"><Debounce !isDebounce><span @click="current(start_number+index)">{{start_number+index}}</span></Debounce></a>
             </span>
             <Debounce !isDebounce><a href="javascript:void(0);" @click="next()" title="下一页">&gt;</a>&nbsp;</Debounce>
             <Debounce !isDebounce><a href="javascript:void(0);" @click="last()" title="末页">&gt;&gt;</a></Debounce>
@@ -95,8 +95,6 @@ export default {
     text-align: right;
     .active{
         color:#fff;
-        background: #a21e1e;
-        border: 1px solid #a21e1e;
     }
 }
 
@@ -123,8 +121,6 @@ export default {
         font-family:initial;
         &:hover{
             color: #fff;
-            background: #a21e1e;
-            border: 1px solid #a21e1e;
         }
     }
     span{
