@@ -1,39 +1,53 @@
 @charset "UTF-8";
 
 .template1{
- .skin_template(#972C25,#be3c3c);
+ .skin_template(#972C25,#be3c3c,#eb5f3c,#f93549);
 }
 .template2{
- .skin_template(#1d3c65,#204370);
+ .skin_template(#1d3c65,#204370,#3270bf,#0570fd);
 }
-.template3{
- .skin_template(#0f9b55,#0dad5d);
-}
-.template4{
- .skin_template(#87038b,#9e0ea3);
-}
+
+
 
 
 @fff:#fff;
-@555:#555;
-@333:#333;
+@fc:#fcfcfc;
+@f8:#f8f8f8;
 @23:#232323;
+@333:#333;
 @3e3f42:#3e3f42;
+@555:#555;
+@5f:#5f5f5f;
+@666:#666;
+@777:#777;
 @6b:#6b6b6b;
-
 @8b:#8b8b8b;
+@999:#999;
+@aaa:#aaa;
+@a2968e:#a2968e;
 @9ea0a5:#9ea0a5;
 @e0dfdf:#e0dfdf;
+@ccc:#ccc;
 @de:#dedede;
+@eee:#eee;
+@dceaf5:#dceaf5;
+@d5e2e3:#d5e2e3;
+
+
 @bg_clear: rgba(0,0,0,0);//透明背景
 @border_b_shadow:0 2px 5px rgba(0, 0, 0, .15);//底部边框投影
-@border_r_shadow:5px 0 10px rgba(0,0,0,.05);//底部边框投影
+@border_r_shadow:5px 0 10px rgba(0,0,0,.05);//右边框投影
 
 //通用模板
-.skin_template(@main:#972C25,@child_color:#be3c3c){
+.skin_template(@main:#972C25,@child_color:#be3c3c,@child_color1:#eb5f3c,@check_color:#f93549,@child_color3:#eb5f3c,@child_color3:#eb5f3c){
     .child_color_hover{
         &:hover{
             background-color: @child_color;
+        }
+    }
+    .child_color_text_hover{
+        &:hover{
+           color: @child_color !important;
         }
     }
     .next_hover:hover{
@@ -47,14 +61,28 @@
     .main_bg{
         background-color: @main;
     }
+    .child_bg{
+        background-color: @child_color !important;
+    }
+    .child1_bg{
+        background-color: @child_color1 !important;
+    }
     .child_border_bottom{
         border-bottom: 1px solid @child_color;
     }
+    .check_color_bg{
+        background-color: @check_color !important;
+    }
+    .check_color_hover{
+        &:hover{
+            background-color: @check_color !important;
+        }
+    }
+    .main_text_color{
+        color: @main;
+    }
     .child_text_color{
         color: @child_color;
-    }
-    .child_bg{
-        background-color: @child_color;
     }
 }
 
