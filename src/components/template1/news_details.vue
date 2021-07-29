@@ -14,13 +14,7 @@
     <div class="comment">
       <div class="row-score">
         <span class="title">是否对您有用：</span>
-        <div class="star">
-          <span title="2" @click="scoreClick(2)"><img :src="score_num>=2?star_check:star"></span>
-          <span title="4" @click="scoreClick(4)"><img :src="score_num>=4?star_check:star"></span>
-          <span title="6" @click="scoreClick(6)"><img :src="score_num>=6?star_check:star"></span>
-          <span title="8" @click="scoreClick(8)"><img :src="score_num>=8?star_check:star"></span>
-          <span title="10" @click="scoreClick(10)"><img :src="score_num>=10?star_check:star"></span>
-        </div>
+        <my_rate :score.sync="curScore"/>
       </div>
       <div class="c-text">
         <div class="title">
@@ -55,14 +49,14 @@
 
 <script>
 import http from "@/assets/js/http";
+import my_rate from "./rate";
 export default {
   name: 'footerPage',
+  components:{my_rate},
   created(){},
   data () {
     return {
-      score_num:0,
-      star:require('@/assets/img/star.png'),
-      star_check:require('@/assets/img/star-check.png'),
+      curScore:2,
     }
   },
   mounted(){
@@ -75,9 +69,6 @@ export default {
         }).catch(err=>{
             console.log(err);
         })
-      },
-      scoreClick(val){
-        this.score_num = val;
       },
   },
 }
@@ -119,16 +110,6 @@ h1{
     margin-bottom: 15px;
     span.title{
       vertical-align: middle;
-    }
-    div.star{
-      vertical-align: middle;
-      display: inline-block;
-      span{
-        cursor: pointer;
-      }
-      img{
-        width:18px;
-      }
     }
   }
   .c-text{

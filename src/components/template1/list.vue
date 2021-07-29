@@ -69,7 +69,10 @@ export default {
   },
   mounted(){
     //   this.initData();
-    this.menuClick(this.menu_list[0].title,this.menu_list[0].type,this.menu_list[0].id,0);
+    this.menuClick(this.menu_list[2].title,this.menu_list[2].type,this.menu_list[2].id,2);
+    // document.addEventListener('click',function(e){
+    //   console.log(e,e.target);
+    // })
   },
   methods:{
       initData(){
@@ -85,7 +88,11 @@ export default {
         if(id!=-1){
           this.left_index = id;
         }
-        this.menu_list[index]['check'] = !this.menu_list[index]['check'];
+        if(this.menu_list[index]['check']==undefined){
+          this.menu_list[index]['check'] = false;
+        }else{
+          this.menu_list[index]['check'] = !this.menu_list[index]['check'];
+        }
         this.menu_list.forEach((item,i)=>{
           if(i != index){
             this.menu_list[i]['check'] = false;
