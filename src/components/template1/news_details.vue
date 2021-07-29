@@ -14,7 +14,7 @@
     <div class="comment">
       <div class="row-score">
         <span class="title">是否对您有用：</span>
-        <my_rate :score.sync="curScore"/>
+        <my_rate :score.sync="curScore" showText/>
       </div>
       <div class="c-text">
         <div class="title">
