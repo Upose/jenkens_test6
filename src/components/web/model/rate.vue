@@ -1,4 +1,4 @@
-<!--评分-->
+<!--星星评分-->
 <template>
   <div class="rate" :class="{'disabled':disabled}">
     <i v-for="i in 5" class="iconfont" @mouseenter="disabled?'':curScore=i" @mouseleave="disabled?'' :curScore=''" @click="disabled?'':setScore(i)" :class="getClass(i)">
@@ -7,26 +7,7 @@
     <span v-if="showText" class="text">{{curScore||score}}分</span>
   </div>
 </template>
-<style lang="less" scope>
-    .rate{
-        display: inline-block;
-        vertical-align: middle;
-    }
-    .iconfont{
-        width: 18px;
-        height: 18px;
-        display: inline-block;
-        font-style: normal;
-        background-size: 100% 100%;
-        margin-right: 5px;
-    }
-    .icon-star-o{
-        background-image: url(../../assets/img/star.png);
-    }
-    .icon-star{
-        background-image: url(../../assets/img/star-check.png);
-    }
-</style>
+
 <script>
   export default {
     name:'MyRate',
@@ -70,3 +51,24 @@
     }
   }
 </script>
+
+<style lang="less" scope>
+    .rate{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .iconfont{
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        font-style: normal;
+        background-size: 100% 100%;
+        margin-right: 5px;
+    }
+    .icon-star-o{
+        background-image: url(../../../assets/web/img/star.png);
+    }
+    .icon-star{
+        background-image: url(../../../assets/web/img/star-check.png);
+    }
+</style>

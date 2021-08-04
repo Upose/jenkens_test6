@@ -14,7 +14,7 @@
     <div class="comment">
       <div class="row-score">
         <span class="title">是否对您有用：</span>
-        <my_rate :score.sync="curScore" showText/>
+        <my_rate :score.sync="curScore"/>
       </div>
       <div class="c-text">
         <div class="title">
@@ -32,7 +32,7 @@
       <div class="title"><span class="child_text_color child_border_bottom">评论数</span>（3）</div>
       <div class="row" v-for="i in 3">
         <div class="r-top">
-          <img src="@/assets/img/default.jpg" class="u-img">
+          <img src="@/assets/web/img/default.jpg" class="u-img">
           <span class="text">
             <span class="name">张老师</span>
             <span class="time">2018年12月14日  20:18:25</span>
@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import http from "@/assets/js/http";
-import my_rate from "./rate";
+import http from "@/assets/public/js/http";
+import my_rate from "../../../model/rate";
 export default {
   name: 'footerPage',
   components:{my_rate},
@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../assets/css/color.less";/**通用文件 */
+@import "../../../../../assets/public/css/color.less";/**通用文件 */
 h1{
   margin: 0 -15px;
   padding: 10px 50px;

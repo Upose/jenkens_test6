@@ -13,7 +13,7 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app:  ["babel-polyfill", "./src/main.js"]
+    app:  ["./src/main.js"]
   },
   output: {
     path: config.build.assetsRoot,
@@ -72,6 +72,7 @@ module.exports = {
   },
   externals:{
     'vue': 'Vue', //不打包某些插件，在此处配置
+    'axios':'axios',
   },
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

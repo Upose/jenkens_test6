@@ -1,0 +1,47 @@
+<template>
+  <div class="page-warp">
+    <p class="error-hint">出错了，您访问的页面无法找到! 可能网页已经被关闭或者输入的网址错误！</p>
+    <button class="back" @click="window.history.go(-1);">返回上一页</button>
+    <div class="img-404"></div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: '404page',
+  data () {
+    return {}
+  },
+  mounted(){},
+  methods:{},
+}
+</script>
+
+<style lang="less" scoped>
+.page-warp{
+    text-align: center;
+    padding: 100px 0;
+}
+.error-hint{
+    color: #555;
+    font-size: 18px;
+    line-height: 38px;
+}
+.img-404{
+    background-image: url(../assets/public/img/404.png);
+    background-position: center;
+    height: 500px;
+    background-repeat: no-repeat;
+}
+.back{
+    outline: none;
+    width: 140px;
+    height: 36px;
+    line-height: 24px;
+    color: #fff;
+    font-size: 18px;
+    background: #5a5a5a;
+    border: 0;
+    margin: 50px 0;
+}
+</style>

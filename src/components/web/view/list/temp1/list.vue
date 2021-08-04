@@ -38,7 +38,7 @@
           </div><!--新闻列表 end -->
 
           <div class="right-content" v-if="content_type=='text'">
-            <news_details></news_details>
+            <details></details>
           </div><!--文章详情页面 end -->
         </div>
      </div>
@@ -47,12 +47,12 @@
 </template>
 
 <script>
-import http from "@/assets/js/http";
-import news_details from './news_details'
-import pages from '@/common/pages';
+import http from "@/assets/public/js/http";
+import details from '../../details/temp1/details'
+import pages from '@/components/web/common/pages';
 export default {
   name: 'footerPage',
-  components:{news_details,pages},
+  components:{details,pages},
   created(){},
   data () {
     return {
@@ -68,7 +68,7 @@ export default {
     }
   },
   mounted(){
-    //   this.initData();
+      // this.initData();
     this.menuClick(this.menu_list[2].title,this.menu_list[2].type,this.menu_list[2].id,2);
     // document.addEventListener('click',function(e){
     //   console.log(e,e.target);
@@ -120,10 +120,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    @import "../../assets/css/color.less";/**通用文件 */
+  @import "../../../../../assets/public/css/color.less";/**通用文件 */
   .articledetails-warp{
     min-height:700px;
-    background: @e0dfdf url(../../assets/img/template1/banner-bg.jpg) no-repeat center top;
+    background: @e0dfdf url(../../../../../assets/web/img/banner-bg.jpg) no-repeat center top;
     padding-bottom: 20px;
     padding-top: 95px;
   }

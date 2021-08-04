@@ -4,7 +4,5 @@ export default {
     postUrl:{
         'AssetNewest':'/api/client/AssetNewest', //最新资源
         'AssetNewest1':'/api/client/AssetNewest', //最新资源
-        'AssetNewest2':'/api/client/AssetNewest', //最新资源
-        'AssetNewest3':'/api/client/AssetNewest', //最新资源
     },
 }
