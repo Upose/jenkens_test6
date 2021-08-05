@@ -1,12 +1,13 @@
 <template>
-<div class="warp">
+<div class="web-warp">
     <div id="zt_header_sys"></div>
     <div class="content-warp"><router-view></router-view></div>
     <div id="zt_footer_sys"></div>
 </div>
 </template>
 <style scoped>
-.warp{
+.web-warp{
+    min-width: 1200px;
     width: 100%;
     height: 100%;
     position: relative;

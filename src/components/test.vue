@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import http from "@/assets/js/http";
+import http from "@/assets/public/js/http";
 export default {
   name: 'footerPage',
   created(){},

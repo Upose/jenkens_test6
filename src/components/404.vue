@@ -20,7 +20,11 @@ export default {
 <style lang="less" scoped>
 .page-warp{
     text-align: center;
-    padding: 100px 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -302px;
+    margin-top: -287px;
 }
 .error-hint{
     color: #555;
@@ -30,7 +34,7 @@ export default {
 .img-404{
     background-image: url(../assets/public/img/404.png);
     background-position: center;
-    height: 500px;
+    height: 440px;
     background-repeat: no-repeat;
 }
 .back{
@@ -42,6 +46,6 @@ export default {
     font-size: 18px;
     background: #5a5a5a;
     border: 0;
-    margin: 50px 0;
+    margin:30px 0;
 }
 </style>

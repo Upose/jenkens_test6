@@ -54,17 +54,4 @@ export default {
     border: 1px solid #eee;
   }
 }
-html,body,#news_sys{
-  min-width: 1200px;
-  width: 100%;
-  height: 100%;
-}
-#news_sys {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-}
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 </style>

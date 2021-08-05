@@ -21,7 +21,7 @@
           <span>发 表 评 论：</span>
           <span>（请 先 登 录）</span>
         </div>
-        <textarea class="textarea"></textarea>
+        <textarea class="textarea" :disabled="disabled"></textarea>
       </div>
       <div class="btns">
         <button class="btn main_bg fff">保 存</button>
@@ -57,6 +57,7 @@ export default {
   data () {
     return {
       curScore:2,
+      disabled:true,
     }
   },
   mounted(){

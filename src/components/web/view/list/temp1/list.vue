@@ -38,7 +38,7 @@
           </div><!--新闻列表 end -->
 
           <div class="right-content" v-if="content_type=='text'">
-            <details></details>
+            <detailspage></detailspage>
           </div><!--文章详情页面 end -->
         </div>
      </div>
@@ -48,11 +48,11 @@
 
 <script>
 import http from "@/assets/public/js/http";
-import details from '../../details/temp1/details'
+import detailspage from '../../details/temp1/detailspage'
 import pages from '@/components/web/common/pages';
 export default {
   name: 'footerPage',
-  components:{details,pages},
+  components:{detailspage,pages},
   created(){},
   data () {
     return {

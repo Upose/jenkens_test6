@@ -71,8 +71,9 @@ module.exports = {
     ]
   },
   externals:{
-    'vue': 'Vue', //不打包某些插件，在此处配置
+    'vue': 'Vue',
     'axios':'axios',
+    'echarts':'echarts',
   },
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

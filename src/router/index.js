@@ -17,12 +17,12 @@ export default new Router({
           component: r => require.ensure([], () => r(require('@/components/web/view/list/temp1/list')), 'list'),
           meta: { title: '列表页面-模板一' , keepAlive:true},
         },
-        // {
-        //   path: '/details',
-        //   name: 'list',
-        //   component: r => require.ensure([], () => r(require('@/components/web/view/details/temp1/details')), 'list'),
-        //   meta: { title: '详情页面-模板一' , keepAlive:true},
-        // },
+        {
+          path: '/detailspage',
+          name: 'list',
+          component: r => require.ensure([], () => r(require('@/components/web/view/details/temp1/detailspage')), 'list'),
+          meta: { title: '详情页面-模板一' , keepAlive:true},
+        },
       ]
     },
     {
@@ -32,10 +32,16 @@ export default new Router({
       meta: { title: '首页' , keepAlive:true},
       children:[
         {
-          path: '/admin_table',
-          name: 'admin_table',
-          component: r => require.ensure([], () => r(require('@/components/admin/view/table')), 'admin_table'),
-          meta: { title: '列表页面' , keepAlive:true},
+          path: '/table',
+          name: 'table',
+          component: r => require.ensure([], () => r(require('@/components/admin/view/table')), 'table'),
+          meta: { title: '拖动表格' , keepAlive:true},
+        },
+        {
+          path: '/echars',
+          name: 'echars',
+          component: r => require.ensure([], () => r(require('@/components/admin/view/echars')), 'echars'),
+          meta: { title: 'echars表格' , keepAlive:true},
         },
       ]
     },
