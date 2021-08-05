@@ -43,6 +43,12 @@ export default new Router({
           component: r => require.ensure([], () => r(require('@/components/admin/view/echars')), 'echars'),
           meta: { title: 'echars表格' , keepAlive:true},
         },
+        {
+          path: '/layui',
+          name: 'layui',
+          component: r => require.ensure([], () => r(require('@/components/admin/view/layui_edit')), 'echars'),
+          meta: { title: 'layui富文本' , keepAlive:true},
+        },
       ]
     },
     {

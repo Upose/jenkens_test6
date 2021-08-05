@@ -1,4 +1,4 @@
-/*! MIT Licensed v 2.6.8*/ ;
+/*! MIT Licensed v2.6.8*/ ;
 ! function (t) {
   "use strict";
   var e = t.document,

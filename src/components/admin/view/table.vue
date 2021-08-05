@@ -6,11 +6,11 @@
       <el-table-column prop="name" label="姓名" align="center" ></el-table-column>
       <el-table-column prop="sex" label="性别" align="center" ></el-table-column>
       <el-table-column prop="height" label="年龄" align="center" ></el-table-column>
-      <el-table-column label="操作" align="center" width="220">
+      <el-table-column label="操作" align="center" width="320">
         <template slot-scope="scope">
-          <el-button size="mini">排序</el-button>
-          <el-button size="mini">编辑</el-button>
-          <el-button size="mini">删除</el-button>
+          <el-button size="mini" icon="el-icon-sort">排序</el-button>
+          <el-button size="mini" icon="el-icon-edit">编辑</el-button>
+          <el-button size="mini" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
