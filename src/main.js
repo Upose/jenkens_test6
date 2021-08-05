@@ -13,9 +13,9 @@ Vue.use(VueI18n)
 const i18n = new VueI18n({
   locale: window.localStorage.getItem('locale')||'zh-CN',
   messages: {
-    'zh-CN': require('./assets/public/lang/zh'),   // 中文
-    'zh-HANT': require('./assets/public/lang/hant'),    // 繁体
-    'en-US': require('./assets/public/lang/en')    // 英文
+    'zh-CN': require('@/assets/public/lang/zh'),   // 中文
+    'zh-HANT': require('@/assets/public/lang/hant'),    // 繁体
+    'en-US': require('@/assets/public/lang/en')    // 英文
   }
 })
 

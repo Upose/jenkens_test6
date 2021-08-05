@@ -49,7 +49,7 @@
 <script>
 import http from "@/assets/public/js/http";
 import detailspage from '../../details/temp1/detailspage'
-import pages from '@/components/web/common/pages';
+import pages from '@/components/web/model/pages';
 export default {
   name: 'footerPage',
   components:{detailspage,pages},

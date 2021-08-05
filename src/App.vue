@@ -41,7 +41,7 @@ export default {
 
 <style lang="less">
 @import "./assets/public/css/style.less";/**通用文件 */
-@import "./assets/public/css/color.less";/**颜色配置 */
+@import "./assets/public/css/color.less";/**通用文件 */
 .template-warp{
   position: fixed;
   top: 10px;
