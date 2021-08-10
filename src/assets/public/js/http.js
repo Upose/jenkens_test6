@@ -153,7 +153,7 @@ export default {
     });
   },
   //带token的文件上传方法  --- form-data
-  postImg: function (pageTyle, url, formData) {
+  postFile: function (pageTyle, url, formData) {
     return new Promise((resolve, reject) => {
       axios({
         url: pageTyle=='web'?this.web_postUrl[url]:this.admin_postUrl[url],
