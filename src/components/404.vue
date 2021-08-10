@@ -7,12 +7,19 @@
 </template>
 
 <script>
+import http from "@/assets/public/js/http";
 export default {
   name: '404page',
   data () {
     return {}
   },
-  mounted(){},
+  mounted(){
+    // http.noGet('web','AssetNewest',{}).then(res=>{
+
+    // }).catch(err=>{
+    //     console.log(err);
+    // })
+  },
   methods:{},
 }
 </script>
