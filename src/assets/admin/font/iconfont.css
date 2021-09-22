@@ -1,0 +1,115 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 2750387 */
+  src: url('iconfont.woff2?t=1631600621141') format('woff2'),
+       url('iconfont.woff?t=1631600621141') format('woff'),
+       url('iconfont.ttf?t=1631600621141') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vip-B:before {
+  content: "\e637";
+}
+
+.vip-I:before {
+  content: "\e60d";
+}
+
+.vip-u:before {
+  content: "\e65e";
+}
+
+.vip-check:before {
+  content: "\e62b";
+}
+
+.vip-set:before {
+  content: "\e612";
+}
+
+.vip-stats:before {
+  content: "\e6fc";
+}
+
+.vip-analyse:before {
+  content: "\e67e";
+}
+
+.vip-news:before {
+  content: "\e61b";
+}
+
+.vip-reject:before {
+  content: "\e65c";
+}
+
+.vip-seat:before {
+  content: "\e62f";
+}
+
+.vip-rili:before {
+  content: "\e719";
+}
+
+.vip-statistics:before {
+  content: "\e61e";
+}
+
+.vip-docu:before {
+  content: "\e620";
+}
+
+.vip-article-type:before {
+  content: "\e631";
+}
+
+.vip-handshake:before {
+  content: "\e624";
+}
+
+.vip-apply-form:before {
+  content: "\e66c";
+}
+
+.vip-doctor:before {
+  content: "\e613";
+}
+
+.vip-news1:before {
+  content: "\e6ba";
+}
+
+.vip-service:before {
+  content: "\e617";
+}
+
+.vip-sen:before {
+  content: "\e695";
+}
+
+.vip-monitoring:before {
+  content: "\e69f";
+}
+
+.vip-client:before {
+  content: "\e614";
+}
+
+.vip-table:before {
+  content: "\e618";
+}
+
+.vip-facility:before {
+  content: "\e87a";
+}
+
+.vip-manage:before {
+  content: "\e66d";
+}
+

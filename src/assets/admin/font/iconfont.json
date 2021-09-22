@@ -1,0 +1,184 @@
+{
+  "id": "2750387",
+  "name": "智图3.0",
+  "font_family": "iconfont",
+  "css_prefix_text": "vip-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1621117",
+      "name": "B",
+      "font_class": "B",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "9438980",
+      "name": "I",
+      "font_class": "I",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "11349291",
+      "name": "u",
+      "font_class": "u",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "18043168",
+      "name": "选中",
+      "font_class": "check",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "1048865",
+      "name": "设置",
+      "font_class": "set",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "5048610",
+      "name": "分组统计",
+      "font_class": "stats",
+      "unicode": "e6fc",
+      "unicode_decimal": 59132
+    },
+    {
+      "icon_id": "6299519",
+      "name": "检索记录分析",
+      "font_class": "analyse",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
+      "icon_id": "6570231",
+      "name": "新闻",
+      "font_class": "news",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "7450595",
+      "name": "不通过",
+      "font_class": "reject",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "7463983",
+      "name": "座位",
+      "font_class": "seat",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "7674908",
+      "name": "日历",
+      "font_class": "rili",
+      "unicode": "e719",
+      "unicode_decimal": 59161
+    },
+    {
+      "icon_id": "8232027",
+      "name": "流通统计",
+      "font_class": "statistics",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "8232029",
+      "name": "文献流通",
+      "font_class": "docu",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "9059917",
+      "name": "文章分类",
+      "font_class": "article-type",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "9512571",
+      "name": "握手",
+      "font_class": "handshake",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "9605147",
+      "name": "图书馆八楼报告厅申请表",
+      "font_class": "apply-form",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "11746938",
+      "name": "博士帽",
+      "font_class": "doctor",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "13856694",
+      "name": "新闻",
+      "font_class": "news1",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "15971907",
+      "name": "在线客服",
+      "font_class": "service",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "16479793",
+      "name": "发送",
+      "font_class": "sen",
+      "unicode": "e695",
+      "unicode_decimal": 59029
+    },
+    {
+      "icon_id": "16480886",
+      "name": "系统监控",
+      "font_class": "monitoring",
+      "unicode": "e69f",
+      "unicode_decimal": 59039
+    },
+    {
+      "icon_id": "17832811",
+      "name": "客户",
+      "font_class": "client",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "18828425",
+      "name": "表格",
+      "font_class": "table",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "20411219",
+      "name": "设施统计",
+      "font_class": "facility",
+      "unicode": "e87a",
+      "unicode_decimal": 59514
+    },
+    {
+      "icon_id": "23081498",
+      "name": "管理岗",
+      "font_class": "manage",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    }
+  ]
+}

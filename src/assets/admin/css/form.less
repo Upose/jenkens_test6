@@ -1,0 +1,446 @@
+/**基础表单样式**/
+.admin-form{
+  .hint{
+    font-size: 12px;
+    color: @999;
+    height: 18px;
+    line-height: 18px;
+    margin-top: 5px;
+    text-align: left;
+  }
+    .form-content{
+      padding: 36px 80px;
+    }
+    .form-textarea{
+      .el-textarea__inner{
+        height: 96px;
+        font-family: 'Arial';
+      }
+    }
+    .el-form-item__label{
+      color: @34395E;
+      position: relative;
+    }
+    .el-radio,.el-textarea__inner,.el-input__inner{
+      color: @313B3D;
+    }
+    .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+      content: '*';
+      color: @F56C6C;
+      margin-right: 5px;
+    }
+    .el-date-editor.el-input{
+      width: 100%;
+    }
+    /**可删除按钮*/
+    .btns-colse-warp{
+      span.b-colse{
+        border: 1px solid @C9D0FF;
+        border-radius: 4px;
+        padding: 0 8px;
+        height: 32px;
+        line-height: 32px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        font-size: 13px;
+        color: @333;
+        display: inline-block;
+        i{
+            cursor: pointer;
+            color: @6777EF;
+            margin-left: 8px;
+        }
+        &:hover{
+            color: @6777EF;
+            i{
+                &:hover{
+                    color: @333;
+                }
+            }
+        }
+      }
+      .b-colse-add{
+        height: 32px;
+        padding: 8px 10px;
+      }
+    }
+    /**图片上传块**/
+    .up-img-form-item{
+      border: 1px solid @E4E6FC;
+      border-radius: 4px;
+      padding: 17px;
+      /***上传图片按钮 */
+      .select-icon{
+        cursor: pointer;
+        background: url(../img/icon-add.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-position-y: 20px;
+      }
+      /***上传图片按钮 */
+      .up-icon{
+        cursor: pointer;
+        background: url(../img/icon-upload.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-position-y: 20px;
+      }
+      /***上传图片按钮 */
+      .up-img-warp{
+        position: relative;
+        width: 72px;
+        height: 72px;
+        display: inline-block;
+        margin-right: 14px;
+        vertical-align: middle;
+        background-color: @F5F8F9;
+        border-radius: 3px;
+        span{
+          width: 100%;
+          height: 34px;
+          display: block;
+          position: absolute;
+          bottom: 0;
+          text-align: center;
+          color: @B7BEC1;
+          font-size: 12px;
+        }
+        &::after{
+          display: block;
+          width: 80px;
+          height: 80px;
+          content: '';
+          top: -5px;
+          left: -5px;
+          border-radius: 5px;
+          border: 1px dashed @ACACAC;
+          position: absolute;
+        }
+      }
+    }
+    /deep/ .el-checkbox-group{
+      line-height: 40px;
+      margin-bottom: -20px;
+    }
+    /**树形结构板块**/
+    .form-tree-warp{
+      border: 1px solid @D7DADB;
+      padding: 24px;
+      max-width: 566px;
+      position: relative;
+      border-radius: 3px;
+    }
+    /***带搜索和搜索结果*/
+    .search-input-warp{
+      border: 1px solid @D7DADB;
+      border-radius: 3px;
+      margin-top: 5px;
+      max-width: 500px;
+      color: @404040;
+      width: 100%;
+      padding:10px;
+      background-color: @fff;
+      height: 300px;
+      overflow-y: auto;
+      /deep/.el-radio{
+        display: block;
+        line-height: 30px;
+      }
+    }
+    /*选择权限板块**/
+    .filter-form-item{
+      border: 1px solid @E4E6FC;
+      border-radius: 4px;
+      .table-pd{
+        padding: 18px;
+        padding-top: 0;
+      }
+      /deep/ .el-tabs__nav-wrap::after{
+        height: 1px;
+        background-color: @EBEEF5;
+      }
+      /deep/ .el-table th>.cell{
+        padding-left: 40px;
+      }
+      /deep/ .el-table .cell{
+        padding-left: 40px;
+      }
+      /deep/ .el-tabs__item{
+        color: @34395E;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      /deep/ .el-tabs__item.is-active{
+        color: @6777EF;
+      }
+      /deep/ .el-table td{
+        border-bottom: none;
+      }
+      /deep/ .el-tabs__nav{
+        line-height: 64px;
+        margin-left: 18px;
+      }
+      /deep/ .el-table--enable-row-hover .el-table__body tr:hover>td{
+        background-color:initial;
+      }
+      /deep/ .el-table--striped .el-table__body tr.el-table__row--striped td{
+        background-color:@F8FAFF;
+      }
+      /deep/ .el-table th{
+        padding:3px 0;
+        height: 48px;
+      }
+      /deep/ .el-table::before{
+        background-color: initial;
+      }
+      /deep/ .el-table td{
+        padding:3px 0;
+        height: 48px;
+      }
+      /**富文本编辑器****/
+      .edit-pd{
+        position: relative;
+        height: 410px;
+        padding: 15px;
+        padding-top: 0;
+        .edit-fwb{
+          position: absolute;
+          bottom: 0;
+          top: 0;
+          left: 15px;
+          right: 100px;
+        }
+        .edit-cut{
+          position: absolute;
+          width: 100px;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          div{
+            cursor: pointer;
+            color: @6777EF;
+            width: 100%;
+            flex: 1;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            &:hover{
+              background-color:@F4F7FC;
+            }
+            i{
+              font-size: 24px;
+            }
+            &:last-child{
+              border-top: 1px solid @E4E6FC;
+            }
+          }
+        }
+      }
+      
+    }
+}
+/****选择图标弹窗 */
+.el-form-img-box-hint{
+  margin-bottom: 20px;
+  color: @6D6D6D;
+  text-align: center;
+}
+.el-form-img-box{
+  cursor: pointer;
+  width: 100px;
+  height: 80px;
+  display: inline-block;
+  position: relative;
+  img{
+    display: block;
+    border-radius: 5px;
+    position: absolute;
+    top:0;
+    left: 14px;
+  }
+  .active{
+    border: 2px solid @6777EF;
+  }
+}
+/**模板选择框**/
+.temp-select{
+  border: 1px solid @D7DADB;
+  padding: 24px;
+  padding-bottom: 0;
+  position: relative;
+  max-width: 566px;
+  border-radius: 3px;
+  /**模板选择*/
+  .d-temp-box{
+    float: left;
+    margin-right: 24px;
+    width: 214px;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 24px;
+    border-radius: 3px;
+    background-color: #A5B3CC;
+    position: relative;
+    .temp-name{
+        color: @fff;
+    }
+    .button{
+      position: absolute;
+      bottom: 10px;
+      left:50%;
+      margin-left: -37px;
+      width: 74px;
+      height: 28px;
+      padding: 6px 14px;
+      span{
+        line-height: 28px;
+      }
+      i{
+        font-size: 14px;
+      }
+      i.n-check{
+        display: inline-block;
+        border: 1px solid @fff;
+        border-radius: 50%;
+        width: 14px;
+        height: 14px;
+        vertical-align: bottom;
+      }
+    }
+  }
+  /**高级设置按钮*/
+  .higher-set{
+    cursor: pointer;
+    position: absolute;
+    padding: 20px;
+    right:0;
+    color: @6777EF;
+    text-align: center;
+    font-size: 12px;
+    i{
+      font-size: 30px;
+    }
+    span{
+      display: block;
+      line-height: 12px;
+    }
+    &:hover{
+      opacity: .8;
+    }
+  }
+}
+/*单独的，用户头像，输入框+按钮**/
+.user-form-item{
+  min-width: 614px;
+  color: @6C757D;
+  .gray-color{
+    color: @6C757D;
+  }
+  .u-label{
+    width: 110px;
+    text-align: right;
+    display: inline-block;
+    font-size:30px;
+    vertical-align: middle;
+    padding-right: 10px;
+    color: @34395E;
+    span.el-input{
+      font-size: 14px;
+      color: #606266;
+      line-height: 40px;
+    }
+  }
+  .u-list{
+    display: inline-block;
+    width: 500px;
+    height: 40px;
+    line-height: 40px;
+    min-width: 500px;
+    max-width: 960px;
+    background: @F8F8F8;
+    border: 1px solid @D7DADB;
+    border-radius: 3px;
+    position: relative;
+    margin-bottom: 20px;
+    padding-right: 120px;
+    padding-left: 10px;
+    .u-input{
+      outline: none;
+      width: 500px;
+      height:40px;
+      margin-top: -1px;
+      margin-left: -11px;
+      border: none;
+      display: block;
+      color: #606266;
+      border-radius: 4px;
+      border: 1px solid @D7DADB;
+      padding-left: 15px;
+      padding-right: 120px;
+      &:focus{
+        border: 1px solid @6777EF;
+      }    
+    }
+    input::-webkit-input-placeholder{
+      color:#c0c4cc;
+    }
+    input::-moz-placeholder{
+      color:#c0c4cc;
+    }
+    input:-ms-input-placeholder{
+      color:#c0c4cc;
+    }
+    input::-webkit-input-placeholder{
+        color:#c0c4cc;
+    }
+    input::placeholder{
+        color:#c0c4cc;
+    }  
+    .u-btn-r{
+      right: 3px;
+      top:3px;
+      width: 110px;
+      height:32px;
+      padding: 8px 14px;
+      position: absolute;
+      border-radius:0 3px 3px 0;
+    }
+  }
+}
+/**应用中心表单样式**/
+.mandate-form-w{
+    .form-content{
+      padding: 0 40px;
+      padding-top: 10px;
+      /deep/ .el-input{
+        width: 500px;
+      }
+      /deep/ .el-textarea{
+        width: 500px;
+      }
+      /deep/ .el-form-item{
+        margin-bottom: 18px;
+      }
+      .m-l{
+        margin-left: 10px;
+      }
+      .line-mini{
+        // margin-bottom: 4px !important;
+        /deep/ .el-form-item__label{
+          line-height:18px;
+        }
+        /deep/ .el-form-item__content{
+          line-height:18px;
+        }
+      }
+    }
+  }
+
+
+
+
