@@ -85,8 +85,12 @@
 </template>
 
 <script>
- 
+import bus from '@/assets/public/js/bus';
+import http from "@/assets/public/js/http";
 import paging from "@/components/admin/common/paging";
+import footerPage from "@/components/admin/common/footer";
+import breadcrumb from "@/components/admin/common/breadcrumb";
+import serviceLMenu from "@/components/admin/common/serviceLMenu";
 export default {
   name: 'index',
   created(){
