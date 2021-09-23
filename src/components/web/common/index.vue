@@ -3,14 +3,32 @@
     <div id="zt_header_sys"></div>
     <div class="content-warp"><router-view></router-view></div>
     <div id="zt_footer_sys"></div>
+    <div class="template-warp">
+      <span @click="skinClick('template1')">红</span>
+      <span @click="skinClick('template2')">蓝</span>
+      <span @click="skinClick('template3')">绿</span>
+      <span @click="skinClick('template4')">紫</span>
+    </div>
 </div>
 </template>
-<style scoped>
+<style scoped lang="less">
 .web-warp{
     min-width: 1200px;
     width: 100%;
     height: 100%;
     position: relative;
+}
+.template-warp{
+  position: fixed;
+  top: 10px;
+  right: 0;
+  span{
+    cursor: pointer;
+    padding: 1px 2px;
+    border-radius: 4px;
+    background-color: #eee;
+    border: 1px solid #eee;
+  }
 }
 </style>
 <script>
@@ -68,6 +86,15 @@ export default {
       js_element.setAttribute("type","text/javascript");
       js_element.setAttribute("src",url);
       document.getElementsByTagName("body")[0].appendChild(js_element);
+    },
+    skinClick(val){
+      // this.$refs.skin_template.add(val);
+      this.skin_template = val;
+      this.$store.state.skin_template = this.skin_template;
+      this.$store.commit('setSkinTemplate',{skin_template:this.skin_template});
+      setTimeout(() => {
+          window.location.reload();
+      }, 1000);
     },
   }
 }

@@ -27,6 +27,7 @@ export default new Vuex.Store({
       sessionStorage.setItem('language',data.language);
     },
     setSkinTemplate:(state,data)=>{
+      console.log(state,data);
       state.skin_template = data.skin_template || 'template1';
       sessionStorage.setItem('skin_template',data.skin_template);
     },

@@ -8,7 +8,11 @@
 
 export default {
   name: 'news_sys',
-  mounted(){},
+  mounted(){
+    this.$store.commit('getSession');
+    this.$i18n.locale = this.$store.state.language;
+    this.skin_template = this.$store.state.skin_template;
+  },
   data(){
     return {
       
