@@ -120,8 +120,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "../../../../../assets/public/css/style.less";/**通用文件 */
-  @import "../../../../../assets/public/css/color.less";/**通用文件 */
+  @import "../../../../../assets/web/css/style.less";/**通用文件 */
+  @import "../../../../../assets/web/css/color.less";/**通用文件 */
   .articledetails-warp{
     min-height:700px;
     background: @e0dfdf url(../../../../../assets/web/img/banner-bg.jpg) no-repeat center top;

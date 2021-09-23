@@ -88,7 +88,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/public/css/color.less";/**通用文件 */
+@import "../../../assets/web/css/color.less";/**通用文件 */
 /**分页 */
 .pages{
     padding:20px 10px;
