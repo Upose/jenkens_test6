@@ -55,6 +55,7 @@ export default {
     // 侧边栏折叠展开
     collapseChage(){
         this.$root.collapse = !this.$root.collapse;
+        console.log();
         bus.$emit('collapse', this.$root.collapse);
     },
     handleClick(tab, event) {
