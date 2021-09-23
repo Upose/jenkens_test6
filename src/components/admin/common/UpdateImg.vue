@@ -168,6 +168,7 @@ export default {
 
 <style scoped lang="less">
 @import "../../../assets/admin/css/color.less";/**颜色配置 */
+@import "../../../assets/admin/css/style.less";/**颜色配置 */
 .cropper-content{
     display: flex;
     flex-direction: row;

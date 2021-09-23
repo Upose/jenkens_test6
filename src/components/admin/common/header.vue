@@ -70,6 +70,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../assets/admin/css/color.less";/**颜色配置 */
+@import "../../../assets/admin/css/style.less";/**颜色配置 */
 .header-warp{
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
   color: @6C757D;

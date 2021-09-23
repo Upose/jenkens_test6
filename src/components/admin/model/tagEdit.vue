@@ -66,6 +66,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../assets/admin/css/color.less";/**颜色配置 */
+@import "../../../assets/admin/css/style.less";/**颜色配置 */
 /deep/ .el-dialog__footer{
     padding: 0px 20px 20px;
 }

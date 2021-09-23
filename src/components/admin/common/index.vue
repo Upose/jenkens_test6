@@ -5,6 +5,22 @@
     <!-- <footerpage class="footer-page"></footerpage> -->
 </div>
 </template>
+
+<script>
+import headerpage from '@/components/admin/common/header'
+import footerpage from '@/components/admin/common/footer'
+export default {
+  name: 'index',
+  components:{headerpage,footerpage},
+  data () {
+    return {}
+  },
+  methods:{
+    
+  }
+}
+</script>
+
 <style scoped>
 @import "../../../assets/admin/css/color.less";
 @import "../../../assets/admin/css/style.less";
@@ -36,19 +52,3 @@
 }
 **/
 </style>
-<script>
-import headerpage from '@/components/admin/common/header'
-import footerpage from '@/components/admin/common/footer'
-export default {
-  name: 'index',
-  components:{headerpage,footerpage},
-  data () {
-    return {}
-  },
-  methods:{
-    
-  }
-}
-</script>
-
-

@@ -1,5 +1,5 @@
 <template>
-  <div id="news_sys">
+  <div id="news_sys" class="admin-warp-app">
     <router-view/>
   </div>
 </template>
@@ -24,5 +24,5 @@ export default {
 </script>
 
 <style lang="less">
-
+@import "./assets/public/css/public.less";/**颜色配置 */
 </style>
