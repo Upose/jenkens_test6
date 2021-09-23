@@ -120,6 +120,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import "../../../../../assets/public/css/style.less";/**通用文件 */
   @import "../../../../../assets/public/css/color.less";/**通用文件 */
   .articledetails-warp{
     min-height:700px;

@@ -1,5 +1,5 @@
 <template>
-<div class="web-warp">
+<div class="web-warp" :class="skin_template">
     <div id="zt_header_sys"></div>
     <div class="content-warp"><router-view></router-view></div>
     <div id="zt_footer_sys"></div>
@@ -52,6 +52,7 @@ export default {
   },
   data () {
     return {
+      skin_template:this.$store.state.skin_template||'template1',
     }
   },
   methods:{

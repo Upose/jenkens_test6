@@ -76,6 +76,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "../../../../../assets/public/css/style.less";/**通用文件 */
 @import "../../../../../assets/public/css/color.less";/**通用文件 */
 h1{
   margin: 0 -15px;
