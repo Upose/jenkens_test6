@@ -1,4 +1,3 @@
-/****v2.15.5 */
 ! function (e, t) {
   "object" == typeof exports && "object" == typeof module ? module.exports = t(require("vue")) : "function" == typeof define && define.amd ? define("ELEMENT", ["vue"], t) : "object" == typeof exports ? exports.ELEMENT = t(require("vue")) : e.ELEMENT = t(e.Vue)
 }("undefined" != typeof self ? self : this, function (e) {
