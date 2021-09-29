@@ -1,9 +1,12 @@
 <template>
   <div class="list-warp">
     <div class="articledetails-warp">
+      <div>
+        <span class="m-title">新闻公告NEWS</span>
+        <span class="m-address">当前位置：联系我们</span>
+      </div>
      <div class="body-content m-width c-l">
         <div class="left-menu">
-          <div class="menu-top child_bg">新闻公告</div>
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
@@ -12,34 +15,19 @@
                   <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
                 </ul>
               </li>
-              <!-- <li class="child_color_hover" :class="left_index==1?'active child_bg':''" @click="menuClick('智慧图书馆','menu',1)"><a href="javascript:;">智慧图书馆</a></li>
-              <li class="child_color_hover" :class="left_index==2?'active child_bg':''" @click="menuClick('联系我们','text',2)"><a href="javascript:;">联系我们</a></li>
-              <li class="child_color_hover" :class="left_index==3?'active child_bg':''" @click="menuClick('新闻列表','news',3)"><a href="javascript:;">新闻列表</a></li> -->
             </ul>
           </div>
         </div>
         <div class="body-title">
-          <div class="menu-top child_bg">当前位置：{{content_title}}</div>
-          <div class="right-content" v-if="content_type=='news'">
-            <ul class="news-ul">
-              <li class="next_hover" @click="menuClick('列表详情','text',-1)" v-for="item in 4">
-                <div class="time n_hover">
-                  <span class="data">26</span>
-                  <span>2019-11</span>
-                </div>
-                <div class="title-warp">
-                  <a href="javascript:void(0)">CNRDS经济、金融、商学数据库高级试用通知</a>
-                  <span>点击量：49次</span>
-                  <p class="intros">新闻简介新闻简介新闻简介新闻简介新闻简介新闻简简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</p>
-                </div>
-              </li>
-            </ul>
-            <pages :total="10" :Cindex="1"></pages>
-          </div><!--新闻列表 end -->
-
-          <div class="right-content" v-if="content_type=='text'">
-            <detailspage></detailspage>
-          </div><!--文章详情页面 end -->
+          <div class="right-content">
+            <div class="row" v-for="i in 10">
+              <div class="time"><span class="day">26</span><span class="year">Dec</span></div>
+              <div class="msg">
+                <span class="title">重庆环保企业网站</span>
+                <span>新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</span>
+              </div>
+            </div>
+          </div>
         </div>
      </div>
     </div>
@@ -132,7 +120,7 @@ export default {
     background-color: #fff;
     .left-menu{
       float: left;
-      margin-top: -25px;
+      // margin-top: -25px;
       width: 250px;
       .menu-top{
         position: relative;
@@ -140,7 +128,6 @@ export default {
         font-size: 24px;
         font-weight: lighter;
         line-height: 74px;
-        color: @fff;
         text-align: center;
       }
       &::after{
@@ -158,35 +145,7 @@ export default {
     .body-title{
       margin-left: 250px;
       position: relative;
-      &::after{
-        position: absolute;
-        left: -6px;
-        top: 45px;
-        bottom: 0;
-        width: 6px;
-        content: "";
-        background: #fff;
-        box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
-        z-index: 2;
-      }
-      .menu-top{
-        height: 44px;
-        padding: 10px 20px;
-        font-size: 14px;
-        color: @fff;
-        margin-top: 25px;
-        line-height: 24px;
-        position: relative;
-        &:after{
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          border-width: 0 0 44px 15px;
-          border-style: dashed dashed solid solid;
-          border-color: transparent transparent transparent rgba(0,0,0,.8);
-          content: "";
-        }
-      }
+      
     }
     .menu-list,.right-content{
       min-height: 550px;
