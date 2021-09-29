@@ -49,7 +49,7 @@
 
 <script>
 import http from "@/assets/public/js/http";
-import my_rate from "../../../model/rate";
+import my_rate from "../../model/rate";
 export default {
   name: 'footerPage',
   components:{my_rate},
@@ -76,8 +76,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../../../assets/web/css/style.less";/**通用文件 */
-@import "../../../../../assets/web/css/color.less";/**通用文件 */
+@import "../../../../assets/web/css/style.less";/**通用文件 */
+@import "../../../../assets/web/css/color.less";/**通用文件 */
 h1{
   margin: 0 -15px;
   padding: 10px 50px;
