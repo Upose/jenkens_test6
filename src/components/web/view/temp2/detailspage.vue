@@ -62,40 +62,6 @@
     </div>
   </div>
 </template>
-<style lang="less" scoped>
-.comment{
-  margin-top: 30px;
-  .c-title{
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 40px;
-  }
-  .c-input{
-    background-color: #f8f8f8;
-    padding: 20px;
-    .no-login,.yes-login{
-      width: 100%;
-      height: 140px;
-      border: 1px solid #dedede;
-      background-color: #fff;
-      text-align: center;
-    }
-    .no-login{
-      line-height: 140px;
-    }
-    .yes-login{
-      display: none;
-    }
-    .yes-login textarea{
-      width: 100%;
-      height: 100%;
-      border: none;
-      padding: 10px;
-      outline: none;
-    }
-  }
-}
-</style>
 <script>
 import http from "@/assets/public/js/http";
 import pages from '@/components/web/model/pages';
@@ -429,6 +395,40 @@ export default {
     text-align: right;
     &:hover{
       opacity: 0.6;
+    }
+  }
+}
+/****评论 */
+.comment{
+  margin-top: 30px;
+  .c-title{
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 40px;
+  }
+  .c-input{
+    background-color: #f8f8f8;
+    padding: 20px;
+    .no-login,.yes-login{
+      width: 100%;
+      height: 140px;
+      border: 1px solid #dedede;
+      background-color: #fff;
+      text-align: center;
+    }
+    .no-login{
+      color: #999;;
+      line-height: 140px;
+    }
+    .yes-login{
+      display: none;
+    }
+    .yes-login textarea{
+      width: 100%;
+      height: 100%;
+      border: none;
+      padding: 10px;
+      outline: none;
     }
   }
 }
