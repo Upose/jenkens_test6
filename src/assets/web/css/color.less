@@ -52,7 +52,7 @@
 .skin_template(@main:#972C25,@child_color:#be3c3c,@child_color1:#eb5f3c,@check_color:#f93549,@child_color3:#eb5f3c,@child_color3:#eb5f3c){
     .child_color_hover{
         &:hover{
-            background-color: @child_color;
+            background-color: @child_color !important;
         }
     }
     .child_color_text_hover{
@@ -93,6 +93,9 @@
     }
     .child_text_color{
         color: @child_color;
+    }
+    .child1_text_color{
+        color: @child_color1;
     }
 }
 

@@ -1,67 +1,127 @@
 <template>
   <div class="list-warp">
-    <h1>联系我们</h1>
-    <div class="details_content">
-      <div class="rich-title">
-        <span class="col1"><i class="title">发布人：</i>管理员</span>
-        <span class="col2"><i class="title">发布时间：</i>2021-12-11</span>
-        <span class="col3"><i class="title">范文次数：</i>455</span>
+    <div class="articledetails-warp">
+      <div class="m-width top-title">
+        <span class="m-title">新闻公告 NEWS</span>
+        <span class="m-address">当前位置：联系我们</span>
       </div>
-      <div class="rich-text">
-        <p>富文本内容</p>
-      </div>
-    </div>
-    <div class="comment">
-      <div class="row-score">
-        <span class="title">是否对您有用：</span>
-        <my_rate :score.sync="curScore"/>
-      </div>
-      <div class="c-text">
-        <div class="title">
-          <span>发 表 评 论：</span>
-          <span>（请 先 登 录）</span>
+     <div class="body-content m-width c-l">
+        <div class="left-menu">
+          <div class="menu-list">
+            <span class="title">栏目列表</span>
+            <ul>
+              <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
+                <a href="javascript:;" @click="menuClick(item.title,item.type,item.id,index)">{{item.title}}</a>
+                <ul class="sub-menu" v-if="item.list && item.list.length>0 && item.check">
+                  <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
-        <textarea class="textarea" :disabled="disabled"></textarea>
-      </div>
-      <div class="btns">
-        <button class="btn main_bg fff">保 存</button>
-        <button class="btn b-clear">清 空</button>
-      </div>
-    </div>
-    <div class="write-a-review">
-      <div class="title"><span class="child_text_color child_border_bottom">评论数</span>（3）</div>
-      <div class="row" v-for="i in 3">
-        <div class="r-top">
-          <img src="@/assets/web/img/default.jpg" class="u-img">
-          <span class="text">
-            <span class="name">张老师</span>
-            <span class="time">2018年12月14日  20:18:25</span>
-          </span>
+        <div class="body-title">
+          <div class="right-content">
+            <div class="content-top-title">
+              <span>新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题————你猜我猜不猜</span>
+              <div class="news-sub-warp">
+                <span class="name">周旋</span>
+                <span><i class="time-icon"></i>2021-02-05</span>
+                <span><i class="number-icon"></i>浏览量</span>
+                <span class="r-share">一键分享</span>
+              </div>
+            </div>
+            <div class="edit-content">富文本内容</div>
+            <div class="comment">
+              <div class="c-title">评论</div>
+              <div class="c-input">
+                <div class="no-login"><span class="login-btn child1_text_color">登录</span>后可评论</div>
+                <div class="yes-login">
+                  <textarea>请输入评论内容</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="write-a-review">
+              <div div class="title"><span>全部评论</span>（3）</div>
+              <div class="row" v-for="i in 3">
+                <div class="r-top">
+                  <img src="@/assets/web/img/default.jpg" class="u-img">
+                  <span class="text">
+                    <span class="name child1_text_color">张老师</span>
+                    <span class="time">2021-02-05  20:18:25</span>
+                  </span>
+                </div>
+                <div class="r-bottom">
+                  ASC数据库收录16,700多种期刊的摘要；8,500多种全文期刊，其中7,300多种为同行评审(peer-reviewed)，还包括800多种非期刊类全文出版物(如书籍, 报告及会议论文等)。主题包括生物科学、工程技术、社会科学、心理学、教育、法律、医学、语言学、人文、信息科技、通讯传播、公共管理、历史学、计算机科学、军事、文化、健康卫生医疗、宗教与神学、艺术、视觉传达、表演、哲学、各国文学等等。
+                </div>
+              </div>
+              <div class="more">查看更多</div>
+            </div>
+          </div>
         </div>
-        <div class="r-bottom">
-          ASC数据库收录16,700多种期刊的摘要；8,500多种全文期刊，其中7,300多种为同行评审(peer-reviewed)，还包括800多种非期刊类全文出版物(如书籍, 报告及会议论文等)。主题包括生物科学、工程技术、社会科学、心理学、教育、法律、医学、语言学、人文、信息科技、通讯传播、公共管理、历史学、计算机科学、军事、文化、健康卫生医疗、宗教与神学、艺术、视觉传达、表演、哲学、各国文学等等。
-        </div>
-      </div>
-      <div class="more">查看更多</div>
+     </div>
     </div>
   </div>
 </template>
-
+<style lang="less" scoped>
+.comment{
+  margin-top: 30px;
+  .c-title{
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 40px;
+  }
+  .c-input{
+    background-color: #f8f8f8;
+    padding: 20px;
+    .no-login,.yes-login{
+      width: 100%;
+      height: 140px;
+      border: 1px solid #dedede;
+      background-color: #fff;
+      text-align: center;
+    }
+    .no-login{
+      line-height: 140px;
+    }
+    .yes-login{
+      display: none;
+    }
+    .yes-login textarea{
+      width: 100%;
+      height: 100%;
+      border: none;
+      padding: 10px;
+      outline: none;
+    }
+  }
+}
+</style>
 <script>
 import http from "@/assets/public/js/http";
-import my_rate from "../../model/rate";
+import pages from '@/components/web/model/pages';
 export default {
   name: 'footerPage',
-  components:{my_rate},
+  components:{pages},
   created(){},
   data () {
     return {
-      curScore:2,
-      disabled:true,
+        left_index:0,//左边的菜单
+        content_title:'关于我们',//内容中的标题
+        content_type:'news',//右边内容的类型，如：文章(text)，列表(news)
+        menu_list:[
+          {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'news'},
+          {id:1,title:'智慧图书馆',list:[{title:'下级'},{title:'下级'}],type:'news'},
+          {id:2,title:'联系我们',list:[{title:'下级'},{title:'下级'}],type:'text'},
+          {id:3,title:'新闻列表',type:'news'},
+        ],
     }
   },
   mounted(){
-    //   this.initData();
+      // this.initData();
+    this.menuClick(this.menu_list[2].title,this.menu_list[2].type,this.menu_list[2].id,2);
+    // document.addEventListener('click',function(e){
+    //   console.log(e,e.target);
+    // })
   },
   methods:{
       initData(){
@@ -71,105 +131,264 @@ export default {
             console.log(err);
         })
       },
+      menuClick(title,type,id,index){//标题,内容类型，左边菜单下标（此方法如果用到右边菜单列表时，index参数为-1）
+        this.content_type = type;
+        this.content_title = title;
+        if(id!=-1){
+          this.left_index = id;
+        }
+        if(this.menu_list[index]['check']==undefined){
+          this.menu_list[index]['check'] = false;
+        }else{
+          this.menu_list[index]['check'] = !this.menu_list[index]['check'];
+        }
+        this.menu_list.forEach((item,i)=>{
+          if(i != index){
+            this.menu_list[i]['check'] = false;
+          }
+        })
+        this.$forceUpdate();
+      },
+      isActive(val,check){
+        var cs = '';
+        if(val.list && val.list.length>0){
+          cs = 'child-list ';
+        }
+        if(this.left_index == val.id){
+          cs = 'active child_bg';
+          if(val.list && val.list.length>0 && check==true){
+            cs = cs + ' child-list-active-open';
+          }else if(val.list && val.list.length>0 && (check==undefined||check==false)){
+            cs = cs+' child-list-active-close';
+          }
+        }
+        return cs;
+      },
+      detailsClick(val){
+        this.$router.push({path:'/detailspage2',query:{id:1}})
+      },
   },
 }
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/web/css/style.less";/**通用文件 */
-@import "../../../../assets/web/css/color.less";/**通用文件 */
-h1{
-  margin: 0 -15px;
-  padding: 10px 50px;
-  font-size: 20px;
-  font-weight: lighter;
-  line-height: 30px;
-  text-align: center;
-  border-bottom: 1px dashed #dedad6;
-}
-.details_content{
-  margin-top: 20px;
-  min-height: 150px;
-  .rich-title{
-    margin-bottom: 20px;
-    text-align: center;
-    color: @6b;
-    span{
-      padding: 0 15px;
-    }
-    i{
-      font-style: normal;
-    }
-  }
-  .rich-text{
-    margin-bottom: 20px;
-  }
-}
-/***评论****/
-.comment{
-  margin: 0 -15px;
-  .row-score{
+  @import "../../../../assets/web/css/style.less";/**通用文件 */
+  @import "../../../../assets/web/css/color.less";/**通用文件 */
+  /***主标题 */
+  .top-title{
     margin-bottom: 15px;
-    span.title{
-      vertical-align: middle;
+    span{
+      display: block;
+      line-height: 36px;
+    }
+    .m-title{
+      font-size: 28px;
+      color: @fff;
+    }
+    .m-address{
+      font-size: 14px;
+      color: @fff;
     }
   }
-  .c-text{
-    position: relative;
-    height: 120px;
-    .textarea,.title{
-      position: absolute;
-      top: 0;
-    }
-    .title{
-      width:98px;
-      text-align: right;
-      span{
-        display: block;
+  
+  .articledetails-warp{
+    min-height:700px;
+    background: @e0dfdf url(../../../../assets/web/img/banner-bg2.jpg) no-repeat center top;
+    padding-bottom: 20px;
+    padding-top: 100px;
+  }
+    .body-content{
+    background-color: @fff;
+    .left-menu{
+      float: right;
+      margin-right: 30px;
+      width: 250px;
+      .menu-top{
+        position: relative;
+        height: 69px;
+        font-size: 24px;
+        font-weight: lighter;
+        line-height: 74px;
+        text-align: center;
+      }
+      &::after{
+        position: absolute;
+        right:0;
+        top: 72px;
+        bottom: 0;
+        width: 6px;
+        content: "";
+        background: @fff;
+        box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
+        z-index: 2;
       }
     }
-    textarea{
-      left: 100px;
-      outline: none;
-      width:calc(100% - 100px);
-      height: 100px;
-      resize: none;
-      border: 1px solid @de;
-      border-radius: 3px;
-      padding: 10px;
+    .body-title{
+      margin-right: 250px;
+      position: relative;
       
     }
-  }
-  .btns{
-    text-align: center;
-    .btn{
-      color: @fff;
-      width: 100px;
-      height: 30px;
-      outline: none;
-      border: 0px solid @fff;
-      border-radius: 3px;
-      cursor: pointer;
-      &:hover{
-        opacity: .8;
+    .menu-list,.right-content{
+      min-height: 550px;
+      background-color: @fff;
+    }
+    /**左边的列表菜单*/
+    .menu-list{
+      .title{
+        color: @666;
+        display: block;
+        margin: 0 30px;
+        margin-right: 0;
+        margin-top: 20px;
+        line-height: 40px;
+        border-bottom: 1px solid #dedede;
+      }
+      ul{
+        padding-left:30px;
+        padding-right: 0;
+        .child-list{
+          > a{
+            &:after{
+                left: 5px;
+                top: 0px;
+                content: '>';
+              }
+          }
+        }
+        .child-list-active-open{
+          > a{
+            &:after{
+                content: '>';
+                left: 9px;
+                top: 9px;
+                width: 13px;
+                height: 22px;
+                transform: rotate(90deg);
+                border-left-color: transparent !important;
+              }
+          }
+        }
+        .child-list-active-close{
+          > a{
+            &:after{
+                content: '>';
+                left: 5px;
+                top: 0px;
+              }
+          }
+        }
+
+        .child_color_hover{
+            &:hover{
+              > a{
+                &::after{
+                  border-left-color: @fff;
+                }
+              }
+            }
+        }
+
+        li{
+          cursor: pointer;
+          line-height: 36px;
+          font-size: 15px;
+          color: @6b;
+          border-bottom: 1px solid @de;
+          &:hover{
+            color: @fff;
+            a{
+              color: @fff;
+            }
+          }
+          a{
+            position: relative;
+            display: block;
+            color:@6b;
+            padding: 0 20px;
+            &:after{
+              content: '';
+              width: 0;
+              height: 0;
+              position:absolute;
+            }
+          }
+          .sub-menu{
+            background-color: @fff;
+            padding: 0;
+            a{
+              font-size: 12px;
+              color: @6b;
+              position: relative;
+              display: block;
+              padding-left: 30px;
+              &:hover{
+                text-decoration: revert;
+              }
+              &::after{
+                display: block;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: @999;
+                position: absolute;
+                left: 20px;
+                top: 15px;
+              }
+            }
+            li{
+              border-bottom: none;
+              &:hover{
+                color: @23;
+              }
+            }
+          }
+          
+        }
+        .active{
+          color: @fff;
+          a{
+            color: @fff;
+          }
+        }
       }
     }
-    .b-clear{
-      margin-left: 30px;
-      background-color: @9ea0a5;
+    .right-content{
+      padding: 35px 75px 55px;
+      .content-top-title{
+        font-size: 24px;
+        font-weight: bold;
+        color: #000;
+        .news-sub-warp{
+          font-size: 12px;
+          color: @999;
+          font-weight: 400;
+          margin-top: 20px;
+          margin-bottom: 40px;
+          padding-bottom: 20px;
+          border-bottom: 1px solid #dedede;
+          /***一键分享 */
+          .r-share{
+            float: right;
+            color: @fff;
+            background-color: #000;
+            border-radius: 15px;
+            padding: 6px 12px;
+            margin-top: -10px;
+          }
+        }
+      }
     }
   }
-}
-/**评论区**/
+  /**评论区**/
 .write-a-review{
   margin-top: 20px;
   .title{
     margin: 0 -15px;
     margin-bottom: 30px;
-    font-weight: bold;
     line-height: 20px;
     font-size: 16px;
-    border-bottom: 1px dashed @de;
+    line-height: 40px;
+    border-bottom: 1px solid @de;
     span{
       border-width: 3px;
     }
@@ -183,15 +402,14 @@ h1{
     .r-top .u-img{
       width: 46px;
       height: 46px;
-      border-radius: 3px;
+      border-radius: 50%;
     }
     .r-top .text{
       display: inline-block;
-      margin-left:20px;
+      margin-left:10px;
       vertical-align: top;
       line-height: 23px;
       span.name{
-        color: @3e3f42;
         font-size: 16px;
       }
       span.time{

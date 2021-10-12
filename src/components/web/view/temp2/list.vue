@@ -1,13 +1,14 @@
 <template>
   <div class="list-warp">
     <div class="articledetails-warp">
-      <div>
-        <span class="m-title">新闻公告NEWS</span>
+      <div class="m-width top-title">
+        <span class="m-title">新闻公告 NEWS</span>
         <span class="m-address">当前位置：联系我们</span>
       </div>
      <div class="body-content m-width c-l">
         <div class="left-menu">
           <div class="menu-list">
+            <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.title,item.type,item.id,index)">{{item.title}}</a>
@@ -20,14 +21,28 @@
         </div>
         <div class="body-title">
           <div class="right-content">
-            <div class="row" v-for="i in 10">
-              <div class="time"><span class="day">26</span><span class="year">Dec</span></div>
-              <div class="msg">
-                <span class="title">重庆环保企业网站</span>
-                <span>新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</span>
+            <div class="content-top-title">新闻资讯</div>
+            <div class="row" @click="detailsClick(1)" v-for="i in 8">
+              <div class="msg-warp">
+                <div class="title">重庆环保企业网站</div>
+                <div class="msg">
+                  <span class="content">新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</span>
+                  <span class="show-details child_text_color">[查看详细]</span>
+                  <span class="txt-right">访问次数：32 &nbsp;&nbsp;&nbsp;&nbsp;2021-9-23</span>
+                </div>
               </div>
             </div>
+
+            <div class="page-warp">
+              <button class="child_color_hover">首页</button>
+              <button class="child_color_hover">1</button>
+              <button class="child_color_hover">2</button>
+              <button class="child_color_hover">下一页</button>
+              <button class="child_color_hover">末页</button>
+              <button>共2页 11条</button>
+            </div><!--分页 end-->
           </div>
+          
         </div>
      </div>
     </div>
@@ -48,8 +63,8 @@ export default {
         content_type:'news',//右边内容的类型，如：文章(text)，列表(news)
         menu_list:[
           {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'news'},
-          {id:1,title:'智慧图书馆',type:'news'},
-          {id:2,title:'联系我们',type:'text'},
+          {id:1,title:'智慧图书馆',list:[{title:'下级'},{title:'下级'}],type:'news'},
+          {id:2,title:'联系我们',list:[{title:'下级'},{title:'下级'}],type:'text'},
           {id:3,title:'新闻列表',type:'news'},
         ],
     }
@@ -102,6 +117,9 @@ export default {
         }
         return cs;
       },
+      detailsClick(val){
+        this.$router.push({path:'/detailspage2',query:{id:1}})
+      },
   },
 }
 </script>
@@ -109,14 +127,31 @@ export default {
 <style lang="less" scoped>
   @import "../../../../assets/web/css/style.less";/**通用文件 */
   @import "../../../../assets/web/css/color.less";/**通用文件 */
+  /***主标题 */
+  .top-title{
+    margin-bottom: 15px;
+    span{
+      display: block;
+      line-height: 36px;
+    }
+    .m-title{
+      font-size: 28px;
+      color: @fff;
+    }
+    .m-address{
+      font-size: 14px;
+      color: @fff;
+    }
+  }
+  
   .articledetails-warp{
     min-height:700px;
-    background: @e0dfdf url(../../../../assets/web/img/banner-bg1.jpg) no-repeat center top;
+    background: @e0dfdf url(../../../../assets/web/img/banner-bg2.jpg) no-repeat center top;
     padding-bottom: 20px;
-    padding-top: 95px;
+    padding-top: 100px;
   }
     .body-content{
-    background-color: #fff;
+    background-color: @fff;
     .left-menu{
       float: left;
       // margin-top: -25px;
@@ -152,39 +187,46 @@ export default {
     }
     /**左边的列表菜单*/
     .menu-list{
+      .title{
+        color: @666;
+        display: block;
+        margin: 0 30px;
+        margin-right: 0;
+        margin-top: 20px;
+        line-height: 40px;
+        border-bottom: 1px solid #dedede;
+      }
       ul{
-        padding: 10px 20px 0;
+        padding-left:30px;
+        padding-right: 0;
         .child-list{
           > a{
             &:after{
-                border-top: 6px solid transparent;
-                border-left: 6px solid @6b;
-                border-bottom: 6px solid transparent;
-                left:5px;
-                top: 12px;
+                left: 5px;
+                top: 0px;
+                content: '>';
               }
           }
         }
         .child-list-active-open{
           > a{
             &:after{
-                border-left: 6px solid transparent;
-                border-right: 6px solid transparent;
-                border-top: 6px solid @fff;
-                left:5px;
-                top: 16px;
-                 border-left-color: transparent !important;
+                content: '>';
+                left: 9px;
+                top: 9px;
+                width: 13px;
+                height: 22px;
+                transform: rotate(90deg);
+                border-left-color: transparent !important;
               }
           }
         }
         .child-list-active-close{
           > a{
             &:after{
-                border-top: 6px solid transparent;
-                border-left: 6px solid @fff;
-                border-bottom: 6px solid transparent;
-                left:5px;
-                top: 12px;
+                content: '>';
+                left: 5px;
+                top: 0px;
               }
           }
         }
@@ -227,11 +269,23 @@ export default {
             background-color: @fff;
             padding: 0;
             a{
+              font-size: 12px;
               color: @6b;
               position: relative;
               display: block;
+              padding-left: 30px;
               &:hover{
                 text-decoration: revert;
+              }
+              &::after{
+                display: block;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: @999;
+                position: absolute;
+                left: 20px;
+                top: 15px;
               }
             }
             li{
@@ -253,78 +307,54 @@ export default {
     }
     .right-content{
       padding: 20px 75px 55px;
-      /***新闻列表 */
-      ul.news-ul{
-        li{
-          //min-height: 90px;
-          cursor: pointer;
-        }
-        .time{
-          min-height: 80px;
-          left: 15px;
-          width: 80px;
-          color: @fff;
-          text-align: center;
-          background-color: @e0dfdf;
-          font-size: 14px;
-          font-weight: bold;
-          line-height: 30px;
-          float: left;
-          .data{
-            font-size: 30px;
-            display: block;
-            margin-top: 12px;
-          }
-        }
-        .title-warp{
-          padding-left: 90px;
-          left: 95px;
-          right:10px;
-          width: auto;
-          a{
-            font-size: 18px;
-            color: @333;
-            display: block;
-          }
-          span{
-            font-size: 12px;
-            color: @8b;
-            line-height: 22px;
-          }
-          p.intros{
-            color: @8b;
-            font-size: 14px;
-            overflow:hidden; 
-            text-overflow:ellipsis;
-            display:-webkit-box; 
-            -webkit-box-orient:vertical;
-            -webkit-line-clamp:2; 
-          }
-        }
-      }
-      li{
-        padding: 20px 15px;
-        font-size: 18px;
+      .content-top-title{
+        border-bottom: 1px solid #dedede;
+        line-height: 40px;
         margin-bottom: 10px;
-        vertical-align: middle;
-        border-bottom: 1px solid @de;
       }
-      a{
-        color: @333;
+      /***新闻列表 */
+      .row{
+        padding: 10px 0;
+        border-bottom: 1px dotted #dedede;
+        &:hover{
+          cursor: pointer;
+          .content{
+            color: #232323;
+          }
+        }
+        .msg-warp{
+          .title{
+            font-weight: bold;
+            line-height: 26px;
+          }
+          .msg{
+            color: @999;
+            line-height: 22px;
+            .txt-right{
+              float: right;
+            }
+          }
+        }
       }
-      .video{
-        margin-top: 20px;
-        width: 100%;
-        max-width: 100%;
-      }
-      video::-internal-media-controls-download-button {
-          display:none;
-      }
-      video::-webkit-media-controls-enclosure {
-          overflow:hidden;
-      }
-      video::-webkit-media-controls-panel {
-          width: calc(100% + 30px); 
+      /*****分页 */
+      .page-warp{
+        margin-top: 30px;
+        button{
+          border: 1px solid @999;
+          padding: 0 5px;
+          height: 30px;
+          outline: none;
+          background: @fff;
+          vertical-align: middle;
+          margin-right: 8px;
+        }
+        .child_color_hover{
+          cursor: pointer;
+          &:hover{
+            color: @fff;
+            border: 1px solid @fff;
+          }
+        }
       }
     }
   }
