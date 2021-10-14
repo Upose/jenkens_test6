@@ -1,24 +1,18 @@
 <!-- 分页 -->
 <template>
-    <div class="pages">
-        <span class="total">共{{total}}页&nbsp;</span>
-        <span class="page">
-            <Debounce !isDebounce><a href="javascript:void(0);" @click="first()" title="首页">&lt;&lt;</a>&nbsp;</Debounce>
-            <Debounce !isDebounce><a href="javascript:void(0);" @click="pre()" title="上一页">&lt;</a></Debounce>
-            <span class="page_num">
-                <a href="javascript:void(0);" v-for="index in pageList" :class="PageIndex==(start_number+index)?'active main_bg child_color_hover':'child_color_hover'"><Debounce !isDebounce><span @click="current(start_number+index)">{{start_number+index}}</span></Debounce></a>
-            </span>
-            <Debounce !isDebounce><a href="javascript:void(0);" @click="next()" title="下一页">&gt;</a>&nbsp;</Debounce>
-            <Debounce !isDebounce><a href="javascript:void(0);" @click="last()" title="末页">&gt;&gt;</a></Debounce>
-        </span>
-        <input type="hidden" id="hidPageCount" value="3">
-    </div>
+    <div class="page-warp">
+        <button class="child_color_hover" @click="first()">首页</button>
+        <button class="child_color_hover" v-for="index in pageList" :class="PageIndex==(start_number+index)?'active main_bg child_color_hover':'child_color_hover'" @click="current(start_number+index)">{{start_number+index}}</button>
+        <button class="child_color_hover" @click="next()">下一页</button>
+        <button class="child_color_hover" @click="last()">末页</button>
+        <button>共{{total}}页 {{totalCount}}条</button>
+    </div><!--分页 end-->
 </template>
 
 <script>
 export default {
   name: 'mine',
-  props:['total','Cindex'],//total:总页码；Cindex:当前页码
+  props:['total','Cindex','totalCount'],//total:总页码；Cindex:当前页码
   mounted(){
   },
   watch: {
@@ -88,43 +82,27 @@ export default {
 <style scoped lang="less">
 @import "../../../assets/web/css/color.less";/**通用文件 */
 /**分页 */
-.pages{
-    padding:20px 10px;
-    text-align: right;
-    .active{
-        color:#fff;
-    }
-}
 
-.page a {
-    float: none;
-    margin-left: -1px;
-    padding: 4px 7px;
-    font-family: Comic Sans MS;
-    font-size: 12px;
-    line-height: 16px;
-    text-align: center;
-    color: #333;
-    background: #fff;
-    border: 1px solid #adadad;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: dotted;
-    &:hover{
-        background: #eaeaea;
+.page-warp{
+    margin-top: 30px;
+    .active{
+        color: @fff;
     }
-}
-.page .page_num{
-    a{
-        padding: 4px 0;
-        font-family:initial;
+    button{
+        border: 1px solid @999;
+        padding: 0 5px;
+        height: 30px;
+        outline: none;
+        background: @fff;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+    .child_color_hover{
+        cursor: pointer;
         &:hover{
-            color: #fff;
+        color: @fff;
+        border: 1px solid @fff;
         }
-    }
-    span{
-        display: inline-block;
-        padding: 4px 10px;
     }
 }
 </style>

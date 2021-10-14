@@ -32,15 +32,7 @@
                 </div>
               </div>
             </div>
-            <pages2 :total="totalPages" :Cindex="pageIndex" @currentClick="currentClick"></pages2>
-            <div class="page-warp">
-              <button class="child_color_hover">首页</button>
-              <button class="child_color_hover">1</button>
-              <button class="child_color_hover">2</button>
-              <button class="child_color_hover">下一页</button>
-              <button class="child_color_hover">末页</button>
-              <button>共2页 11条</button>
-            </div><!--分页 end-->
+            <pages2 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages2>
           </div>
           
         </div>
@@ -113,6 +105,8 @@ export default {
       },
       //获取新闻列表
       getNewsList(c_id,l_id){//栏目id，labeleid
+        this.c_id = c_id;
+        this.l_id = l_id;
         var list = {
           pageIndex:this.pageIndex,
           pageSize:this.pageSize,
@@ -123,6 +117,10 @@ export default {
         http.postJson('pront-news-list-data-get',list).then(res=>{
           if(res.data && res.data.items){
             this.news_list = res.data.items||[];
+            this.pageIndex = res.data.pageIndex||0;
+            this.pageSize = res.data.pageSize||0;
+            this.totalCount = res.data.totalCount||0;
+            this.totalPages = res.data.totalPages||0;
           }
         }).catch(err=>{
             console.log(err);
@@ -380,26 +378,6 @@ export default {
             .txt-right{
               float: right;
             }
-          }
-        }
-      }
-      /*****分页 */
-      .page-warp{
-        margin-top: 30px;
-        button{
-          border: 1px solid @999;
-          padding: 0 5px;
-          height: 30px;
-          outline: none;
-          background: @fff;
-          vertical-align: middle;
-          margin-right: 8px;
-        }
-        .child_color_hover{
-          cursor: pointer;
-          &:hover{
-            color: @fff;
-            border: 1px solid @fff;
           }
         }
       }

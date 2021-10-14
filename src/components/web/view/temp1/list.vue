@@ -31,7 +31,7 @@
                 </div>
               </li>
             </ul>
-            <pages1 :total="totalPages" :Cindex="pageIndex" @currentClick="currentClick"></pages1>
+            <pages1 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages1>
           </div><!--新闻列表 end -->
         </div>
      </div>

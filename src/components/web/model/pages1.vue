@@ -18,7 +18,7 @@
 <script>
 export default {
   name: 'mine',
-  props:['total','Cindex'],//total:总页码；Cindex:当前页码
+  props:['total','Cindex','totalCount'],//total:总页码；Cindex:当前页码
   mounted(){
   },
   watch: {
