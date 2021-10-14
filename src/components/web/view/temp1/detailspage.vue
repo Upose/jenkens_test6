@@ -82,12 +82,10 @@
 
 <script>
 import http from "@/assets/web/js/http";
-import pages from '@/components/web/model/pages';
-import detailspage from './model/content';
 import my_rate from "../../model/rate";
 export default {
   name: 'footerPage',
-  components:{pages,detailspage,my_rate},
+  components:{my_rate},
   created(){},
   data () {
     return {

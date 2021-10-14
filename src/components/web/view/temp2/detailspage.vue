@@ -75,10 +75,8 @@
 </template>
 <script>
 import http from "@/assets/web/js/http";
-import pages from '@/components/web/model/pages';
 export default {
   name: 'footerPage',
-  components:{pages},
   created(){
   },
   data () {

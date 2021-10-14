@@ -31,7 +31,7 @@
                 </div>
               </li>
             </ul>
-            <pages :total="10" :Cindex="1"></pages>
+            <pages1 :total="totalPages" :Cindex="pageIndex" @currentClick="currentClick"></pages1>
           </div><!--新闻列表 end -->
         </div>
      </div>
@@ -41,18 +41,20 @@
 
 <script>
 import http from "@/assets/web/js/http";
-import pages from '@/components/web/model/pages';
+import pages1 from '@/components/web/model/pages1';
 export default {
   name: 'footerPage',
-  components:{pages},
+  components:{pages1},
   created(){},
   data () {
     return {
         left_index:0,//左边的菜单
         content_title:'关于我们',//内容中的标题
         coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
+        c_id:'',
+        l_id:'',
         pageIndex:1,//当前页
-        pageSize:10,//每页条数
+        pageSize:5,//每页条数
         totalCount:0,//总条数
         totalPages:0,//总页数
         menu_list:[
@@ -67,13 +69,12 @@ export default {
   },
   methods:{
       initData(){
-        console.log('init');
+        //获取左边菜单列表
         http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
             this.menu_list = res.data||[];
             if(this.$route.query.id){
               this.menu_list.forEach((item,i)=>{
                   if(item.columnID == this.$route.query.id){
-                    console.log(i)
                     setTimeout(() => {
                       this.menu_list[i]['check'] = false;
                       this.menuClick(this.menu_list[i].name,i,false);
@@ -89,7 +90,15 @@ export default {
             console.log(err);
         })
       },
+      //获取分页数据
+      currentClick(val){
+        this.pageIndex = val;
+        this.getNewsList(this.c_id,this.l_id);
+      },
+      //获取新闻列表
       getNewsList(c_id,l_id){//栏目id，labeleid
+        this.c_id = c_id;
+        this.l_id = l_id;
         var list = {
           pageIndex:this.pageIndex,
           pageSize:this.pageSize,
@@ -100,12 +109,17 @@ export default {
         http.postJson('pront-news-list-data-get',list).then(res=>{
           if(res.data && res.data.items){
             this.news_list = res.data.items||[];
+            this.pageIndex = res.data.pageIndex||0;
+            this.pageSize = res.data.pageSize||0;
+            this.totalCount = res.data.totalCount||0;
+            this.totalPages = res.data.totalPages||0;
           }
         }).catch(err=>{
             console.log(err);
         })
       },
       menuClick(title,index){//标题,index下标
+        this.pageIndex = 1;
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){

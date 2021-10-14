@@ -32,7 +32,7 @@
                 </div>
               </div>
             </div>
-
+            <pages2 :total="totalPages" :Cindex="pageIndex" @currentClick="currentClick"></pages2>
             <div class="page-warp">
               <button class="child_color_hover">首页</button>
               <button class="child_color_hover">1</button>
@@ -51,18 +51,20 @@
 
 <script>
 import http from "@/assets/web/js/http";
-import pages from '@/components/web/model/pages';
+import pages2 from '@/components/web/model/pages2';
 export default {
   name: 'footerPage',
-  components:{pages},
+  components:{pages2},
   created(){},
   data () {
     return {
         left_index:0,//左边的菜单
         content_title:'关于我们',//内容中的标题
         coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
+        c_id:'',
+        l_id:'',
         pageIndex:1,//当前页
-        pageSize:10,//每页条数
+        pageSize:5,//每页条数
         totalCount:0,//总条数
         totalPages:0,//总页数
         menu_list:[
@@ -104,6 +106,12 @@ export default {
             console.log(err);
         })
       },
+      //获取分页数据
+      currentClick(val){
+        this.pageIndex = val;
+        this.getNewsList(this.c_id,this.l_id);
+      },
+      //获取新闻列表
       getNewsList(c_id,l_id){//栏目id，labeleid
         var list = {
           pageIndex:this.pageIndex,
@@ -121,6 +129,7 @@ export default {
         })
       },
       menuClick(title,index){//标题,index下标
+        this.pageIndex = 1;
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){

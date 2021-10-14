@@ -20,8 +20,6 @@ export default {
   name: 'mine',
   props:['total','Cindex'],//total:总页码；Cindex:当前页码
   mounted(){
-    console.log(this.total);
-    console.log(this.Cindex);
   },
   watch: {
     'total': function(newVal,oldVal){
