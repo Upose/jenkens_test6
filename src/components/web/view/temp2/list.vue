@@ -11,9 +11,9 @@
             <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.title,index)">{{item.title}}</a>
-                <ul class="sub-menu" v-if="item.list && item.list.length>0 && item.check">
-                  <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
+                <a href="javascript:;" @click="menuClick(item.name,index)">{{item.name}}</a>
+                <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
+                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -22,13 +22,13 @@
         <div class="body-title">
           <div class="right-content">
             <div class="content-top-title">新闻资讯</div>
-            <div class="row" @click="detailsClick(1)" v-for="i in 8">
+            <div class="row" v-for="(it,i) in news_list" :key="i+'content'" @click="detailsClick(it.contentID)">
               <div class="msg-warp">
-                <div class="title">重庆环保企业网站</div>
+                <div class="title">{{it.title||'标题走丢了'}}</div>
                 <div class="msg">
-                  <span class="content">新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</span>
+                  <span class="content" v-html="it.content"></span>
                   <span class="show-details child_text_color">[查看详细]</span>
-                  <span class="txt-right">访问次数：32 &nbsp;&nbsp;&nbsp;&nbsp;2021-9-23</span>
+                  <span class="txt-right">访问次数：{{it.hitCount||0}} &nbsp;&nbsp;&nbsp;&nbsp;{{(it.publishDate||'').slice(0,10)}}</span>
                 </div>
               </div>
             </div>
@@ -60,34 +60,54 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'关于我们',//内容中的标题
-        content_type:'news',//右边内容的类型，如：文章(text)，列表(news)
+        coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
+        pageIndex:1,//当前页
+        pageSize:10,//每页条数
+        totalCount:0,//总条数
+        totalPages:0,//总页数
         menu_list:[
-          {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'news'},
-          {id:1,title:'智慧图书馆',list:[{title:'下级'},{title:'下级'}],type:'news'},
-          {id:2,title:'联系我们',list:[{title:'下级'},{title:'下级'}],type:'text'},
-          {id:3,title:'新闻列表',type:'news'},
+          {id:0,name:'关于我们',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
+          {id:3,name:'新闻列表',type:'news'},
         ],
+        news_list:[],
     }
   },
   mounted(){
     this.initData();
-    this.menuClick(this.menu_list[0].title,0);
+    setTimeout(()=>{
+      this.menuClick(this.menu_list[0].title,0);
+    },200)
     // document.addEventListener('click',function(e){
     //   console.log(e,e.target);
     // })
   },
   methods:{
       initData(){
-        http.postJson('pront-news-column-list-get','"BQYdV6IAtisBZqJK"').then(res=>{
-            // this.list1 = res.result.dtos||[];
-            console.log(res);
+        http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
+            this.menu_list = res.data||[];
+        }).catch(err=>{
+            console.log(err);
+        })
+      },
+      getNewsList(c_id,l_id){//栏目id，labeleid
+        var list = {
+          pageIndex:this.pageIndex,
+          pageSize:this.pageSize,
+          columnID:c_id,
+          lableID:l_id,
+          searchKey:'',
+        }
+        http.postJson('pront-news-list-data-get',list).then(res=>{
+          if(res.data && res.data.items){
+            this.news_list = res.data.items||[];
+          }
         }).catch(err=>{
             console.log(err);
         })
       },
       menuClick(title,index){//标题,index下标
         this.content_title = title;
-        this.left_index = index;
+        this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
           this.menu_list[index]['check'] = false;
         }else{
@@ -98,18 +118,19 @@ export default {
             this.menu_list[i]['check'] = false;
           }
         })
+        this.getNewsList(this.menu_list[index].columnID,'');
         this.$forceUpdate();
       },
       isActive(val,check){
         var cs = '';
-        if(val.list && val.list.length>0){
+        if(val.lableList && val.lableList.length>0){
           cs = 'child-list ';
         }
-        if(this.left_index == val.id){
+        if(this.left_index == val.columnID){
           cs = 'active child_bg';
-          if(val.list && val.list.length>0 && check==true){
+          if(val.lableList && val.lableList.length>0 && check==true){
             cs = cs + ' child-list-active-open';
-          }else if(val.list && val.list.length>0 && (check==undefined||check==false)){
+          }else if(val.lableList && val.lableList.length>0 && (check==undefined||check==false)){
             cs = cs+' child-list-active-close';
           }
         }
@@ -117,6 +138,10 @@ export default {
       },
       detailsClick(val){
         this.$router.push({path:'/detailspage2',query:{id:val}})
+      },
+      //点击二级菜单
+      foxbaseClick(val){
+        this.getNewsList(this.left_index,val);
       },
   },
 }

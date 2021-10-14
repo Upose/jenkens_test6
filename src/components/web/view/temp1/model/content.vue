@@ -1,5 +1,5 @@
 <template>
-  <div class="list-warp">
+  <div class="news-content-warp">
     <h1>联系我们</h1>
     <div class="details_content">
       <div class="rich-title">
@@ -78,6 +78,7 @@ export default {
 <style lang="less" scoped>
 @import "../../../../../assets/web/css/style.less";/**通用文件 */
 @import "../../../../../assets/web/css/color.less";/**通用文件 */
+.news-content-warp{
 h1{
   margin: 0 -15px;
   padding: 10px 50px;
@@ -213,5 +214,6 @@ h1{
       opacity: 0.6;
     }
   }
+}
 }
 </style>

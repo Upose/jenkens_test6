@@ -11,9 +11,9 @@
             <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.title,index)">{{item.title}}</a>
-                <ul class="sub-menu" v-if="item.list && item.list.length>0 && item.check">
-                  <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
+                <a href="javascript:;" @click="menuClick(item.name,index)">{{item.name}}</a>
+                <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
+                  <li v-for="(it,i) in item.lableList"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -79,35 +79,38 @@ import pages from '@/components/web/model/pages';
 export default {
   name: 'footerPage',
   components:{pages},
-  created(){},
+  created(){
+  },
   data () {
     return {
         left_index:0,//左边的菜单
         content_title:'关于我们',//内容中的标题
-        content_type:'news',//右边内容的类型，如：文章(text)，列表(news)
-        id:'"E6PB76II$vdDJ7e"',
+        id:this.$route.query.id,//新闻id
+        coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
         detailsData:{},//新闻详情
         titleStyleKV:[],
         menu_list:[
-          {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'news'},
-          {id:1,title:'智慧图书馆',list:[{title:'下级'},{title:'下级'}],type:'news'},
-          {id:2,title:'联系我们',list:[{title:'下级'},{title:'下级'}],type:'text'},
-          {id:3,title:'新闻列表',type:'news'},
+          {id:0,name:'关于我们',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
+          {id:1,name:'智慧图书馆',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
+          {id:2,name:'联系我们',lableList:[{name:'下级'},{name:'下级'}],type:'text'},
+          {id:3,name:'新闻列表',type:'news'},
         ],
     }
   },
   mounted(){
     this.initData();
-    this.menuClick(this.menu_list[0].title,0);
+    // setTimeout(()=>{
+    //   this.menuClick(this.menu_list[0].title,0);
+    // },200)
   },
   methods:{
       initData(){
-        http.postJson('pront-news-column-list-get','"BQYdV6IAtisBZqJK"').then(res=>{
-            console.log(res);
+        http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
+            this.menu_list = res.data||[];
         }).catch(err=>{
             console.log(err);
         })
-        http.postJson('pront-news-content-get',this.id).then(res=>{
+        http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
             if(res.data && res.data.content){
               this.detailsData = res.data.content||{};
               if(this.detailsData && this.detailsData.titleStyleKV){
@@ -120,6 +123,7 @@ export default {
       },
       getTitleClass(type){
         var class_val = '';
+        if(this.titleStyleKV)
         this.titleStyleKV.forEach(item=>{
           if(item.key == type){
             if(type == 'B'){
@@ -137,7 +141,7 @@ export default {
       },
       menuClick(title,index){//标题,index下标
         this.content_title = title;
-        this.left_index = index;
+        this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
           this.menu_list[index]['check'] = false;
         }else{
@@ -152,14 +156,14 @@ export default {
       },
       isActive(val,check){
         var cs = '';
-        if(val.list && val.list.length>0){
+        if(val.lableList && val.lableList.length>0){
           cs = 'child-list ';
         }
-        if(this.left_index == val.id){
+        if(this.left_index == val.columnID){
           cs = 'active child_bg';
-          if(val.list && val.list.length>0 && check==true){
+          if(val.lableList && val.lableList.length>0 && check==true){
             cs = cs + ' child-list-active-open';
-          }else if(val.list && val.list.length>0 && (check==undefined||check==false)){
+          }else if(val.lableList && val.lableList.length>0 && (check==undefined||check==false)){
             cs = cs+' child-list-active-close';
           }
         }
@@ -372,12 +376,18 @@ export default {
           margin-bottom: 40px;
           padding-bottom: 20px;
           border-bottom: 1px solid #dedede;
+          position: relative;
+          padding-right: 80px;
           span,a{
             margin-right:5px;
+            white-space: nowrap;
           }
           /***一键分享 */
           .r-share{
-            float: right;
+            position: absolute;
+            right: 0;
+            z-index: 2;
+            top: 3px;
             color: @fff;
             background-color: #000;
             border-radius: 15px;
