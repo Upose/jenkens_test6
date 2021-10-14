@@ -171,17 +171,17 @@ export default {
         color: @fff;
         text-align: center;
       }
-      &::after{
-        position: absolute;
-        right:0;
-        top: 72px;
-        bottom: 0;
-        width: 6px;
-        content: "";
-        background: @fff;
-        box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
-        z-index: 2;
-      }
+      // &::after{
+      //   position: absolute;
+      //   right:0;
+      //   top: 72px;
+      //   bottom: 0;
+      //   width: 6px;
+      //   content: "";
+      //   background: @fff;
+      //   box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
+      //   z-index: 2;
+      // }
     }
     .body-title{
       margin-left: 250px;
