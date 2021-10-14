@@ -90,7 +90,7 @@ export default {
   data () {
     return {
         left_index:0,//左边的菜单
-        content_title:'关于我们',//内容中的标题
+        content_title:'',//内容中的标题
         id:this.$route.query.id,//新闻id
         coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
         detailsData:{},//新闻详情
@@ -98,8 +98,6 @@ export default {
         titleStyleKV:[],
         menu_list:[
           {id:0,name:'关于我们',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
-          {id:1,name:'智慧图书馆',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
-          {id:2,name:'联系我们',lableList:[{name:'下级'},{name:'下级'}],type:'text'},
           {id:3,name:'新闻列表',type:'news'},
         ],
     }

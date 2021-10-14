@@ -49,7 +49,7 @@ export default {
   data () {
     return {
         left_index:0,//左边的菜单
-        content_title:'关于我们',//内容中的标题
+        content_title:'',//内容中的标题
         coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
         c_id:'',
         l_id:'',

@@ -3,7 +3,7 @@
     <div class="articledetails-warp">
       <div class="m-width top-title">
         <span class="m-title">新闻公告 NEWS</span>
-        <span class="m-address">当前位置：联系我们</span>
+      <span class="m-address">当前位置：{{content_title}}</span>
       </div>
      <div class="body-content m-width c-l">
         <div class="left-menu">
@@ -51,7 +51,7 @@ export default {
   data () {
     return {
         left_index:0,//左边的菜单
-        content_title:'关于我们',//内容中的标题
+        content_title:'',//内容中的标题
         coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
         c_id:'',
         l_id:'',

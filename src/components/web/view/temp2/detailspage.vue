@@ -3,7 +3,7 @@
     <div class="articledetails-warp">
       <div class="m-width top-title">
         <span class="m-title">新闻公告 NEWS</span>
-        <span class="m-address">当前位置：联系我们</span>
+        <span class="m-address">当前位置：{{content_title}}</span>
       </div>
      <div class="body-content m-width c-l">
         <div class="left-menu">
@@ -82,15 +82,13 @@ export default {
   data () {
     return {
         left_index:0,//左边的菜单
-        content_title:'关于我们',//内容中的标题
+        content_title:'',//内容中的标题
         id:this.$route.query.id,//新闻id
         coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
         detailsData:{},//新闻详情
         titleStyleKV:[],
         menu_list:[
           {id:0,name:'关于我们',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
-          {id:1,name:'智慧图书馆',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
-          {id:2,name:'联系我们',lableList:[{name:'下级'},{name:'下级'}],type:'text'},
           {id:3,name:'新闻列表',type:'news'},
         ],
     }
