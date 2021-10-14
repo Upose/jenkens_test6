@@ -24,7 +24,7 @@
                   <div class="rich-title">
                     <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||''}}</span>
                     <span class="col2"><i class="title">发布时间：</i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
-                    <span class="col3"><i class="title">范文次数：</i>{{detailsData.hitCount||0}}</span>
+                    <span class="col3" v-if="detailsData.hitCount!=-1"><i class="title">范文次数：</i>{{detailsData.hitCount||0}}</span>
                     <span v-if="detailsData.author">作者：{{detailsData.author}}</span><!--作者-->
                     <span v-if="detailsData.keywords">关键词：{{detailsData.keywords}}</span><!--关键词-->
                     <a v-if="detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
@@ -36,7 +36,6 @@
                     <span v-if="detailsData.expendFiled4">{{detailsData.expendFiled4}}</span>
                     <span v-if="detailsData.expendFiled5">{{detailsData.expendFiled5}}</span>
                     <span v-if="detailsData.expendFiled5">{{detailsData.expendFiled5}}</span>
-                    <span v-if="detailsData.hitCount!=-1"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
                   </div>
                   <div class="rich-text" v-html="detailsData.content"></div>
                 </div>
