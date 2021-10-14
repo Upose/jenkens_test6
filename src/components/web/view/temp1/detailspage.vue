@@ -7,7 +7,7 @@
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.name,index)">{{item.name}}</a>
+                <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
                   <li v-for="(it,i) in item.lableList"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
@@ -123,7 +123,7 @@ export default {
                 if(item.columnID == _this.$route.query.c_id){
                  setTimeout(() => {
                    _this.menu_list[i]['check'] = false;
-                    _this.menuClick(_this.menu_list[i].name,i);
+                    _this.menuClick(_this.menu_list[i].name,i,false);
                  }, 200);
                 }
               })
@@ -159,8 +159,7 @@ export default {
         })
         return class_val;
       },
-      menuClick(title,index){//标题,index下标
-        console.log(title,index);
+      menuClick(title,index,is_open){//标题,index下标
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
@@ -168,12 +167,14 @@ export default {
         }else{
           this.menu_list[index]['check'] = !this.menu_list[index]['check'];
         }
-        // this.menu_list.forEach((item,i)=>{
-        //   if(i != index){
-        //     this.menu_list[i]['check'] = false;
-        //   }
-        // })
-        console.log(this.menu_list);
+        this.menu_list.forEach((item,i)=>{
+          if(i != index){
+            this.menu_list[i]['check'] = false;
+          }
+        })
+        if(is_open){
+          this.$router.push({path:'/list1',query:{id:this.menu_list[index].columnID}})
+        }
         this.$forceUpdate();
       },
       isActive(val,check){

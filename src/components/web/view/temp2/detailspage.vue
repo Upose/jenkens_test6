@@ -11,7 +11,7 @@
             <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.name,index)">{{item.name}}</a>
+                <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
                   <li v-for="(it,i) in item.lableList"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
@@ -139,7 +139,7 @@ export default {
         })
         return class_val;
       },
-      menuClick(title,index){//标题,index下标
+      menuClick(title,index,is_open){//标题,index下标
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
@@ -152,6 +152,9 @@ export default {
             this.menu_list[i]['check'] = false;
           }
         })
+        if(is_open){
+          this.$router.push({path:'/list2',query:{id:this.menu_list[index].columnID}})
+        }
         this.$forceUpdate();
       },
       isActive(val,check){

@@ -64,15 +64,27 @@ export default {
   },
   mounted(){
     this.initData();
-    setTimeout(()=>{
-      this.menuClick(this.menu_list[0].name,0);
-    },200)
   },
   methods:{
       initData(){
         console.log('init');
         http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
             this.menu_list = res.data||[];
+            if(this.$route.query.id){
+              this.menu_list.forEach((item,i)=>{
+                  if(item.columnID == this.$route.query.id){
+                    console.log(i)
+                    setTimeout(() => {
+                      this.menu_list[i]['check'] = false;
+                      this.menuClick(this.menu_list[i].name,i,false);
+                    }, 200);
+                  }
+                })
+            }else{
+              setTimeout(()=>{
+                this.menuClick(this.menu_list[0].name,0);
+              },200)
+            }
         }).catch(err=>{
             console.log(err);
         })
