@@ -11,7 +11,7 @@
             <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.title,item.type,item.id,index)">{{item.title}}</a>
+                <a href="javascript:;" @click="menuClick(item.title,index)">{{item.title}}</a>
                 <ul class="sub-menu" v-if="item.list && item.list.length>0 && item.check">
                   <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
                 </ul>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import http from "@/assets/public/js/http";
+import http from "@/assets/web/js/http";
 import pages from '@/components/web/model/pages';
 export default {
   name: 'footerPage',
@@ -70,26 +70,24 @@ export default {
     }
   },
   mounted(){
-      // this.initData();
-    this.menuClick(this.menu_list[2].title,this.menu_list[2].type,this.menu_list[2].id,2);
+    this.initData();
+    this.menuClick(this.menu_list[0].title,0);
     // document.addEventListener('click',function(e){
     //   console.log(e,e.target);
     // })
   },
   methods:{
       initData(){
-        http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-            this.list1 = res.result.dtos||[];
+        http.postJson('pront-news-column-list-get','"BQYdV6IAtisBZqJK"').then(res=>{
+            // this.list1 = res.result.dtos||[];
+            console.log(res);
         }).catch(err=>{
             console.log(err);
         })
       },
-      menuClick(title,type,id,index){//标题,内容类型，左边菜单下标（此方法如果用到右边菜单列表时，index参数为-1）
-        this.content_type = type;
+      menuClick(title,index){//标题,index下标
         this.content_title = title;
-        if(id!=-1){
-          this.left_index = id;
-        }
+        this.left_index = index;
         if(this.menu_list[index]['check']==undefined){
           this.menu_list[index]['check'] = false;
         }else{
@@ -118,7 +116,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/detailspage2',query:{id:1}})
+        this.$router.push({path:'/detailspage2',query:{id:val}})
       },
   },
 }
@@ -164,17 +162,17 @@ export default {
         line-height: 74px;
         text-align: center;
       }
-      &::after{
-        position: absolute;
-        right:0;
-        top: 72px;
-        bottom: 0;
-        width: 6px;
-        content: "";
-        background: @fff;
-        box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
-        z-index: 2;
-      }
+      // &::after{
+      //   position: absolute;
+      //   right:0;
+      //   top: 72px;
+      //   bottom: 0;
+      //   width: 6px;
+      //   content: "";
+      //   background: @fff;
+      //   box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
+      //   z-index: 2;
+      // }
     }
     .body-title{
       margin-left: 250px;

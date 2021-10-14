@@ -1,67 +1,53 @@
 <template>
   <div class="list-warp">
-    <h1>联系我们</h1>
-    <div class="details_content">
-      <div class="rich-title">
-        <span class="col1"><i class="title">发布人：</i>管理员</span>
-        <span class="col2"><i class="title">发布时间：</i>2021-12-11</span>
-        <span class="col3"><i class="title">范文次数：</i>455</span>
-      </div>
-      <div class="rich-text">
-        <p>富文本内容</p>
-      </div>
-    </div>
-    <div class="comment">
-      <div class="row-score">
-        <span class="title">是否对您有用：</span>
-        <my_rate :score.sync="curScore"/>
-      </div>
-      <div class="c-text">
-        <div class="title">
-          <span>发 表 评 论：</span>
-          <span>（请 先 登 录）</span>
+    <div class="articledetails-warp">
+     <div class="body-content m-width c-l">
+        <div class="left-menu">
+          <div class="menu-top child_bg">新闻公告</div>
+          <div class="menu-list">
+            <ul>
+              <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
+                <a href="javascript:;" @click="menuClick(item.title,index)">{{item.title}}</a>
+                <ul class="sub-menu" v-if="item.list && item.list.length>0 && item.check">
+                  <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
-        <textarea class="textarea" :disabled="disabled"></textarea>
-      </div>
-      <div class="btns">
-        <button class="btn main_bg fff">保 存</button>
-        <button class="btn b-clear">清 空</button>
-      </div>
-    </div>
-    <div class="write-a-review">
-      <div class="title"><span class="child_text_color child_border_bottom">评论数</span>（3）</div>
-      <div class="row" v-for="i in 3">
-        <div class="r-top">
-          <img src="@/assets/web/img/default.jpg" class="u-img">
-          <span class="text">
-            <span class="name">张老师</span>
-            <span class="time">2018年12月14日  20:18:25</span>
-          </span>
+        <div class="body-title">
+          <div class="menu-top child_bg">当前位置：{{content_title}}</div>
+          <div class="right-content">
+            <detailspage></detailspage>
+          </div><!--文章详情页面 end -->
         </div>
-        <div class="r-bottom">
-          ASC数据库收录16,700多种期刊的摘要；8,500多种全文期刊，其中7,300多种为同行评审(peer-reviewed)，还包括800多种非期刊类全文出版物(如书籍, 报告及会议论文等)。主题包括生物科学、工程技术、社会科学、心理学、教育、法律、医学、语言学、人文、信息科技、通讯传播、公共管理、历史学、计算机科学、军事、文化、健康卫生医疗、宗教与神学、艺术、视觉传达、表演、哲学、各国文学等等。
-        </div>
-      </div>
-      <div class="more">查看更多</div>
+     </div>
     </div>
   </div>
 </template>
 
 <script>
 import http from "@/assets/public/js/http";
-import my_rate from "../../model/rate";
+import pages from '@/components/web/model/pages';
+import detailspage from './model/content';
 export default {
   name: 'footerPage',
-  components:{my_rate},
+  components:{pages,detailspage},
   created(){},
   data () {
     return {
-      curScore:2,
-      disabled:true,
+        left_index:0,//左边的菜单
+        content_title:'关于我们',//内容中的标题
+        menu_list:[
+          {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'news'},
+          {id:1,title:'智慧图书馆',type:'news'},
+          {id:3,title:'新闻列表',type:'news'},
+        ],
     }
   },
   mounted(){
-    //   this.initData();
+    // this.initData();
+    this.menuClick(this.menu_list[2].title,0);
   },
   methods:{
       initData(){
@@ -71,147 +57,222 @@ export default {
             console.log(err);
         })
       },
+      menuClick(title,index){//标题,index下标
+        this.content_title = title;
+        this.left_index = index;
+        if(this.menu_list[index]['check']==undefined){
+          this.menu_list[index]['check'] = false;
+        }else{
+          this.menu_list[index]['check'] = !this.menu_list[index]['check'];
+        }
+        this.menu_list.forEach((item,i)=>{
+          if(i != index){
+            this.menu_list[i]['check'] = false;
+          }
+        })
+        this.$forceUpdate();
+      },
+      isActive(val,check){
+        var cs = '';
+        if(val.list && val.list.length>0){
+          cs = 'child-list ';
+        }
+        if(this.left_index == val.id){
+          cs = 'active child_bg';
+          if(val.list && val.list.length>0 && check==true){
+            cs = cs + ' child-list-active-open';
+          }else if(val.list && val.list.length>0 && (check==undefined||check==false)){
+            cs = cs+' child-list-active-close';
+          }
+        }
+        return cs;
+      },
+      detailsClick(val){
+        this.$router.push({path:'/detailspage1',query:{id:val}})
+      },
   },
 }
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/web/css/style.less";/**通用文件 */
-@import "../../../../assets/web/css/color.less";/**通用文件 */
-h1{
-  margin: 0 -15px;
-  padding: 10px 50px;
-  font-size: 20px;
-  font-weight: lighter;
-  line-height: 30px;
-  text-align: center;
-  border-bottom: 1px dashed #dedad6;
-}
-.details_content{
-  margin-top: 20px;
-  min-height: 150px;
-  .rich-title{
-    margin-bottom: 20px;
-    text-align: center;
-    color: @6b;
-    span{
-      padding: 0 15px;
-    }
-    i{
-      font-style: normal;
-    }
+  @import "../../../../assets/web/css/style.less";/**通用文件 */
+  @import "../../../../assets/web/css/color.less";/**通用文件 */
+  .articledetails-warp{
+    min-height:700px;
+    background: @e0dfdf url(../../../../assets/web/img/banner-bg1.jpg) no-repeat center top;
+    padding-bottom: 20px;
+    padding-top: 95px;
   }
-  .rich-text{
-    margin-bottom: 20px;
-  }
-}
-/***评论****/
-.comment{
-  margin: 0 -15px;
-  .row-score{
-    margin-bottom: 15px;
-    span.title{
-      vertical-align: middle;
-    }
-  }
-  .c-text{
-    position: relative;
-    height: 120px;
-    .textarea,.title{
-      position: absolute;
-      top: 0;
-    }
-    .title{
-      width:98px;
-      text-align: right;
-      span{
-        display: block;
+    .body-content{
+    background-color: #fff;
+    .left-menu{
+      float: left;
+      margin-top: -25px;
+      width: 250px;
+      .menu-top{
+        position: relative;
+        height: 69px;
+        font-size: 24px;
+        font-weight: lighter;
+        line-height: 74px;
+        color: @fff;
+        text-align: center;
+      }
+      &::after{
+        position: absolute;
+        right:0;
+        top: 72px;
+        bottom: 0;
+        width: 6px;
+        content: "";
+        background: @fff;
+        box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
+        z-index: 2;
       }
     }
-    textarea{
-      left: 100px;
-      outline: none;
-      width:calc(100% - 100px);
-      height: 100px;
-      resize: none;
-      border: 1px solid @de;
-      border-radius: 3px;
-      padding: 10px;
-      
-    }
-  }
-  .btns{
-    text-align: center;
-    .btn{
-      color: @fff;
-      width: 100px;
-      height: 30px;
-      outline: none;
-      border: 0px solid @fff;
-      border-radius: 3px;
-      cursor: pointer;
-      &:hover{
-        opacity: .8;
+    .body-title{
+      margin-left: 250px;
+      position: relative;
+      &::after{
+        position: absolute;
+        left: -6px;
+        top: 45px;
+        bottom: 0;
+        width: 6px;
+        content: "";
+        background: #fff;
+        box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
+        z-index: 2;
+      }
+      .menu-top{
+        height: 44px;
+        padding: 10px 20px;
+        font-size: 14px;
+        color: @fff;
+        margin-top: 25px;
+        line-height: 24px;
+        position: relative;
+        &:after{
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          border-width: 0 0 44px 15px;
+          border-style: dashed dashed solid solid;
+          border-color: transparent transparent transparent rgba(0,0,0,.8);
+          content: "";
+        }
       }
     }
-    .b-clear{
-      margin-left: 30px;
-      background-color: @9ea0a5;
+    .menu-list,.right-content{
+      min-height: 550px;
+      background-color: @fff;
     }
-  }
-}
-/**评论区**/
-.write-a-review{
-  margin-top: 20px;
-  .title{
-    margin: 0 -15px;
-    margin-bottom: 30px;
-    font-weight: bold;
-    line-height: 20px;
-    font-size: 16px;
-    border-bottom: 1px dashed @de;
-    span{
-      border-width: 3px;
-    }
-  }
-  .row{
-    width: 100%;
-    margin-bottom: 20px;
-    .r-top{
-      margin: 10px 0;
-    }
-    .r-top .u-img{
-      width: 46px;
-      height: 46px;
-      border-radius: 3px;
-    }
-    .r-top .text{
-      display: inline-block;
-      margin-left:20px;
-      vertical-align: top;
-      line-height: 23px;
-      span.name{
-        color: @3e3f42;
-        font-size: 16px;
+    /**左边的列表菜单*/
+    .menu-list{
+      ul{
+        padding: 10px 20px 0;
+        .child-list{
+          > a{
+            &:after{
+                border-top: 6px solid transparent;
+                border-left: 6px solid @6b;
+                border-bottom: 6px solid transparent;
+                left:5px;
+                top: 12px;
+              }
+          }
+        }
+        .child-list-active-open{
+          > a{
+            &:after{
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-top: 6px solid @fff;
+                left:5px;
+                top: 16px;
+                 border-left-color: transparent !important;
+              }
+          }
+        }
+        .child-list-active-close{
+          > a{
+            &:after{
+                border-top: 6px solid transparent;
+                border-left: 6px solid @fff;
+                border-bottom: 6px solid transparent;
+                left:5px;
+                top: 12px;
+              }
+          }
+        }
+
+        .child_color_hover{
+            &:hover{
+              > a{
+                &::after{
+                  border-left-color: @fff;
+                }
+              }
+            }
+        }
+
+        li{
+          cursor: pointer;
+          line-height: 36px;
+          font-size: 15px;
+          color: @6b;
+          border-bottom: 1px solid @de;
+          &:hover{
+            color: @fff;
+            a{
+              color: @fff;
+            }
+          }
+          a{
+            position: relative;
+            display: block;
+            color:@6b;
+            padding: 0 20px;
+            &:after{
+              content: '';
+              width: 0;
+              height: 0;
+              position:absolute;
+            }
+          }
+          .sub-menu{
+            background-color: @fff;
+            padding: 0;
+            a{
+              color: @6b;
+              position: relative;
+              display: block;
+              &:hover{
+                text-decoration: revert;
+              }
+            }
+            li{
+              border-bottom: none;
+              &:hover{
+                color: @23;
+              }
+            }
+          }
+          
+        }
+        .active{
+          color: @fff;
+          a{
+            color: @fff;
+          }
+        }
       }
-      span.time{
-        color: @9ea0a5;
-      }
-      span{
-        display: block;
-      }
     }
-    .r-bottom{
-      color: @6b;
-      line-height: 20px;
+    .right-content{
+      padding: 20px 75px 55px;
+      a{
+        color: @333;
+      }
     }
   }
-  .more{
-    cursor: pointer;
-    text-align: right;
-    &:hover{
-      opacity: 0.6;
-    }
-  }
-}
 </style>

@@ -11,7 +11,7 @@
             <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.title,item.type,item.id,index)">{{item.title}}</a>
+                <a href="javascript:;" @click="menuClick(item.title,index)">{{item.title}}</a>
                 <ul class="sub-menu" v-if="item.list && item.list.length>0 && item.check">
                   <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
                 </ul>
@@ -22,15 +22,26 @@
         <div class="body-title">
           <div class="right-content">
             <div class="content-top-title">
-              <span>新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题————你猜我猜不猜</span>
+              <span :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</span>
               <div class="news-sub-warp">
-                <span class="name">周旋</span>
-                <span><i class="time-icon"></i>2021-02-05</span>
-                <span><i class="number-icon"></i>浏览量</span>
+                <span class="name child1_text_color">{{detailsData.publisher||''}}</span><!--发布人-->
+                <span><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
+                <span v-if="detailsData.author">{{detailsData.author}}</span><!--作者-->
+                <span v-if="detailsData.keywords">{{detailsData.keywords}}</span><!--关键词-->
+                <span v-if="detailsData.expirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
+                <a v-if="detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
+                <span v-if="detailsData.parentCatalogue">{{detailsData.parentCatalogue}}</span><!--标签-->
+                <span v-if="detailsData.expendFiled1">{{detailsData.expendFiled1}}</span>
+                <span v-if="detailsData.expendFiled2">{{detailsData.expendFiled2}}</span>
+                <span v-if="detailsData.expendFiled3">{{detailsData.expendFiled3}}</span>
+                <span v-if="detailsData.expendFiled4">{{detailsData.expendFiled4}}</span>
+                <span v-if="detailsData.expendFiled5">{{detailsData.expendFiled5}}</span>
+                <span v-if="detailsData.expendFiled5">{{detailsData.expendFiled5}}</span>
+                <span v-if="detailsData.hitCount!=-1"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
                 <span class="r-share">一键分享</span>
               </div>
             </div>
-            <div class="edit-content">富文本内容</div>
+            <div class="edit-content" v-html="detailsData.content"></div><!--富文本内容 end-->
             <div class="comment">
               <div class="c-title">评论</div>
               <div class="c-input">
@@ -63,7 +74,7 @@
   </div>
 </template>
 <script>
-import http from "@/assets/public/js/http";
+import http from "@/assets/web/js/http";
 import pages from '@/components/web/model/pages';
 export default {
   name: 'footerPage',
@@ -74,6 +85,9 @@ export default {
         left_index:0,//左边的菜单
         content_title:'关于我们',//内容中的标题
         content_type:'news',//右边内容的类型，如：文章(text)，列表(news)
+        id:'"E6PB76II$vdDJ7e"',
+        detailsData:{},//新闻详情
+        titleStyleKV:[],
         menu_list:[
           {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'news'},
           {id:1,title:'智慧图书馆',list:[{title:'下级'},{title:'下级'}],type:'news'},
@@ -83,26 +97,47 @@ export default {
     }
   },
   mounted(){
-      // this.initData();
-    this.menuClick(this.menu_list[2].title,this.menu_list[2].type,this.menu_list[2].id,2);
-    // document.addEventListener('click',function(e){
-    //   console.log(e,e.target);
-    // })
+    this.initData();
+    this.menuClick(this.menu_list[0].title,0);
   },
   methods:{
       initData(){
-        http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-            this.list1 = res.result.dtos||[];
+        http.postJson('pront-news-column-list-get','"BQYdV6IAtisBZqJK"').then(res=>{
+            console.log(res);
+        }).catch(err=>{
+            console.log(err);
+        })
+        http.postJson('pront-news-content-get',this.id).then(res=>{
+            if(res.data && res.data.content){
+              this.detailsData = res.data.content||{};
+              if(this.detailsData && this.detailsData.titleStyleKV){
+                this.titleStyleKV = this.detailsData.titleStyleKV||[];
+              }
+            }
         }).catch(err=>{
             console.log(err);
         })
       },
-      menuClick(title,type,id,index){//标题,内容类型，左边菜单下标（此方法如果用到右边菜单列表时，index参数为-1）
-        this.content_type = type;
+      getTitleClass(type){
+        var class_val = '';
+        this.titleStyleKV.forEach(item=>{
+          if(item.key == type){
+            if(type == 'B'){
+              class_val = item.value?'blod':'';
+            }else if(type == 'U'){
+              class_val = item.value?'underline':'';
+            }else if(type == 'I'){
+              class_val = item.value?'italic':'';
+            }else{
+              class_val = item.value;
+            } 
+          }
+        })
+        return class_val;
+      },
+      menuClick(title,index){//标题,index下标
         this.content_title = title;
-        if(id!=-1){
-          this.left_index = id;
-        }
+        this.left_index = index;
         if(this.menu_list[index]['check']==undefined){
           this.menu_list[index]['check'] = false;
         }else{
@@ -177,17 +212,17 @@ export default {
         line-height: 74px;
         text-align: center;
       }
-      &::after{
-        position: absolute;
-        right:0;
-        top: 72px;
-        bottom: 0;
-        width: 6px;
-        content: "";
-        background: @fff;
-        box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
-        z-index: 2;
-      }
+      // &::after{
+      //   position: absolute;
+      //   right:0;
+      //   top: 72px;
+      //   bottom: 0;
+      //   width: 6px;
+      //   content: "";
+      //   background: @fff;
+      //   box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
+      //   z-index: 2;
+      // }
     }
     .body-title{
       margin-right: 250px;
@@ -320,6 +355,11 @@ export default {
     }
     .right-content{
       padding: 35px 75px 55px;
+      .edit-content{
+        img{
+          max-width: 100% !important;
+        }
+      }
       .content-top-title{
         font-size: 24px;
         font-weight: bold;
@@ -332,6 +372,9 @@ export default {
           margin-bottom: 40px;
           padding-bottom: 20px;
           border-bottom: 1px solid #dedede;
+          span,a{
+            margin-right:5px;
+          }
           /***一键分享 */
           .r-share{
             float: right;

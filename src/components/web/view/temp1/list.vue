@@ -7,22 +7,19 @@
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.title,item.type,item.id,index)">{{item.title}}</a>
+                <a href="javascript:;" @click="menuClick(item.title,index)">{{item.title}}</a>
                 <ul class="sub-menu" v-if="item.list && item.list.length>0 && item.check">
                   <li v-for="(it,i) in item.list"><a href="javascript:;">{{it.title}}</a></li>
                 </ul>
               </li>
-              <!-- <li class="child_color_hover" :class="left_index==1?'active child_bg':''" @click="menuClick('智慧图书馆','menu',1)"><a href="javascript:;">智慧图书馆</a></li>
-              <li class="child_color_hover" :class="left_index==2?'active child_bg':''" @click="menuClick('联系我们','text',2)"><a href="javascript:;">联系我们</a></li>
-              <li class="child_color_hover" :class="left_index==3?'active child_bg':''" @click="menuClick('新闻列表','news',3)"><a href="javascript:;">新闻列表</a></li> -->
             </ul>
           </div>
         </div>
         <div class="body-title">
           <div class="menu-top child_bg">当前位置：{{content_title}}</div>
-          <div class="right-content" v-if="content_type=='news'">
+          <div class="right-content">
             <ul class="news-ul">
-              <li class="next_hover" @click="menuClick('列表详情','text',-1)" v-for="item in 4">
+              <li class="next_hover" @click="detailsClick(item.id||1)" v-for="item in 4">
                 <div class="time n_hover">
                   <span class="data">26</span>
                   <span>2019-11</span>
@@ -36,10 +33,6 @@
             </ul>
             <pages :total="10" :Cindex="1"></pages>
           </div><!--新闻列表 end -->
-
-          <div class="right-content" v-if="content_type=='text'">
-            <!-- <detailspage></detailspage> -->
-          </div><!--文章详情页面 end -->
         </div>
      </div>
     </div>
@@ -57,7 +50,6 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'关于我们',//内容中的标题
-        content_type:'news',//右边内容的类型，如：文章(text)，列表(news)
         menu_list:[
           {id:0,title:'关于我们',list:[{title:'下级'},{title:'下级'}],type:'news'},
           {id:1,title:'智慧图书馆',type:'news'},
@@ -66,11 +58,8 @@ export default {
     }
   },
   mounted(){
-      // this.initData();
-    this.menuClick(this.menu_list[1].title,this.menu_list[1].type,this.menu_list[1].id,1);
-    // document.addEventListener('click',function(e){
-    //   console.log(e,e.target);
-    // })
+    // this.initData();
+    this.menuClick(this.menu_list[0].title,0);
   },
   methods:{
       initData(){
@@ -80,12 +69,9 @@ export default {
             console.log(err);
         })
       },
-      menuClick(title,type,id,index){//标题,内容类型，左边菜单下标（此方法如果用到右边菜单列表时，index参数为-1）
-        this.content_type = type;
+      menuClick(title,index){//标题,index下标
         this.content_title = title;
-        if(id!=-1){
-          this.left_index = id;
-        }
+        this.left_index = index;
         if(this.menu_list[index]['check']==undefined){
           this.menu_list[index]['check'] = false;
         }else{
@@ -112,6 +98,9 @@ export default {
           }
         }
         return cs;
+      },
+      detailsClick(val){
+        this.$router.push({path:'/detailspage1',query:{id:val}})
       },
   },
 }
