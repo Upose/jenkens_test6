@@ -111,6 +111,7 @@ export default {
     border: 1px solid #adadad;
     cursor: pointer;
     text-align: center;
+    text-decoration: dotted;
     &:hover{
         background: #eaeaea;
     }

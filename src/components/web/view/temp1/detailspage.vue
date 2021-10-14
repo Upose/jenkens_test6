@@ -115,8 +115,19 @@ export default {
   },
   methods:{
       initData(){
+        var _this = this;
         http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
-            this.menu_list = res.data||[];
+            _this.menu_list = res.data||[];
+            if(_this.menu_list && _this.menu_list.length>0){
+              _this.menu_list.forEach((item,i)=>{
+                if(item.columnID == _this.$route.query.c_id){
+                 setTimeout(() => {
+                   _this.menu_list[i]['check'] = false;
+                    _this.menuClick(_this.menu_list[i].name,i);
+                 }, 200);
+                }
+              })
+            }
         }).catch(err=>{
             console.log(err);
         })
@@ -149,6 +160,7 @@ export default {
         return class_val;
       },
       menuClick(title,index){//标题,index下标
+        console.log(title,index);
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
@@ -156,11 +168,12 @@ export default {
         }else{
           this.menu_list[index]['check'] = !this.menu_list[index]['check'];
         }
-        this.menu_list.forEach((item,i)=>{
-          if(i != index){
-            this.menu_list[i]['check'] = false;
-          }
-        })
+        // this.menu_list.forEach((item,i)=>{
+        //   if(i != index){
+        //     this.menu_list[i]['check'] = false;
+        //   }
+        // })
+        console.log(this.menu_list);
         this.$forceUpdate();
       },
       isActive(val,check){

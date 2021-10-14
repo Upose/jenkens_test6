@@ -65,7 +65,7 @@ export default {
   mounted(){
     this.initData();
     setTimeout(()=>{
-      this.menuClick(this.menu_list[0].title,0);
+      this.menuClick(this.menu_list[0].name,0);
     },200)
   },
   methods:{
@@ -125,7 +125,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/detailspage1',query:{id:val}})
+        this.$router.push({path:'/detailspage1',query:{id:val,c_id:this.left_index}})
       },
       //点击二级菜单
       foxbaseClick(val){

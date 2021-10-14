@@ -75,7 +75,7 @@ export default {
   mounted(){
     this.initData();
     setTimeout(()=>{
-      this.menuClick(this.menu_list[0].title,0);
+      this.menuClick(this.menu_list[0].name,0);
     },200)
     // document.addEventListener('click',function(e){
     //   console.log(e,e.target);
@@ -85,6 +85,9 @@ export default {
       initData(){
         http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
             this.menu_list = res.data||[];
+            this.menu_list.forEach((item,i)=>{
+                this.menu_list[i]['check'] = false;
+            })
         }).catch(err=>{
             console.log(err);
         })
@@ -137,7 +140,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/detailspage2',query:{id:val}})
+        this.$router.push({path:'/detailspage2',query:{id:val,c_id:this.left_index}})
       },
       //点击二级菜单
       foxbaseClick(val){
