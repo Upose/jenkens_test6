@@ -28,7 +28,11 @@
                 <div class="msg">
                   <span class="content" v-html="it.content"></span>
                   <span class="show-details child_text_color">[查看详细]</span>
-                  <span class="txt-right">访问次数：{{it.hitCount||0}} &nbsp;&nbsp;&nbsp;&nbsp;{{(it.publishDate||'').slice(0,10)}}</span>
+                  <span class="txt-right">
+                    <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}，</span></span>
+                    <span v-if="it.isShowHitCount">访问次数：{{it.hitCount||0}}</span>
+                    <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span></span>
+                  </span>
                 </div>
               </div>
             </div>

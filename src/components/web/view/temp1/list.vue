@@ -20,14 +20,15 @@
           <div class="right-content">
             <ul class="news-ul">
               <li class="next_hover" @click="detailsClick(it.contentID)" v-for="(it,i) in news_list" :key="i+'content'">
-                <div class="time n_hover">
-                  <span class="data">26</span>
-                  <span>2019-11</span>
+                <div class="time n_hover" v-if="it.isShowPublishDate">
+                  <span class="data">{{(it.publishDate||'').slice(8,10)}}</span>
+                  <span>{{(it.publishDate||'').slice(0,7)}}</span>
                 </div>
-                <div class="title-warp">
+                <div class="title-warp" :class="it.isShowPublishDate?'':'p-l'">
                   <a href="javascript:void(0)">{{it.title||'标题走丢了'}}</a>
-                  <span>点击量：49次</span>
-                  <p class="intros">新闻简介新闻简介新闻简介新闻简介新闻简介新闻简简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</p>
+                  <span v-if="it.isShowHitCount">点击量：{{it.hitCount||0}}次</span>
+                  <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}，</span></span>
+                  <p class="intros"><span v-html="it.content"></span></p>
                 </div>
               </li>
             </ul>
@@ -164,6 +165,9 @@ export default {
 <style lang="less" scoped>
   @import "../../../../assets/web/css/style.less";/**通用文件 */
   @import "../../../../assets/web/css/color.less";/**通用文件 */
+  .p-l{
+    padding-left: 0 !important;
+  }
   .articledetails-warp{
     min-height:700px;
     background: @e0dfdf url(../../../../assets/web/img/banner-bg1.jpg) no-repeat center top;
