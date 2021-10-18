@@ -20,13 +20,21 @@ const i18n = new VueI18n({
 })
 
 router.beforeEach((to, from, next) => {
+  var url = window.location.href;
+  var token = url.split('token')[1];
+  if(token){//做重定向处理否则就不管
+    window.localStorage.setItem('token',token);
+    window.location.replace(url.split('token')[0]);
+    window.location.reload();
+  }else{
+    next();
+  }
   // const token = sessionStorage.getItem('token');
   // if (!token && to.path !== '/login') {
   //     next('/login');
   // } else {
   //   next();
   // }
-  next();
 })
 
 new Vue({
