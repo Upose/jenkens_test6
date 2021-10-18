@@ -25,24 +25,23 @@
               <span :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</span>
               <div class="news-sub-warp">
                 <span class="name child1_text_color">{{detailsData.publisher||''}}</span><!--发布人-->
-                <span><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
-                <span v-if="detailsData.author">{{detailsData.author}}</span><!--作者-->
-                <span v-if="detailsData.keywords">{{detailsData.keywords}}</span><!--关键词-->
-                <span v-if="detailsData.expirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
-                <a v-if="detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
-                <span v-if="detailsData.parentCatalogue">{{detailsData.parentCatalogue}}</span><!--标签-->
-                <span v-if="detailsData.expendFiled1">{{detailsData.expendFiled1}}</span>
-                <span v-if="detailsData.expendFiled2">{{detailsData.expendFiled2}}</span>
-                <span v-if="detailsData.expendFiled3">{{detailsData.expendFiled3}}</span>
-                <span v-if="detailsData.expendFiled4">{{detailsData.expendFiled4}}</span>
-                <span v-if="detailsData.expendFiled5">{{detailsData.expendFiled5}}</span>
-                <span v-if="detailsData.expendFiled5">{{detailsData.expendFiled5}}</span>
-                <span v-if="detailsData.hitCount!=-1"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
+                <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
+                <span v-if="data.isShowAuthor">{{detailsData.author}}</span><!--作者-->
+                <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span><!--关键词-->
+                <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
+                <a v-if="data.isShowJumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
+                <span v-if="data.isShowParentCatalogue">{{detailsData.parentCatalogue}}</span><!--标签-->
+                <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
+                <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
+                <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
+                <span v-if="data.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
+                <span v-if="data.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
+                <span v-if="data.isShowHitCount"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
                 <span class="r-share">一键分享</span>
               </div>
             </div>
-            <div class="edit-content" v-html="detailsData.content"></div><!--富文本内容 end-->
-            <div class="comment">
+            <div class="edit-content" v-html="detailsData.content"></div>
+            <!-- <div class="comment">
               <div class="c-title">评论</div>
               <div class="c-input">
                 <div class="no-login"><span class="login-btn child1_text_color">登录</span>后可评论</div>
@@ -66,7 +65,7 @@
                 </div>
               </div>
               <div class="more">查看更多</div>
-            </div>
+            </div> -->
           </div>
         </div>
      </div>
@@ -87,6 +86,7 @@ export default {
         coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
         detailsData:{},//新闻详情
         titleStyleKV:[],
+        data:{},
         menu_list:[
           {id:0,name:'关于我们',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
           {id:3,name:'新闻列表',type:'news'},
@@ -108,6 +108,7 @@ export default {
         })
         http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
             if(res.data && res.data.content){
+              this.data = res.data||[];
               this.detailsData = res.data.content||{};
               if(this.detailsData && this.detailsData.titleStyleKV){
                 this.titleStyleKV = this.detailsData.titleStyleKV||[];
@@ -365,7 +366,7 @@ export default {
       }
       .content-top-title{
         font-size: 24px;
-        font-weight: bold;
+        // font-weight: bold;
         color: #000;
         .news-sub-warp{
           font-size: 12px;

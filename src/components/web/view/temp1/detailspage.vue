@@ -23,23 +23,22 @@
                 <div class="details_content">
                   <div class="rich-title">
                     <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||''}}</span>
-                    <span class="col2"><i class="title">发布时间：</i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
-                    <span class="col3" v-if="detailsData.hitCount!=-1"><i class="title">范文次数：</i>{{detailsData.hitCount||0}}</span>
-                    <span v-if="detailsData.author">作者：{{detailsData.author}}</span><!--作者-->
-                    <span v-if="detailsData.keywords">关键词：{{detailsData.keywords}}</span><!--关键词-->
-                    <a v-if="detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
-                    <span v-if="detailsData.parentCatalogue">标签：{{detailsData.parentCatalogue}}</span><!--标签-->
-                    <span v-if="detailsData.expirationDate">失效日期：{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
-                    <span v-if="detailsData.expendFiled1">{{detailsData.expendFiled1}}</span>
-                    <span v-if="detailsData.expendFiled2">{{detailsData.expendFiled2}}</span>
-                    <span v-if="detailsData.expendFiled3">{{detailsData.expendFiled3}}</span>
-                    <span v-if="detailsData.expendFiled4">{{detailsData.expendFiled4}}</span>
-                    <span v-if="detailsData.expendFiled5">{{detailsData.expendFiled5}}</span>
-                    <span v-if="detailsData.expendFiled5">{{detailsData.expendFiled5}}</span>
+                    <span class="col2" v-if="data.isShowPublishDate"><i class="title">发布时间：</i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
+                    <span class="col3" v-if="data.isShowHitCount"><i class="title">范文次数：</i>{{detailsData.hitCount||0}}</span>
+                    <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span><!--作者-->
+                    <span v-if="data.isShowKeywords">关键词：{{detailsData.keywords}}</span><!--关键词-->
+                    <a v-if="data.isShowJumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
+                    <span v-if="data.isShowParentCatalogue">标签：{{detailsData.parentCatalogue}}</span><!--标签-->
+                    <span v-if="data.isShowExpirationDate">失效日期：{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
+                    <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
+                    <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
+                    <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
+                    <span v-if="data.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
+                    <span v-if="data.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
                   </div>
                   <div class="rich-text" v-html="detailsData.content"></div>
                 </div>
-                <div class="comment">
+                <!-- <div class="comment">
                   <div class="row-score">
                     <span class="title">是否对您有用：</span>
                     <my_rate :score.sync="curScore"></my_rate>
@@ -71,7 +70,7 @@
                     </div>
                   </div>
                   <div class="more">查看更多</div>
-                </div>
+                </div> -->
               </div>
           </div><!--文章详情页面 end -->
         </div>
@@ -95,6 +94,7 @@ export default {
         coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
         detailsData:{},//新闻详情
         curScore:2,//评论分数
+        data:{},
         titleStyleKV:[],
         menu_list:[
           {id:0,name:'关于我们',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
@@ -128,6 +128,7 @@ export default {
         })
         http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
             if(res.data && res.data.content){
+              this.data = res.data||[];
               this.detailsData = res.data.content||{};
               if(this.detailsData && this.detailsData.titleStyleKV){
                 this.titleStyleKV = this.detailsData.titleStyleKV||[];
