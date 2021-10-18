@@ -19,7 +19,7 @@
           <div class="menu-top child_bg">当前位置：{{content_title}}</div>
           <div class="right-content">
             <ul class="news-ul">
-              <li class="next_hover" @click="detailsClick(it.contentID)" v-for="(it,i) in news_list" :key="i+'content'">
+              <li class="next_hover" @click="detailsClick(it.contentID)" v-for="(it,i) in news_list" :key="i+'content'" :class="it.isShowPublishDate?'min-h':''">
                 <div class="time n_hover" v-if="it.isShowPublishDate">
                   <span class="data">{{(it.publishDate||'').slice(8,10)}}</span>
                   <span>{{(it.publishDate||'').slice(0,7)}}</span>
@@ -104,6 +104,7 @@ export default {
           pageIndex:this.pageIndex,
           pageSize:this.pageSize,
           columnID:c_id,
+          contentCutLength:160,
           lableID:l_id,
           searchKey:'',
         }
@@ -167,6 +168,9 @@ export default {
   @import "../../../../assets/web/css/color.less";/**通用文件 */
   .p-l{
     padding-left: 0 !important;
+  }
+  .min-h{
+    min-height: 110px !important;
   }
   .articledetails-warp{
     min-height:700px;

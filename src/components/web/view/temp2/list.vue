@@ -115,6 +115,7 @@ export default {
           pageIndex:this.pageIndex,
           pageSize:this.pageSize,
           columnID:c_id,
+          contentCutLength:160,
           lableID:l_id,
           searchKey:'',
         }
