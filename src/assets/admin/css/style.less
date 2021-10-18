@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-html,body{
+html,body {
   margin: 0;
   padding: 0;
 }
@@ -9,7 +9,7 @@ html,body{
 }
 html,
 body,
-.admin-warp-app{
+#app {
   width: 100%;
   height: 100%;
   font-size: 14px;
@@ -27,7 +27,7 @@ body,
 }
 
 .admin-bg-top {
-  // background: @F4F7FC url(../../../assets/admin/img/center-bg1.png) no-repeat right top;
+  background: @F4F7FC url(../../admin/img/center-bg1.png) no-repeat right top;
 }
 
 .admin-content {
@@ -134,6 +134,44 @@ iframe {
   color: @6777EF;
   font-weight: bold;
   font-size: 16px;
+  position: relative;
+
+  /**切换表格标题*/
+  .check-box {
+    height: 100%;
+    vertical-align: middle;
+    margin-right: 20px;
+    display: inline-block;
+    // line-height: 50px;
+
+    span {
+      display: inline-block;
+      position: relative;
+      font-size: 16px;
+      font-weight: bold;
+      color: @34395E;
+      padding: 0 20px;
+      cursor: pointer;
+    }
+    .number{
+      color: @F56C6C;
+      padding: 0 0 0 10px;
+    }
+    span.active {
+      color: @6777EF;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        height: 1px;
+        // bottom: -20px;
+        bottom: 1px;
+        border-bottom: 2px solid @6777EF;
+      }
+    }
+  }
 
   i {
     margin-right: 9px;
@@ -147,11 +185,21 @@ iframe {
       border: 1px solid @8CC63F;
     }
 
+    .red-btn {
+      background-color: @F56C6C;
+      border: 1px solid @F56C6C;
+      color: @fff;
+    }
+
     .gray-btn {
       color: @34395E;
       background-color: @F0F0F0;
       border: 1px solid @F0F0F0;
     }
+  }
+  .more-r{
+    position: absolute;
+    right: 0;
   }
 }
 
@@ -284,7 +332,7 @@ iframe {
 
 
 /****服务中台，点击飘出的二级菜单***/
-.el-popover {
+.service-popover {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   margin-left: 20px;
@@ -371,7 +419,48 @@ iframe {
 .el-input__inner:focus {
   border: 1px solid @6777EF;
 }
-
+// 文字按钮默认字体颜色
+.el-button--text {
+  color: @6777EF;
+}
+// 选择输入框 默认颜色
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: @6777EF;
+}
+.el-select .el-input__inner:focus {
+  border-color: @6777EF;
+}
+// 日期选择器默认样式修改
+.el-range-editor.is-active, .el-range-editor.is-active:hover {
+  border-color: @6777EF;
+}
+.el-date-table td.end-date span, .el-date-table td.start-date span {
+  background-color: @6777EF;
+}
+.el-date-table td.available:hover {
+  color: @6777EF;
+}
+// select 选择框默认样式修改
+.el-select-dropdown__item.selected {
+  color: @6777EF;
+  font-weight: 700;
+}
+.el-date-table td.today span {
+  color: @6777EF;
+  font-weight: 700;
+}
+// 分页 每页条数选择 hover
+.el-pagination__sizes .el-input .el-input__inner:hover {
+  border-color: @6777EF;
+}
+// 多级选择样式
+.el-cascader-node.in-active-path, .el-cascader-node.is-active, .el-cascader-node.is-selectable.in-checked-path {
+  color: @6777EF;
+  font-weight: 700;
+}
+.el-cascader .el-input .el-input__inner:focus, .el-cascader .el-input.is-focus .el-input__inner {
+  border-color: @6777EF;
+}
 /******标签页样式重置*****/
 .tabs-check {
   .el-tabs__nav-wrap::after {
@@ -457,6 +546,16 @@ iframe {
   }
 }
 
+// table 操作列操作按钮 --删除 红色
+.operate-red-btn{
+  color: @F56C6C !important;
+  background: @FFECEC !important;
+
+  &:hover {
+    border: 1px solid @F56C6C !important;
+  }
+}
+
 .el-button--mini,
 .el-button--mini.is-round {
   padding: 7px 14px;
@@ -510,73 +609,72 @@ iframe {
 }
 
 /**********表格样式重置*************************/
-.admin-table {
-
-  .el-table__header,
-  .el-table__body {
-    width: 100% !important;
-  }
-}
-
-.el-table {
-  color: @404040;
-}
-
-.el-table--striped .el-table__body tr.el-table__row--striped td {
-  background-color: @F8FAFF;
-}
-
-.el-table--enable-row-hover .el-table__body tr:hover>td {
-  background-color: @F8FAFF;
-}
-
-.el-table thead {
+/deep/.el-table thead {
   color: @6C757D;
 
   th {
     background-color: @F1F3F7;
   }
 }
+.admin-table {
 
-.el-table--border td,
+  /deep/.el-table__header,
+  .el-table__body {
+    width: 100% !important;
+  }
+}
+
+/deep/.el-table {
+  color: @404040;
+}
+
+/deep/.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: @F8FAFF;
+}
+
+/deep/.el-table--enable-row-hover .el-table__body tr:hover>td {
+  background-color: @F8FAFF;
+}
+
+/deep/.el-table--border td,
 .el-table--border th,
 .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
   border-right: 1px solid @EBEEF5;
 }
 
-.el-table td,
+/deep/.el-table td,
 .el-table th.is-leaf {
   border-bottom: 1px solid @EBEEF5;
 }
 
-.el-table--border,
+/deep/.el-table--border,
 .el-table--group {
   border: 1px solid @fff;
 }
 
-.el-table--border::after {
+/deep/.el-table--border::after {
   background-color: @fff  !important;
 }
 
-.el-table .el-checkbox__inner {
+/deep/.el-table .el-checkbox__inner {
   width: 20px;
   height: 20px;
 }
 
-.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner,
+/deep/.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner,
 .el-table .el-checkbox__input.is-checked .el-checkbox__inner {
   background-color: @6777EF;
   border-color: @6777EF;
 }
 
-.el-table .el-checkbox__inner::after {
+/deep/.el-table .el-checkbox__inner::after {
   height: 6px;
   left: 7px;
   top: 4px;
   width: 4px;
 }
 
-.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+/deep/.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
   top: 7px;
 }
 
@@ -608,7 +706,25 @@ iframe {
     padding-bottom: 0;
     // height: 64px;
     line-height: 50px;
-
+    .col-select{
+      cursor: pointer;
+      display: inline-block;
+      margin-right: 30px;
+      color: @34395E;
+      font-size: 16px;
+      &:hover{
+        opacity: .8;
+      }
+      .number{
+        margin-left: 5px;
+        color: @F56C6C;
+        vertical-align: middle;
+      }
+    }
+    .col-select-active{
+      color: @6777EF;
+      border-bottom: 2px solid @6777EF;
+    }
     /**标题*/
     .s-t-title{
       color: @34395E;
@@ -754,4 +870,59 @@ iframe {
     background-color: @F9FAFC;
   }
 }
-/*******单独样式*****/
+/****弹窗-选择应用-带radio或check选择 */
+.check-list-box {
+  border: 1px solid #ebeef5;
+  border-radius: 3px;
+  padding: 20px;
+  .title {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 21px;
+    color: #34395e;
+    margin-bottom: 8px;
+  }
+  .active {
+    background-color: @6777EF;
+    color: @fff;
+
+    /deep/ .el-radio__input.is-checked .el-radio__inner {
+      border-color: #fff !important;
+    }
+  }
+  .list-box {
+    border: 1px solid @E4E6FC;
+    border-radius: 3px;
+    display: flex;
+    margin-right: 30px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    &:hover{
+      background-color: @6777EF;
+      color: @fff;
+    }
+    .radio-box {
+      width: 32px;
+      padding-top: 10px;
+      border-right: 1px solid @E4E6FC;
+      align-content: center;
+      text-align: center;
+
+      /deep/ .el-radio__label {
+        padding: 0;
+        display: none;
+      }
+    }
+    .list {
+      padding: 6px 10px;
+      line-height: 1.5;
+    }
+  }
+  .box-active{
+    background-color: @6777EF;
+    color: @fff;
+    /deep/.el-checkbox__input.is-checked .el-checkbox__inner{
+      border-color: @fff;
+    }
+  }
+}

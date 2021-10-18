@@ -25,6 +25,4 @@ export default {
 
 <style lang="less">
 @import "./assets/public/css/public.less";/**颜色配置 */
-@import "./assets/admin/css/color.less";/**后台管理系统颜色 */
-@import "./assets/admin/css/style.less";/**后台管理系统公共样式 */
 </style>
