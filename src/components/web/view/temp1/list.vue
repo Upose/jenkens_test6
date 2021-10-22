@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import http from "@/assets/public/js/http";
 import pages1 from '@/components/web/model/pages1';
 export default {
   name: 'footerPage',
@@ -71,7 +70,7 @@ export default {
   methods:{
       initData(){
         //获取左边菜单列表
-        http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
+        this.http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
             this.menu_list = res.data||[];
             if(this.$route.query.id){
               this.menu_list.forEach((item,i)=>{
@@ -108,7 +107,7 @@ export default {
           lableID:l_id,
           searchKey:'',
         }
-        http.postJson('pront-news-list-data-get',list).then(res=>{
+        this.http.postJson('pront-news-list-data-get',list).then(res=>{
           if(res.data && res.data.items){
             this.news_list = res.data.items||[];
             this.pageIndex = res.data.pageIndex||0;

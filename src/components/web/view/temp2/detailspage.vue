@@ -73,7 +73,6 @@
   </div>
 </template>
 <script>
-import http from "@/assets/public/js/http";
 export default {
   name: 'footerPage',
   created(){
@@ -101,12 +100,12 @@ export default {
   },
   methods:{
       initData(){
-        http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
+        this.http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
             this.menu_list = res.data||[];
         }).catch(err=>{
             console.log(err);
         })
-        http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
+        this.http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
             if(res.data && res.data.content){
               this.data = res.data||[];
               this.detailsData = res.data.content||{};

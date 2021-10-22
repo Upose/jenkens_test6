@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import http from "@/assets/public/js/http";
 import my_rate from "../../model/rate";
 export default {
   name: 'footerPage',
@@ -111,7 +110,7 @@ export default {
   methods:{
       initData(){
         var _this = this;
-        http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
+        this.http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
             _this.menu_list = res.data||[];
             if(_this.menu_list && _this.menu_list.length>0){
               _this.menu_list.forEach((item,i)=>{
@@ -126,7 +125,7 @@ export default {
         }).catch(err=>{
             console.log(err);
         })
-        http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
+        this.http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
             if(res.data && res.data.content){
               this.data = res.data||[];
               this.detailsData = res.data.content||{};

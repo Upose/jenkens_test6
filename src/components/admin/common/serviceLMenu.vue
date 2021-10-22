@@ -15,14 +15,12 @@
 
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 export default {
   name: 'test',
   // props:['isActive'],
   // created(){
-  //   // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-  //   bus.$on('collapse', msg => {
+  //   // 通过 Event this.bus 进行组件间通信，来折叠侧边栏
+  //   this.bus.$on('collapse', msg => {
   //     this.$root.collapse = msg;
   //   })
   // },
@@ -34,7 +32,7 @@ export default {
     '$route':'force'
   },
   mounted(){
-    http.getPlain('news-user-union-column-permission-list','').then(res=>{
+    this.http.getPlain('news-user-union-column-permission-list','').then(res=>{
       this.dataList = res.data||[];
       var path_url = window.localStorage.getItem('path_url');
       if((path_url==undefined || path_url=='' || path_url==null) && this.dataList.length>0){

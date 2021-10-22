@@ -63,8 +63,6 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 import tagEdit from "../../model/tagEdit";
 export default {
   name: 'index',
@@ -96,7 +94,7 @@ export default {
     }
   },
   created(){
-    bus.$on('collapse', msg => {
+    this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
     })
     this.initData();
@@ -148,7 +146,7 @@ export default {
   methods:{
     initData(){
       //获取标签列表
-      http.postJson('lable-info-get-by-type',1).then(res=>{
+      this.http.postJson('lable-info-get-by-type',1).then(res=>{
         this.tag_edit_data = res.data||[];
       }).catch(err=>{})
     },

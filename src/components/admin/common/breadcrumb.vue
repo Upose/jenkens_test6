@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import http from "@/assets/public/js/http";
 export default {
   name: 'breadcrumbPage',
   created(){
@@ -27,7 +26,7 @@ export default {
   },
   methods:{
       initData(){
-        http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{
+        this.http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{
             this.list1 = res.result.dtos||[];
         }).catch(err=>{
             console.log(err);

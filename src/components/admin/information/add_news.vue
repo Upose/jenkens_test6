@@ -194,8 +194,6 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
@@ -205,11 +203,11 @@ import tagEdit from "../model/tagEdit";
 export default {
   name: 'index',
   created(){
-    bus.$on('collapse', msg => {
+    this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
     })
     //当前栏目信息-左边菜单栏目
-    http.postJson('news-column-get',this.columnID).then(res=>{
+    this.http.postJson('news-column-get',this.columnID).then(res=>{
       if(res.data){
         this.row_list = res.data.extensionKV||[];
         if(this.$route.id==undefined){
@@ -218,11 +216,11 @@ export default {
       }
     }).catch(err=>{})
     //栏目列表
-    http.postJson('delivery-column-list-get',this.columnID).then(res=>{
+    this.http.postJson('delivery-column-list-get',this.columnID).then(res=>{
       this.coumn_data_list = res.data||[];
     }).catch(err=>{})
     //获取标签列表
-    http.postJson('lable-info-get-by-type',2).then(res=>{
+    this.http.postJson('lable-info-get-by-type',2).then(res=>{
       this.tag_edit_data = res.data||[];
     }).catch(err=>{})
   },
@@ -261,7 +259,7 @@ export default {
       //获取修改信息
       if(this.id && this.id!=undefined){
         //获取新闻详情
-        http.postJson('news-content-manage-get',this.id).then(res=>{
+        this.http.postJson('news-content-manage-get',this.id).then(res=>{
           this.postForm = res.data.content||{};
           var list = res.data.content||{};
           //按钮集合
@@ -463,7 +461,7 @@ export default {
             _this.postForm.columnIDs = coumn_list;
             _this.postForm.content = tinyMCE.activeEditor.getContent()||'';//获取富文本信息
             if(_this.id){
-              http.postJson('news-content-update',_this.postForm).then(res=>{
+              this.http.postJson('news-content-update',_this.postForm).then(res=>{
                 _this.$message({type: 'success',message: '提交成功!'});
               }).catch(err=>{
                 _this.$message({type: 'error',message: '提交失败!'});
@@ -471,7 +469,7 @@ export default {
             }else{
               _this.postForm['columnID'] = _this.columnID;
               _this.postForm['publisher'] = 'cqviptest';//这个地方应该由后台改为自动为登录用户，不用前端传
-              http.postJson('news-content-add',_this.postForm).then(res=>{
+              this.http.postJson('news-content-add',_this.postForm).then(res=>{
                 if(res.data.succeed){
                   _this.$message({type: 'success',message: '提交成功!'});
                 }else{

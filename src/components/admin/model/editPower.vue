@@ -38,7 +38,6 @@
 
 
 <script>
-import http from "@/assets/public/js/http";
 const cityOptions = ['校内读者', '社会读者', '工商管理','计算机科学'];
 export default {
   name: 'index',
@@ -80,7 +79,7 @@ export default {
         this.$emit('editPowerHide');
       },
     // initData(){
-    //   http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
+    //   this.http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
     //       this.list1 = res.result.dtos||[];
     //   }).catch(err=>{
     //       console.log(err);

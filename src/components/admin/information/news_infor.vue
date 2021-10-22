@@ -87,8 +87,6 @@
   </div>
 </template>
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 import paging from "@/components/admin/common/paging";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
@@ -96,11 +94,11 @@ import serviceLMenu from "@/components/admin/common/serviceLMenu";
 export default {
   name: 'index',
   created(){
-    bus.$on('collapse', msg => {
+    this.bus.$on('collapse', msg => {
       this.$root.collapse = msg;
     })
     //获取栏目详情
-    http.postJson('news-column-content-manage-get',this.postForm.columnID).then(res=>{
+    this.http.postJson('news-column-content-manage-get',this.postForm.columnID).then(res=>{
       if(res.data){
         this.auditStatusCountList = res.data.auditStatusCountList||[];
         this.lableList = res.data.lableList||[];
@@ -197,7 +195,7 @@ export default {
     initData(){
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
-      http.postJson('news-content-get-by-column',this.postForm).then(res=>{
+      this.http.postJson('news-content-get-by-column',this.postForm).then(res=>{
         this.tableData = res.data.newsContents.items || [];
         this.auditStatusCountList = res.data.auditStatusCountList||[];
         this.pageData.totalCount = res.data.newsContents.totalCount;
@@ -241,7 +239,7 @@ export default {
     byIndex(type,sourceID,sortIndex,TargetCataID,isUp){ //ghost 拖动 alertNum 输入序号
       var _this = this;
       if(type == 'ghost'){ //拖动排序
-        http.postJson('news-sort-content-by-target',{"sourceID": sourceID,"targetCataID": TargetCataID,"isUp": isUp}).then(res=>{
+        this.http.postJson('news-sort-content-by-target',{"sourceID": sourceID,"targetCataID": TargetCataID,"isUp": isUp}).then(res=>{
           _this.$message({type: 'success',message: '排序成功!'});
           _this.initData();
         }).catch(err=>{
@@ -249,7 +247,7 @@ export default {
          
         })
       }else{ //输入序号排序
-        http.postJson('news-sort-content-by-index',{sourceID:sourceID,sortIndex:sortIndex}).then(res=>{
+        this.http.postJson('news-sort-content-by-index',{sourceID:sourceID,sortIndex:sortIndex}).then(res=>{
           _this.$message({type: 'success',message: '排序成功!'});
            _this.initData();
         }).catch(err=>{
@@ -316,7 +314,7 @@ export default {
           cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
-          http.postJson('news-content-off-shelf',this.multipleSelection).then(res=>{//传数组
+          this.http.postJson('news-content-off-shelf',this.multipleSelection).then(res=>{//传数组
             _this.$message({type: 'success',message: '下架成功!'});
             _this.initData();
           }).catch(err=>{
@@ -338,7 +336,7 @@ export default {
           cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
-          http.postJson('news-content-delete',this.multipleSelection).then(res=>{//传数组
+          this.http.postJson('news-content-delete',this.multipleSelection).then(res=>{//传数组
             _this.$message({type: 'success',message: '删除成功!'});
             _this.initData();
           }).catch(err=>{
@@ -359,7 +357,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          http.postJson('news-content-update-audit-status',{contentID:row.id,auditStatus:row.aduitStatus}).then(res=>{//传数组
+          this.http.postJson('news-content-update-audit-status',{contentID:row.id,auditStatus:row.aduitStatus}).then(res=>{//传数组
             _this.$message({type: 'success',message: '操作成功!'});
             _this.initData();
           }).catch(err=>{
@@ -407,7 +405,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        http.postJson('news-content-delete',[row.id]).then(res=>{
+        this.http.postJson('news-content-delete',[row.id]).then(res=>{
             _this.$message({type: 'success',message: '删除成功!'});
             _this.initData();
           }).catch(err=>{

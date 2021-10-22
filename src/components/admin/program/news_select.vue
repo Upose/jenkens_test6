@@ -59,8 +59,6 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
@@ -68,7 +66,7 @@ import paging from "@/components/admin/common/paging";
 export default {
   name: 'index',
   created(){
-    bus.$on('collapse', msg => {
+    this.bus.$on('collapse', msg => {
       this.$root.collapse = msg;
     })
   },
@@ -94,7 +92,7 @@ export default {
     initData(){
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
-      http.postJson('news-content-get-by-search',this.postForm).then(res=>{
+      this.http.postJson('news-content-get-by-search',this.postForm).then(res=>{
         this.tableData = res.data.items||[];
         this.pageData.totalCount = res.data.items.totalCount;
       }).catch(err=>{

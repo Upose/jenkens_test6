@@ -21,8 +21,6 @@
 
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
@@ -34,7 +32,7 @@ import step_four from './step/step_four';
 export default {
   name: 'index',
   created(){
-    bus.$on('collapse', msg => {
+    this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
     })
   },
@@ -62,7 +60,7 @@ export default {
   mounted(){
     var _this = this;
     if(this.$route.query.id){ //有id表示修改，则获取详情数据
-      http.postJson('news-column-get',this.$route.query.id).then(res=>{
+      this.http.postJson('news-column-get',this.$route.query.id).then(res=>{
         this.details_ob = res.data||{};
         window.sessionStorage.setItem('news-column',JSON.stringify(this.details_ob));
       }).catch(err=>{
@@ -115,7 +113,7 @@ export default {
       console.log('提交数据',this.postForm);
       if(this.id){
         this.postForm['id'] = this.id;
-        http.postJson('news-column-update',this.postForm).then(res=>{
+        this.http.postJson('news-column-update',this.postForm).then(res=>{
           this.$message({type: 'success',message: '修改成功'}); 
           setTimeout(()=>{
             window.sessionStorage.removeItem('news-column');
@@ -125,7 +123,7 @@ export default {
           this.$message({type: 'error',message: '修改失败'}); 
         })
       }else{
-        http.postJson('news-column-add',this.postForm).then(res=>{
+        this.http.postJson('news-column-add',this.postForm).then(res=>{
           this.$message({type: 'success',message: '添加成功'}); 
           setTimeout(()=>{
             window.sessionStorage.removeItem('news-column');

@@ -3,12 +3,17 @@ import App from './App'
 import router from './router'
 
 import store from './router/store'
-import Debounce from '@/assets/public/js/debounce'
+import Debounce from '@/assets/public/js/debounce';
+import http from '@/assets/public/js/http';
+import bus from '@/assets/public/js/bus';
 
 Vue.config.productionTip = false
 
 Vue.component('Debounce',Debounce)
 Vue.use(VueI18n)
+
+Vue.prototype.http = http;
+Vue.prototype.bus = bus;
 
 const i18n = new VueI18n({
   locale: window.localStorage.getItem('locale')||'zh-CN',
@@ -42,7 +47,7 @@ new Vue({
   router,
   i18n,
   store,
-  components: { App },
+  components: { App,http },
   data(){
     return{
       collapse:false,

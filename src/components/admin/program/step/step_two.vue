@@ -50,14 +50,12 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 import head_foter from "../../model/head_foter"
 import paging from "@/components/admin/common/paging";
 export default {
   name: 'index',
   created(){
-    bus.$on('collapse', msg => {
+    this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
     })
   },
@@ -108,7 +106,7 @@ export default {
   methods:{
     initData(){
       //获取模板列表
-      http.postJson('news-template-get',[]).then(res=>{
+      this.http.postJson('news-template-get',[]).then(res=>{
         this.template_list = res.data||[];
         if(this.template_list.length>0){
           this.postForm.defaultTemplate = this.template_list[0].id;//默认选中第一个模板

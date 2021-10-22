@@ -41,7 +41,6 @@
 
 
 <script>
-import http from "@/assets/public/js/http";
 import paging from "@/components/admin/common/paging";
 export default {
   name: 'index',
@@ -59,7 +58,7 @@ export default {
   },
   methods:{
     initData(){
-        http.postJson('search-permission-manager',this.name).then(res=>{
+        this.http.postJson('search-permission-manager',this.name).then(res=>{
             this.tableData = res.data||[];
         }).catch(err=>{
             console.log(err);
@@ -67,7 +66,7 @@ export default {
     },
       /****保存按钮*******/
       submitForm(){
-          http.postJson('save-news-column-permissions',this.dataList).then(res=>{
+          this.http.postJson('save-news-column-permissions',this.dataList).then(res=>{
               this.$message({type: 'success',message: '保存成功!'});
           }).catch(err=>{
               this.$message({type: 'error',message: '保存失败!'});

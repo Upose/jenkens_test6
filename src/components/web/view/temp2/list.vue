@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import http from "@/assets/public/js/http";
 import pages2 from '@/components/web/model/pages2';
 export default {
   name: 'footerPage',
@@ -78,7 +77,7 @@ export default {
   },
   methods:{
       initData(){
-        http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
+        this.http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
             this.menu_list = res.data||[];
             this.menu_list.forEach((item,i)=>{
               this.menu_list[i]['check'] = false;
@@ -119,7 +118,7 @@ export default {
           lableID:l_id,
           searchKey:'',
         }
-        http.postJson('pront-news-list-data-get',list).then(res=>{
+        this.http.postJson('pront-news-list-data-get',list).then(res=>{
           if(res.data && res.data.items){
             this.news_list = res.data.items||[];
             this.pageIndex = res.data.pageIndex||0;

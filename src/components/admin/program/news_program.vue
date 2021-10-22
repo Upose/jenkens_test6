@@ -50,8 +50,6 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
@@ -60,7 +58,7 @@ import paging from "@/components/admin/common/paging";
 export default {
   name: 'index',
   created(){
-    bus.$on('collapse', msg => {
+    this.bus.$on('collapse', msg => {
       this.$root.collapse = msg;
     })
   },
@@ -76,7 +74,7 @@ export default {
   },
   methods:{
     initData(){
-      http.postJson('news-column-get-by-manager-id',"cqviptest").then(res=>{
+      this.http.postJson('news-column-get-by-manager-id',"cqviptest").then(res=>{
         this.dataList = res.data||[];
       }).catch(err=>{
         this.$message({type: 'error',message: '数据获取失败!'});  
@@ -102,7 +100,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => { 
-          http.postJson('column_delete',[val]).then(res=>{
+          this.http.postJson('column_delete',[val]).then(res=>{
             _this.$message({type: 'success',message: '删除成功!'});
             // _this.initData();
             window.location.reload();

@@ -34,7 +34,6 @@
 
 
 <script>
-import http from "@/assets/public/js/http";
 
 export default {
   name: 'index',
@@ -49,12 +48,12 @@ export default {
     }
   },
   mounted() {
-    http.postJson('news-body-template-get-by-type',1).then(res=>{
+    this.http.postJson('news-body-template-get-by-type',1).then(res=>{
         this.head_list = res.data||[];
     }).catch(err=>{
         this.$message({type: 'error',message: '获取失败!'});
     })
-    http.postJson('news-body-template-get-by-type',2).then(res=>{
+    this.http.postJson('news-body-template-get-by-type',2).then(res=>{
         this.footer_list = res.data||[];
     }).catch(err=>{
         this.$message({type: 'error',message: '获取失败!'});
@@ -69,7 +68,7 @@ export default {
         }else{
             list = this.postForm.footer;
         }
-        http.postJson('news-body-template-update',list).then(res=>{
+        this.http.postJson('news-body-template-update',list).then(res=>{
             this.$message({type: 'success',message: '提交成功!'});
         }).catch(err=>{
             this.$message({type: 'error',message: '提交失败!'});

@@ -1,4 +1,4 @@
-<!--图片上传弹窗 https://github.com/xyxiao001/vue-cropper --> 
+<!--图片上传弹窗 this.https://github.com/xyxiao001/vue-cropper --> 
 <template>
   <div class="cropper-content">
     <div class="left">
@@ -31,7 +31,6 @@
 
 <script>
 import { VueCropper } from 'vue-cropper';
-import http from "@/assets/public/js/http";
 export default {
   name: "CropperImage",
   created() { },
@@ -137,7 +136,7 @@ export default {
           formData.append('files', data, "DX.jpg");
           console.log(formData);
           //调用axios上传
-          http.postFile('upload', formData).then(res => {
+          this.http.postFile('upload', formData).then(res => {
             this.previews = {};
             this.input_value = '';
             this.$forceUpdate();

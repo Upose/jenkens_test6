@@ -23,8 +23,7 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
+
 export default {
   name: 'test',
   data () {

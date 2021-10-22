@@ -35,7 +35,6 @@
 
 
 <script>
-import http from "@/assets/public/js/http";
 export default {
   name: 'index',
   props:['dataList'],
@@ -61,21 +60,21 @@ export default {
   },
   methods:{
       initData(){
-        http.postJson('user-permission-list-get',1).then(res=>{
+        this.http.postJson('user-permission-list-get',1).then(res=>{
             if(res.data){
                 this.cities1 = res.data||[];
             }
         }).catch(err=>{
             console.log(err);
         })
-        http.postJson('user-permission-list-get',2).then(res=>{
+        this.http.postJson('user-permission-list-get',2).then(res=>{
             if(res.data){
                 this.cities2 = res.data||[];
             }
         }).catch(err=>{
             console.log(err);
         })
-        http.postJson('user-permission-list-get',3).then(res=>{
+        this.http.postJson('user-permission-list-get',3).then(res=>{
             if(res.data){
                 this.cities3 = res.data||[];
             }

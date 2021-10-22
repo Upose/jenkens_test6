@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
-import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
@@ -55,7 +53,7 @@ import editsq from "./model/editsq";
 export default {
   name: 'index',
   created(){
-    bus.$on('collapse', msg => {
+    this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
     })
   },
@@ -84,7 +82,7 @@ export default {
   methods:{
     initData(){
     //获取两个开关
-      http.postJson('news-settings-get',{}).then(res=>{
+      this.http.postJson('news-settings-get',{}).then(res=>{
           if(res.data){
             this.postForm = res.data;
           }
@@ -92,7 +90,7 @@ export default {
           console.log(err);
       })
       //获取列表父级
-      http.postJson('news-column-permissions-list-get',{}).then(res=>{
+      this.http.postJson('news-column-permissions-list-get',{}).then(res=>{
         this.tableData = res.data||[];
       }).catch(err=>{
           console.log(err);
@@ -100,7 +98,7 @@ export default {
     },
      openMenu(id,index){
       //根据父级id获取子集列表
-      http.postJson('news-column-permissions-by-column-id-get',id).then(res=>{
+      this.http.postJson('news-column-permissions-by-column-id-get',id).then(res=>{
         this.tableData[index]['list'] = res.data||[];
         this.$forceUpdate();
       }).catch(err=>{
@@ -133,7 +131,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
           if (valid) {
-           http.postJson('news-settings-save',this.postForm).then(res=>{
+           this.http.postJson('news-settings-save',this.postForm).then(res=>{
              this.$message({type: 'success',message: '保存成功!'});
            }).catch(err=>{
              this.$message({type: 'error',message: '保存失败!'});

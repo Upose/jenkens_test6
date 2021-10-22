@@ -25,7 +25,6 @@
 
 
 <script>
-import http from "@/assets/public/js/http";
 export default {
   name: 'index',
   props: ['dataList'],
@@ -67,7 +66,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => { 
-        http.postJson('lable-info-delete',_this.dataList[index].id).then(res=>{
+        this.http.postJson('lable-info-delete',_this.dataList[index].id).then(res=>{
           _this.$message({type: 'success',message: '删除成功!'});
           _this.dataList.splice(index,1);
         }).catch(err=>{
@@ -82,7 +81,7 @@ export default {
       this.is_input = !this.is_input;
       if(!this.is_input){
         var _this = this;
-        http.postJson('lable-info-update',this.dataList).then(res=>{
+        this.http.postJson('lable-info-update',this.dataList).then(res=>{
           _this.$message({type: 'success',message: '保存成功!'});
         }).catch(err=>{
           _this.$message({type: 'error',message: '保存失败!'});          
