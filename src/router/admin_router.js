@@ -50,6 +50,12 @@ export default {
         meta: { title: '新闻发布-应用设置' , keepAlive:true},
       },
       {
+        path: '/newsLog',
+        name: 'newsLog',
+        component: r => require.ensure([], () => r(require('@/components/admin/news_log/news_log')), 'news_log'),
+        meta: { title: '新闻发布-日志' , keepAlive:true},
+      },
+      {
         path: '/programAdd',
         name: 'programAdd',
         component: r => require.ensure([], () => r(require('@/components/admin/program/program_add')), 'news_release'),

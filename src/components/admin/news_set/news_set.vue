@@ -6,35 +6,29 @@
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <breadcrumb :cuMenu="'应用中心'" :fontColor="'fff'"></breadcrumb><!--面包屑导航--->
         <div class="content">
-          <el-form :model="postForm" :rules="rules" ref="ruleForm" label-width="150px" class="admin-form">
+          <el-form :model="postForm" :rules="rules" ref="postForm" label-width="150px" class="admin-form">
             <h1 class="s-b-border-title">应用设置</h1>
             <div class="form-content">
               <el-form-item label="启用敏感词过滤">
-                <!-- <el-radio-group v-model="postForm.resource">
-                  <el-radio label="否"></el-radio>
-                  <el-radio label="是"></el-radio>
-                </el-radio-group> -->
-                <el-switch v-model="postForm.delivery"></el-switch>
+                <el-switch :active-value="1" :inactive-value="0" v-model="postForm.sensitiveWords"></el-switch>
               </el-form-item>
               <el-form-item label="统一关闭评论留言">
-                <!-- <el-radio-group v-model="postForm.resource">
-                  <el-radio label="是"></el-radio>
-                  <el-radio label="否"></el-radio>
-                </el-radio-group> -->
-                <el-switch v-model="postForm.delivery"></el-switch>
+                <el-switch :active-value="1" :inactive-value="0" v-model="postForm.comments"></el-switch>
               </el-form-item>
               <el-form-item label="栏目管理权限">
                 <div class="table-pd">
-                    <el-table :data="tableData" row-key="id" border class="alert-table" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-                      <el-table-column prop="id" label="序号" width="80" class="table-p-l"></el-table-column>
-                      <el-table-column prop="name" label="栏目名称" width="180"></el-table-column>
-                      <el-table-column prop="rous" label="授权管理员"></el-table-column>
-                      <el-table-column prop="content" label="操作" width="180">
-                        <template slot-scope="scope">
-                          <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>修改</el-button>
-                        </template>
-                      </el-table-column>
-                    </el-table>
+                  <div class="table-pd-title"><span class="col col1">序号</span><span class="col col2">栏目名称</span><span class="col col3">授权管理员</span><span class="col col4">操作</span></div>
+                  <el-collapse @change="handleChange" v-model="activeNames">
+                    <el-collapse-item v-for="(item,index) in tableData" :key="index" :name="index">
+                      <template slot="title">
+                        <span class="col col1">{{index+1}}</span>
+                        <span class="col col2" :class="activeNames.indexOf(index)>-1?'open-fold-line':''"><i class="el-icon-remove col-icon"></i>{{item.title||''}}</span>
+                        <span class="col col3"><span v-for="(ite,k) in (item.managerList||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click="handleSet(item.title,item.columnID,'0',(item.managerList||[]))" class="btns-edit"><i class="el-icon-edit"></i>修改</span></span>
+                      </template>
+                      <div class="table-pd-row" v-for="(it,i) in (item.list||[])" :key="i+'_a'">
+                        <span class="col col1"></span><span class="col col2 fold-line">{{it.auditProcessName||''}}</span><span class="col col3"><span v-for="(ite,k) in (it.listPermissions||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click="handleSet((item.title||'')+' — '+(it.auditProcessName||''),item.columnID,it.auditProcessStatus,(it.listPermissions||[]))" class="btns-edit"><i class="el-icon-edit"></i>修改</span></span></div>
+                    </el-collapse-item>
+                  </el-collapse>
                 </div>
               </el-form-item>
               <el-form-item>
@@ -69,76 +63,81 @@ export default {
   data () {
     return {
       select_img:null,
-      alert_data:[],
+      alert_data:{},
+      activeNames: [],//展开了哪几栏
       alert_show:false,
-      tableData: [{
-          id: 1,
-          name: '新闻公告',
-          rous: '李老师、王老师',
-          children: [{
-              id: 2,
-              name: '撰稿',
-          rous: '李老师、王老师',
-            }, {
-              id: 3,
-              name: '初审',
-              rous: '王老师',
-          }, {
-              id: 4,
-              name: '初校',
-              rous: '李老师',
-          }, {
-              id: 5,
-              name: '发布',
-              rous: '李老师',
-          }]
-        }, {
-          id: 6,
-          name: '资源动态',
-          rous: '李老师、王老师',
-        }, {
-          id: 7,
-          name: '党建新闻',
-          rous: '李老师'
-        }],
+      tableData: [],
       postForm: {
-          name: '',
-          desc: ''
+          sensitiveWords:0,//启用敏感词过滤
+          comments:1,//统一关闭评论留言
       },
       rules: {
-          name: [
-              { required: true, message: '请输入内容', trigger: 'blur' }
-          ],
-          desc: [
-              { required: true, message: '请输入内容', trigger: 'blur' }
-          ]
+        // name: [
+        //     { required: true, message: '请输入内容', trigger: 'blur' }
+        // ],
       },
     }
   },
   mounted(){
-    //   this.initData();
+      this.initData();
   },
   methods:{
     initData(){
-      http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-          this.list1 = res.result.dtos||[];
+    //获取两个开关
+      http.postJson('news-settings-get',{}).then(res=>{
+          if(res.data){
+            this.postForm = res.data;
+          }
+      }).catch(err=>{
+          console.log(err);
+      })
+      //获取列表父级
+      http.postJson('news-column-permissions-list-get',{}).then(res=>{
+        this.tableData = res.data||[];
       }).catch(err=>{
           console.log(err);
       })
     },
+     openMenu(id,index){
+      //根据父级id获取子集列表
+      http.postJson('news-column-permissions-by-column-id-get',id).then(res=>{
+        this.tableData[index]['list'] = res.data||[];
+        this.$forceUpdate();
+      }).catch(err=>{
+          console.log(err);
+      })
+    },
+    //表格点击展开
+    handleChange(val) {
+      if(this.activeNames.length>0){
+        this.activeNames.forEach(item=>{
+          if(!this.tableData[item]['list']){
+            this.openMenu(this.tableData[item].columnID,item);
+          }
+        })
+      }
+    },
     alertHide(){
       this.alert_show = false;
     },
-    handleSet(){
+    handleSet(title,c_id,status,list){//标题，栏目id，状态id
+      this.alert_data = {
+        title:title,
+        columnID:c_id,
+        permission:status,
+        managerList:list||[],
+      };
       this.alert_show = true;
     },
     //表单提交
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
           if (valid) {
-              
-          } else {
-              
+           http.postJson('news-settings-save',this.postForm).then(res=>{
+             this.$message({type: 'success',message: '保存成功!'});
+           }).catch(err=>{
+             this.$message({type: 'error',message: '保存失败!'});
+           })   
           }
       });
     },
@@ -150,7 +149,7 @@ export default {
 <style lang="less" scoped>
 @import "../../../assets/admin/css/color.less";/**颜色配置 */
 @import "../../../assets/admin/css/style.less";/**颜色配置 */
-@import "../../../assets/admin/css/form.less";
+@import "../../../assets/admin/css/table.less";
   .content{
     min-height: 600px;
     background-color: @fff;
@@ -160,36 +159,108 @@ export default {
       // max-width: 740px;
     }
   }
+  /****栏目管理权限表格 start */
   .table-pd{
     border: 1px solid #E4E6FC;
     border-radius: 3px;
     padding:22px;
-    
-      /deep/ .el-table--enable-row-transition .el-table__body td:first-child .cell{
-        margin-left: 0;
-        padding-left: 15px;
-      }
-      /deep/.el-table [class*=el-table__row--level] .el-table__expand-icon{
-        margin-left: -20px;
-        margin-right: 0px;
-      }
-      /deep/ .el-table__row--level-1{
-        color: @909399 !important;
-      }
-    /deep/ .el-table__indent{
-      padding-left: 10px !important;
-      margin-left: -29px;
+    /deep/.el-collapse-item__content{
+      padding-bottom: 0;
     }
-    /deep/ .el-table--enable-row-transition .el-table__body td{
-      padding-left: 15px;
+    .table-pd-title{
+      width: 100%;
+      background: @F1F3F7;
+      .col2{
+        padding-left: 5px;
+      }
+    }
+    .table-pd-row{
+      border-top: 1px solid @EBEEF5;
+      padding: 9px 0;
+      font-size: 14px;
+      &:hover{
+        background-color: @F8F8F8;
+      }
+    }
+    .col{
+      display: inline-block;
+      padding: 0 5px;
+      height: 28px;
+      line-height: 28px;
+      vertical-align: middle;
+    }
+    .col1{
+      width: 10%;
+    }
+    .col2{
+      width: 40%;
+      position: relative;
+      padding-left: 25px;
+    }
+    .col3{
+      width: 40%;
+    }
+    .col4{
+      width: 10%;
+    }
+    /deep/.el-collapse-item__arrow{
+      display: none;
+    }
+    /deep/.el-collapse-item:nth-child(even) .el-collapse-item__wrap,
+    /deep/.el-collapse-item:nth-child(even) .el-collapse-item__header{
+      background-color: @F8FAFF;
+    }
+    .col-icon{
+      position: absolute;
+      left: 3px;
+      top: 50%;
+      color: @78828A;
+      margin-top: -6px;
+    }
+    /****按钮 */
+    .btns-edit{
+      text-align: center;
+      display: inline-block;
+      width: 64px;
+      height: 28px;
+      line-height: 28px;
+      color: @6777EF;
+      background: #F9F8FF;
+      border-radius: 14px;
+      &:hover{
+        opacity: .8;
+      }
+    }
+    /****延长线 */
+    .fold-line::after{
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      top: -32px;
+      left: 9px;
+      height: 50px;
+      border-left: 1px solid @78828A;
+    }
+    .fold-line::before{
+      content: '';
+      display: block;
+      position: absolute;
+      height: 0;
+      width: 12px;
+      left: 9px;
+      bottom: 10px;
+      border-bottom: 1px solid @78828A;
+    }
+    .open-fold-line::after{
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      bottom: -12px;
+      left: 9px;
+      height: 20px;
+      border-left: 1px solid @78828A;
     }
   }
-.alert-table{
-  /deep/  thead th{
-    padding: 3px 0;
-  }
-  /deep/  td{
-    padding:9px 0;
-  }
-}
 </style>

@@ -16,7 +16,7 @@ export default {
   name: 'stepsPage',
   props:['countNum','cuStep'],//countNum 总步骤;cuStep 当前步骤
   created(){
-      console.log(this.countNum,this.cuStep);
+    //   console.log(this.countNum,this.cuStep);
   },
   data () {
     return {

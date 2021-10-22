@@ -9,54 +9,34 @@
           <div class="search-table-w">
               <h1 class="search-title">栏目管理</h1>
               <div class="search-term">
-                  <el-input class="width187" v-model="postForm.name" size="medium" placeholder="新闻全文检索"></el-input>
+                  <el-input class="width187" v-model="search_title" size="medium" placeholder="新闻全文检索"></el-input>
                   <el-button type="primary" size="medium" icon="el-icon-search" @click="selectClick()">查找</el-button>
               </div>
           </div><!--顶部查询 end-->
           
-          <div class="list-content">
+          <div class="list-content" v-for="(item,index) in dataList" :key="index+'m'">
             <div class="s-w c-l">
-              <span class="m-title"><i class="el-icon-s-platform"></i>默认标签</span>
+              <span class="m-title"><i class="el-icon-s-platform"></i>{{item.lableName}}</span>
             </div>
             <div class="row">
               <div class="row-list c-l">
-                <div class="row-box set-hover" v-for="i in 3" :key="i+'a'">
+                <div class="row-box set-hover" v-for="(it,i) in item.columnList" :key="i+'a'">
                   <div class="r-box-bg">
                     <img src="@/assets/admin/img/upload/s1.png"/>
-                    <span class="name">新闻公告</span>
+                    <span class="name">{{it.title||'暂无'}}</span>
                   </div>
                   <div class="r-box-btns">
-                    <el-button type="primary" class="admin-red-btn" size="medium" icon="el-icon-delete" @click="delClick(1)">删除</el-button>
-                    <el-button type="primary" size="medium" icon="el-icon-setting" @click="editClick(1)">编辑</el-button>
+                    <el-button type="primary" class="admin-red-btn" size="medium" icon="el-icon-delete" @click="delClick(it.columnID)">删除</el-button>
+                    <el-button type="primary" size="medium" icon="el-icon-setting" @click="editClick(it.columnID)">编辑</el-button>
                   </div>
                 </div>
-                <div class="row-box set-hover" @click="addClick()">
+                <div class="row-box set-hover" v-if="item.lableName=='默认标签'" @click="addClick()">
                   <div class="r-box-bg add-btn">
                     <div class="r-box-add-warp">
                       <i class="el-icon-plus"></i>
                       <span>新增栏目</span>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div><!----默认标签 end-->
-
-          <div class="list-content m-top">
-            <div class="s-w c-l">
-              <span class="m-title"><i class="el-icon-s-platform"></i>一带一路专题</span>
-            </div>
-            <div class="row">
-              <div class="row-list c-l">
-                <div class="row-box set-hover" v-for="i in 2" :key="i+'b'">
-                  <div class="r-box-bg">
-                    <img src="@/assets/admin/img/upload/s1.png"/>
-                    <span class="name">业界新闻</span>
-                  </div>
-                  <!--<div class="r-box-btns">
-                    <el-button type="primary" class="admin-red-btn" size="medium" icon="el-icon-delete" @click="delClick(1)">删除</el-button>
-                    <el-button type="primary" size="medium" icon="el-icon-setting" @click="editClick(1)">编辑</el-button>
-                  </div>-->
                 </div>
               </div>
             </div>
@@ -87,23 +67,24 @@ export default {
   components:{footerPage,serviceLMenu,breadcrumb,paging},
   data () {
     return {
-      postForm:{},
+      search_title:'',
+      dataList:[],
     }
   },
   mounted(){
-    //   this.initData();
+      this.initData();
   },
   methods:{
     initData(){
-      http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-          this.list1 = res.result.dtos||[];
+      http.postJson('news-column-get-by-manager-id',"cqviptest").then(res=>{
+        this.dataList = res.data||[];
       }).catch(err=>{
-          console.log(err);
+        this.$message({type: 'error',message: '数据获取失败!'});  
       })
     },
     //查找
     selectClick(){
-      this.$router.push('/newsSelect');
+      this.$router.push({path:'/newsSelect',query:{title:encodeURI(this.search_title)}});
     },
     //新增栏目
     addClick(){
@@ -115,15 +96,22 @@ export default {
     },
     //删除栏目
     delClick(val){
+      var _this = this;
       this.$confirm('请谨慎执行删除操作, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({type: 'success',message: '删除成功!'});
-      }).catch(() => {
-        this.$message({type: 'info',message: '已取消删除'});          
-      });
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => { 
+          http.postJson('column_delete',[val]).then(res=>{
+            _this.$message({type: 'success',message: '删除成功!'});
+            // _this.initData();
+            window.location.reload();
+          }).catch(err=>{
+            _this.$message({type: 'error',message: '删除失败!'});          
+          })   
+        }).catch(() => {
+           _this.$message({type: 'info',message: '已取消删除'}); 
+        });
     },
   },
 }
@@ -163,6 +151,8 @@ export default {
         padding: 15px;
         position: relative;
         .r-box-bg{
+          width: 238px;
+          height: 238px;
           box-shadow: 0px 2px 15px rgba(40, 120, 255, 0.1);
           &:hover{
             box-shadow: 0px 2px 15px rgba(40, 120, 255, 0.25);

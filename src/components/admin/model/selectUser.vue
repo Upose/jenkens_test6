@@ -6,23 +6,20 @@
         <div class="select-user check-box">
             <div class="box-title">选择用户</div>
             <div class="check-list">
-                <el-tabs :tab-position="'left'" style="height: 200px;">
-                    <el-tab-pane label="类型">
-                        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全部读者</el-checkbox>
-                        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                            <el-checkbox v-for="item in cities" :label="item" :key="item">{{item}}</el-checkbox>
+                <el-tabs :tab-position="'left'" v-model="check_name" style="height: 200px;" @tab-click="handleClick">
+                    <el-tab-pane label="类型" :name="1">
+                        <el-checkbox-group v-model="checkedCities">
+                            <el-checkbox v-for="item in cities1" @change="checkClick(1,item)" :label="item" :key="item">{{item.value}}</el-checkbox>
                         </el-checkbox-group>
                     </el-tab-pane>
-                    <el-tab-pane label="分组">
-                        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全部读者</el-checkbox>
-                        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                            <el-checkbox v-for="item in cities" :label="item" :key="item">{{item}}</el-checkbox>
+                    <el-tab-pane label="分组" :name="2">
+                        <el-checkbox-group v-model="checkedCities">
+                            <el-checkbox v-for="item in cities2" @change="checkClick(2,item)" :label="item" :key="item">{{item.value}}</el-checkbox>
                         </el-checkbox-group>
                     </el-tab-pane>
-                    <el-tab-pane label="标签">
-                        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全部读者</el-checkbox>
-                        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                            <el-checkbox v-for="item in cities" :label="item" :key="item">{{item}}</el-checkbox>
+                    <el-tab-pane label="标签" :name="3">
+                        <el-checkbox-group v-model="checkedCities">
+                            <el-checkbox v-for="item in cities3" @change="checkClick(3,item)" :label="item" :key="item">{{item.value}}</el-checkbox>
                         </el-checkbox-group>
                     </el-tab-pane>
                 </el-tabs>
@@ -39,37 +36,77 @@
 
 <script>
 import http from "@/assets/public/js/http";
-const cityOptions = ['校内读者', '社会读者', '工商管理','计算机科学'];
 export default {
   name: 'index',
-  props:['editPower_data'],
+  props:['dataList'],
   data () {
     return {
       postForm:{},
       dialogBulk:true,
-      checkAll: false,
-      isIndeterminate: true,
-      checkedCities: ['我的借阅'],
-      cities:cityOptions,
+      type:1,//左边-类型
+      check_name:1,
+      cities1:[],
+      cities2:[],
+      cities3:[],
+      checkedCities:[],//选择的项
     }
   },
   mounted(){
-      console.log(this.editPower_data);
+    this.initData();
+    setTimeout(()=>{
+        this.type = this.dataList.type||1;
+        this.check_name = this.dataList.type||1;
+        this.checkedCities = this.dataList.visitList||[];
+    },300)
   },
   methods:{
-      handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
-        this.isIndeterminate = false;
+      initData(){
+        http.postJson('user-permission-list-get',1).then(res=>{
+            if(res.data){
+                this.cities1 = res.data||[];
+            }
+        }).catch(err=>{
+            console.log(err);
+        })
+        http.postJson('user-permission-list-get',2).then(res=>{
+            if(res.data){
+                this.cities2 = res.data||[];
+            }
+        }).catch(err=>{
+            console.log(err);
+        })
+        http.postJson('user-permission-list-get',3).then(res=>{
+            if(res.data){
+                this.cities3 = res.data||[];
+            }
+        }).catch(err=>{
+            console.log(err);
+        })
       },
-      handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      //菜单选择
+      handleClick(val){
+          this.$confirm('切换类型将清空当前选项，是否继续切换？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            this.type = val.name;
+            this.checkedCities = [];
+        }).catch(() => {   
+            this.check_name = this.type;    
+        });
+      },
+      //选择选项
+      checkClick(type,val){
+        console.log(this.checkedCities);
       },
       /****保存按钮*******/
       submitForm(){
-        console.log(this.postForm);
-        this.$emit('selectUserHide');
+        if(this.checkedCities.length>0){
+            this.$emit('getCheckUser',{type:this.check_name,visitList:this.checkedCities});
+        }else{
+            this.$message({type: 'info',message: '请选择用户'});   
+        }
       },
       /****取消按钮*******/
       closeClick(){
@@ -79,13 +116,6 @@ export default {
       handleClose(done){
         this.$emit('selectUserHide');
       },
-    // initData(){
-    //   http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-    //       this.list1 = res.result.dtos||[];
-    //   }).catch(err=>{
-    //       console.log(err);
-    //   })
-    // },
   },
 }
 </script>
@@ -95,6 +125,10 @@ export default {
 @import "../../../assets/admin/css/style.less";/**颜色配置 */
 /deep/ .el-dialog__footer{
     padding: 0px 20px 20px;
+}
+/deep/.el-tabs__item.is-active{
+    border-right: 2px solid;
+    box-shadow: 0 0 0px 0px #fff inset !important;
 }
 .select-user{
     border: 1px solid #EBEEF5;

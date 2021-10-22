@@ -8,16 +8,17 @@
         <div class="content">
           <h1 class="s-b-border-title">{{id?'编辑新闻栏目':'新增新闻栏目'}}</h1>
           <steps :countNum="countNum" :cuStep="cuStep" class="step-bg"></steps>
-          <step_one v-if="cuStep==1" @nextStep="nextStep"></step_one>
-          <step_two v-if="cuStep==2" @nextStep="nextStep"></step_two>
-          <step_three v-if="cuStep==3" @nextStep="nextStep"></step_three>
-          <step_four v-if="cuStep==4" @nextStep="nextStep"></step_four>
+          <step_one v-show="cuStep==1" @nextStep="nextStep" :dataDetails="details_ob" :is_edit="id?true:false"></step_one>
+          <step_two v-show="cuStep==2" @nextStep="nextStep" :dataDetails="details_ob" :is_edit="id?true:false"></step_two>
+          <step_three v-show="cuStep==3" @nextStep="nextStep" :dataDetails="details_ob" :is_edit="id?true:false"></step_three>
+          <step_four v-show="cuStep==4" @nextStep="nextStep" :dataDetails="details_ob" :is_edit="id?true:false"></step_four>
         </div><!---顶部查询板块 end--->
         <footerPage class="top20"></footerPage>
       </el-main>
     </el-container>
   </div>
 </template>
+
 
 <script>
 import bus from '@/assets/public/js/bus';
@@ -43,31 +44,97 @@ export default {
       countNum:[{title:'基本信息'},{title:'风格样式'},{title:'读者互动'},{title:'内容审查'}],//步骤列表
       cuStep:1,//当前步骤
       id:this.$route.query.id,
+      details_ob:JSON.parse(window.sessionStorage.getItem('news-column')||'{}'),
+      postForm:{
+        label:'',
+        sysMesList:'',
+        sideList:'',
+        coverSize:'',
+        visitingList:'',
+        linkUrl:'',
+      },
     }
   },
+  beforeRouteLeave(to, form, next) {
+    window.sessionStorage.removeItem('news-column');
+    next()
+  },
   mounted(){
-    //   this.initData();
+    var _this = this;
+    if(this.$route.query.id){ //有id表示修改，则获取详情数据
+      http.postJson('news-column-get',this.$route.query.id).then(res=>{
+        this.details_ob = res.data||{};
+        window.sessionStorage.setItem('news-column',JSON.stringify(this.details_ob));
+      }).catch(err=>{
+        
+      })
+    }
   },
   methods:{
-    initData(){
-      http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-          this.list1 = res.result.dtos||[];
-      }).catch(err=>{
-          console.log(err);
-      })
-    },
-    nextStep(val){
-      this.cuStep = val;
+    nextStep(data){
+      console.log(data);
+      this.cuStep = data.n;
+      var list = data.data||{};
+      if(data.step == 'next'){
+        if(data.n == 2){
+          this.postForm['title'] = list['title']||this.postForm['title'];
+          this.postForm['alias'] = list['alias']||this.postForm['alias'];
+          this.postForm['label'] = list['label']||this.postForm['label'];
+          this.postForm['terminals'] = list['terminals'];
+          this.postForm['status'] = list['status']||this.postForm['status'];
+          this.postForm['extensionKV'] = list['extensionKV']||this.postForm['extensionKV']; //要做处理
+          this.postForm['linkUrl'] = list['linkUrl']||this.postForm['linkUrl'];
+        }
+        if(data.n == 3){
+          this.postForm['defaultTemplate'] = list['defaultTemplate']||this.postForm['defaultTemplate'];
+          this.postForm['sideList'] = (list['sideList']||[]).toString().replace(/\,/g,';')||this.postForm['sideList'];
+          this.postForm['sysMesList'] = (list['sysMesList']||[]).toString().replace(/\,/g,';')||this.postForm['sysMesList'];
+          this.postForm['isOpenCover'] =  list['isOpenCover'];
+          this.postForm['coverSize'] =  list['coverSize']||this.postForm['coverSize'];
+          this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];
+        }
+        if(data.n == 4){
+          this.postForm['isLoginAcess'] =  list['isLoginAcess'];
+          this.postForm['visitingList'] =  list['visitingList']||this.postForm['visitingList'];
+          this.postForm['isOpenComment'] =  list['isOpenComment'];
+        }
+      }else if(data.step == 'save'){
+        this.postForm['isOpenAudit'] =  list['isOpenAudit'];
+        this.postForm['auditFlow'] =  list['auditFlow']||this.postForm['auditFlow'];
+        this.submitForm();
+      }
     },
     //表单提交
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-          if (valid) {
-              
-          } else {
-              
-          }
-      });
+    submitForm() {
+      var list = {
+        "id": "string",
+        "extensionKV": [ //内容扩展项json
+          {}
+        ],
+      }
+      console.log('提交数据',this.postForm);
+      if(this.id){
+        this.postForm['id'] = this.id;
+        http.postJson('news-column-update',this.postForm).then(res=>{
+          this.$message({type: 'success',message: '修改成功'}); 
+          setTimeout(()=>{
+            window.sessionStorage.removeItem('news-column');
+            window.history.go(-1);
+          },200)
+        }).catch(err=>{
+          this.$message({type: 'error',message: '修改失败'}); 
+        })
+      }else{
+        http.postJson('news-column-add',this.postForm).then(res=>{
+          this.$message({type: 'success',message: '添加成功'}); 
+          setTimeout(()=>{
+            window.sessionStorage.removeItem('news-column');
+            window.history.go(-1);
+          },200)
+        }).catch(err=>{
+          this.$message({type: 'error',message: '添加失败'}); 
+        })
+      }
     },
     
   },
@@ -78,7 +145,7 @@ export default {
 @import "../../../assets/admin/css/color.less";/**颜色配置 */
 @import "../../../assets/admin/css/style.less";/**颜色配置 */
 @import "../../../assets/admin/css/form.less";
-  .content{
+ .content{
     border-radius: 4px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
     .admin-form{

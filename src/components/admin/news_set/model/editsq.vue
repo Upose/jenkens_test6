@@ -3,27 +3,33 @@
   <div>
     <el-dialog title="修改授权管理员" :visible.sync="dialogShow" width="600px" :close-on-click-modal="false" :before-close="handleClose">
         <div class="dialog-content">
-            <div class="row"><label class="title">权限名称：</label><label class="txt">新闻公告-撰稿</label></div>
-            <div class="row"><label class="title">授权管理员：</label><label class="txt"><span v-for="i in 3" :key="i">张老师<i class="el-icon-close"></i></span></label></div>
+            <div class="row"><label class="title">权限名称：</label><label class="txt">{{dataList.title||'无'}}</label></div>
+            <div class="row"><label class="title">授权管理员：</label><label class="txt"><span v-for="i in dataList.managerList" :key="i">{{i.manager}}<i class="el-icon-close" @click="delManager(i)"></i></span></label></div>
+            <div class="row"><label class="title">查找管理员：</label>
+                <label class="search-input">
+                    <el-input class="width-input" v-model="name" size="medium" placeholder="姓名/卡号/手机号"></el-input>
+                    <el-button type="primary" class="btn-right" size="mini" icon="el-icon-search" @click="initData()">查找</el-button>
+                </label>
+            </div>
         </div>
         <div class="search-table">
-            <h1 class="d-title"><i class="el-icon-search"></i> <span>查找管理员</span></h1>
+            <!-- <h1 class="d-title"><i class="el-icon-search"></i> <span>查找管理员</span></h1>
             <div class="search-div">
                 <el-input class="width-input" v-model="name" size="medium" placeholder="姓名/卡号/手机号"></el-input>
                 <el-button type="primary" size="medium" icon="el-icon-search">查找</el-button>
-            </div>
+            </div> -->
             <el-table stripe size="medium" :data="tableData" border class="admin-table">
-                <el-table-column prop="id" label="序号" align="center" width="58"></el-table-column>
-                <el-table-column prop="title" label="姓名"></el-table-column>
-                <el-table-column prop="content" label="卡号"></el-table-column>
-                <el-table-column prop="content" label="部门"></el-table-column>
+                <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
+                <el-table-column prop="name" label="姓名"></el-table-column>
+                <el-table-column prop="cardNum" label="卡号"></el-table-column>
+                <el-table-column prop="depart" label="部门"></el-table-column>
                 <el-table-column prop="content" label="操作" width="100">
                     <template slot-scope="scope">
-                        <el-button @click="handleShow(scope.row)" type="text" size="mini" icon="el-icon-delete" round >添加</el-button>
+                        <el-button @click="handleAdd(scope.row)" type="text" size="mini" icon="el-icon-delete" round >添加</el-button>
                     </template>
                 </el-table-column>
             </el-table>
-            <paging></paging>
+            <!-- <paging></paging> -->
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button icon="el-icon-close" size="medium" @click="closeClick()">取消</el-button>
@@ -35,7 +41,7 @@
 
 
 <script>
-import bus from '@/assets/public/js/bus';
+import http from "@/assets/public/js/http";
 import paging from "@/components/admin/common/paging";
 export default {
   name: 'index',
@@ -49,28 +55,57 @@ export default {
     }
   },
   mounted(){
-      console.log(this.dataList);
+    this.initData();
   },
   methods:{
+    initData(){
+        http.postJson('search-permission-manager',this.name).then(res=>{
+            this.tableData = res.data||[];
+        }).catch(err=>{
+            console.log(err);
+        })
+    },
       /****保存按钮*******/
       submitForm(){
+          http.postJson('save-news-column-permissions',this.dataList).then(res=>{
+              this.$message({type: 'success',message: '保存成功!'});
+          }).catch(err=>{
+              this.$message({type: 'error',message: '保存失败!'});
+          })
         this.$emit('alertHide');
       },
       /****取消按钮*******/
       closeClick(){
         this.$emit('alertHide');
       },
+      //删除管理员
+      delManager(row){
+        this.dataList.managerList.forEach((item,index)=>{
+            if(item.managerID == row.managerID){
+                this.dataList.managerList.splice(index,1);
+            }
+        })
+      },
+      //添加管理员
+      handleAdd(row){
+        if(this.dataList && this.dataList.managerList){
+            var is_add = true;
+            this.dataList.managerList.forEach((item,index)=>{
+                if(item.managerID == row.userKey){//存在
+                    is_add = false;
+                }
+            })
+            if(is_add){
+                this.dataList.managerList.push({manager:row.name,managerID:row.userKey});
+            }
+        }else{
+            this.dataList['managerList'] = [];
+        }
+      },
       /***x关闭按钮 **/
       handleClose(done){
         this.$emit('alertHide');
       },
-    // initData(){
-    //   http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-    //       this.list1 = res.result.dtos||[];
-    //   }).catch(err=>{
-    //       console.log(err);
-    //   })
-    // },
   },
 }
 </script>
@@ -83,9 +118,10 @@ export default {
 }
 .dialog-content{
     .row{
-        height: 38px;
+        min-height: 38px;
         font-size: 14px;
         position: relative;
+        margin-bottom:10px;
     }
     .title{
         float: left;
@@ -93,11 +129,15 @@ export default {
         color: @34395E;
         text-align: right;
         width: 18%;
+        min-height: 38px;
+        line-height: 38px;
     }
     .txt{
         color: @313B3D;
         float: left;
         width: 80%;
+        min-height: 38px;
+        line-height: 38px;
         span{
             border: 1px solid @C9D0FF;
             border-radius: 13px;
@@ -106,6 +146,7 @@ export default {
             margin-right: 10px;
             font-size: 13px;
             color: @333;
+            line-height: 20px;
             display: inline-block;
             i{
                 cursor: pointer;
@@ -122,6 +163,19 @@ export default {
             }
         }
     }
+    .search-input{
+        width: 456px;
+        float: left;
+        position: relative;
+        /deep/.el-input__inner{
+            padding-right: 85px;
+        }
+        .btn-right{
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+    }
 }
 .search-table{
     .d-title{
@@ -134,12 +188,6 @@ export default {
         i{
             font-size: 16px;
             vertical-align: middle;
-        }
-    }
-    .search-div{
-        margin-bottom: 24px;
-        .width-input{
-            width: 250px;
         }
     }
 }

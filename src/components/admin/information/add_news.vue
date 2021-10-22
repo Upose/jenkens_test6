@@ -1,130 +1,192 @@
-<!---服务中台-终端管理-添加终端-->
+<!---新闻发布-具体栏目-新闻发布-->
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
-        <serviceLMenu :isActive="2"></serviceLMenu>
-      </el-aside>
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''"><serviceLMenu :isActive="2"></serviceLMenu></el-aside>
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'"></breadcrumb><!--面包屑导航--->
         <div class="content">
-          <el-form :model="postForm" :rules="rules" ref="ruleForm" label-width="100px" class="admin-form">
-            <h1 class="s-b-border-title">新增新闻</h1>
+          <el-form :model="postForm" :rules="rules" ref="postForm" label-width="100px" class="admin-form">
+            <h1 class="s-b-border-title">{{id?'编辑':'新增'}}新闻</h1>
             <div class="form-content">
-              <el-form-item label="新闻标题" prop="name">
-                <el-input v-model="postForm.name" placeholder="请输入新闻标题" class="txt-set">
+              <el-form-item label="新闻标题" prop="title">
+                <el-input v-model="postForm.title" placeholder="请输入新闻标题" class="txt-set">
                     <template slot="append">
                         <div class="news-font-set">
-                            <i class="iconfont vip-B"></i>
-                            <i class="iconfont vip-I"></i>
-                            <i class="iconfont vip-u"></i>
-                            <el-select class="width60" v-model="font_size" placeholder="请选择">
-                                <el-option v-for="item in font_list" :key="item.title" :label="item.title" :value="item.title"></el-option>
-                            </el-select>
-                            <el-color-picker v-model="postForm.color1"></el-color-picker>
+                          <i class="iconfont vip-B" @click="fontClick(titleStyleKV.B,'B')" :class="titleStyleKV.B?'active':''"></i>
+                          <i class="iconfont vip-I" @click="fontClick(titleStyleKV.I,'I')" :class="titleStyleKV.I?'active':''"></i>
+                          <i class="iconfont vip-u" @click="fontClick(titleStyleKV.U,'U')" :class="titleStyleKV.U?'active':''"></i>
+                          <el-select class="width60" v-model="titleStyleKV.font" placeholder="请选择">
+                              <el-option v-for="item in font_list" :key="item.title" :label="item.title" :value="item.title"></el-option>
+                          </el-select>
+                          <el-color-picker v-model="titleStyleKV.color"></el-color-picker>
                         </div>
                     </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="副标题" prop="desc">
-                <el-input v-model="postForm.desc" placeholder="请输入副标题"></el-input>
+              <el-form-item label="副标题" prop="subTitle">
+                <el-input v-model="postForm.subTitle" placeholder="请输入副标题"></el-input>
               </el-form-item>
               <div class="user-form-item">
-                <label class="u-label"><span class="el-input">新闻标签</span></label>
+                <label class="u-label"><span class="u-el-input">新闻标签</span></label>
                 <div class="u-list">
-                    <input type="text" class="u-input" placeholder="请输入新闻标签"/>
+                    <input type="text" v-model="postForm.parentCatalogue" class="u-input" placeholder="请输入新闻标签"/>
                     <el-button class="u-btn-r" icon="el-icon-search" size="medium" type="primary" @click="tagEditShow()">选择已有标签</el-button>
+                    <tagEdit :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
                 </div>
               </div>
-              <el-form-item label="多栏目投递" prop="name">
+              <el-form-item label="多栏目投递">
                 <div class="btns-colse-warp">
-                    <span class="b-colse">馆内资讯<i class="el-icon-close"></i></span>
-                    <span class="b-colse">图书馆动态<i class="el-icon-close"></i></span>
-                    <span v-for="i in 1" :key="i+'a'" class="b-colse">党建新闻<i class="el-icon-close"></i></span>
-                    <el-button class="b-colse-add" icon="el-icon-plus" size="medium" type="primary" @click="columnShow()">投递</el-button>
-                    <p class="hint">每条内容支持最多同时投递到3个新闻栏目内。</p>
+                   <div class="btns-select-row" v-for="(it,i) in coumn_list" :key="i+'b'">
+                     <el-select v-model="it.value" placeholder="请选择栏目">
+                      <el-option :label="item.value" :value="item.key" v-for="(item,i) in coumn_data_list" :key="i+'coumn'">{{item.value||'无'}}</el-option>
+                    </el-select>
+                    <div class="btns-el-btn" @click="removeCoumn(i)" v-if="(coumn_list.length-1)!=i">
+                      <i class="el-icon-minus"></i>
+                      <span>删除</span>
+                    </div>
+                    <div class="btns-el-btn" @click="addCoumn" v-if="(coumn_list.length-1)==i">
+                      <i class="el-icon-plus"></i>
+                      <span>投递</span>
+                    </div>
+                   </div>
                 </div>
+                <p class="hint">每条内容支持最多同时投递到3个新闻栏目内。{{id?postForm.cover:(base_url+postForm.cover)}}</p>
               </el-form-item>
               <el-form-item label="内容封面">
                 <div class="up-img-form-item">
-                  <div class="up-img-warp">
-                    <img src="@/assets/admin/img/icon2.png">
+                  <!-- <div class="up-img-warp up-img-cover-img" v-if="id"> -->
+                  <div class="up-img-warp up-img-cover-img" v-if="postForm.cover">
+                    <img :src="base_url+postForm.cover">
                   </div>
-                  <div class="up-img-warp up-icon" @click="upImg()">
+                  <div class="up-img-warp up-icon up-img-cover-icon" @click="upImg()">
                     <span>上传封面</span>
                   </div>
                 </div>
               </el-form-item>
               <el-form-item label="发布人">
-                <el-input v-model="postForm.desc" placeholder="请输入发布人"></el-input>
+                <el-input v-model="postForm.publisher" placeholder="请输入发布人"></el-input>
               </el-form-item>
               <el-form-item label="发布日期">
-                <el-date-picker v-model="postForm.value1" type="date" placeholder="请选择发布日期"></el-date-picker>
+                <el-date-picker v-model="postForm.publishDate" type="date" class="data-clear-icon" placeholder="请选择发布日期"></el-date-picker>
               </el-form-item>
               <el-form-item label="显示状态">
-                <el-radio-group v-model="postForm.resource">
-                  <el-radio label="正常"></el-radio>
-                  <el-radio label="下架"></el-radio>
+                <el-radio-group v-model="postForm.status">
+                  <el-radio :label="1">正常</el-radio>
+                  <el-radio :label="2">下架</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="投递终端">
-                <el-checkbox-group v-model="postForm.type">
-                    <el-checkbox label="PC门户" name="type"></el-checkbox>
-                    <el-checkbox label="微信小程序" name="type"></el-checkbox>
-                    <el-checkbox label="手机APP" name="type"></el-checkbox>
-                    <el-checkbox label="大厅查询机" name="type"></el-checkbox>
+                <el-checkbox-group v-model="postForm.terminals">
+                  <el-checkbox :label="1" name="type">PC门户</el-checkbox>
+                  <el-checkbox :label="2" name="type">微信小程序</el-checkbox>
+                  <el-checkbox :label="3" name="type">手机APP</el-checkbox>
+                  <el-checkbox :label="4" name="type">大厅查询机</el-checkbox>
                 </el-checkbox-group>
+              </el-form-item>
+              <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
+                <el-input v-model="item.input_val" v-if="id" :placeholder="'请输入'+item.value" :value="item.get_val"></el-input>
+                <el-input v-model="item.input_val" v-if="!id" :placeholder="'请输入'+item.value"></el-input>
               </el-form-item>
               <el-form-item label="内容">
                 <div class="filter-form-item">
-                    <el-tabs v-model="activeName" @tab-click="handleClick">
-                        <el-tab-pane label="编辑内容" name="div1"></el-tab-pane>
-                        <el-tab-pane label="链接跳转" name="div2"></el-tab-pane>
-                    </el-tabs>
-                    <div class="edit-pd" v-show="activeName=='div1'">
-                        <div class="edit-fwb" v-show="edit_check==1"><textarea id="remark_textarea" style="display: none;"></textarea></div>
-                        <div class="edit-fwb" v-show="edit_check==2"><textarea id="mytextarea"></textarea> </div>
-                        <div class="edit-cut">
-                            <div @click="editorCheck(1)">
-                                <i class="el-icon-document"></i>
-                                <span>编辑器1</span>
-                            </div>
-                            <div @click="editorCheck(2)">
-                                <i class="el-icon-document"></i>
-                                <span>编辑器2</span>
-                            </div>
+                    <div class="filter-r-t-editor">
+                      <div class="filter-f-title">
+                        <span class="filter-box-col" @click="handleClick('div1')" :class="activeName=='div1'?'active':''">编辑内容</span>
+                        <span class="filter-box-col" @click="handleClick('div2')" :class="activeName=='div2'?'active':''">链接跳转</span>
+                        <span class="filter-hint">填写链接后，编辑内容将不会显示，直接跳转链接</span>
+                      </div>
+                      <div v-show="activeName=='div1'">
+                        <div class="edit-fwb" v-show="edit_check==1"><textarea id="mytextarea" v-model="postForm.content"></textarea> </div>
+                        <div class="edit-fwb" v-show="edit_check==2"><textarea id="remark_textarea" v-model="postForm.content" style="display: none;"></textarea></div>
+                        <div class="edit-check-list">
+                          <div class="edit-col" @click="editorCheck(1)" :class="edit_check==1?'edit-col-active':''"><i class="el-icon-document filter-icon"></i>编辑器1</div>
+                          <div class="edit-col" @click="editorCheck(2)" :class="edit_check==2?'edit-col-active':''"><i class="el-icon-document filter-icon"></i>编辑器2</div>
                         </div>
-                    </div>
-                    <div class="table-pd" v-show="activeName=='div2'">
-                        <el-input v-model="postForm.desc" placeholder="请输入链接地址"></el-input>
+                      </div>
+                      <div class="table-pd" v-show="activeName=='div2'">
+                        <textarea class="table-el-textarea" v-model="postForm.linkUrl" placeholder="请输入链接地址"></textarea>
+                      </div>
                     </div>
                 </div>
-                <p class="hint m-top">填写链接后，编辑内容将不会显示，直接跳转链接</p>
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-close" size="medium" class="admin-green-btn">保存并发布</el-button>
-                <el-button icon="el-icon-close" size="medium" class="admin-red-btn">预览</el-button>
-                <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
-                <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm',it.key)" v-for="(it,index) in postForm.nextAuditStatus" :key="index+'bts'">{{it.value||'保存'}}</el-button>
+                </div>
+                <!-- <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+                  <el-button icon="el-icon-close" size="medium">保存并发布</el-button>
+                </div>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" type="primary">保存</el-button>
+                  <el-button icon="el-icon-close" size="medium">保存并提交</el-button>
+                </div>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" class="admin-red-btn">初审不通过</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">初审通过</el-button>
+                </div>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" type="primary">保存</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">初校完成</el-button>
+                </div>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" class="admin-red-btn">二审不通过</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">二审通过</el-button>
+                </div>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" type="primary">保存</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">二校完成</el-button>
+                </div>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" class="admin-red-btn">终校不通过</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">终校通过</el-button>
+                </div>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" type="primary">保存</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">终校完成</el-button>
+                </div>
+                <div>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-check" size="medium" type="primary" @click="drawBack">退回</el-button>
+                  <el-button icon="el-icon-close" size="medium" type="primary">发布</el-button>
+                </div> -->
               </el-form-item>
             </div>
           </el-form>
         </div><!---顶部查询板块 end--->
         <el-dialog title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
-          <UpdateImg></UpdateImg>
+          <UpdateImg @imgUrl="imgUrl" :imgWidth="214" :imgHeight="100"></UpdateImg>
         </el-dialog>
-        <el-dialog title="请选择要投递的栏目" :visible.sync="column_check" width="400px" :close-on-click-modal="false" :before-close="columnHide">
-            <div class="user-check-dialog">
-                <el-select v-model="postForm.value" placeholder="请选择">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button icon="el-icon-close" size="medium" @click="columnHide()">取消</el-button>
-                <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm()">保存</el-button>
-            </span>
+
+        <el-dialog title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false" :before-close="handleClose">
+          <div class="">
+            <el-input type="textarea" v-model="postForm.desc" rows="8" placeholder="输入备注原因"></el-input>
+          </div>
+          <span slot="footer" class="dialog-footer">
+              <el-button icon="el-icon-close" size="medium" @click="drawBackClose()">取消</el-button>
+              <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+          </span>
         </el-dialog>
-        <tagEdit :dataList="tag_edit_data" @tagEditHide="tagEditHide" v-if="tag_edit"></tagEdit>
         <footerPage class="top20"></footerPage>
       </el-main>
     </el-container>
@@ -143,17 +205,40 @@ import tagEdit from "../model/tagEdit";
 export default {
   name: 'index',
   created(){
-      console.log(window.layui.layedit);
     bus.$on('collapse', msg => {
         this.$root.collapse = msg;
     })
+    //当前栏目信息-左边菜单栏目
+    http.postJson('news-column-get',this.columnID).then(res=>{
+      if(res.data){
+        this.row_list = res.data.extensionKV||[];
+        if(this.$route.id==undefined){
+          this.postForm['nextAuditStatus'] = res.data.contentDefaultAuditStatusKV||[];
+        }
+      }
+    }).catch(err=>{})
+    //栏目列表
+    http.postJson('delivery-column-list-get',this.columnID).then(res=>{
+      this.coumn_data_list = res.data||[];
+    }).catch(err=>{})
+    //获取标签列表
+    http.postJson('lable-info-get-by-type',2).then(res=>{
+      this.tag_edit_data = res.data||[];
+    }).catch(err=>{})
   },
   components:{footerPage,serviceLMenu,breadcrumb,UpdateImg,tagEdit},
   mounted(){
+    var _this = this;
+    //tinymce 编辑器
+        tinymce.init({
+          selector: '#mytextarea',
+          language: 'zh_CN',
+          height: 400,
+       });
       //layui编辑器
       window.layui.use('layedit', function(){
-          let layedit = window.layui.layedit
-          layedit.build('remark_textarea',{
+          this.layedit = window.layui.layedit;
+          this.layedit.build('remark_textarea',{
               height: 350,//高度
             //   tool: ['strong', 'italic', 'underline','del','|','link','face']
             tool: [
@@ -173,48 +258,117 @@ export default {
             ]
           });
         })
-        //tinymce 编辑器
-        tinymce.init({
-            selector: 'textarea',
-            language: 'zh_CN',
-            height: 400,
-         });
+      //获取修改信息
+      if(this.id && this.id!=undefined){
+        //获取新闻详情
+        http.postJson('news-content-manage-get',this.id).then(res=>{
+          this.postForm = res.data.content||{};
+          var list = res.data.content||{};
+          //按钮集合
+          this.postForm['nextAuditStatus'] = res.data.nextAuditStatus||[];
+          //标题样式设置
+          if(list.titleStyleKV && list.titleStyleKV!=undefined){
+            list.titleStyleKV.forEach(item=>{
+              if(item.key == 'B'||item.key == 'I'||item.key == 'U'){
+                this.titleStyleKV[item.key] = item.value;
+              }
+              this.titleStyleKV[item.key] = item.value;
+            })
+          }
+          //投递终端
+          if(list.terminals){
+            this.postForm.terminals = list.terminals.split(';')||[];
+            this.postForm.terminals.forEach((item,index)=>{ 
+              this.postForm.terminals[index] = parseInt(item);
+            })
+          }else{
+            this.postForm.terminals = [];
+          }
+          //多栏目投递 columnIDs
+          if(list.columnIDs){
+            var c_list = list.columnIDs.split(';')||[];
+            if(c_list.length>1){
+              for(var i=0;i<c_list.length;i++){
+                if(_this.coumn_list[i]){
+                  _this.coumn_list[i]['value'] = c_list[i];
+                }else{
+                 if(c_list[i]!='') _this.coumn_list.push({'value':c_list[i]});
+                }
+              }
+            }
+          }
+          //扩展项
+          this.row_list.forEach((item,index)=>{
+            if(item.key == 'Author'){
+              item.get_val = list.author;
+            }
+            if(item.key == 'Keywords'){
+              item.get_val = list.keywords;
+            }
+            if(item.key == 'ExpirationDate'){
+              item.get_val = list.expirationDate;
+            }
+            if(item.key == 'JumpLink'){
+              item.get_val = list.jumpLink;
+            }
+            if(item.key == 'ParentCatalogue'){
+              item.get_val = list.parentCatalogue;
+            }
+            if(item.key == 'ExpendFiled1'){
+              item.get_val = list.expendFiled1;
+            }
+            if(item.key == 'ExpendFiled2'){
+              item.get_val = list.expendFiled2;
+            }
+            if(item.key == 'ExpendFiled3'){
+              item.get_val = list.expendFiled3;
+            }
+            if(item.key == 'ExpendFiled4'){
+              item.get_val = list.expendFiled4;
+            }
+            if(item.key == 'ExpendFiled5'){
+              item.get_val = list.expendFiled5;
+            }
+          })
+        }).catch(err=>{
+            console.log(err);
+        })
+      }
     },
   data () {
     return {
-      dialogUPimg:false,
-      column_check:false,
+      base_url:process.env.VUE_APP_IMG_URL,
+      columnID:this.$route.query.c_id,//栏目id-左边菜单
+      layedit:null,
+      row_list:[],//栏目定义的扩展字段列表
+      coumn_list:[{value:''}],//新增删除栏目列表
+      draw_back:false,//退回弹窗
+      dialogUPimg:false,//图片上传
       tag_edit:false,//打开-选择已有标签弹窗
-      tag_edit_data:[],
+      tag_edit_data:[],//选择标签列表
+      id:this.$route.query.id||'',
       edit_check:1,//编辑器切换
-      activeName:"div1",
-      font_size:'12',
-      font_list:[
-        {title:'12'},
-        {title:'14'},
-        {title:'16'},
-        {title:'18'},
-        {title:'20'},
-        {title:'24'},
-        {title:'30'},
+      activeName:"div1",//富文本还是链接
+      coumn_data_list:[],//栏目下拉选择列表
+      font_list:[ //字体大小
+        {title:14},
+        {title:16},
+        {title:20},
+        {title:24},
+        {title:28},
+        {title:30},
+        {title:32},
       ],
-      options: [{
-          value: '馆内资讯',
-          label: '馆内资讯'
-        },{
-          value: '图书馆动态',
-          label: '图书馆动态'
-        },{
-          value: '党建新闻',
-          label: '党建新闻'
-        }],
-      postForm: {
-          name: '',
-          desc: '',
-          type: [],
+      titleStyleKV:{//标题样式设置
+        B:false,
+        I:false,
+        U:false,
+        font:20,
+        color:'#000000',
       },
+      postForm: {terminals:[]},
       rules: {
-          name: [
+          title: [
               { required: true, message: '请输入内容', trigger: 'blur' }
           ],
           desc: [
@@ -224,12 +378,37 @@ export default {
     }
   },
   methods:{
-    initData(){
-      http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-          this.list1 = res.result.dtos||[];
-      }).catch(err=>{
-          console.log(err);
-      })
+    //标签选择
+    checkTag(val){
+      this.postForm.parentCatalogue = val;
+      this.$forceUpdate();
+    },
+    //字体设置-点击事件
+    fontClick(val,key){
+      this.titleStyleKV[key] = !val;
+    },
+    //删除多栏目投递
+    removeCoumn(index){
+      this.coumn_list.splice(index,1);
+    },
+    //添加多栏目投递
+    addCoumn(){
+      this.coumn_list.push({value:''});
+    },
+    //退回-打开弹窗
+    drawBack(){
+      this.draw_back = true;
+    },
+    //退回-关闭弹窗
+    drawBackClose(){
+      this.draw_back = false;
+    },
+    handleClick(val){
+      this.activeName = val;
+    },
+    imgUrl(val){
+      this.postForm['cover'] = val[0];
+      this.dialogUPimg = false;
     },
     //打开图标上传弹窗
     upImg(){
@@ -252,27 +431,59 @@ export default {
     tagEditHide(){
       this.tag_edit = false;
     },
-    //打开添加栏目弹窗
-    columnShow(){
-        this.column_check = true;
-    },
-    //打开添加栏目弹窗
-    columnHide(){
-        this.column_check = false;
-    },
     //编辑器切换
     editorCheck(val){
         this.edit_check = val;
     },
     //表单提交
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName,val) {
+      var _this = this;
+      if(val == 9){ //表示退回
+        this.draw_back = true;
+      }else{
+        this.$refs[formName].validate((valid) => {
           if (valid) {
-              
-          } else {
-              
+            //新闻标题样式
+            var list = [];
+            for(var item in _this.titleStyleKV){
+              list.push({key:item,value:_this.titleStyleKV[item]});
+            }
+            _this.postForm.titleStyleKV = list;
+            //多栏目投递
+            var coumn_list = '';
+            _this.coumn_list.forEach(item=>{
+              if(coumn_list.indexOf(item.value)==-1){
+                coumn_list = coumn_list+item.value+';';
+              }
+            });
+            //扩展项
+            _this.row_list.forEach(item=>{
+              _this.postForm[item.key] = item.input_val||item.get_val;
+            })
+            _this.postForm.columnIDs = coumn_list;
+            _this.postForm.content = tinyMCE.activeEditor.getContent()||'';//获取富文本信息
+            if(_this.id){
+              http.postJson('news-content-update',_this.postForm).then(res=>{
+                _this.$message({type: 'success',message: '提交成功!'});
+              }).catch(err=>{
+                _this.$message({type: 'error',message: '提交失败!'});
+              })
+            }else{
+              _this.postForm['columnID'] = _this.columnID;
+              _this.postForm['publisher'] = 'cqviptest';//这个地方应该由后台改为自动为登录用户，不用前端传
+              http.postJson('news-content-add',_this.postForm).then(res=>{
+                if(res.data.succeed){
+                  _this.$message({type: 'success',message: '提交成功!'});
+                }else{
+                  _this.$message({type: 'error',message: res.data.message||'提交失败'});
+                }
+              }).catch(err=>{
+                _this.$message({type: 'error',message: '提交失败!'});
+              })
+            }
           }
-      });
+        });
+      }
     },
     
   },
@@ -326,8 +537,11 @@ export default {
             cursor: pointer;
             margin-right: 5px;
             &:hover{
-                color: @f28102;
+              color: @666;
             }
+        }
+        .active{
+          color: @f28102 !important;
         }
         /deep/.el-popover{
             min-width: 50px;
