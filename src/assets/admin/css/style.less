@@ -27,9 +27,12 @@ body,
 }
 
 .admin-bg-top {
-  background: @F4F7FC url(../../admin/img/center-bg1.png) no-repeat right top;
+  background: @F4F7FC url(../../../assets/admin/img/center-bg1.png) no-repeat right top;
 }
-
+.admin-bg-top1 {
+  background:url(../../../assets/admin/img/userManager/usermanagerbg.png) no-repeat right top;
+  background-size: 100% auto;
+}
 .admin-content {
   background-color: #F4F7FC;
   position: absolute;
@@ -419,6 +422,27 @@ iframe {
 .el-input__inner:focus {
   border: 1px solid @6777EF;
 }
+.el-switch.is-checked .el-switch__core {
+  border-color: @6777EF;
+  background-color: @6777EF;
+}
+.el-tabs__item:hover {
+  color: @6777EF;
+  cursor: pointer;
+}
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+  color: #FFF;
+  background-color: @6777EF;
+  border-color: @6777EF;
+  -webkit-box-shadow: -1px 0 0 0 @6777EF;
+  box-shadow: -1px 0 0 0 @6777EF;
+}
+.el-radio-button__inner:hover {
+  color: @6777EF;
+}
+.el-radio-button__orig-radio:disabled:checked+.el-radio-button__inner {
+  background-color: @6777EF;
+}
 // 文字按钮默认字体颜色
 .el-button--text {
   color: @6777EF;
@@ -609,72 +633,73 @@ iframe {
 }
 
 /**********表格样式重置*************************/
-/deep/.el-table thead {
+.admin-table {
+
+  .el-table__header,
+  .el-table__body {
+    width: 100% !important;
+  }
+}
+
+.el-table {
+  color: @404040;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: @F8FAFF;
+}
+
+.el-table--enable-row-hover .el-table__body tr:hover>td {
+  background-color: @F8FAFF;
+}
+
+.el-table thead {
   color: @6C757D;
 
   th {
     background-color: @F1F3F7;
   }
 }
-.admin-table {
 
-  /deep/.el-table__header,
-  .el-table__body {
-    width: 100% !important;
-  }
-}
-
-/deep/.el-table {
-  color: @404040;
-}
-
-/deep/.el-table--striped .el-table__body tr.el-table__row--striped td {
-  background-color: @F8FAFF;
-}
-
-/deep/.el-table--enable-row-hover .el-table__body tr:hover>td {
-  background-color: @F8FAFF;
-}
-
-/deep/.el-table--border td,
+.el-table--border td,
 .el-table--border th,
 .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
   border-right: 1px solid @EBEEF5;
 }
 
-/deep/.el-table td,
+.el-table td,
 .el-table th.is-leaf {
   border-bottom: 1px solid @EBEEF5;
 }
 
-/deep/.el-table--border,
+.el-table--border,
 .el-table--group {
   border: 1px solid @fff;
 }
 
-/deep/.el-table--border::after {
+.el-table--border::after {
   background-color: @fff  !important;
 }
 
-/deep/.el-table .el-checkbox__inner {
+.el-table .el-checkbox__inner {
   width: 20px;
   height: 20px;
 }
 
-/deep/.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner,
+.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner,
 .el-table .el-checkbox__input.is-checked .el-checkbox__inner {
   background-color: @6777EF;
   border-color: @6777EF;
 }
 
-/deep/.el-table .el-checkbox__inner::after {
+.el-table .el-checkbox__inner::after {
   height: 6px;
   left: 7px;
   top: 4px;
   width: 4px;
 }
 
-/deep/.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
   top: 7px;
 }
 
