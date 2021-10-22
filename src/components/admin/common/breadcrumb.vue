@@ -27,7 +27,7 @@ export default {
   },
   methods:{
       initData(){
-        http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
+        http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{
             this.list1 = res.result.dtos||[];
         }).catch(err=>{
             console.log(err);

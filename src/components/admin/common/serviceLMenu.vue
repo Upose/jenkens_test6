@@ -8,36 +8,49 @@
       </div>
     </div>
     <div class="s-menu">
-      <div class="s-row" :class="isActive==(index+1)?'active':''"  :title="item.title" @click="openPage(item.url)" v-for="(item,index) in dataList" :key="index+'menu'"><i class="el-icon-s-ticket"></i><span>{{item.title}}</span></div>
+      <div class="s-row" :class="isActive(item.component)?'active':''"  :title="item.name" @click="openPage(item.component)" v-for="(item,index) in dataList" :key="index+'menu'"><i class="el-icon-s-ticket"></i><span>{{item.name}}</span></div>
     </div>
   </div>
 </template>
 
+
 <script>
 import bus from '@/assets/public/js/bus';
+import http from "@/assets/public/js/http";
 export default {
   name: 'test',
-  props:['isActive'],
+  // props:['isActive'],
   // created(){
   //   // 通过 Event Bus 进行组件间通信，来折叠侧边栏
   //   bus.$on('collapse', msg => {
   //     this.$root.collapse = msg;
   //   })
   // },
+  // created(){
+  //   var token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJPcmdJZCI6InN0cmluZyIsIk9yZ1NlY3JldCI6InN0cmluZyIsIk9yZ0NvZGUiOiJ0ZXN0IiwiVXNlcktleSI6IjhFNTdCMUM4LTA5OUEtNDdBRS04NTEwLTQ2MjQzQTFFQzQ1QSIsIm5iZiI6MTYzNDg3MTgzMSwiZXhwIjoxNjQwMDcxODMxLCJpc3MiOiJTbWFydExpYnJhcnkuSWRlbnRpdHlDZW50ZXIiLCJhdWQiOiJXZWJBcGkifQ.QzBAABNN6uOZncWS8gVMnIGC8qREPVeDweb2GcRIDCgVdRom3QTdroWEEWmisXT0GMjWyT_R5s2SRgWFcU_ZLDwj0GWJJH69DquT03cJepmaAzJxFLLrVgX33ryDzej_d2k38vxVc0sIwNui8RDq7KmyD3mlXap63quMirq2Ioj1PXYdsMFNjRyiptDFY33hTXPM2HIKbmzZyN0BPMYyPYke1oT5BCKkOsCO0vORLKzMMD0tmzIYxOTLJmRAaIuTzvJ9DC4qahzP2Mf49OEegPpojdovge5YjMG7KEUHVmIzkfFL1PfpsIA19guTnDQEApCZl7VPW37eizAzsFrDtQ'
+  //   window.localStorage.setItem('token',token);
+  // },
+  watch:{
+    '$route':'force'
+  },
+  mounted(){
+    http.getPlain('news-user-union-column-permission-list','').then(res=>{
+      this.dataList = res.data||[];
+      var path_url = window.localStorage.getItem('path_url');
+      if((path_url==undefined || path_url=='' || path_url==null) && this.dataList.length>0){
+        this.openPage(this.dataList[0].component);
+      }
+    }).catch(err=>{
+
+    })
+  },
   data () {
     return {
       default_img:require('@/assets/admin/img/upload/user-img.png'),
       dataList:[
-        // {icon:'el-icon-warning-outline',title:'服务总览',url:'/caseShow'},
-        // {icon:'el-icon-warning-outline',title:'场景管理',url:'/sceneManage'},
-        // {icon:'el-icon-warning-outline',title:'栏目管理',url:'/programManage'},
-        // {icon:'el-icon-warning-outline',title:'终端管理',url:'/terminalManage'},
-        {icon:'el-icon-warning-outline',title:'栏目管理',url:'/newsProgram'},
-        {icon:'el-icon-warning-outline',title:'馆内资讯',url:'/newsInfo'},
-        // {icon:'el-icon-warning-outline',title:'资源动态',url:'/newsProgram'},
-        // {icon:'el-icon-warning-outline',title:'党建新闻',url:'/newsProgram'},
-        // {icon:'el-icon-warning-outline',title:'业界新闻',url:'/newsProgram'},
-        {icon:'el-icon-warning-outline',title:'应用设置',url:'/newsSet'},
+        {icon:'el-icon-warning-outline',name:'栏目管理',component:'/newsProgram'},
+        {icon:'el-icon-warning-outline',name:'馆内资讯',component:'/newsInfo'},
+        {icon:'el-icon-warning-outline',name:'应用设置',component:'/newsSet'},
       ],
     }
   },
@@ -49,7 +62,20 @@ export default {
         console.log(key, keyPath);
     },
     openPage(url){
-      this.$router.push(url)
+      window.localStorage.setItem('path_url',url);
+      this.$router.push(url);
+    },
+    force(){
+      this.$forceUpdate();
+    },
+    //是否当前菜单
+    isActive(url){
+      var cu_href = window.localStorage.getItem('path_url');
+      if(url == cu_href){
+        return true;
+      }else{
+        return false;
+      }
     },
   },
 }

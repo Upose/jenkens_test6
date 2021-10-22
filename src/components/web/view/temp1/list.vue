@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import http from "@/assets/web/js/http";
+import http from "@/assets/public/js/http";
 import pages1 from '@/components/web/model/pages1';
 export default {
   name: 'footerPage',

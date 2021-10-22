@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import http from "@/assets/web/js/http";
+import http from "@/assets/public/js/http";
 import my_rate from "../../model/rate";
 export default {
   name: 'footerPage',

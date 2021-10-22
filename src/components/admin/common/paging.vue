@@ -5,11 +5,11 @@
     <el-pagination background 
       @size-change="SizeChange"
       @current-change="CurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[50, 200, 300, 400]"
-      :page-size="50"
+      :current-page="pagedata.pageIndex"
+      :page-sizes="pageSizes"
+      :page-size="pagedata.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="100">
+      :total="pagedata.totalCount">
     </el-pagination>
   </div>
 </template>
@@ -20,28 +20,33 @@ export default {
   name: 'pagingPage',
   created(){
   },
-  props:['cuMenu','fontColor'],
+  props:['pagedata'],
   data () {
     return {
-      currentPage:1,//当前页
+      pageSizes:[]
     }
   },
   mounted(){
-    //   this.initData();
+    // 如果每页条数设置小于50 条数下拉选择框增加当前条数
+    if(this.pagedata.pageSize < 50){
+      // let sizeList = [50,100,150,200];
+      // sizeList.unshift(this.pagedata.pageSize);
+      // this.pageSizes = sizeList;
+      this.pageSizes = [10,20,50,100,150,200];
+    }else{
+      this.pageSizes = [50,100,150,200];
+    }
   },
   methods:{
-      initData(){
-        http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-            this.list1 = res.result.dtos||[];
-        }).catch(err=>{
-            console.log(err);
-        })
-      },
       SizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
+        // this.pagedata.pageSize = val;
+        this.$emit('pagechange',{key:'pageSize',value:val})
       },
       CurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
+        this.pagedata.pageIndex = val;
+        this.$emit('pagechange',{key:'pageIndex',value:val})
       },
   },
 }

@@ -1,21 +1,19 @@
 import axios from 'axios';
 // import qs from 'qs'
-
-var token = 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNVUFByYmlXWko4MjBaWHpxVUVreXciLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2MjU3MDY3NTIsImV4cCI6MTYyNTc5MzE1MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1NTU1IiwiYXVkIjpbIkNsaWVudDAiLCJDbGllbnQ5OTkiXSwiY2xpZW50X2lkIjoiY2xpZW50X2RlbW9fOTk5Iiwic3ViIjoiMTZ8OTk5fGRlbW98Ml8xXzE4OTk2MjIwODYxXzAiLCJhdXRoX3RpbWUiOjE2MjU3MDY3NTIsImlkcCI6ImxvY2FsIiwiVXNlcklkIjoiMTZ8OTk5fGRlbW98Ml8xXzE4OTk2MjIwODYxXzAiLCJzY29wZSI6WyJvcGVuaWQiLCJDbGllbnQwIiwiQ2xpZW50OTk5Iiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.NUPgdTTeuJgLXr6lA-CvjumsTBZoX7ftlUca4XBxk051lhi-SBmlxpFwn1Cl05z5ini6HG8zcK_i3ahlzfhl_WjvAxlxLkVUM3KDuYBBaiI2HBdAy-QL5W7rMdvP13Tv8zW05Nhwdeossq4Tnkp4_lB_PPuvNLjNwXmLG6zPOGI_BZs15iObKsLgZ7uk4iIbuU4wnZzqNXs184Pf2JtmZxIZvweu4tnseviNN-fEKtlC9kSYM3-wp3KUMQ0h75LekmxbM8lirkje6xDx94ICM0HrSK0_5lq7lXIR2IkvDjGwaBKivhmRv6pCySAUmdMq7lWOYFq0yGfWuhXBBaBVDg';
+var lo_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJPcmdJZCI6InN0cmluZyIsIk9yZ1NlY3JldCI6InN0cmluZyIsIk9yZ0NvZGUiOiJ0ZXN0IiwiVXNlcktleSI6IjhFNTdCMUM4LTA5OUEtNDdBRS04NTEwLTQ2MjQzQTFFQzQ1QSIsIm5iZiI6MTYzNDg3MTgzMSwiZXhwIjoxNjQwMDcxODMxLCJpc3MiOiJTbWFydExpYnJhcnkuSWRlbnRpdHlDZW50ZXIiLCJhdWQiOiJXZWJBcGkifQ.QzBAABNN6uOZncWS8gVMnIGC8qREPVeDweb2GcRIDCgVdRom3QTdroWEEWmisXT0GMjWyT_R5s2SRgWFcU_ZLDwj0GWJJH69DquT03cJepmaAzJxFLLrVgX33ryDzej_d2k38vxVc0sIwNui8RDq7KmyD3mlXap63quMirq2Ioj1PXYdsMFNjRyiptDFY33hTXPM2HIKbmzZyN0BPMYyPYke1oT5BCKkOsCO0vORLKzMMD0tmzIYxOTLJmRAaIuTzvJ9DC4qahzP2Mf49OEegPpojdovge5YjMG7KEUHVmIzkfFL1PfpsIA19guTnDQEApCZl7VPW37eizAzsFrDtQ'
+var token = 'Bearer ' + lo_token;
 axios.defaults.timeout = 20000;
 
-import admin_api from '@/assets/admin/js/admin_api';
-import web_api from '@/assets/web/js/web_api';
-
+import api from '@/assets/public/js/api';
+// console.log(api.postUrl)
 export default {
-  admin_postUrl:admin_api.postUrl,
-  web_postUrl:web_api.postUrl,
+  postUrl: api.postUrl,
 
   //不带token的get方法  --- json
-  noGet:function(pageTyle,url,data){
+  noGet: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: pageTyle=='web'?this.web_postUrl[url]:this.admin_postUrl[url],
+        url: this.postUrl[url],
         data: data,
         method: 'GET',
         headers: {
@@ -23,7 +21,7 @@ export default {
         },
       }).then(response => {
         const result = response.data;
-        if (result.status == 200) {
+        if (result.statusCode == 200) {
           resolve(result);
         } else {
           error(result.message);
@@ -35,10 +33,10 @@ export default {
     });
   },
   //不带token的post方法  --- json
-  noPost:function(pageTyle,url,data){
+  noPost: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: pageTyle=='web'?this.web_postUrl[url]:this.admin_postUrl[url],
+        url: this.postUrl[url],
         data: data,
         method: 'POST',
         headers: {
@@ -47,7 +45,7 @@ export default {
       }).then(response => {
         const result = response.data;
 
-        if (result.status == 200) {
+        if (result.statusCode == 200) {
           resolve(result);
         } else {
           error(result.message);
@@ -59,11 +57,11 @@ export default {
     });
   },
   //带token的get方法  --- json
-  getJson: function (pageTyle,url, data) {
+  getJson: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: pageTyle=='web'?this.web_postUrl[url]:this.admin_postUrl[url],
-        data: data,
+        url: this.postUrl[url],
+        params: data,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +69,7 @@ export default {
         },
       }).then(response => {
         const result = response.data;
-        if (result.status == 200) {
+        if (result.statusCode == 200) {
           resolve(result);
         } else {
           error(result.message);
@@ -82,11 +80,36 @@ export default {
       });
     });
   },
-  //带token的post方法  --- json
-  postJson: function (pageTyle, url, data) {
+  //带token的delete方法  --- json
+  deleteJson: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: pageTyle=='web'?this.web_postUrl[url]:this.admin_postUrl[url],
+        url: this.postUrl[url],
+        data: data,
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+      }).then(response => {
+        const result = response.data;
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          error(result.message);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  
+  //带token的post方法  --- json
+  postJson: function (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url],
         data: data,
         method: 'POST',
         headers: {
@@ -96,7 +119,32 @@ export default {
       }).then(response => {
         const result = response.data;
 
-        if (result.status == 200) {
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          error(result.message);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  //带token的put方法  --- json
+  putJson: function (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url],
+        data: data,
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+      }).then(response => {
+        const result = response.data;
+
+        if (result.statusCode == 200) {
           resolve(result);
         } else {
           error(result.message);
@@ -108,10 +156,10 @@ export default {
     });
   },
   //带token的get方法  --- plain ；data参数是在调用时拼接好的（如：id=1&name=张三）
-  getPlain: function (pageTyle,url, data) {
+  getPlain: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: (pageTyle=='web'?this.web_postUrl[url]:this.admin_postUrl[url])+'?'+data,
+        url: this.postUrl[url] + '?' + data,
         method: 'GET',
         headers: {
           'Content-Type': 'text/plain',
@@ -119,7 +167,7 @@ export default {
         },
       }).then(response => {
         const result = response.data;
-        if (result.status == 200) {
+        if (result.statusCode == 200) {
           resolve(result);
         } else {
           error(result.message);
@@ -131,11 +179,11 @@ export default {
     });
   },
   //带token的post方法  --- plain
-  postPlain: function (pageTyle, url, data) {
+  postPlain: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: pageTyle=='web'?this.web_postUrl[url]:this.admin_postUrl[url],
-        data:data,
+        url: this.postUrl[url],
+        data: data,
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
@@ -143,7 +191,76 @@ export default {
         },
       }).then(response => {
         const result = response.data;
-        if (result.status == 200) {
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          error(result.message);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  // get方法 自拼参数  带token
+  getJsonSelf: function (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url] + data,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+      }).then(response => {
+        const result = response.data;
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          error(result.message);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  // post方法 自拼参数  带token
+  postJsonSelf: function (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url]  + data,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+      }).then(response => {
+        const result = response.data;
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          error(result.message);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  //带token的delete方法自己拼接  --- json
+  deleteJsonSelf: function (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url] + data,
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+      }).then(response => {
+        const result = response.data;
+        if (result.statusCode == 200) {
           resolve(result);
         } else {
           error(result.message);
@@ -155,19 +272,20 @@ export default {
     });
   },
   //带token的文件上传方法  --- form-data
-  postFile: function (pageTyle, url, formData) {
+  postFile: function (url, formData) {
     return new Promise((resolve, reject) => {
       axios({
-        url: pageTyle=='web'?this.web_postUrl[url]:this.admin_postUrl[url],
+        url: process.env.VUE_APP_IMG_URL + 'api/file/upload-file',
+        // url: this.postUrl[url],
         data: formData,
         method: 'POST',
         headers: {
-          'Content-Type':'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
           'Authorization': token
         },
       }).then(response => {
         const result = response.data;
-        if (result.status == 200) {
+        if (result.statusCode == 200) {
           resolve(result);
         } else {
           error(result.message);

@@ -2,7 +2,9 @@
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''"><serviceLMenu :isActive="2"></serviceLMenu></el-aside>
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
+        <serviceLMenu :isActive="2"></serviceLMenu>
+      </el-aside>
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'"></breadcrumb><!--面包屑导航--->
         <div class="content">
