@@ -79,6 +79,17 @@
             background-color: @child_color !important;
         }
     }
+    .child1_border{
+        border: 1px solid @child_color;
+    }
+    .child1_border_dotted{
+        border: 1px dotted @child_color;
+    }
+    .child1_border_hover{
+        &:hover{
+            border: 1px solid @child_color !important;
+        }
+    }
     .boxshadow(@right_left:5px,@bottom_top:5px,@box :5px,@box_color:#b6ebf7){
         box-shadow:@arguments;
     }
