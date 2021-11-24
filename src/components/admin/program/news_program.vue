@@ -74,7 +74,7 @@ export default {
   },
   methods:{
     initData(){
-      this.http.postJson('news-column-get-by-manager-id',"cqviptest").then(res=>{
+      this.http.getJson('news-column-get-by-manager-id',"").then(res=>{
         this.dataList = res.data||[];
       }).catch(err=>{
         this.$message({type: 'error',message: '数据获取失败!'});  

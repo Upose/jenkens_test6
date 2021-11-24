@@ -296,4 +296,30 @@ export default {
       });
     });
   },
+  //多种参数同传递
+  postJsonParameter: function (url, data,param) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url],
+        data: data,
+        method: 'POST',
+        params: param,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+      }).then(response => {
+        const result = response.data;
+
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          this.error(result.errors);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
 }
