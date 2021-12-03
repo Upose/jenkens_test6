@@ -1,7 +1,7 @@
 <!---权限编辑-->
 <template>
   <div>
-    <el-dialog title="新增授权" :visible.sync="dialogBulk" width="480px" :close-on-click-modal="false" :before-close="handleClose">
+    <el-dialog append-to-body title="新增授权" :visible.sync="dialogBulk" width="480px" :close-on-click-modal="false" :before-close="handleClose">
         <h1 class="d-title"><i class="el-icon-menu"></i> <span>应用名称：文献专题引擎</span></h1>
         <div class="select-user check-box">
             <div class="box-title">选择用户</div>

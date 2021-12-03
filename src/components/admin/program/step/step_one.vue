@@ -45,7 +45,7 @@
           </el-form-item>
         </div>
       </el-form>
-      <el-dialog title="自定义扩展" :visible.sync="extend_content" width="400px" :close-on-click-modal="false" :before-close="handleClose">
+      <el-dialog append-to-body title="自定义扩展" :visible.sync="extend_content" width="400px" :close-on-click-modal="false" :before-close="handleClose">
         <div>
         <h1 class="d-title"><i class="el-icon-menu"></i> <span>自定义扩展添加</span></h1>
           <el-form>

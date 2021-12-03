@@ -1,7 +1,7 @@
 <!---新闻发布-应用设置-编辑应用授权-->
 <template>
   <div>
-    <el-dialog title="修改授权管理员" :visible.sync="dialogShow" width="600px" :close-on-click-modal="false" :before-close="handleClose">
+    <el-dialog append-to-body title="修改授权管理员" :visible.sync="dialogShow" width="600px" :close-on-click-modal="false" :before-close="handleClose">
         <div class="dialog-content">
             <div class="row"><label class="title">权限名称：</label><label class="txt">{{dataList.title||'无'}}</label></div>
             <div class="row"><label class="title">授权管理员：</label><label class="txt"><span v-for="i in dataList.managerList" :key="i">{{i.manager}}<i class="el-icon-close" @click="delManager(i)"></i></span></label></div>

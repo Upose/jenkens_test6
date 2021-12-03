@@ -174,11 +174,11 @@
             </div>
           </el-form>
         </div><!---顶部查询板块 end--->
-        <el-dialog title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
+        <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
           <UpdateImg @imgUrl="imgUrl" :imgWidth="214" :imgHeight="100"></UpdateImg>
         </el-dialog>
 
-        <el-dialog title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false" :before-close="handleClose">
+        <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false" :before-close="handleClose">
           <div class="">
             <el-input type="textarea" v-model="postForm.desc" rows="8" placeholder="输入备注原因"></el-input>
           </div>
