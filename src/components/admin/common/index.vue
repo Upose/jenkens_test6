@@ -21,9 +21,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less">
 @import "../../../assets/admin/css/color.less";
 @import "../../../assets/admin/css/style.less";
+@import "../../../assets/admin/font/iconfont.css";
 .warp{
   width: 100%;
   height: 100%;

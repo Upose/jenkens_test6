@@ -23,7 +23,22 @@ const i18n = new VueI18n({
     'en-US': require('@/assets/public/lang/en')    // 英文
   }
 })
-
+Vue.prototype.authShowBtn = function(value){
+  var list = JSON.parse(window.localStorage.getItem('menuAuth')||'[]');
+  var is_show = false;
+  if(list.length>0){
+    for(var i=0;i<list.length;i++){
+      if(list[i].permissionNodes && list[i].permissionNodes.length>0){
+        for(var k=0;k<list[i].permissionNodes.length;k++){
+            if(list[i].permissionNodes[k].permission == value){
+              is_show = true;
+            }
+        }
+      }
+    }
+    return is_show;
+  }
+}
 router.beforeEach((to, from, next) => {
   var url = window.location.href;
   var token = url.split('token')[1];
