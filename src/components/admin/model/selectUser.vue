@@ -60,21 +60,21 @@ export default {
   },
   methods:{
       initData(){
-        this.http.postJson('user-permission-list-get',1).then(res=>{
+        this.http.getPlain('user-permission-list-get','type=1').then(res=>{
             if(res.data){
                 this.cities1 = res.data||[];
             }
         }).catch(err=>{
             console.log(err);
         })
-        this.http.postJson('user-permission-list-get',2).then(res=>{
+        this.http.getPlain('user-permission-list-get','type=2').then(res=>{
             if(res.data){
                 this.cities2 = res.data||[];
             }
         }).catch(err=>{
             console.log(err);
         })
-        this.http.postJson('user-permission-list-get',3).then(res=>{
+        this.http.getPlain('user-permission-list-get','type=3').then(res=>{
             if(res.data){
                 this.cities3 = res.data||[];
             }

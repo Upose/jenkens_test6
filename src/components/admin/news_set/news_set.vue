@@ -90,7 +90,7 @@ export default {
           console.log(err);
       })
       //获取列表父级
-      this.http.postJson('news-column-permissions-list-get',{}).then(res=>{
+      this.http.getPlain_url('news-column-permissions-list-get','').then(res=>{
         this.tableData = res.data||[];
       }).catch(err=>{
           console.log(err);
@@ -98,7 +98,7 @@ export default {
     },
      openMenu(id,index){
       //根据父级id获取子集列表
-      this.http.postJson('news-column-permissions-by-column-id-get',id).then(res=>{
+      this.http.getPlain('news-column-permissions-by-column-id-get',id).then(res=>{
         this.tableData[index]['list'] = res.data||[];
         this.$forceUpdate();
       }).catch(err=>{

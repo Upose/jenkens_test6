@@ -146,7 +146,7 @@ export default {
   methods:{
     initData(){
       //获取标签列表
-      this.http.postJson('lable-info-get-by-type',1).then(res=>{
+      this.http.getPlain('lable-info-get-by-type','?type=1').then(res=>{
         this.tag_edit_data = res.data||[];
       }).catch(err=>{})
     },

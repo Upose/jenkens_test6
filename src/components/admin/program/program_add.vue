@@ -60,7 +60,7 @@ export default {
   mounted(){
     var _this = this;
     if(this.$route.query.id){ //有id表示修改，则获取详情数据
-      this.http.postJson('news-column-get',this.$route.query.id).then(res=>{
+      this.http.getPlain_url('news-column-get','/'+this.$route.query.id).then(res=>{
         this.details_ob = res.data||{};
         window.sessionStorage.setItem('news-column',JSON.stringify(this.details_ob));
       }).catch(err=>{
@@ -113,7 +113,7 @@ export default {
       console.log('提交数据',this.postForm);
       if(this.id){
         this.postForm['id'] = this.id;
-        this.http.postJson('news-column-update',this.postForm).then(res=>{
+        this.http.postJsonParameter('news-column-update',this.postForm,{columnid:this.id}).then(res=>{
           this.$message({type: 'success',message: '修改成功'}); 
           setTimeout(()=>{
             window.sessionStorage.removeItem('news-column');

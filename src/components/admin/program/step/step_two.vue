@@ -106,7 +106,7 @@ export default {
   methods:{
     initData(){
       //获取模板列表
-      this.http.postJson('news-template-get',[]).then(res=>{
+      this.http.getPlain_url('news-template-get',[]).then(res=>{
         this.template_list = res.data||[];
         if(this.template_list.length>0){
           this.postForm.defaultTemplate = this.template_list[0].id;//默认选中第一个模板

@@ -207,7 +207,7 @@ export default {
         this.$root.collapse = msg;
     })
     //当前栏目信息-左边菜单栏目
-    this.http.postJson('news-column-get',this.columnID).then(res=>{
+    this.http.getPlain_url('news-column-get','/'+this.columnID).then(res=>{
       if(res.data){
         this.row_list = res.data.extensionKV||[];
         if(this.$route.id==undefined){
@@ -220,7 +220,7 @@ export default {
       this.coumn_data_list = res.data||[];
     }).catch(err=>{})
     //获取标签列表
-    this.http.postJson('lable-info-get-by-type',2).then(res=>{
+    this.http.getPlain('lable-info-get-by-type','?type=2').then(res=>{
       this.tag_edit_data = res.data||[];
     }).catch(err=>{})
   },

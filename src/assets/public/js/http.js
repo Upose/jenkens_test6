@@ -1,14 +1,13 @@
 import axios from 'axios';
-// import qs from 'qs'
-// var lo_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJPcmdJZCI6InN0cmluZyIsIk9yZ1NlY3JldCI6InN0cmluZyIsIk9yZ0NvZGUiOiJ0ZXN0IiwiVXNlcktleSI6IjhFNTdCMUM4LTA5OUEtNDdBRS04NTEwLTQ2MjQzQTFFQzQ1QSIsIm5iZiI6MTYzNDg3MTgzMSwiZXhwIjoxNjQwMDcxODMxLCJpc3MiOiJTbWFydExpYnJhcnkuSWRlbnRpdHlDZW50ZXIiLCJhdWQiOiJXZWJBcGkifQ.QzBAABNN6uOZncWS8gVMnIGC8qREPVeDweb2GcRIDCgVdRom3QTdroWEEWmisXT0GMjWyT_R5s2SRgWFcU_ZLDwj0GWJJH69DquT03cJepmaAzJxFLLrVgX33ryDzej_d2k38vxVc0sIwNui8RDq7KmyD3mlXap63quMirq2Ioj1PXYdsMFNjRyiptDFY33hTXPM2HIKbmzZyN0BPMYyPYke1oT5BCKkOsCO0vORLKzMMD0tmzIYxOTLJmRAaIuTzvJ9DC4qahzP2Mf49OEegPpojdovge5YjMG7KEUHVmIzkfFL1PfpsIA19guTnDQEApCZl7VPW37eizAzsFrDtQ'
-var token = 'Bearer ' + window.localStorage.getItem('token');
 axios.defaults.timeout = 20000;
 
 import api from '@/assets/public/js/api';
 // console.log(api.postUrl)
 export default {
   postUrl: api.postUrl,
-
+  error: function (msg) {
+    console.error(msg);
+  },
   //不带token的get方法  --- json
   noGet: function (url, data) {
     return new Promise((resolve, reject) => {
@@ -24,7 +23,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -48,7 +47,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -65,14 +64,14 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          console.error(JSON.stringify(result));
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -89,14 +88,13 @@ export default {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -104,9 +102,10 @@ export default {
       });
     });
   },
-  
+
   //带token的post方法  --- json
   postJson: function (url, data) {
+    console.log(url);
     return new Promise((resolve, reject) => {
       axios({
         url: this.postUrl[url],
@@ -114,7 +113,6 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
@@ -122,7 +120,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -139,7 +137,6 @@ export default {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
@@ -147,7 +144,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -157,20 +154,46 @@ export default {
   },
   //带token的get方法  --- plain ；data参数是在调用时拼接好的（如：id=1&name=张三）
   getPlain: function (url, data) {
+    var get_url = '';
+    if (data) {
+      get_url = this.postUrl[url] + '?' + data;
+    } else {
+      get_url = this.postUrl[url];
+    }
     return new Promise((resolve, reject) => {
       axios({
-        url: this.postUrl[url] + '?' + data,
+        url: get_url,
         method: 'GET',
         headers: {
           'Content-Type': 'text/plain',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  getPlain_url: function (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url] + data,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+      }).then(response => {
+        const result = response.data;
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -187,14 +210,13 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -210,14 +232,13 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -229,18 +250,17 @@ export default {
   postJsonSelf: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: this.postUrl[url]  + data,
+        url: this.postUrl[url] + data,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -256,14 +276,13 @@ export default {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -271,17 +290,16 @@ export default {
       });
     });
   },
-  //带token的文件上传方法  --- form-data
-  postFile: function (url, formData) {
+  //设置header参数
+  postHaderJson:function (url, data , parameter) {
     return new Promise((resolve, reject) => {
       axios({
-        url: process.env.VUE_APP_IMG_URL + 'api/file/upload-file',
-        // url: this.postUrl[url],
-        data: formData,
+        url: this.postUrl[url] + data,
         method: 'POST',
+        data:parameter,
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': token
+          'Content-Type': 'application/json',
+          'X-MiniProfiler-Ids':parameter,
         },
       }).then(response => {
         const result = response.data;
@@ -306,7 +324,6 @@ export default {
         params: param,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
         },
       }).then(response => {
         const result = response.data;
@@ -322,4 +339,92 @@ export default {
       });
     });
   },
+  //带token的文件上传方法  --- form-data
+  postFile: function (url, formData) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: process.env.VUE_APP_IMG_URL + 'api/file/upload-file',
+        // url: this.postUrl[url],
+        data: formData,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then(response => {
+        const result = response.data;
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          this.error(result.errors);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  postFileParameter: function (url, formData,param) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url],
+        data: formData,
+        params: param,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then(response => {
+        const result = response.data;
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          this.error(result.errors);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  // 下载文件  文件流-转为excel
+  importFile: function (url, data = {}, name = '用户数据模板') {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url],
+        data: data,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        responseType: 'blob' // 表明返回服务器返回的数据类型
+      }).then(response => {
+        const result = response.data;
+        if (result) {
+          const content = response.data
+          const blob = new Blob([content]) // 构造一个blob对象来处理数据
+          const fileName = name + '.xlsx' // 导出文件名
+          // 对于<a>标签，只有 Firefox 和 Chrome（内核） 支持 download 属性
+          // IE10以上支持blob但是依然不支持download
+          if ('download' in document.createElement('a')) { // 支持a标签download的浏览器
+            const link = document.createElement('a') // 创建a标签
+            link.download = fileName // a标签添加属性
+            link.style.display = 'none'
+            link.href = URL.createObjectURL(blob)
+            document.body.appendChild(link)
+            link.click() // 执行下载
+            URL.revokeObjectURL(link.href) // 释放url
+            document.body.removeChild(link) // 释放标签
+          } else { // 其他浏览器
+            navigator.msSaveBlob(blob, fileName)
+          }
+          resolve();
+        } else {
+          // this.error(result.errors);
+          reject();
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
 }
