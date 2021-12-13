@@ -1,6 +1,9 @@
 const axios = window.axios;
 const basicTokenKey = 'BasicToken';
 class ApplicationBuilder {
+    constructor() {
+        this._casBase = '';
+    }
     ensureToken() {
         let token = localStorage.getItem('token');
         if (token)
@@ -123,18 +126,28 @@ class ApplicationBuilder {
     handle403Go2LoginResponse() {
         if (axios) {
             axios.interceptors.response.use(undefined, error => {
-                if (error.response.status == 403) {
+                // unauth 存在则需要登录
+                if (error.response.status == 403 && error.response.headers.unauth) {
                     localStorage.removeItem('token');
                     let current = window.location.href;
-                    window.location.href = '/#/login?returnUrl=' + encodeURIComponent(current);
-                    window.location.reload();
+                    localStorage.setItem('COM+', current);
+
+                    //   window.open(this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin),'_blank');
+                    window.location.href = this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin)
+                    // window.close();
                 }
                 return Promise.reject(error);
             });
         }
         return this;
     }
-    
+    /**配置cas基础地址 */
+    configureCasBase(casBaseUrl) {
+        if (casBaseUrl == null)
+            throw new Error('请正确配置cas地址');
+        this._casBase = casBaseUrl;
+        return this;
+    }
     /**配置默认的token请求服务 */
     configureOrgInfo(orgTokenConfigure) {
         this._tokenRequestConfigure = orgTokenConfigure;
@@ -155,27 +168,28 @@ class ApplicationBuilder {
     buildDefaultApplication() {
         this.ensureTokenAsync()
             .then(() => {
-            if (this._tokenRequestConfigure == null)
-                throw new Error('在调用此方法前，必须先调用configureOrgInfo以配置机构信息');
-            if (axios == null)
-                throw new Error("请确保该调用该方法是,axios已被初始化");
-            this
-                
-                .withDomainAndToken() //给api请求加上域名部分
-                .withCors() //跨域请求
-                .withToken() //带上token
-                .withBasicToken() //如果没有token，带上含有基本信息的token
-                .handle401RetypResponse() //后端返回401的时候，表示token失效或过期，需要先带上基本token请求
-                .handle403Go2LoginResponse(); //当后端返回403的时候，跳转登录页面;
-        });
+                if (this._tokenRequestConfigure == null)
+                    throw new Error('在调用此方法前，必须先调用configureOrgInfo以配置机构信息');
+                if (axios == null)
+                    throw new Error("请确保该调用该方法是,axios已被初始化");
+                this
+                    .withDomainAndToken() //给api请求加上域名部分
+                    .withCors() //跨域请求
+                    .withToken() //带上token
+                    .withBasicToken() //如果没有token，带上含有基本信息的token
+                    .handle401RetypResponse() //后端返回401的时候，表示token失效或过期，需要先带上基本token请求
+                    .handle403Go2LoginResponse(); //当后端返回403的时候，跳转登录页面;
+            });
     }
 }
 new ApplicationBuilder()
-    .configureApiBase('http://192.168.21.71:5033')
+    .configureCasBase("http://192.168.21.43:10011")
+    .configureApiBase('http://192.168.21.43:8011')
     .configureOrgInfo({
-    orgId: "string",
-    orgSecret: 'string',
-    orgCode: "cqu",
-    OrgTokenLink: 'http://192.168.21.71:8077/api/Auth/AccessToken'
-}).buildDefaultApplication();
- 
+        orgId: "string",
+        orgSecret: 'string',
+        orgCode: "cqu",
+        OrgTokenLink: 'http://192.168.21.46:5002/api/Auth/AccessToken'
+    })
+    .buildDefaultApplication();
+
