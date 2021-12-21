@@ -228,11 +228,11 @@ export default {
   mounted(){
     var _this = this;
     //tinymce 编辑器
-        tinymce.init({
-          selector: '#mytextarea',
-          language: 'zh_CN',
-          height: 400,
-       });
+    tinymce.init({
+      selector: '#mytextarea',
+      language: 'zh_CN',
+      height: 400,
+    });
       //layui编辑器
       window.layui.use('layedit', function(){
           this.layedit = window.layui.layedit;
@@ -259,7 +259,7 @@ export default {
       //获取修改信息
       if(this.id && this.id!=undefined){
         //获取新闻详情
-        this.http.postJson('news-content-manage-get',this.id).then(res=>{
+        this.http.getPlain_url('news-content-manage-get','/'+this.columnID+'?contentid='+this.id).then(res=>{
           this.postForm = res.data.content||{};
           var list = res.data.content||{};
           //按钮集合
