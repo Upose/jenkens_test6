@@ -113,7 +113,7 @@ export default {
       console.log('提交数据',this.postForm);
       if(this.id){
         this.postForm['id'] = this.id;
-        this.http.postJsonParameter('news-column-update',this.postForm,{columnid:this.id}).then(res=>{
+        this.http.postJsonParameter_url('news-column-update',this.postForm,'/'+this.id).then(res=>{
           this.$message({type: 'success',message: '修改成功'}); 
           setTimeout(()=>{
             window.sessionStorage.removeItem('news-column');

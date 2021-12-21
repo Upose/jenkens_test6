@@ -26,8 +26,8 @@ export default {
         meta: { title: '新闻发布-栏目管理' , keepAlive:true},
       },
       {
-        path: '/newsInfo',
-        name: 'newsInfo',
+        path: '/programInfo',
+        name: 'programInfo',
         component: r => require.ensure([], () => r(require('@/components/admin/information/news_infor')), 'news_infor'),
         meta: { title: '新闻发布-新闻资讯' , keepAlive:true},
       },

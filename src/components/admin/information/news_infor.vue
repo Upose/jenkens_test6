@@ -98,7 +98,7 @@ export default {
       this.$root.collapse = msg;
     })
     //获取栏目详情
-    this.http.postJson('news-column-content-manage-get',this.postForm.columnID).then(res=>{
+    this.http.getPlain_url('news-column-content-manage-get','/'+this.postForm.columnID).then(res=>{
       if(res.data){
         this.auditStatusCountList = res.data.auditStatusCountList||[];
         this.lableList = res.data.lableList||[];
@@ -195,7 +195,7 @@ export default {
     initData(){
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
-      this.http.postJson('news-content-get-by-column',this.postForm).then(res=>{
+      this.http.postJsonParameter_url('news-content-get-by-column',this.postForm,'/'+this.postForm.columnID).then(res=>{
         this.tableData = res.data.newsContents.items || [];
         this.auditStatusCountList = res.data.auditStatusCountList||[];
         this.pageData.totalCount = res.data.newsContents.totalCount;

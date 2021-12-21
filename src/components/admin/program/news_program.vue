@@ -94,13 +94,14 @@ export default {
     },
     //删除栏目
     delClick(val){
+      console.log(val);
       var _this = this;
       this.$confirm('请谨慎执行删除操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => { 
-          this.http.postJson('column_delete',[val]).then(res=>{
+          this.http.getPlain_url('column_delete','/'+val).then(res=>{
             _this.$message({type: 'success',message: '删除成功!'});
             // _this.initData();
             window.location.reload();

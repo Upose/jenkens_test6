@@ -216,11 +216,11 @@ export default {
       }
     }).catch(err=>{})
     //栏目列表
-    this.http.postJson('delivery-column-list-get',this.columnID).then(res=>{
+    this.http.getPlain('delivery-column-list-get','columnid='+this.columnID).then(res=>{
       this.coumn_data_list = res.data||[];
     }).catch(err=>{})
     //获取标签列表
-    this.http.getPlain('lable-info-get-by-type','?type=2').then(res=>{
+    this.http.getPlain('lable-info-get-by-type','type=2').then(res=>{
       this.tag_edit_data = res.data||[];
     }).catch(err=>{})
   },
@@ -469,7 +469,7 @@ export default {
             }else{
               _this.postForm['columnID'] = _this.columnID;
               _this.postForm['publisher'] = 'cqviptest';//这个地方应该由后台改为自动为登录用户，不用前端传
-              this.http.postJson('news-content-add',_this.postForm).then(res=>{
+              this.http.postJsonParameter_url('news-content-add',_this.postForm,'/'+_this.columnID).then(res=>{
                 if(res.data.succeed){
                   _this.$message({type: 'success',message: '提交成功!'});
                 }else{

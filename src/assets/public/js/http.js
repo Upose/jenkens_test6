@@ -339,6 +339,31 @@ export default {
       });
     });
   },
+  //多种参数同传递
+  postJsonParameter_url: function (url, data,param) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url]+param,
+        data: data,
+        method: 'POST',
+        // params: param,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(response => {
+        const result = response.data;
+
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          this.error(result.errors);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
   //带token的文件上传方法  --- form-data
   postFile: function (url, formData) {
     return new Promise((resolve, reject) => {
