@@ -163,7 +163,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/detailspage2',query:{id:val,c_id:this.left_index}})
+        this.$router.push({path:'/web_detailspage2',query:{id:val,c_id:this.left_index}})
       },
       //点击二级菜单
       foxbaseClick(val){

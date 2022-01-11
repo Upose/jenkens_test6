@@ -82,15 +82,15 @@ export default {
     },
     //查找
     selectClick(){
-      this.$router.push({path:'/newsSelect',query:{title:encodeURI(this.search_title)}});
+      this.$router.push({path:'/admin_newsSelect',query:{title:encodeURI(this.search_title)}});
     },
     //新增栏目
     addClick(){
-      this.$router.push('/programAdd');
+      this.$router.push('/admin_programAdd');
     },
     //编辑栏目
     editClick(val){
-      this.$router.push({path:'/programAdd',query:{id:val}});
+      this.$router.push({path:'/admin_programAdd',query:{id:val}});
     },
     //删除栏目
     delClick(val){

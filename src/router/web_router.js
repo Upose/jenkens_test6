@@ -2,26 +2,26 @@
 export default {
     router:[
         {
-          path: '/list1',
-          name: 'list1',
+          path: '/web_list1',
+          name: 'web_list1',
           component: r => require.ensure([], () => r(require('@/components/web/view/temp1/list')), 'list'),
           meta: { title: '列表页面-模板1' , keepAlive:true},
         },
         {
-          path: '/detailspage1',
-          name: 'detailspage1',
+          path: '/web_detailspage1',
+          name: 'web_detailspage1',
           component: r => require.ensure([], () => r(require('@/components/web/view/temp1/detailspage')), 'list'),
           meta: { title: '详情页面-模板1' , keepAlive:true},
         },
         {
-          path: '/list2',
-          name: 'list2',
+          path: '/web_list2',
+          name: 'web_list2',
           component: r => require.ensure([], () => r(require('@/components/web/view/temp2/list')), 'list'),
           meta: { title: '列表页面-模板2' , keepAlive:true},
         },
         {
-          path: '/detailspage2',
-          name: 'detailspage2',
+          path: '/web_detailspage2',
+          name: 'web_detailspage2',
           component: r => require.ensure([], () => r(require('@/components/web/view/temp2/detailspage')), 'list'),
           meta: { title: '详情页面-模板2' , keepAlive:true},
         },

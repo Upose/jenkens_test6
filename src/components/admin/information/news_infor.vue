@@ -373,15 +373,15 @@ export default {
     },
     //新增新闻
     newsAdd(){
-      this.$router.push({path:'/addNews',query:{c_id:this.$route.query.id}})
+      this.$router.push({path:'/admin_addNews',query:{c_id:this.$route.query.id}})
     },
     //编辑新闻
     handleEdit(row){
-      this.$router.push({path:'/addNews',query:{id:row.id,c_id:this.$route.query.id}})
+      this.$router.push({path:'/admin_addNews',query:{id:row.id,c_id:this.$route.query.id}})
     },
     //新闻日志
     handleLog(row){
-      this.$router.push({path:'/newsLog',query:{id:row.id}})
+      this.$router.push({path:'/admin_newsLog',query:{id:row.id}})
     },
     /**表格选择框**/
     handleSelectionApp(val) {

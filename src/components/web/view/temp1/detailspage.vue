@@ -168,7 +168,7 @@ export default {
           }
         })
         if(is_open){
-          this.$router.push({path:'/list1',query:{id:this.menu_list[index].columnID}})
+          this.$router.push({path:'/web_list1',query:{id:this.menu_list[index].columnID}})
         }
         this.$forceUpdate();
       },
@@ -188,7 +188,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/detailspage1',query:{id:val}})
+        this.$router.push({path:'/web_detailspage1',query:{id:val}})
       },
   },
 }

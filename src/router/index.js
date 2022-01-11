@@ -6,8 +6,8 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/', redirect: '/list1' },
-    { path: '/admin', redirect: '/newsProgram' },
+    { path: '/', redirect: '/web_list1' },
+    { path: '/admin', redirect: '/admin_newsProgram' },
     {
       path: '/web',
       name: 'index',
