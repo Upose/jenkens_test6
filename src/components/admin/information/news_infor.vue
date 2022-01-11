@@ -239,7 +239,7 @@ export default {
     byIndex(type,sourceID,sortIndex,TargetCataID,isUp){ //ghost 拖动 alertNum 输入序号
       var _this = this;
       if(type == 'ghost'){ //拖动排序
-        this.http.postJson('news-sort-content-by-target',{"sourceID": sourceID,"targetCataID": TargetCataID,"isUp": isUp}).then(res=>{
+        this.http.postJsonParameter_url('news-sort-content-by-target',{"sourceID": sourceID,"targetCataID": TargetCataID,"isUp": isUp},'/'+this.postForm['columnID']).then(res=>{
           _this.$message({type: 'success',message: '排序成功!'});
           _this.initData();
         }).catch(err=>{
@@ -314,7 +314,7 @@ export default {
           cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
-          this.http.postJson('news-content-off-shelf',this.multipleSelection).then(res=>{//传数组
+          this.http.postJsonParameter_url('news-content-off-shelf',this.multipleSelection,'/'+this.postForm['columnID']).then(res=>{//传数组
             _this.$message({type: 'success',message: '下架成功!'});
             _this.initData();
           }).catch(err=>{
@@ -336,7 +336,7 @@ export default {
           cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
-          this.http.postJson('news-content-delete',this.multipleSelection).then(res=>{//传数组
+          this.http.postJson('news-content-delete',this.multipleSelection,'/'+this.postForm.columnID).then(res=>{//传数组
             _this.$message({type: 'success',message: '删除成功!'});
             _this.initData();
           }).catch(err=>{
@@ -357,7 +357,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.http.postJson('news-content-update-audit-status',{contentID:row.id,auditStatus:row.aduitStatus}).then(res=>{//传数组
+          this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{//传数组
             _this.$message({type: 'success',message: '操作成功!'});
             _this.initData();
           }).catch(err=>{
@@ -405,7 +405,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.http.postJson('news-content-delete',[row.id]).then(res=>{
+        this.http.postJsonParameter_url('news-content-delete',[row.id],'/'+this.postForm.columnID).then(res=>{
             _this.$message({type: 'success',message: '删除成功!'});
             _this.initData();
           }).catch(err=>{

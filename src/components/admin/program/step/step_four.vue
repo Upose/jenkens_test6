@@ -46,15 +46,7 @@ export default {
         this.$root.collapse = msg;
     })
   },
-  props:{
-    dataDetails:JSON.parse(window.sessionStorage.getItem('news-column')||'{}'),
-    is_edit:false,
-  },
   mounted(){
-    if(this.dataDetails && this.is_edit){
-      this.postForm.isOpenAudit = this.dataDetails.isOpenAudit||0;
-      this.postForm.auditFlow = this.dataDetails.auditFlow||'0,8';
-    }
   },
   data () {
     return {
@@ -70,6 +62,11 @@ export default {
     }
   },
   methods:{
+    setDetails(newVal){
+      console.log(newVal);
+      this.postForm.isOpenAudit = newVal.isOpenAudit||0;
+      this.postForm.auditFlow = newVal.auditFlow||'0,8';
+    },
     //设置审核流程
     checkClick(val){
       if(val == '0' || val == '8'){

@@ -68,30 +68,7 @@ export default {
   name: 'index',
   components:{tagEdit},
   props:{
-    dataDetails:JSON.parse(window.sessionStorage.getItem('news-column')||'{}'),
     is_edit:false,
-  },
-  watch: {
-    dataDetails: {
-      deep: true,  // 深度监听
-      handler(newVal,oldVal) {
-         this.postForm.title = newVal.title||'';
-         this.postForm.alias = newVal.alias||'';
-         this.postForm.terminals = newVal.terminals;
-         this.postForm.linkUrl = newVal.linkUrl||'';
-         this.postForm.label = newVal.label||'';
-         if(newVal.extensionKV && newVal.extensionKV.length>0){
-           for(let i=0;i<newVal.extensionKV.length;i++){
-             this.postForm.extension.push(newVal.extensionKV[i].key);//将选中值添加到选中数组中
-             if(newVal.extensionKV[i].key.indexOf('ExpendFiled')>-1){//是否为自定义，自定义就单独最佳到显示列表上。
-               this.scalable_data.push(newVal.extensionKV[i]);
-               this.zdy_check.splice(this.zdy_check.indexOf(newVal.extensionKV[i].key),1);//这里还要做排除操作，是为了排除已经暂用的ExpendFiled；
-             }
-           }
-         }
-         this.postForm.status = newVal.status||'';
-      }
-    }
   },
   created(){
     this.bus.$on('collapse', msg => {
@@ -106,6 +83,7 @@ export default {
   },
   data () {
     return {
+      dataDetails:{},//详情
       extend_content:false,
       tag_edit:false,
       tag_edit_data:[],//已有标签
@@ -144,6 +122,23 @@ export default {
   },
   
   methods:{
+    setDetails(newVal){
+      this.postForm.title = newVal.title||'';
+         this.postForm.alias = newVal.alias||'';
+         this.postForm.terminals = newVal.terminals;
+         this.postForm.linkUrl = newVal.linkUrl||'';
+         this.postForm.label = newVal.label||'';
+         if(newVal.extensionKV && newVal.extensionKV.length>0){
+           for(let i=0;i<newVal.extensionKV.length;i++){
+             this.postForm.extension.push(newVal.extensionKV[i].key);//将选中值添加到选中数组中
+             if(newVal.extensionKV[i].key.indexOf('ExpendFiled')>-1){//是否为自定义，自定义就单独最佳到显示列表上。
+               this.scalable_data.push(newVal.extensionKV[i]);
+               this.zdy_check.splice(this.zdy_check.indexOf(newVal.extensionKV[i].key),1);//这里还要做排除操作，是为了排除已经暂用的ExpendFiled；
+             }
+           }
+         }
+         this.postForm.status = newVal.status||'';
+    },
     initData(){
       //获取标签列表
       this.http.getPlain('lable-info-get-by-type','type=1').then(res=>{

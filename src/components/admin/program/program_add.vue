@@ -8,10 +8,10 @@
         <div class="content">
           <h1 class="s-b-border-title">{{id?'编辑新闻栏目':'新增新闻栏目'}}</h1>
           <steps :countNum="countNum" :cuStep="cuStep" class="step-bg"></steps>
-          <step_one v-show="cuStep==1" @nextStep="nextStep" :dataDetails="details_ob" :is_edit="id?true:false"></step_one>
-          <step_two v-show="cuStep==2" @nextStep="nextStep" :dataDetails="details_ob" :is_edit="id?true:false"></step_two>
-          <step_three v-show="cuStep==3" @nextStep="nextStep" :dataDetails="details_ob" :is_edit="id?true:false"></step_three>
-          <step_four v-show="cuStep==4" @nextStep="nextStep" :dataDetails="details_ob" :is_edit="id?true:false"></step_four>
+          <step_one v-show="cuStep==1" @nextStep="nextStep" ref="step_one_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_one>
+          <step_two v-show="cuStep==2" @nextStep="nextStep" ref="step_two_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_two>
+          <step_three v-show="cuStep==3" @nextStep="nextStep" ref="step_three_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_three>
+          <step_four v-show="cuStep==4" @nextStep="nextStep" ref="step_four_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_four>
         </div><!---顶部查询板块 end--->
         <footerPage class="top20"></footerPage>
       </el-main>
@@ -58,11 +58,16 @@ export default {
     next()
   },
   mounted(){
+    console.log(111);
     var _this = this;
     if(this.$route.query.id){ //有id表示修改，则获取详情数据
       this.http.getPlain_url('news-column-get','/'+this.$route.query.id).then(res=>{
-        this.details_ob = res.data||{};
-        window.sessionStorage.setItem('news-column',JSON.stringify(this.details_ob));
+        _this.details_ob = res.data||{};
+        _this.$refs.step_one_ref.setDetails(_this.details_ob);
+        _this.$refs.step_two_ref.setDetails(_this.details_ob);
+        _this.$refs.step_three_ref.setDetails(_this.details_ob);
+        _this.$refs.step_four_ref.setDetails(_this.details_ob);
+        // window.sessionStorage.setItem('news-column',JSON.stringify(this.details_ob));
       }).catch(err=>{
         
       })
@@ -85,11 +90,13 @@ export default {
         }
         if(data.n == 3){
           this.postForm['defaultTemplate'] = list['defaultTemplate']||this.postForm['defaultTemplate'];
+          this.postForm['headTemplate'] = list['headTemplate']||this.postForm['headTemplate'];
+          this.postForm['footTemplate'] = list['footTemplate']||this.postForm['footTemplate'];
           this.postForm['sideList'] = (list['sideList']||[]).toString().replace(/\,/g,';')||this.postForm['sideList'];
           this.postForm['sysMesList'] = (list['sysMesList']||[]).toString().replace(/\,/g,';')||this.postForm['sysMesList'];
           this.postForm['isOpenCover'] =  list['isOpenCover'];
           this.postForm['coverSize'] =  list['coverSize']||this.postForm['coverSize'];
-          this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];
+          this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];          
         }
         if(data.n == 4){
           this.postForm['isLoginAcess'] =  list['isLoginAcess'];

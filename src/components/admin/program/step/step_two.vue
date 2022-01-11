@@ -45,7 +45,7 @@
           </el-form-item>
         </div>
       </el-form>
-      <head_foter @hfHide="hfHide" v-if="head_foter_alert"></head_foter>
+      <head_foter @hfHide="hfHide" @setHeadFoot="setHeadFoot" v-if="head_foter_alert" ref="head_foter_ref" :dataList="header_footer_list"></head_foter>
   </div>
 </template>
 
@@ -60,20 +60,9 @@ export default {
     })
   },
   components:{head_foter},
-  props:{
-    dataDetails:JSON.parse(window.sessionStorage.getItem('news-column')||'{}'),
-    is_edit:false,
-  },
   mounted(){
     this.initData();
-    if(this.dataDetails && this.is_edit){
-      this.postForm.sideList = (this.dataDetails.sideList||'').split(';');
-      console.log(this.postForm);
-      this.postForm.sysMesList = (this.dataDetails.sysMesList||'').split(';');
-      this.postForm.isOpenCover = this.dataDetails.isOpenCover||0;
-      this.postForm.defaultTemplate = this.dataDetails.defaultTemplate;
-      this.postForm.coverSize = this.dataDetails.coverSize||'default';
-    }
+    
   },
   data () {
     return {
@@ -104,6 +93,16 @@ export default {
     }
   },
   methods:{
+    setDetails(newVal){
+        this.postForm.sideList = (newVal.sideList||'').split(';');
+        this.postForm.sysMesList = (newVal.sysMesList||'').split(';');
+        this.postForm.isOpenCover = newVal.isOpenCover||0;
+        this.postForm.defaultTemplate = newVal.defaultTemplate;
+        this.postForm.coverSize = newVal.coverSize||'default';
+        this.postForm.headTemplate = newVal.headTemplate||'';
+        this.postForm.footTemplate = newVal.footTemplate||'';
+        this.header_footer_list={head:newVal.headTemplate,foot:newVal.footTemplate};
+    },
     initData(){
       //获取模板列表
       this.http.getPlain_url('news-template-get',[]).then(res=>{
@@ -113,6 +112,12 @@ export default {
         }
       }).catch(err=>{})
     },
+    //设置头部底部
+    setHeadFoot(val){      
+      this.postForm.headTemplate = val.head;
+      this.postForm.footTemplate = val.foot;
+       console.log(this.postForm.footTemplate);
+    },
     //隐藏高级设置弹窗
     hfHide(){
       this.head_foter_alert = false;
@@ -120,6 +125,11 @@ export default {
     //显示高级设置弹窗
     hfShow(){
       this.head_foter_alert = true;
+      console.log('显示高级弹窗');
+      var _this = this;
+      setTimeout(() => {
+        _this.$refs.head_foter_ref.setDetail({head:this.postForm.headTemplate,foot:this.postForm.footTemplate});  
+      }, 200);
     },
     //模板选择
     templateClick(val){

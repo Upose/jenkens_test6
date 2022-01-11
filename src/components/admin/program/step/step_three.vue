@@ -44,19 +44,8 @@ export default {
         this.$root.collapse = msg;
     })
   },
-  props:{
-    dataDetails:JSON.parse(window.sessionStorage.getItem('news-column')||'{}'),
-    is_edit:false,
-  },
   components:{selectUser},
   mounted(){
-    if(this.dataDetails && this.is_edit){
-      this.postForm.isLoginAcess = this.dataDetails.isLoginAcess||0;
-      this.postForm.isOpenComment = this.dataDetails.isOpenComment||0;
-      this.postForm.visitingList = this.dataDetails.visitingList;
-      this.postForm.visitingListModel = this.dataDetails.visitingListModel||{};
-      this.select_user_data = this.dataDetails.visitingListModel||{};
-    }
   },
   data () {
     return {
@@ -77,6 +66,13 @@ export default {
   mounted(){
   },
   methods:{
+    setDetails(newVal){
+      this.postForm.isLoginAcess = newVal.isLoginAcess||0;
+      this.postForm.isOpenComment = newVal.isOpenComment||0;
+      this.postForm.visitingList = newVal.visitingList;
+      this.postForm.visitingListModel = newVal.visitingListModel||{};
+      this.select_user_data = newVal.visitingListModel||{};
+    },
     //上一步
     preStep(){
       this.$emit('nextStep',{n:2,step:'pre'});

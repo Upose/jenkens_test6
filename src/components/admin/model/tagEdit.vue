@@ -81,7 +81,11 @@ export default {
       this.is_input = !this.is_input;
       if(!this.is_input){
         var _this = this;
-        this.http.postJson('lable-info-update',this.dataList).then(res=>{
+        var data={
+          "Type":1,
+          "UpdateParmList":this.dataList
+        };
+        this.http.postJson('lable-info-update',data).then(res=>{
           _this.$message({type: 'success',message: '保存成功!'});
         }).catch(err=>{
           _this.$message({type: 'error',message: '保存失败!'});          

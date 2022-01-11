@@ -58,7 +58,7 @@ export default {
   },
   methods:{
     initData(){
-        this.http.postJson('search-permission-manager',this.name).then(res=>{
+        this.http.getJson('search-permission-manager',{searchKey: this.name}).then(res=>{
             this.tableData = res.data||[];
         }).catch(err=>{
             console.log(err);

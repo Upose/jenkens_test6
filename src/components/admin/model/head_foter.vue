@@ -12,9 +12,7 @@
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item class="m-center">
-                <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm(1)">更改头部模板</el-button>
-            </el-form-item>
+
             <el-form-item label="底部模板" prop="defaultTemplate">
                 <div class="temp-select c-l">
                     <div class="d-temp-box" :style="{background:'url('+it.previewPic+')'}" v-for="(it,i) in footer_list" :key="i+'a'">
@@ -37,6 +35,7 @@
 
 export default {
   name: 'index',
+  props:['dataList'],
   data() {
     return {
         dialogBulk:true,
@@ -48,32 +47,34 @@ export default {
     }
   },
   mounted() {
-    this.http.postJson('news-body-template-get-by-type',1).then(res=>{
+    this.http.getPlain('news-body-template-get-by-type',`type=2`).then(res=>{
         this.head_list = res.data||[];
     }).catch(err=>{
         this.$message({type: 'error',message: '获取失败!'});
     })
-    this.http.postJson('news-body-template-get-by-type',2).then(res=>{
+    this.http.getPlain('news-body-template-get-by-type',`type=3`).then(res=>{
         this.footer_list = res.data||[];
     }).catch(err=>{
         this.$message({type: 'error',message: '获取失败!'});
     })
+    if(this.dataList){
+        this.head_check=this.dataList.head;
+        this.footer_check=this.dataList.foot;
+    }
+
   },
   methods: {
     /****保存按钮*******/
-    submitForm(type){
-        var list = {};
-        if(type == 1){
-            list = this.postForm.header;
-        }else{
-            list = this.postForm.footer;
-        }
-        this.http.postJson('news-body-template-update',list).then(res=>{
-            this.$message({type: 'success',message: '提交成功!'});
-        }).catch(err=>{
-            this.$message({type: 'error',message: '提交失败!'});
-        })
+    submitForm(){
+        console.log(111);
+        this.$emit('setHeadFoot',{head:this.head_check,foot:this.footer_check});
+        this.$emit('hfHide',{head:this.head_check,foot:this.footer_check});
     },
+    setDetail(val){
+        this.head_check=val.head;
+        this.footer_check=val.foot;
+    },
+
     //模板选择
     headerClick(val){
         console.log(val);

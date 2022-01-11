@@ -98,7 +98,7 @@ export default {
     },
      openMenu(id,index){
       //根据父级id获取子集列表
-      this.http.getPlain('news-column-permissions-by-column-id-get',id).then(res=>{
+      this.http.getJson('news-column-permissions-by-column-id-get',{columnID:id}).then(res=>{
         this.tableData[index]['list'] = res.data||[];
         this.$forceUpdate();
       }).catch(err=>{
