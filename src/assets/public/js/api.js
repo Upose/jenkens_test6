@@ -1,6 +1,6 @@
 /***后台管理系统 项目接口地址-新闻发布 */
-
-var baseURL = 'http://192.168.21.75:5043';//请求前端地址
+var baseURL = process.env.VUE_APP_BASE_API + '/news';//请求前端地址
+var baseURL_apps = process.env.VUE_APP_BASE_API + '/appcenter';//获取顶部数据-应用中心地址
 
 export default {
     postUrl: {
