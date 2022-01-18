@@ -42,9 +42,9 @@
                             <span v-for="(item,index) in (scope.row.parentCatalogue||[])">{{item.value}},</span>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="statusName" label="状态">
+                        <el-table-column prop="aduitStatusName" label="状态">
                           <template slot-scope="scope">
-                            <span :class="scope.row.aduitStatus==8?'color-blue':'color-red'">{{scope.row.statusName}}</span>
+                            <span :class="scope.row.aduitStatus==8?'color-blue':'color-red'">{{scope.row.aduitStatusName}}</span>
                           </template>
                         </el-table-column>
                         <el-table-column prop="publisher" label="发布者"></el-table-column>
@@ -247,7 +247,7 @@ export default {
          
         })
       }else{ //输入序号排序
-        this.http.postJson('news-sort-content-by-index',{sourceID:sourceID,sortIndex:sortIndex}).then(res=>{
+        this.http.postJsonParameter_url('news-sort-content-by-index',{sourceID:sourceID,sortIndex:sortIndex},'/'+this.postForm['columnID']).then(res=>{
           _this.$message({type: 'success',message: '排序成功!'});
            _this.initData();
         }).catch(err=>{
