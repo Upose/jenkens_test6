@@ -79,6 +79,11 @@ let timer = setInterval(() => {
       i18n,
       store,
       components: { App },
+      data(){
+        return{
+          collapse:false,
+        }
+      },
       template: '<App/>'
     })
   }

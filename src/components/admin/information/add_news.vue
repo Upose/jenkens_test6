@@ -240,6 +240,10 @@ export default {
       selector: '#mytextarea',
       language: 'zh_CN',
       height: 400,
+      plugins: 'image',
+      images_upload_handler: (blobInfo, success, failure) => { // 图片上传
+        this.handleImgUpload(blobInfo, success, failure)
+      }
     });
       //获取修改信息
       if(this.id && this.id!=undefined){
@@ -461,6 +465,22 @@ export default {
     }
   },
   methods:{
+    handleImgUpload(blobInfo, success, failure) {
+      this.baseUrl = '你的baseurl'
+      const imgBase64 = `data:${blobInfo.blob().type};base64,${blobInfo.base64()}`
+      const data = { img: [imgBase64] }
+      // uploadImgage(data).then(res => {        // 传入success回调里的数据就是富文本编辑器里插入图片的src的值        
+      //   success(`${this.baseUrl}/${res.data[0]}`)
+      // }).catch(() => { failure('error') })
+      let formData = new FormData();
+      formData.append('files', blobInfo.blob(), "DX.jpg");
+      this.http.postFile('', formData).then(res => {
+        success(`http://192.168.21.46:6900/${res.data}`)
+      }).then(err => {
+        this.option.img = '';
+        console.log(err);
+      });
+    },
     //标签选择
     checkTag(val){
       this.postForm.parentCatalogue = val;
