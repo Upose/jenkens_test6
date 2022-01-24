@@ -50,6 +50,7 @@ import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
 import editsq from "./model/editsq";
+
 export default {
   name: 'index',
   created(){
