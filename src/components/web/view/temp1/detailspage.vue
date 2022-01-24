@@ -1,5 +1,5 @@
 <template>
-  <div class="list-warp">
+  <div class="list-warp" v-focus>
     <div class="articledetails-warp">
      <div class="body-content m-width c-l">
         <div class="left-menu">
@@ -83,6 +83,7 @@
 import my_rate from "../../model/rate";
 export default {
   name: 'footerPage',
+  
   components:{my_rate},
   created(){},
   data () {
