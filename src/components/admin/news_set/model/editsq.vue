@@ -54,10 +54,14 @@ export default {
     }
   },
   mounted(){
-    this.initData();
+    // this.initData();
   },
   methods:{
     initData(){
+        if(!this.name){
+            this.$message({type: 'info',message: '请输入要查询的值!'});
+            return false;
+        }
         this.http.getJson('search-permission-manager',{searchKey: this.name}).then(res=>{
             this.tableData = res.data||[];
         }).catch(err=>{
