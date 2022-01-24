@@ -187,6 +187,7 @@ export default {
       height: 28px;
       line-height: 28px;
       vertical-align: middle;
+      
     }
     .col1{
       width: 10%;
@@ -198,6 +199,9 @@ export default {
     }
     .col3{
       width: 40%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .col4{
       width: 10%;

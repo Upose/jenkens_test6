@@ -51,7 +51,7 @@
                     </div>
                    </div>
                 </div>
-                <p class="hint">每条内容支持最多同时投递到3个新闻栏目内。{{id?postForm.cover:(base_url+postForm.cover)}}</p>
+                <p class="hint">每条内容支持最多同时投递到3个新闻栏目内。</p>
               </el-form-item>
               <el-form-item label="内容封面">
                 <div class="up-img-form-item">
