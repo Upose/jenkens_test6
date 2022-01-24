@@ -461,7 +461,7 @@ export default {
             _this.postForm.columnIDs = coumn_list;
             _this.postForm.content = tinyMCE.activeEditor.getContent()||'';//获取富文本信息
             if(_this.id){
-              this.http.postJson('news-content-update',_this.postForm).then(res=>{
+              this.http.postJsonParameter_url('news-content-update',_this.postForm,'/'+_this.columnID).then(res=>{
                 _this.$message({type: 'success',message: '提交成功!'});
               }).catch(err=>{
                 _this.$message({type: 'error',message: '提交失败!'});

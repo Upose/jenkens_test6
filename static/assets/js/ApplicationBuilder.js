@@ -189,6 +189,7 @@ new ApplicationBuilder()
         orgId: "string",
         orgSecret: 'string',
         orgCode: "cqu",
+        userKey: "cqu_vipsmart00001",
         OrgTokenLink: 'http://192.168.21.46:5002/api/Auth/AccessToken'//获取机构token
     })
     .buildDefaultApplication();
