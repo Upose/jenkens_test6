@@ -55,8 +55,7 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
-        coum_id:this.$route.query.id||'Ebh6r6Imm3UE3MQ5',//栏目id
-        c_id:'',
+        c_id:this.$route.query.c_id||'',
         l_id:'',
         pageIndex:1,//当前页
         pageSize:5,//每页条数
@@ -77,7 +76,7 @@ export default {
   },
   methods:{
       initData(){
-        this.http.getPlain('pront-news-column-list-get','columnid='+this.coum_id).then(res=>{
+        this.http.getPlain('pront-news-column-list-get','columnid='+this.c_id).then(res=>{
             this.menu_list = res.data||[];
             this.menu_list.forEach((item,i)=>{
               this.menu_list[i]['check'] = false;

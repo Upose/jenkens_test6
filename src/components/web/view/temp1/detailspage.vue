@@ -90,7 +90,7 @@ export default {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
         id:this.$route.query.id,//新闻id
-        coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
+        coum_id:'"Ebh6r6Imm3UE3MQ5"',//栏目id
         detailsData:{},//新闻详情
         curScore:2,//评论分数
         data:{},
@@ -125,7 +125,7 @@ export default {
         }).catch(err=>{
             console.log(err);
         })
-        this.http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
+        this.http.getPlain_url('pront-news-content-get','?contentid="'+this.id+'"').then(res=>{
             if(res.data && res.data.content){
               this.data = res.data||[];
               this.detailsData = res.data.content||{};

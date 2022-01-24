@@ -82,7 +82,7 @@ export default {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
         id:this.$route.query.id,//新闻id
-        coum_id:'"ByKpD6IAtgEEXaXd"',//栏目id
+        coum_id:'"Ebh6r6Imm3UE3MQ5"',//栏目id
         detailsData:{},//新闻详情
         titleStyleKV:[],
         data:{},
