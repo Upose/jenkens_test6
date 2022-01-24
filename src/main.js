@@ -70,16 +70,16 @@ router.beforeEach((to, from, next) => {
   // }
 })
 
-new Vue({
-  el: '#news_sys',
-  router,
-  i18n,
-  store,
-  components: { App,http },
-  data(){
-    return{
-      collapse:false,
-    }
-  },
-  template: '<App/>'
-})
+let timer = setInterval(() => {
+  if (axios && axios.defaults && axios.defaults.loaded) {
+    clearInterval(timer);
+    new Vue({
+      el: '#news_sys',
+      router,
+      i18n,
+      store,
+      components: { App },
+      template: '<App/>'
+    })
+  }
+}, 100);
