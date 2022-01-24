@@ -45,5 +45,11 @@ export default {
         'pront-news-column-list-get':baseURL+'/api/news/pront-news-column-list-get',//获取前台新闻栏目数据
         'pront-news-list-data-get':baseURL+'/api/news/pront-news-list-data-get',//获取前台列表新闻列表数据
         'pront-news-content-get':baseURL+'/api/news/pront-news-content-get',//获取前台新闻数据
+
+        //权限及头部菜单
+        'getmgrtopmenu':baseURL_apps + '/api/baseinfo/getmgrtopmenu',//获取头部菜单
+        'getbaseinfo': baseURL_apps + '/api/baseinfo/getbaseinfo',//获取当前用户机构基础信息
+        'getuserapppermission': baseURL_apps + '/api/baseinfo/getuserapppermission',//判断用户对指定应用是否有使用权限(前台)
+        'getuserapppermissiontype': baseURL_apps + '/api/baseinfo/getuserapppermissiontype',//根据userkey获取指定应用的权限类型
     },
 }

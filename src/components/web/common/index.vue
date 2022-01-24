@@ -1,14 +1,14 @@
 <template>
 <div class="web-warp" :class="skin_template">
-    <div class="header_sys_temp1"><div id="aa"></div></div>
-    <div class="content-warp"><router-view></router-view></div>
-    <div class="footer_sys_temp1"><div id="bb"></div></div>
-    <div class="template-warp">
+    <div :class="header_class" id="jl_vip_zt_header_warp"><div id="jl_vip_zt_header"></div></div>
+    <div class="content-warp"><router-view v-if="baseInfo"></router-view></div>
+    <div :class="footer_class" id="jl_vip_zt_footer_warp"><div id="jl_vip_zt_footer"></div></div>
+    <!-- <div class="template-warp">
       <span @click="skinClick('template1')">红</span>
       <span @click="skinClick('template2')">蓝</span>
       <span @click="skinClick('template3')">绿</span>
       <span @click="skinClick('template4')">紫</span>
-    </div>
+    </div> -->
 </div>
 </template>
 <style scoped lang="less">
@@ -34,73 +34,45 @@
 <script>
 export default {
   name: 'index',
-  mounted(){
-    console.log(this.$store.state.skin_template);
-    this.addStyle('http://192.168.21.71:9000/header_sys/temp1/component.css');
-    this.addScript('http://192.168.21.71:9000/header_sys/temp1/component.js');
-    
-    this.addStyle('http://192.168.21.71:9000/footer_sys/temp1/component.css');
-    this.addScript('http://192.168.21.71:9000/footer_sys/temp1/component.js');
-    // if(this.$store.state.skin_template == 'template1'){
-    //     var list = [
-    //       {
-    //         cs_url:'http://192.168.21.71:9000/header_sys/temp1/component.css',
-    //         js_url:'http://192.168.21.71:9000/header_sys/temp1/component.js',
-    //       },
-    //       {
-    //         cs_url:'http://192.168.21.71:9000/footer_sys/temp1/component.css',
-    //         js_url:'http://192.168.21.71:9000/footer_sys/temp1/component.js',
-    //       },
-    //     ]
-    //     list.forEach(e => {
-    //       this.addStyle(e.cs_url);
-    //       this.addScript(e.js_url);
-    //     });
-    //   }else{
-    //     var list = [
-    //       {
-    //         cs_url:'http://192.168.21.71:9000/header_sys/temp2/component.css',
-    //         js_url:'http://192.168.21.71:9000/header_sys/temp2/component.js',
-    //       },
-    //       {
-    //         cs_url:'http://192.168.21.71:9000/footer_sys/temp2/component.css',
-    //         js_url:'http://192.168.21.71:9000/footer_sys/temp2/component.js',
-    //       },
-    //     ]
-    //     list.forEach(e => {
-    //       this.addStyle(e.cs_url);
-    //       this.addScript(e.js_url);
-    //     });
-    //   }
+  created(){
+    //根据userkey获取指定应用的权限类型
+    this.http.getPlain('getuserapppermissiontype','approutecode=assembly').then(res=>{
+      console.log('根据userkey获取指定应用的权限类型',res);
+    }).catch(err=>{})
+
+    //判断用户对指定应用是否有使用权限(前台)
+    this.http.getPlain('getuserapppermission','approutecode=assembly').then(res=>{
+      console.log('判断用户对指定应用是否有使用权限(前台)',res);
+    }).catch(err=>{})
+
+    //获取当前用户机构基础信息
+    this.http.getJson('getbaseinfo').then(res=>{
+      console.log(res);
+      if(res.data){
+        this.header_class = res.data.headerFooterInfo.headerTemplateCode||'';
+        this.footer_class = res.data.headerFooterInfo.footerTemplateCode||'';
+        this.addStyle(res.data.headerFooterInfo.headerRouter+'/component.css');
+        this.addScript(res.data.headerFooterInfo.headerRouter+'/component.js');
+
+        this.addStyle(res.data.headerFooterInfo.footerRouter+'/component.css');
+        this.addScript(res.data.headerFooterInfo.footerRouter+'/component.js');
+        this.$root.fileUrl = res.data.orgInfo.fileUrl||'';
+        this.baseInfo = true;
+      }
+      console.log('用户基本信息',res);
+    }).catch(err=>{})
   },
+  mounted(){},
   data () {
     return {
+      baseInfo:false,
+      header_class:'',
+      footer_class:'',
       skin_template:this.$store.state.skin_template||'template1',
     }
   },
   methods:{
-    addStyle(url){
-      var link=document.createElement("link"); 
-      link.setAttribute("rel", "stylesheet"); 
-      link.setAttribute("type", "text/css"); 
-      link.setAttribute("href", url);
-      document.getElementsByTagName("body")[0].appendChild(link);
-    },
-    addScript(url){
-      var js_element=document.createElement("script");
-      js_element.setAttribute("type","text/javascript");
-      js_element.setAttribute("src",url);
-      document.getElementsByTagName("body")[0].appendChild(js_element);
-    },
-    skinClick(val){
-      // this.$refs.skin_template.add(val);
-      this.skin_template = val;
-      this.$store.state.skin_template = this.skin_template;
-      this.$store.commit('setSkinTemplate',{skin_template:this.skin_template});
-      setTimeout(() => {
-          window.location.reload();
-      }, 1000);
-    },
+    
   }
 }
 </script>

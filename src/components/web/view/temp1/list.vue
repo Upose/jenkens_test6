@@ -50,7 +50,7 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
-        coum_id:'ET6KH6ISRtXF7irR',//栏目id
+        coum_id:this.$route.query.id||'Ebh6r6Imm3UE3MQ5',//栏目id
         c_id:'',
         l_id:'',
         pageIndex:1,//当前页
