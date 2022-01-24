@@ -18,7 +18,7 @@
                 <el-input class="width-input" v-model="name" size="medium" placeholder="姓名/卡号/手机号"></el-input>
                 <el-button type="primary" size="medium" icon="el-icon-search">查找</el-button>
             </div> -->
-            <el-table stripe size="medium" :data="tableData" border class="admin-table">
+            <el-table stripe size="medium" :data="tableData" border class="admin-table" height="230">
                 <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
                 <el-table-column prop="name" label="姓名"></el-table-column>
                 <el-table-column prop="cardNum" label="卡号"></el-table-column>
@@ -50,7 +50,7 @@ export default {
     return {
       dialogShow:true,
       name:'',
-      tableData:[{title:'张老师'},{title:'王老师'},{title:'李老师'},],
+      tableData:[],
     }
   },
   mounted(){
