@@ -61,10 +61,7 @@ export default {
         pageSize:5,//每页条数
         totalCount:0,//总条数
         totalPages:0,//总页数
-        menu_list:[
-          {id:0,name:'关于我们',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
-          {id:3,name:'新闻列表',type:'news'},
-        ],
+        menu_list:[],
         news_list:[],
     }
   },

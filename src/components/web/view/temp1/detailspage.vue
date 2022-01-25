@@ -91,15 +91,12 @@ export default {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
         id:this.$route.query.id,//新闻id
-        coum_id:'"Ebh6r6Imm3UE3MQ5"',//栏目id
+        c_id:this.$route.query.c_id,//栏目id
         detailsData:{},//新闻详情
         curScore:2,//评论分数
         data:{},
         titleStyleKV:[],
-        menu_list:[
-          {id:0,name:'关于我们',lableList:[{name:'下级'},{name:'下级'}],type:'news'},
-          {id:3,name:'新闻列表',type:'news'},
-        ],
+        menu_list:[],
     }
   },
   mounted(){
@@ -111,7 +108,7 @@ export default {
   methods:{
       initData(){
         var _this = this;
-        this.http.postJson('pront-news-column-list-get',this.coum_id).then(res=>{
+        this.http.getPlain('pront-news-column-list-get','columnid='+this.c_id).then(res=>{
             _this.menu_list = res.data||[];
             if(_this.menu_list && _this.menu_list.length>0){
               _this.menu_list.forEach((item,i)=>{
@@ -169,7 +166,7 @@ export default {
           }
         })
         if(is_open){
-          this.$router.push({path:'/web_list1',query:{id:this.menu_list[index].columnID}})
+          this.$router.push({path:'/web_list1',query:{c_id:this.menu_list[index].columnID}})
         }
         this.$forceUpdate();
       },
