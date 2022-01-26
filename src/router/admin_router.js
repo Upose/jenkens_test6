@@ -61,5 +61,17 @@ export default {
         component: r => require.ensure([], () => r(require('@/components/admin/program/program_add')), 'news_release'),
         meta: { title: '新闻发布-新增新闻栏目' , keepAlive:true},
       },
+      {
+        path: '/admin_preview1',
+        name: 'admin_preview1',
+        component: r => require.ensure([], () => r(require('@/components/admin/preview/page1')), 'news_preview'),
+        meta: { title: '新闻发布-预览模板1' , keepAlive:true},
+      },
+      {
+        path: '/admin_preview2',
+        name: 'admin_preview2',
+        component: r => require.ensure([], () => r(require('@/components/admin/preview/page2')), 'news_preview'),
+        meta: { title: '新闻发布-预览模板2' , keepAlive:true},
+      },
     ],
 }

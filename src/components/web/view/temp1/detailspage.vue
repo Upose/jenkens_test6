@@ -1,5 +1,5 @@
 <template>
-  <div class="list-warp" v-focus>
+  <div class="list-warp">
     <div class="articledetails-warp">
      <div class="body-content m-width c-l">
         <div class="left-menu">
