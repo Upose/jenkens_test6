@@ -26,7 +26,7 @@ export default {
     return {
         PageIndex:this.Cindex,//当前页码
         totalpage:this.total,//总页码
-        pageList:5,//中间需要展示的页面数量
+        pageList:0,//中间需要展示的页面数量
         start_number:0,//循环的页码数量，从多少开始-主要用于中间的页码范围
     }
   },

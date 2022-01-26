@@ -6,7 +6,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/', redirect: '/web_list1' },
+    // { path: '/', redirect: '/web_list1' },
     { path: '/admin', redirect: '/admin_newsProgram' },
     {
       path: '/web',
