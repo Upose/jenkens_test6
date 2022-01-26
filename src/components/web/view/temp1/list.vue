@@ -50,7 +50,7 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
-        c_id:this.$route.query.c_id||'',
+        c_id:decodeURI(this.$route.query.c_id||''),
         l_id:'',
         pageIndex:1,//当前页
         pageSize:5,//每页条数
@@ -148,7 +148,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/web_detailspage1',query:{id:val,c_id:this.left_index}})
+        this.$router.push({path:'/web_detailspage1',query:{id:encodeURI(val),c_id:encodeURI(this.left_index)}})
       },
       //点击二级菜单
       foxbaseClick(val){

@@ -81,8 +81,8 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
-        id:this.$route.query.id,//新闻id
-        c_id:this.$route.query.c_id,//栏目id
+        id:decodeURI(this.$route.query.id||''),//新闻id
+        c_id:decodeURI(this.$route.query.c_id||''),//栏目id
         detailsData:{},//新闻详情
         titleStyleKV:[],
         data:{},
@@ -146,7 +146,7 @@ export default {
           }
         })
         if(is_open){
-          this.$router.push({path:'/web_list2',query:{c_id:this.menu_list[index].columnID}})
+          this.$router.push({path:'/web_list2',query:{c_id:encodeURI(this.menu_list[index].columnID)}})
         }
         this.$forceUpdate();
       },

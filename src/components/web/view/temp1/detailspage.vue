@@ -90,8 +90,8 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
-        id:this.$route.query.id,//新闻id
-        c_id:this.$route.query.c_id,//栏目id
+        id:decodeURI(this.$route.query.id||''),//新闻id
+        c_id:decodeURI(this.$route.query.c_id||''),//栏目id
         detailsData:{},//新闻详情
         curScore:2,//评论分数
         data:{},
@@ -112,7 +112,7 @@ export default {
             _this.menu_list = res.data||[];
             if(_this.menu_list && _this.menu_list.length>0){
               _this.menu_list.forEach((item,i)=>{
-                if(item.columnID == _this.$route.query.c_id){
+                if(item.columnID == _this.c_id){
                  setTimeout(() => {
                    _this.menu_list[i]['check'] = false;
                     _this.menuClick(_this.menu_list[i].name,i,false);
@@ -166,7 +166,7 @@ export default {
           }
         })
         if(is_open){
-          this.$router.push({path:'/web_list1',query:{c_id:this.menu_list[index].columnID}})
+          this.$router.push({path:'/web_list1',query:{c_id:encodeURI(this.menu_list[index].columnID)}})
         }
         this.$forceUpdate();
       },
