@@ -409,6 +409,9 @@ export default {
             border-radius: 15px;
             padding: 6px 12px;
             margin-top: -10px;
+            padding-left: 35px;
+            background:#000 url(../../../assets/web/img/share.png) no-repeat left;
+            background-position-x: 12px;
           }
         }
       }
