@@ -598,9 +598,8 @@ export default {
             }else{
               _this.postForm['columnID'] = _this.columnID;
               _this.postForm['publisher'] = 'cqviptest';//这个地方应该由后台改为自动为登录用户，不用前端传
-              console.log(111);
               this.http.postJsonParameter_url('news-content-add',_this.postForm,'/'+_this.columnID).then(res=>{
-                if(res.succeed){
+                if(res.succeeded){
                   _this.$message({type: 'success',message: '提交成功!'});
                 }else{
                   _this.$message({type: 'error',message: res.data.message||'提交失败'});
