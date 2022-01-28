@@ -58,7 +58,7 @@
                             <span>{{(scope.row.updateTime||'0000-00-00').substring(0,10)}} </span>
                           </template>
                         </el-table-column>
-                        <el-table-column label="操作" min-width="380">
+                        <el-table-column label="操作" width="380">
                           <template slot-scope="scope">
                             <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="el-icon-delete" round>编辑</el-button>
                             <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-delete" round>{{scope.row.nextAuditBottonName||'审核'}}</el-button>
@@ -405,7 +405,7 @@ export default {
     },
     //新闻日志
     handleLog(row){
-      this.$router.push({path:'/admin_newsLog',query:{id:row.id}})
+      this.$router.push({path:'/admin_newsLog',query:{id:row.id,c_id:this.$route.query.id}})
     },
     /**表格选择框**/
     handleSelectionApp(val) {

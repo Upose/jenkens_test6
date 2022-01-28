@@ -65,6 +65,7 @@ export default {
         pageSize: 50,
       },//分页参数
       id:this.$route.query.id,
+      c_id:this.$route.query.c_id,
       alert_show:false,
       options: [{
         value: '选项1',
@@ -79,7 +80,7 @@ export default {
   methods:{
     //初始化数据
     initData(){
-      this.http.postJson('content-process-log-get',(this.id||'"string"')).then(res=>{
+      this.http.getPlain_url('content-process-log-get','/'+this.c_id+"?contentid="+this.id).then(res=>{
         this.tableData = res.data || [];
       }).catch(err=>{
           console.log(err);
