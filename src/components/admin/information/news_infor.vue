@@ -64,7 +64,7 @@
                             <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-delete" round>{{scope.row.nextAuditBottonName||'审核'}}</el-button>
                             <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button>
                             <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="el-icon-delete" class="handleSort" round>排序</el-button>
-                            <el-button @click="handlePreview(scope.row)" type="text" size="mini" icon="el-icon-delete" round>预览</el-button>
+                            <el-button @click="previewPage(scope.row.id)" type="text" size="mini" icon="el-icon-delete" round>预览</el-button>
                           </template>
                         </el-table-column>
                         <el-table-column prop="content" label="操作记录" width="85">
@@ -219,6 +219,22 @@ export default {
     pageChange(data) {
       this.pageData[data.key] = data.value;
       this.initData();
+    },
+    //预览
+    previewPage(id){
+      var news_details = {};
+      this.http.getPlain_url('news-content-manage-get','/'+this.$route.query.id+'?contentid='+id).then(res=>{
+        news_details = res.data.content||{};
+        window.localStorage.setItem('news-page-preview',JSON.stringify(news_details));
+        setTimeout(() => {
+          //这里还需要根据栏目选择的模板，确定预览某一个模板，默认是1
+          if(this.columnDeatils && this.columnDeatils.columnTemplate){
+            window.open(window.location.origin+"/#/admin_preview"+this.columnDeatils.columnTemplate)
+          }
+        }, 200);
+      }).catch(err=>{
+        this.$message({type: 'info',message: '获取详情失败'});
+      })
     },
     getId(){
       this.postForm['columnID'] = this.$route.query.id;
