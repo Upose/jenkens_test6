@@ -7,7 +7,7 @@
         <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'"></breadcrumb><!--面包屑导航--->
         <div class="content search-table-general">
             <div class="search-table-w">
-                <h1 class="search-title">馆内资讯</h1>
+                <h1 class="search-title">{{columnDeatils.columnName||''}}</h1>
                 <div class="search-term" v-if="auditStatusCountList.length>0">
                   <div class="col-select" :class="auditStatus_menu==index?'col-select-active':''" v-for="(it,index) in auditStatusCountList" :key="index+'audit'" @click="auditStatus(index,it)"><span>{{it.name||'无'}}</span><span class="number">{{it.counts||0}}</span></div>
                    <!-- <h2 class="m-title" v-if="auditStatusCountList.length>0">
@@ -107,6 +107,7 @@ export default {
     }).catch(err=>{
         console.log(err);
     })
+    this.getColumndetails();
   },
   watch:{
     '$route':'getId'
@@ -188,9 +189,16 @@ export default {
       // }
       ],
       tableData:[{},{},{}],
+      columnDeatils:{},
     }
   },
   methods:{
+    //获取栏目详情
+    getColumndetails(){
+      this.http.getPlain_url('news-column-template-get-by-column-id','/'+this.$route.query.id).then(res=>{
+        this.columnDeatils = res.data||{};
+      }).catch(err=>{})
+    },
     //初始化数据
     initData(){
       this.postForm.pageIndex = this.pageData.pageIndex;

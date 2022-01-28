@@ -1,6 +1,6 @@
 <!---新闻预览模板-->
 <template>
-  <div class="admin-warp-page">
+  <div class="admin-warp-page template1">
     <el-container>
       <!-- <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''"><serviceLMenu :isActive="1"></serviceLMenu></el-aside> -->
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
@@ -89,9 +89,8 @@ import footerPage from "@/components/admin/common/footer";
 export default {
   name: 'index',
   created(){
-    this.bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-    })
+    this.detailsData = JSON.parse(window.localStorage.getItem('news-page-preview')||'{}');
+    this.titleStyleKV = this.detailsData['titleStyleKV']||[];
   },
   components:{footerPage},
   data () {
@@ -107,10 +106,7 @@ export default {
     }
   },
   mounted(){
-    this.initData();
-    // setTimeout(()=>{
-    //   this.menuClick(this.menu_list[0].title,0);
-    // },200)
+    // this.initData();
   },
   methods:{
       initData(){

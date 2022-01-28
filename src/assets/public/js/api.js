@@ -39,7 +39,7 @@ export default {
         'news-body-template-update': baseURL + '/api/news/news-body-template-update',//更新新闻头尾部模板
         'news-sort-content-by-target': baseURL + '/api/news/sort-content-by-target',//拖动排序
         'news-user-union-column-permission-list': baseURL + '/api/sys-menu/user-union-column-permission-list',//拖动排序
-
+        'news-column-template-get-by-column-id': baseURL + '/api/news/news-column-template-get-by-column-id',//拖动排序
 
         //前台接口
         'pront-news-column-list-get':baseURL+'/api/news/pront-news-column-list-get',//获取前台新闻栏目数据

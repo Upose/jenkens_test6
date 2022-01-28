@@ -23,6 +23,9 @@ const i18n = new VueI18n({
     'en-US': require('@/assets/public/lang/en')    // 英文
   }
 })
+Vue.prototype.backHistory = function(){
+  window.history.go(-1);
+}
 Vue.prototype.addStyle = function(url){
   var link=document.createElement("link"); 
   link.setAttribute("rel", "stylesheet"); 

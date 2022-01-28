@@ -115,8 +115,8 @@
               </el-form-item>
               <el-form-item>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn" @click="backHistory()">取消</el-button>
+                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn" @click="previewPage()">预览</el-button>
                   <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm',it.key)" v-for="(it,index) in postForm.nextAuditStatus" :key="index+'bts'">{{it.value||'保存'}}</el-button>
                 </div>
                 <!-- <div>
@@ -227,6 +227,7 @@ export default {
     this.http.getPlain('lable-info-get-by-type','type=2').then(res=>{
       this.tag_edit_data = res.data||[];
     }).catch(err=>{})
+    this.getColumndetails();
   },
   components:{footerPage,serviceLMenu,breadcrumb,UpdateImg,tagEdit,VueUeditorWrap},
   beforeDestroy() {
@@ -324,6 +325,7 @@ export default {
     },
   data () {
     return {
+      columnDeatils:{},
       base_url:process.env.VUE_APP_IMG_URL,
       columnID:this.$route.query.c_id,//栏目id-左边菜单
       layedit:null,
@@ -465,6 +467,12 @@ export default {
     }
   },
   methods:{
+    //获取栏目详情
+    getColumndetails(){
+      this.http.getPlain_url('news-column-template-get-by-column-id','/'+this.columnID).then(res=>{
+        this.columnDeatils = res.data||{};
+      }).catch(err=>{})
+    },
     handleImgUpload(blobInfo, success, failure) {
       this.baseUrl = '你的baseurl'
       const imgBase64 = `data:${blobInfo.blob().type};base64,${blobInfo.base64()}`
@@ -538,6 +546,40 @@ export default {
     editorCheck(val){
         this.edit_check = val;
     },
+    //预览
+    previewPage(){
+      this.setPostFormPas();
+      window.localStorage.setItem('news-page-preview',JSON.stringify(this.postForm));
+      setTimeout(() => {
+        //这里还需要根据栏目选择的模板，确定预览某一个模板，默认是1
+        if(this.columnDeatils && this.columnDeatils.columnTemplate){
+          window.open(window.location.origin+"/#/admin_preview"+this.columnDeatils.columnTemplate)
+        }
+      }, 200);
+    },
+    //改造提交数据
+    setPostFormPas(){
+      var _this = this;
+      //新闻标题样式
+      var list = [];
+      for(var item in _this.titleStyleKV){
+        list.push({key:item,value:_this.titleStyleKV[item]});
+      }
+      _this.postForm.titleStyleKV = list;
+      //多栏目投递
+      var coumn_list = '';
+      _this.coumn_list.forEach(item=>{
+        if(coumn_list.indexOf(item.value)==-1){
+          coumn_list = coumn_list+item.value+';';
+        }
+      });
+      //扩展项
+      _this.row_list.forEach(item=>{
+        _this.postForm[item.key] = item.input_val||item.get_val;
+      })
+      _this.postForm.columnIDs = coumn_list;
+      _this.postForm.content = tinyMCE.activeEditor.getContent()||'';//获取富文本信息
+    },
     //表单提交
     submitForm(formName,val) {
       var _this = this;
@@ -546,25 +588,7 @@ export default {
       }else{
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            //新闻标题样式
-            var list = [];
-            for(var item in _this.titleStyleKV){
-              list.push({key:item,value:_this.titleStyleKV[item]});
-            }
-            _this.postForm.titleStyleKV = list;
-            //多栏目投递
-            var coumn_list = '';
-            _this.coumn_list.forEach(item=>{
-              if(coumn_list.indexOf(item.value)==-1){
-                coumn_list = coumn_list+item.value+';';
-              }
-            });
-            //扩展项
-            _this.row_list.forEach(item=>{
-              _this.postForm[item.key] = item.input_val||item.get_val;
-            })
-            _this.postForm.columnIDs = coumn_list;
-            _this.postForm.content = tinyMCE.activeEditor.getContent()||'';//获取富文本信息
+            this.setPostFormPas();
             if(_this.id){
               this.http.postJsonParameter_url('news-content-update',_this.postForm,'/'+_this.columnID).then(res=>{
                 _this.$message({type: 'success',message: '提交成功!'});
