@@ -123,7 +123,7 @@ export default {
         }).catch(err=>{
             console.log(err);
         })
-        this.http.getPlain_url('pront-news-content-get','?contentid="'+this.id+'"').then(res=>{
+        this.http.getPlain_url('pront-news-content-get','?contentid='+this.id+'').then(res=>{
             if(res.data && res.data.content){
               this.data = res.data||[];
               this.detailsData = res.data.content||{};
