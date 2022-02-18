@@ -141,15 +141,8 @@ export default {
             this.input_value = '';
             this.$forceUpdate();
             this.$emit('imgUrl', res.data || []);
-
-            // if (res.data && res.status == 0) {
-            //   this.$emit('upImg',res.data||[]);
-            // } else {
-            //   this.parentMessage('error', (res.msg || '无数据'));
-            // }
           }).then(err => {
             this.option.img = '';
-            console.log(err);
           })
         })
       }
@@ -181,7 +174,7 @@ export default {
     justify-content: center;
     .img-preview {
       overflow: hidden;
-      // min-height: 150px;
+      // min-height: 150px; 
       max-width: 150px;
       border-radius: 2px;
       background: @F9F8FF;

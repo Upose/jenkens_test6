@@ -46,15 +46,17 @@ export default {
         console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-        console.log(key, keyPath);
+      console.log(key, keyPath);
     },
     openPage(url){
-      console.log(url);
       window.localStorage.setItem('path_url',url);
       if(url.indexOf('id')>-1){
         var url_list = url.split('?id=');
         this.$router.push({path:url_list[0],query:{id:url_list[1]}});
         // this.$router.push(url_list[0]);
+         setTimeout(() => {
+          window.location.reload();
+        }, 100);
       }else{
         this.$router.push(url);
       }

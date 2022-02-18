@@ -39,7 +39,7 @@
             </el-select>
           </el-form-item>
           <el-form-item class="m-top">
-            <el-button icon="el-icon-close" size="medium" @click="$root.backClick()">取消</el-button>
+            <el-button icon="el-icon-close" size="medium" @click="backHistory()">取消</el-button>
             <el-button icon="el-icon-check" size="medium" type="primary" @click="preStep()">上一步</el-button>
             <el-button icon="el-icon-check" size="medium" type="primary" @click="nextStep()">下一步</el-button>
           </el-form-item>

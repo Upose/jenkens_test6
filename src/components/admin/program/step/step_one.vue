@@ -40,7 +40,7 @@
             <el-input v-model="postForm.linkUrl" disabled="false" placeholder="在门户中访问该栏目的链接地址"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button icon="el-icon-close" size="medium" @click="$root.backClick()">取消</el-button>
+            <el-button icon="el-icon-close" size="medium" @click="backHistory()">取消</el-button>
             <el-button icon="el-icon-check" size="medium" type="primary" @click="nextStep('postForm')">下一步</el-button>
           </el-form-item>
         </div>

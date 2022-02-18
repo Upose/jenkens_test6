@@ -135,12 +135,7 @@ export default {
         "lableId": "",
         "auditStatus": 0,
       },
-      lableList:[
-        {
-          value: '选项1',
-          label: '选项1'
-        }
-      ],
+      lableList:[],
       auditStatusCountList: [
       //   {
       //   value: '已发布',
@@ -188,7 +183,7 @@ export default {
       //   number:0,
       // }
       ],
-      tableData:[{},{},{}],
+      tableData:[],
       columnDeatils:{},
     }
   },
@@ -197,6 +192,7 @@ export default {
     getColumndetails(){
       this.http.getPlain_url('news-column-template-get-by-column-id','/'+this.$route.query.id).then(res=>{
         this.columnDeatils = res.data||{};
+        console.log(this.columnDeatils.columnName);
       }).catch(err=>{})
     },
     //初始化数据
