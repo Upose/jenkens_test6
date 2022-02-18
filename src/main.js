@@ -80,6 +80,7 @@ let timer = setInterval(() => {
       data(){
         return{
           collapse:false,
+          fileUrl:'http://192.168.21.46:6900',
         }
       },
       template: '<App/>'
