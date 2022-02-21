@@ -25,9 +25,9 @@
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isOpenComment"></el-switch>
           </el-form-item>
           <el-form-item class="m-top">
-            <el-button icon="el-icon-close" size="medium" @click="backHistory()">取消</el-button>
-            <el-button icon="el-icon-check" size="medium" type="primary" @click="preStep()">上一步</el-button>
-            <el-button icon="el-icon-check" size="medium" type="primary" @click="nextStep()">下一步</el-button>
+            <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="backHistory()">取消</el-button>
+            <el-button icon="iconfont el-icon-vip-shangyibu" size="medium" type="primary" @click="preStep()">上一步</el-button>
+            <el-button icon="iconfont el-icon-vip-xiayibu" size="medium" type="primary" @click="nextStep()">下一步</el-button>
           </el-form-item>
         </div>
       </el-form>

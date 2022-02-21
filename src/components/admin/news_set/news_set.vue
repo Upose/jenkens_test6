@@ -23,17 +23,17 @@
                       <template slot="title">
                         <span class="col col1">{{index+1}}</span>
                         <span class="col col2" :class="activeNames.indexOf(index)>-1?'open-fold-line':''"><i class="el-icon-remove col-icon"></i>{{item.title||''}}</span>
-                        <span class="col col3"><span v-for="(ite,k) in (item.managerList||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click.stop="handleSet(item.title,item.columnID,'0',(item.managerList||[]))" class="btns-edit"><i class="el-icon-edit"></i>修改</span></span>
+                        <span class="col col3"><span v-for="(ite,k) in (item.managerList||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click.stop="handleSet(item.title,item.columnID,'0',(item.managerList||[]))" class="btns-edit"><i class="iconfont el-icon-vip-bianji"></i>修改</span></span>
                       </template>
                       <div class="table-pd-row" v-for="(it,i) in (item.list||[])" :key="i+'_a'">
-                        <span class="col col1"></span><span class="col col2 fold-line">{{it.auditProcessName||''}}</span><span class="col col3"><span v-for="(ite,k) in (it.listPermissions||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click.stop="handleSet((item.title||'')+' — '+(it.auditProcessName||''),item.columnID,it.auditProcessStatus,(it.listPermissions||[]))" class="btns-edit"><i class="el-icon-edit"></i>修改</span></span></div>
+                        <span class="col col1"></span><span class="col col2 fold-line">{{it.auditProcessName||''}}</span><span class="col col3"><span v-for="(ite,k) in (it.listPermissions||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click.stop="handleSet((item.title||'')+' — '+(it.auditProcessName||''),item.columnID,it.auditProcessStatus,(it.listPermissions||[]))" class="btns-edit"><i class="iconfont el-icon-vip-bianji"></i>修改</span></span></div>
                     </el-collapse-item>
                   </el-collapse>
                 </div>
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-close" size="medium">重置</el-button>
-                <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+                <el-button icon="iconfont el-icon-vip-quxiao" size="medium">重置</el-button>
+                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -154,6 +154,7 @@ export default {
     background-color: @fff;
     border-radius: 4px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
+    padding-bottom: 20px;
     .form-content{
       // max-width: 740px;
     }
@@ -230,6 +231,9 @@ export default {
       color: @6777EF;
       background: #F9F8FF;
       border-radius: 14px;
+      i{
+        margin-right: 5px;
+      }
       &:hover{
         opacity: .8;
       }

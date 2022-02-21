@@ -8,29 +8,29 @@
           </el-form-item>
           <el-form-item label="设置审核流程" class="m-t" v-if="postForm.isOpenAudit==1">
             <div class="audit-warp">
-              <span class="next-txt" @click="checkClick('0')" :class="postForm.auditFlow.indexOf('0')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span><i class="iconfont vip-duigou"></i>撰稿</span></span>
-              <span class="next-icon"><i class="el-icon-arrow-right"></i></span>
-              <span class="next-txt" @click="checkClick('1')" :class="postForm.auditFlow.indexOf('1')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span>提交</span></span>
-              <span class="next-icon"><i class="el-icon-arrow-right"></i></span>
-              <span class="next-txt" @click="checkClick('2')" :class="postForm.auditFlow.indexOf('2')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span>初审</span></span>
-              <span class="next-icon"><i class="el-icon-arrow-right"></i></span>
-              <span class="next-txt" @click="checkClick('3')" :class="postForm.auditFlow.indexOf('3')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span>初校</span></span>
-              <span class="next-icon"><i class="el-icon-arrow-right"></i></span>
-              <span class="next-txt" @click="checkClick('4')" :class="postForm.auditFlow.indexOf('4')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span>复审</span></span>
-              <span class="next-icon"><i class="el-icon-arrow-right"></i></span>
-              <span class="next-txt" @click="checkClick('5')" :class="postForm.auditFlow.indexOf('5')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span>二校</span></span>
-              <span class="next-icon"><i class="el-icon-arrow-right"></i></span>
-              <span class="next-txt" @click="checkClick('6')" :class="postForm.auditFlow.indexOf('6')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span>终审</span></span>
-              <span class="next-icon"><i class="el-icon-arrow-right"></i></span>
-              <span class="next-txt" @click="checkClick('7')" :class="postForm.auditFlow.indexOf('7')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span>终校</span></span>
-              <span class="next-icon"><i class="el-icon-arrow-right"></i></span>
-              <span class="next-txt" @click="checkClick('8')" :class="postForm.auditFlow.indexOf('8')>-1?'active':''"><i class="m-icon iconfont vip-bg"></i><span>发布</span></span>
+              <span class="next-txt" @click="checkClick('0')" :class="postForm.auditFlow.indexOf('0')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 撰稿</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('1')" :class="postForm.auditFlow.indexOf('1')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 提交</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('2')" :class="postForm.auditFlow.indexOf('2')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 初审</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('3')" :class="postForm.auditFlow.indexOf('3')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 初校</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('4')" :class="postForm.auditFlow.indexOf('4')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 复审</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('5')" :class="postForm.auditFlow.indexOf('5')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 二校</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('6')" :class="postForm.auditFlow.indexOf('6')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 终审</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('7')" :class="postForm.auditFlow.indexOf('7')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 终校</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('8')" :class="postForm.auditFlow.indexOf('8')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 发布</span></span>
             </div><!--撰稿和发布是必须的-->
           </el-form-item>
           <el-form-item class="m-top">
-            <el-button icon="el-icon-close" size="medium" @click="backHistory()">取消</el-button>
-            <el-button icon="el-icon-check" size="medium" type="primary" @click="preStep()">上一步</el-button>
-            <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm')">确认</el-button>
+            <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="backHistory()">取消</el-button>
+            <el-button icon="iconfont el-icon-vip-shangyibu" size="medium" type="primary" @click="preStep()">上一步</el-button>
+            <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -161,6 +161,10 @@ export default {
                 background-color:@6777EF;
               }
             }
+            .el-icon-vip-gou2{
+              font-size: 12px;
+              padding-right: 2px;
+            }
           }
           .active{
             span{
@@ -173,7 +177,7 @@ export default {
             }
           }
           .next-icon{
-            vertical-align: text-top;
+            vertical-align: top;
             display: inline-block;
             height: 90px;
             line-height: 90px;
@@ -181,6 +185,13 @@ export default {
             font-size: 20px;
             margin-left: 10px;
             margin-right: 10px;
+            .next-bj{
+              display: inline-block;
+              width: 50px;
+              height: 39px;
+              vertical-align: top;
+              background: url(../../../../assets/admin/img/news-next.png) no-repeat center;
+            }
           }
         }
     }

@@ -26,8 +26,8 @@
             </div>
         </div>
         <span slot="footer" class="dialog-footer">
-            <el-button icon="el-icon-close" size="medium" @click="closeClick()">取消</el-button>
-            <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm()">保存</el-button>
+            <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="closeClick()">取消</el-button>
+            <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm()">保存</el-button>
         </span>
     </el-dialog>
   </div>

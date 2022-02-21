@@ -4,8 +4,8 @@
     <div class="step" :class="isActive(index+1)" v-for="(it,index) in countNum" :key="index" :style="{width:(100/countNum.length)+'%'}">
         <span class="title">{{it.title||''}}</span>
         <span class="icon" v-if="(index+1) != cuStep">{{index+1}}</span>
-        <span class="el-icon-success his" v-if="(index+1) < cuStep"></span>
-        <span class="el-icon-alarm-clock cu" v-if="(index+1) == cuStep"></span>
+        <span class="iconfont el-icon-vip-wancheng his" v-if="(index+1) < cuStep"></span>
+        <span class="iconfont el-icon-vip-jinhangzhong cu" v-if="(index+1) == cuStep"></span>
     </div>
   </div>
 </template>
@@ -176,10 +176,10 @@ export default {
     .icon{
         margin-top:5px;
         background-color: @ABABAB;
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
         color: @fff;
-        line-height: 20px;
+        line-height: 22px;
         text-align: center;
         border-radius: 50%;
         z-index: 2;

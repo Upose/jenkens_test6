@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3145988 */
-  src: url('iconfont.woff2?t=1645413207219') format('woff2'),
-       url('iconfont.woff?t=1645413207219') format('woff'),
-       url('iconfont.ttf?t=1645413207219') format('truetype');
+  src: url('iconfont.woff2?t=1645438143239') format('woff2'),
+       url('iconfont.woff?t=1645438143239') format('woff'),
+       url('iconfont.ttf?t=1645438143239') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,42 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.el-icon-vip-jianhao1:before {
+  content: "\e66f";
+}
+
+.el-icon-vip-switch-off:before {
+  content: "\e666";
+}
+
+.el-icon-vip-off-min:before {
+  content: "\e668";
+}
+
+.el-icon-vip-on-min:before {
+  content: "\e669";
+}
+
+.el-icon-vip-moren:before {
+  content: "\e66a";
+}
+
+.el-icon-vip-zhuanxie:before {
+  content: "\e66b";
+}
+
+.el-icon-vip-biaoge:before {
+  content: "\e66c";
+}
+
+.el-icon-vip-pcduan:before {
+  content: "\e66d";
+}
+
+.el-icon-vip-switch-on:before {
+  content: "\e66e";
 }
 
 .el-icon-vip-no-check:before {

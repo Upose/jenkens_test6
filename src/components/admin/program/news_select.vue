@@ -52,7 +52,7 @@
     <el-dialog append-to-body title="备注信息" :visible.sync="show_remark" width="550px" :close-on-click-modal="false">
       <p>部分功能存在违规行为，请修改后再提交!</p>
       <span slot="footer" class="dialog-footer">
-          <el-button icon="el-icon-close" size="medium" @click="show_remark=false">关闭</el-button>
+          <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="show_remark=false">关闭</el-button>
       </span>
     </el-dialog>
   </div>

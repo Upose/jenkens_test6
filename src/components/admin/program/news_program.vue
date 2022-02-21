@@ -10,13 +10,13 @@
               <h1 class="search-title">栏目管理</h1>
               <div class="search-term">
                   <el-input class="width187" v-model="search_title" size="medium" placeholder="新闻全文检索"></el-input>
-                  <el-button type="primary" size="medium" icon="el-icon-search" @click="selectClick()">查找</el-button>
+                  <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="selectClick()">查找</el-button>
               </div>
           </div><!--顶部查询 end-->
           
           <div class="list-content" v-for="(item,index) in dataList" :key="index+'m'">
             <div class="s-w c-l">
-              <span class="m-title"><i class="el-icon-s-platform"></i>{{item.lableName}}</span>
+              <span class="m-title"><i class="iconfont el-icon-vip-moren"></i>{{item.lableName}}</span>
             </div>
             <div class="row">
               <div class="row-list c-l">
@@ -26,14 +26,14 @@
                     <span class="name">{{it.title||'暂无'}}</span>
                   </div>
                   <div class="r-box-btns">
-                    <el-button type="primary" class="admin-red-btn" size="medium" icon="el-icon-delete" @click="delClick(it.columnID)">删除</el-button>
-                    <el-button type="primary" size="medium" icon="el-icon-setting" @click="editClick(it.columnID)">编辑</el-button>
+                    <el-button type="primary" class="admin-red-btn" size="medium" icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
+                    <el-button type="primary" size="medium" icon="iconfont el-icon-vip-shezhi" @click="editClick(it.columnID)">编辑</el-button>
                   </div>
                 </div>
                 <div class="row-box set-hover" v-if="item.lableName=='默认标签'" @click="addClick()">
                   <div class="r-box-bg add-btn">
                     <div class="r-box-add-warp">
-                      <i class="el-icon-plus"></i>
+                      <i class="iconfont el-icon-vip-tianjia1"></i>
                       <span>新增栏目</span>
                     </div>
                   </div>

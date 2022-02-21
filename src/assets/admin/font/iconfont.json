@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "356446",
+      "name": "减号",
+      "font_class": "jianhao1",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "27737140",
+      "name": "switch-off",
+      "font_class": "switch-off",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "27737142",
+      "name": "off-min",
+      "font_class": "off-min",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "27737143",
+      "name": "on-min",
+      "font_class": "on-min",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "27737144",
+      "name": "默认",
+      "font_class": "moren",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
+      "icon_id": "27737145",
+      "name": "撰写",
+      "font_class": "zhuanxie",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    },
+    {
+      "icon_id": "27737146",
+      "name": "表格",
+      "font_class": "biaoge",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "27737147",
+      "name": "pc端",
+      "font_class": "pcduan",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "27737148",
+      "name": "switch-on",
+      "font_class": "switch-on",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
       "icon_id": "845579",
       "name": "圈",
       "font_class": "no-check",

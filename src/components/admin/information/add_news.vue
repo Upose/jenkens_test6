@@ -13,9 +13,9 @@
                 <el-input v-model="postForm.title" placeholder="请输入新闻标题" class="txt-set">
                     <template slot="append">
                         <div class="news-font-set">
-                          <i class="iconfont vip-B" @click="fontClick(titleStyleKV.B,'B')" :class="titleStyleKV.B?'active':''"></i>
-                          <i class="iconfont vip-I" @click="fontClick(titleStyleKV.I,'I')" :class="titleStyleKV.I?'active':''"></i>
-                          <i class="iconfont vip-u" @click="fontClick(titleStyleKV.U,'U')" :class="titleStyleKV.U?'active':''"></i>
+                          <i class="iconfont el-icon-vip-B" @click="fontClick(titleStyleKV.B,'B')" :class="titleStyleKV.B?'active':''"></i>
+                          <i class="iconfont el-icon-vip-I" @click="fontClick(titleStyleKV.I,'I')" :class="titleStyleKV.I?'active':''"></i>
+                          <i class="iconfont el-icon-vip-u" @click="fontClick(titleStyleKV.U,'U')" :class="titleStyleKV.U?'active':''"></i>
                           <el-select class="width60" v-model="titleStyleKV.font" placeholder="请选择">
                               <el-option v-for="item in font_list" :key="item.title" :label="item.title" :value="item.title"></el-option>
                           </el-select>
@@ -31,7 +31,7 @@
                 <label class="u-label"><span class="u-el-input">新闻标签</span></label>
                 <div class="u-list">
                     <input type="text" v-model="postForm.parentCatalogue" class="u-input" placeholder="请输入新闻标签"/>
-                    <el-button class="u-btn-r" icon="el-icon-search" size="medium" type="primary" @click="tagEditShow()">选择已有标签</el-button>
+                    <el-button class="u-btn-r" icon="iconfont el-icon-vip-fangdajing" size="medium" type="primary" @click="tagEditShow()">选择已有标签</el-button>
                     <tagEdit :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
                 </div>
               </div>
@@ -42,11 +42,11 @@
                       <el-option :label="item.value" :value="item.key" v-for="(item,i) in coumn_data_list" :key="i+'coumn'">{{item.value||'无'}}</el-option>
                     </el-select>
                     <div class="btns-el-btn" @click="removeCoumn(i)" v-if="(coumn_list.length-1)!=i">
-                      <i class="el-icon-minus"></i>
+                      <i class="iconfont el-icon-vip-jianhao1"></i>
                       <span>删除</span>
                     </div>
                     <div class="btns-el-btn" @click="addCoumn" v-if="(coumn_list.length-1)==i">
-                      <i class="el-icon-plus"></i>
+                      <i class="iconfont el-icon-vip-tianjia1"></i>
                       <span>投递</span>
                     </div>
                    </div>
@@ -103,8 +103,8 @@
                           <!-- <textarea id="remark_textarea" v-model="postForm.content" style="display: none;"></textarea> -->
                           </div>
                         <div class="edit-check-list">
-                          <div class="edit-col" @click="editorCheck(1)" :class="edit_check==1?'edit-col-active':''"><i class="el-icon-document filter-icon"></i>编辑器1</div>
-                          <div class="edit-col" @click="editorCheck(2)" :class="edit_check==2?'edit-col-active':''"><i class="el-icon-document filter-icon"></i>编辑器2</div>
+                          <div class="edit-col" @click="editorCheck(1)" :class="edit_check==1?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji1 filter-icon"></i>编辑器1</div>
+                          <div class="edit-col" @click="editorCheck(2)" :class="edit_check==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
                         </div>
                       </div>
                       <div class="table-pd" v-show="activeName=='div2'">
@@ -115,63 +115,63 @@
               </el-form-item>
               <el-form-item>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn" @click="backHistory()">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn" @click="previewPage()">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm',it.key)" v-for="(it,index) in postForm.nextAuditStatus" :key="index+'bts'">{{it.value||'保存'}}</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn" @click="backHistory()">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-yulan1" size="medium" class="admin-green-btn" @click="previewPage()">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm',it.key)" v-for="(it,index) in postForm.nextAuditStatus" :key="index+'bts'">{{it.value||'保存'}}</el-button>
                 </div>
                 <!-- <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
-                  <el-button icon="el-icon-close" size="medium">保存并发布</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium">保存并发布</el-button>
                 </div>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" type="primary">保存</el-button>
-                  <el-button icon="el-icon-close" size="medium">保存并提交</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary">保存</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium">保存并提交</el-button>
                 </div>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" class="admin-red-btn">初审不通过</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">初审通过</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" class="admin-red-btn">初审不通过</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">初审通过</el-button>
                 </div>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" type="primary">保存</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">初校完成</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary">保存</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">初校完成</el-button>
                 </div>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" class="admin-red-btn">二审不通过</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">二审通过</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" class="admin-red-btn">二审不通过</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">二审通过</el-button>
                 </div>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" type="primary">保存</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">二校完成</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary">保存</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">二校完成</el-button>
                 </div>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" class="admin-red-btn">终校不通过</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">终校通过</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" class="admin-red-btn">终校不通过</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">终校通过</el-button>
                 </div>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" type="primary">保存</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">终校完成</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary">保存</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">终校完成</el-button>
                 </div>
                 <div>
-                  <el-button icon="el-icon-close" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="el-icon-close" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="el-icon-check" size="medium" type="primary" @click="drawBack">退回</el-button>
-                  <el-button icon="el-icon-close" size="medium" type="primary">发布</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="drawBack">退回</el-button>
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" type="primary">发布</el-button>
                 </div> -->
               </el-form-item>
             </div>
@@ -186,8 +186,8 @@
             <el-input type="textarea" v-model="postForm.desc" rows="8" placeholder="输入备注原因"></el-input>
           </div>
           <span slot="footer" class="dialog-footer">
-              <el-button icon="el-icon-close" size="medium" @click="drawBackClose()">取消</el-button>
-              <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+              <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="drawBackClose()">取消</el-button>
+              <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
           </span>
         </el-dialog>
         <footerPage class="top20"></footerPage>
@@ -339,6 +339,8 @@ export default {
       edit_check:1,//编辑器切换
       activeName:"div1",//富文本还是链接
       coumn_data_list:[],//栏目下拉选择列表
+      content1:'',//富文本1
+      content2:'',//富文本2
       font_list:[ //字体大小
         {title:14},
         {title:16},
@@ -514,8 +516,23 @@ export default {
     drawBackClose(){
       this.draw_back = false;
     },
+    //内容、链接切换
     handleClick(val){
+      if(val == this.activeName){
+        return;
+      }
       this.activeName = val;
+      // if(val == 'div1'){
+      //   console.log('清空链接');
+        
+      // }else{
+      //   this.postForm.content = '';
+      //   if(document.getElementById('tinymce')){document.getElementById('tinymce').innerHTML = ''}
+      //   console.log('清空内容');
+      // }
+      // setTimeout(()=>{
+      //   this.activeName = val;
+      // },200)
     },
     imgUrl(val){
       this.postForm['cover'] = val[0];

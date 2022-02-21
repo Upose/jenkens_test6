@@ -7,7 +7,7 @@
             <div class="temp-select c-l">
               <div class="d-temp-box" :style="{background:'url('+it.previewPic+')'}" v-for="(it,i) in template_list" :key="i+'a'">
                 <span class="temp-name">{{it.name}}</span>
-                <el-button type="primary" class="button" size="mini" @click="templateClick(it.id)"><i class="iconfont" :class="it.id==postForm.defaultTemplate?'vip-check':'vip-no-check'"></i> {{it.id==postForm.defaultTemplate?'已选':'选择'}}</el-button>
+                <el-button type="primary" class="button" size="mini" @click="templateClick(it.id)"><i class="iconfont" :class="it.id==postForm.defaultTemplate?'el-icon-vip-check':'el-icon-vip-no-check'"></i> {{it.id==postForm.defaultTemplate?'已选':'选择'}}</el-button>
               </div>
               <div class="higher-set" @click="hfShow()">
                 <i class="el-icon-s-grid"></i>
@@ -39,9 +39,9 @@
             </el-select>
           </el-form-item>
           <el-form-item class="m-top">
-            <el-button icon="el-icon-close" size="medium" @click="backHistory()">取消</el-button>
-            <el-button icon="el-icon-check" size="medium" type="primary" @click="preStep()">上一步</el-button>
-            <el-button icon="el-icon-check" size="medium" type="primary" @click="nextStep()">下一步</el-button>
+            <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="backHistory()">取消</el-button>
+            <el-button icon="iconfont el-icon-vip-shangyibu" size="medium" type="primary" @click="preStep()">上一步</el-button>
+            <el-button icon="iconfont el-icon-vip-xiayibu" size="medium" type="primary" @click="nextStep()">下一步</el-button>
           </el-form-item>
         </div>
       </el-form>

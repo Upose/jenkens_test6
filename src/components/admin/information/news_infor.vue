@@ -60,11 +60,11 @@
                         </el-table-column>
                         <el-table-column label="操作" width="380">
                           <template slot-scope="scope">
-                            <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="el-icon-delete" round>编辑</el-button>
-                            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-delete" round>{{scope.row.nextAuditBottonName||'审核'}}</el-button>
-                            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button>
-                            <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="el-icon-delete" class="handleSort" round>排序</el-button>
-                            <el-button @click="previewPage(scope.row.id)" type="text" size="mini" icon="el-icon-delete" round>预览</el-button>
+                            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
+                            <el-button @click="previewPage(scope.row.id)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>预览</el-button>
+                            <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-paixu" class="handleSort" round>排序</el-button>
+                            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-pingshen" round>{{scope.row.nextAuditBottonName||'审核'}}</el-button>
+                            <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round>编辑</el-button>
                           </template>
                         </el-table-column>
                         <el-table-column prop="content" label="操作记录" width="85">
