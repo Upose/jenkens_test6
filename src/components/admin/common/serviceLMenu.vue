@@ -35,9 +35,9 @@ export default {
     return {
       default_img:require('@/assets/admin/img/upload/user-img.png'),
       dataList:[
-        {icon:'el-icon-warning-outline',name:'栏目管理',component:'/admin_newsProgram'},
-        {icon:'el-icon-warning-outline',name:'馆内资讯',component:'/newsInfo'},
-        {icon:'el-icon-warning-outline',name:'应用设置',component:'/admin_newsSet'},
+        // {icon:'el-icon-warning-outline',name:'栏目管理',component:'/admin_newsProgram'},
+        // {icon:'el-icon-warning-outline',name:'馆内资讯',component:'/newsInfo'},
+        // {icon:'el-icon-warning-outline',name:'应用设置',component:'/admin_newsSet'},
       ],
     }
   },
