@@ -235,6 +235,7 @@ export default {
     window.tinymce.get('mytextarea').destroy();
   },
   mounted(){
+    console.log(this.$root.fileUrl);
     var _this = this;
     //tinymce 编辑器
     tinymce.init({
