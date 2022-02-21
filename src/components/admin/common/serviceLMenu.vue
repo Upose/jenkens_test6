@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="s-menu">
-      <div class="s-row" :class="isActive(item.component)?'active':''"  :title="item.name" @click="openPage(item.component)" v-for="(item,index) in dataList" :key="index+'menu'"><i class="el-icon-s-ticket"></i><span>{{item.name}}</span></div>
+      <div class="s-row" :class="isActive(item.component)?'active':''"  :title="item.name" @click="openPage(item.component)" v-for="(item,index) in dataList" :key="index+'menu'"><i class="iconfont el-icon-vip-daohanglanmu"></i><span>{{item.name}}</span></div>
     </div>
   </div>
 </template>
