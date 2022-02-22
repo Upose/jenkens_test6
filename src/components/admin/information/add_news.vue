@@ -108,7 +108,7 @@
                         </div>
                       </div>
                       <div class="table-pd" v-show="activeName=='div2'">
-                        <textarea class="table-el-textarea" v-model="postForm.linkUrl" placeholder="请输入链接地址"></textarea>
+                        <textarea class="table-el-textarea" v-model="postForm.externalLink" placeholder="请输入链接地址"></textarea>
                       </div>
                     </div>
                 </div>
@@ -235,7 +235,6 @@ export default {
     window.tinymce.get('mytextarea').destroy();
   },
   mounted(){
-    console.log(this.$root.fileUrl);
     var _this = this;
     //tinymce 编辑器
     tinymce.init({

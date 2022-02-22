@@ -3,7 +3,7 @@
     <div class="logo-w" :class="{'logo-collapse':$root.collapse}">
       <a href="javascript:;"><img :src="$root.collapse?logoList.show:logoList.hide"></a>
     </div>
-    <a href="javascript:;" class="m-cut" @click="collapseChage"><i class="el-icon-s-fold"></i></a>
+    <a href="javascript:;" class="m-cut" @click="collapseChage"><i class="iconfont" :class="$root.collapse?'el-icon-vip-zhankai':'el-icon-vip-shouqi'"></i></a>
     <!-- <div class="m-box-list">
       <a href="javascript:;" class="m-box" @click="openPage(item.url)" v-for="(item,index) in dataList" :key="index">
         <span class="name">{{item.title}}</span>
@@ -15,7 +15,7 @@
       </el-tabs>
     </div>
     <div class="login-msg-warp">
-      <div class="u-img-w"><el-image class="u-img" :src="$root.fileUrl+userInfo.photo||default_img" :fit="'contain'"></el-image></div>
+      <div class="u-img-w"><el-image class="u-img" v-if="userInfo" :src="$root.fileUrl+userInfo.photo||default_img" :fit="'contain'"></el-image></div>
       <span class="u-name">{{userInfo.typeName||''}}</span>
       <i class="iconfont el-icon-vip-tuichu loginOut" title="退出登录" @click="outLogin()"></i>
     </div>
@@ -62,7 +62,7 @@ export default {
     // 侧边栏折叠展开
     collapseChage(){
         this.$root.collapse = !this.$root.collapse;
-        bus.$emit('collapse', this.$root.collapse);
+        this.bus.$emit('collapse', this.$root.collapse);
     },
     handleClick(tab, event) {
       window.location.href = this.dataList[this.activeName].backendUrl||'#';
@@ -110,7 +110,7 @@ export default {
     }
   }
   .logo-collapse{
-    width: 65px;
+    width: 80px;
   }
   .m-cut{
     font-size: 24px;
@@ -148,7 +148,7 @@ export default {
     }
   }
   .logo-collapse-left{
-    left:127px;
+    left:140px;
     transition: left .3s ease-in-out;
   }
   
