@@ -27,7 +27,7 @@
                   </div>
                   <div class="r-box-btns">
                     <el-button type="primary" class="admin-red-btn" size="medium" icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
-                    <el-button type="primary" size="medium" icon="iconfont el-icon-vip-shezhi" @click="editClick(it.columnID)">编辑</el-button>
+                    <el-button type="primary" size="medium" icon="iconfont el-icon-vip-bianji" @click="editClick(it.columnID)">编辑</el-button>
                   </div>
                 </div>
                 <div class="row-box set-hover" v-if="item.lableName=='默认标签'" @click="addClick()">
