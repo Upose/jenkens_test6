@@ -55,9 +55,9 @@ Vue.prototype.authShowBtn = function(value){
     return is_show;
   }
 }
-router.beforeEach((to, from, next) => {
-  next();
-})
+// router.beforeEach((to, from, next) => {
+//   next();
+// })
 
 let timer = setInterval(() => {
   if (axios && axios.defaults && axios.defaults.loaded) {
