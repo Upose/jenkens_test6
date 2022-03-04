@@ -1,8 +1,8 @@
 <!--星星评分-->
 <template>
   <div class="rate" :class="{'disabled':disabled}">
-    <i v-for="i in 5" class="iconfont" @mouseenter="disabled?'':curScore=i" @mouseleave="disabled?'' :curScore=''" @click="disabled?'':setScore(i)" :class="getClass(i)">
-        <i v-if="disabled&&i==Math.floor(score)+1" class="iconfont icon-star" :style="'width:'+width"></i>
+    <i v-for="i in 5" class="iconfont1" @mouseenter="disabled?'':curScore=i" @mouseleave="disabled?'' :curScore=''" @click="disabled?'':setScore(i)" :class="getClass(i)">
+        <i v-if="disabled&&i==Math.floor(score)+1" class="iconfont1 icon-star" :style="'width:'+width"></i>
     </i>
     <span v-if="showText" class="text">{{curScore||score}}分</span>
   </div>
@@ -57,7 +57,7 @@
         display: inline-block;
         vertical-align: middle;
     }
-    .iconfont{
+    .iconfont1{
         width: 18px;
         height: 18px;
         display: inline-block;
