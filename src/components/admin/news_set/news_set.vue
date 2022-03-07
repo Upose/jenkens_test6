@@ -22,7 +22,7 @@
                     <el-collapse-item v-for="(item,index) in tableData" :key="index" :name="index">
                       <template slot="title">
                         <span class="col col1">{{index+1}}</span>
-                        <span class="col col2" :class="activeNames.indexOf(index)>-1?'open-fold-line':''"><i class="el-icon-remove col-icon"></i>{{item.title||''}}</span>
+                        <span class="col col2" :class="activeNames.indexOf(index)>-1?'open-fold-line':''"><i class=" col-icon" :class="activeNames.indexOf(index)>-1?'el-icon-remove':'el-icon-circle-plus'"></i>{{item.title||''}}</span>
                         <span class="col col3"><span v-for="(ite,k) in (item.managerList||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click.stop="handleSet(item.title,item.columnID,'0',(item.managerList||[]))" class="btns-edit"><i class="iconfont el-icon-vip-bianji"></i>修改</span></span>
                       </template>
                       <div class="table-pd-row" v-for="(it,i) in (item.list||[])" :key="i+'_a'">

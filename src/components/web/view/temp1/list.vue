@@ -32,6 +32,7 @@
                 </div>
               </li>
             </ul>
+            <div v-if="news_list.length == 0" class="web-empty-data"></div>
             <pages1 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages1>
           </div><!--新闻列表 end -->
         </div>

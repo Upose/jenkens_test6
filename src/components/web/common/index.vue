@@ -12,6 +12,11 @@
 </div>
 </template>
 <style scoped lang="less">
+.web-empty-data{
+  background: url(../../../assets/public/img/data-empty.png) no-repeat center;
+  width: 100%;
+  min-height: 180px;
+}
 .web-warp{
     min-width: 1200px;
     width: 100%;
