@@ -6,7 +6,7 @@
             <div class="form-content">
             <el-form-item label="头部模板" prop="defaultTemplate">
                 <div class="temp-select c-l">
-                    <div class="d-temp-box" :style="{background:'url('+it.previewPic+')'}" v-for="(it,i) in head_list" :key="i+'a'">
+                    <div class="d-temp-box" :style="{background:'url('+$root.fileUrl+it.previewPic+')'}" v-for="(it,i) in head_list" :key="i+'a'">
                         <span class="temp-name">{{it.name}}</span>
                         <el-button type="primary" class="button" size="mini" @click="headerClick(it)"><i class="iconfont" :class="it.id==head_check?'el-icon-vip-check':'el-icon-vip-no-check'"></i> {{it.id==head_check?'已选':'选择'}}</el-button>
                     </div>
@@ -15,7 +15,7 @@
 
             <el-form-item label="底部模板" prop="defaultTemplate">
                 <div class="temp-select c-l">
-                    <div class="d-temp-box" :style="{background:'url('+it.previewPic+')'}" v-for="(it,i) in footer_list" :key="i+'a'">
+                    <div class="d-temp-box" :style="{background:'url('+$root.fileUrl+it.previewPic+')'}" v-for="(it,i) in footer_list" :key="i+'a'">
                         <span class="temp-name">{{it.name}}</span>
                         <el-button type="primary" class="button" size="mini" @click="footerClick(it)"><i class="iconfont" :class="it.id==footer_check?'el-icon-vip-check':'el-icon-vip-no-check'"></i> {{it.id==footer_check?'已选':'选择'}}</el-button>
                     </div>
