@@ -11,7 +11,7 @@
     </div> -->
 </div>
 </template>
-<style scoped lang="less">
+<style lang="less">
 .web-empty-data{
   background: url(../../../assets/public/img/data-empty.png) no-repeat center;
   width: 100%;
@@ -23,18 +23,18 @@
     height: 100%;
     position: relative;
 }
-.template-warp{
-  position: fixed;
-  top: 10px;
-  right: 0;
-  span{
-    cursor: pointer;
-    padding: 1px 2px;
-    border-radius: 4px;
-    background-color: #eee;
-    border: 1px solid #eee;
-  }
-}
+// .template-warp{
+//   position: fixed;
+//   top: 10px;
+//   right: 0;
+//   span{
+//     cursor: pointer;
+//     padding: 1px 2px;
+//     border-radius: 4px;
+//     background-color: #eee;
+//     border: 1px solid #eee;
+//   }
+// }
 </style>
 <script>
 export default {

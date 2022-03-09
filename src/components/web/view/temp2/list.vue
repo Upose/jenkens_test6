@@ -36,6 +36,7 @@
                 </div>
               </div>
             </div>
+            <div v-if="news_list.length == 0" class="web-empty-data"></div>
             <pages2 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages2>
           </div>
           
