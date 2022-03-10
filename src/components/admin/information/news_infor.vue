@@ -197,16 +197,26 @@ export default {
     },
     //初始化数据
     initData(){
+      var _this = this;
+      this.postForm.pageIndex = this.pageData.pageIndex;
+      this.postForm.pageSize = this.pageData.pageSize;
+      this.http.postJsonParameter_url('news-content-get-by-column',this.postForm,'/'+this.postForm.columnID).then(res=>{
+        _this.auditStatusCountList = res.data.auditStatusCountList||[];
+        if(_this.auditStatusCountList.length>0){
+          _this.auditStatus(0,_this.auditStatusCountList[0]);
+        }
+      }).catch(err=>{
+          console.log(err);
+      })
+    },
+    initDataTable(){
+      var _this = this;
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
       this.http.postJsonParameter_url('news-content-get-by-column',this.postForm,'/'+this.postForm.columnID).then(res=>{
         this.tableData = res.data.newsContents.items || [];
-        this.auditStatusCountList = res.data.auditStatusCountList||[];
-        this.pageData.totalCount = res.data.newsContents.totalCount;
-        // if(this.tableData.length>0){
-        //   this.auditStatus(0,this.tableData[0]);
-        // }
-        this.dragSort();
+        _this.pageData.totalCount = res.data.newsContents.totalCount;
+        _this.dragSort();
       }).catch(err=>{
           console.log(err);
       })
@@ -323,7 +333,7 @@ export default {
       this.postForm['auditStatus'] = row.auditStatus||0;
       this.postForm.pageIndex = 1;
       this.postForm.pageSize = 50;
-      this.initData();
+      this.initDataTable();
     },
     //批量下架
     allOut(){
