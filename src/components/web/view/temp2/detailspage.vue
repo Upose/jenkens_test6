@@ -37,7 +37,8 @@
                 <span v-if="data.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
                 <span v-if="data.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
                 <span v-if="data.isShowHitCount"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
-                <span class="r-share">一键分享</span>
+                <span class="r-share" @click="handleShare()">一键分享</span>
+                <dialogShare ref="dialogShare_ref"></dialogShare>
               </div>
             </div>
             <div class="edit-content" v-html="detailsData.content"></div>
@@ -73,10 +74,10 @@
   </div>
 </template>
 <script>
+import dialogShare from '../../model/dialog_share';
 export default {
   name: 'footerPage',
-  created(){
-  },
+  components:{dialogShare},
   data () {
     return {
         left_index:0,//左边的菜单
@@ -168,6 +169,10 @@ export default {
       detailsClick(val){
         this.$router.push({path:'/web_detailspage2',query:{id:1}})
       },
+      //分享
+      handleShare() {
+      this.$refs.dialogShare_ref.show();
+    }
   },
 }
 </script>

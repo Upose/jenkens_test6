@@ -176,6 +176,18 @@ export default {
   }
     .body-content{
     background-color: #fff;
+    position: relative;
+    &::before{
+        position: absolute;
+        left: 240px;
+        top: 45px;
+        bottom: 0;
+        width: 6px;
+        content: "";
+        background: #fff;
+        box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
+        z-index: 2;
+      }
     .left-menu{
       float: left;
       margin-top: -25px;
@@ -189,32 +201,9 @@ export default {
         color: @fff;
         text-align: center;
       }
-      // &::after{
-      //   position: absolute;
-      //   right:0;
-      //   top: 72px;
-      //   bottom: 0;
-      //   width: 6px;
-      //   content: "";
-      //   background: @fff;
-      //   box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
-      //   z-index: 2;
-      // }
     }
     .body-title{
       margin-left: 250px;
-      position: relative;
-      &::after{
-        position: absolute;
-        left: -6px;
-        top: 45px;
-        bottom: 0;
-        width: 6px;
-        content: "";
-        background: #fff;
-        box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
-        z-index: 2;
-      }
       .menu-top{
         height: 44px;
         padding: 10px 20px;
