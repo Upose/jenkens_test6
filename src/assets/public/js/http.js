@@ -368,7 +368,7 @@ export default {
   postFile: function (url, formData) {
     return new Promise((resolve, reject) => {
       axios({
-        url: window.apiDomainAndPort + '/api/file/upload-file',
+        url: window.localStorage.getItem('fileUrl') + '/api/file/upload-file',
         // url: this.postUrl[url],
         data: formData,
         method: 'POST',
