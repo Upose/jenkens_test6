@@ -326,7 +326,7 @@ export default {
   data () {
     return {
       columnDeatils:{},
-      base_url:process.env.VUE_APP_IMG_URL,
+      base_url:window.localStorage.getItem('fileUrl'),
       columnID:this.$route.query.c_id,//栏目id-左边菜单
       layedit:null,
       row_list:[],//栏目定义的扩展字段列表
@@ -464,7 +464,7 @@ export default {
         initialFrameHeight: 240,// 初始容器高度
         initialFrameWidth: '100%',// 初始容器宽度
         serverUrl: '',// 上传文件接口（这个地址是我为了方便各位体验文件上传功能搭建的临时接口，请勿在生产环境使用！！！）
-        UEDITOR_HOME_URL: '/static/assets/other/UEditor/'
+        UEDITOR_HOME_URL: './static/assets/other/UEditor/'
       },
     }
   },
