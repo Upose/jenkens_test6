@@ -198,6 +198,7 @@ export default {
   .articledetails-warp{
     min-height:700px;
     background: @e0dfdf url(../../../../assets/web/img/banner-bg1.jpg) no-repeat center top;
+    background-size: 100% 165px;
     padding-bottom: 20px;
     padding-top: 95px;
   }
