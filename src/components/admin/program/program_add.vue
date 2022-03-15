@@ -66,8 +66,6 @@ export default {
         _this.details_ob = res.data||{};
         _this.$refs.step_one_ref.setDetails(_this.details_ob);
         _this.$refs.step_two_ref.setDetails(_this.details_ob);
-        _this.$refs.step_three_ref.setDetails(_this.details_ob);
-        _this.$refs.step_four_ref.setDetails(_this.details_ob);
         // window.sessionStorage.setItem('news-column',JSON.stringify(this.details_ob));
       }).catch(err=>{
         
@@ -97,12 +95,10 @@ export default {
           this.postForm['coverSize'] =  list['coverSize']||this.postForm['coverSize'];
           this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];  
         }
-        if(data.n == 3){
-          this.postForm['isLoginAcess'] =  list['isLoginAcess'];
-          this.postForm['visitingList'] =  list['visitingList']||this.postForm['visitingList'];
-          this.postForm['isOpenComment'] =  list['isOpenComment'];
-        }
       }else if(data.step == 'save'){
+        this.postForm['isLoginAcess'] =  list['isLoginAcess'];
+        this.postForm['visitingList'] =  list['visitingList']||this.postForm['visitingList'];
+        this.postForm['isOpenComment'] =  list['isOpenComment'];
         this.postForm['isOpenAudit'] =  list['isOpenAudit'];
         this.postForm['auditFlow'] =  list['auditFlow']||this.postForm['auditFlow'];
         this.submitForm();

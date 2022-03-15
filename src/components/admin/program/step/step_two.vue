@@ -84,7 +84,7 @@ export default {
       },
       rules: {
         visitingList: [
-          { required: true, message: '请输入内容', trigger: 'blur' }
+          { required: true, message: '请选择授权访问名单', trigger: 'blur' }
         ],
       },
     }
@@ -93,9 +93,10 @@ export default {
   },
   methods:{
     setDetails(newVal){
+      console.log(newVal);
       this.postForm.isLoginAcess = newVal.isLoginAcess||0;
       this.postForm.isOpenComment = newVal.isOpenComment||0;
-      this.postForm.visitingList = newVal.visitingList;
+      this.postForm.visitingList = newVal.visitingList||'-1';
       this.postForm.visitingListModel = newVal.visitingListModel||{};
       this.select_user_data = newVal.visitingListModel||{};
       this.postForm.isOpenAudit = newVal.isOpenAudit||0;
