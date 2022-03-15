@@ -1,11 +1,11 @@
 <!--步骤进度条-->
 <template>
   <div class="steps-page c-l">
-    <div class="step" :class="isActive(index+1)" v-for="(it,index) in countNum" :key="index" :style="{width:(100/countNum.length)+'%'}">
+    <div class="step" :class="isActive(index+1)" v-for="(it,index) in countNum" :key="index" @click="handleClick(index)" :style="{width:(100/countNum.length)+'%'}">
         <span class="title">{{it.title||''}}</span>
-        <span class="icon" v-if="(index+1) != cuStep">{{index+1}}</span>
-        <span class="iconfont el-icon-vip-wancheng his" v-if="(index+1) < cuStep"></span>
-        <span class="iconfont el-icon-vip-jinhangzhong cu" v-if="(index+1) == cuStep"></span>
+        <span class="icon" :class="isEdit?'cursor':''" v-if="(index+1) != cuStep">{{index+1}}</span>
+        <span class="iconfont el-icon-vip-wancheng his" :class="isEdit?'cursor':''" v-if="(index+1) < cuStep"></span>
+        <span class="iconfont el-icon-vip-jinhangzhong cu" :class="isEdit?'cursor':''" v-if="(index+1) == cuStep"></span>
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@
 <script>
 export default {
   name: 'stepsPage',
-  props:['countNum','cuStep'],//countNum 总步骤;cuStep 当前步骤
+  props:['countNum','cuStep','isEdit'],//countNum 总步骤;cuStep 当前步骤
   created(){
     //   console.log(this.countNum,this.cuStep);
   },
@@ -26,6 +26,11 @@ export default {
     //   this.initData();
   },
   methods:{
+      handleClick(index) {
+        if (this.isEdit) {
+            this.$emit('handleCuStep', index + 1);
+        }
+    },
       initData(){
         this.http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
             this.list1 = res.result.dtos||[];
@@ -56,6 +61,9 @@ export default {
 <style lang="less" scoped>
 @import "../../../assets/admin/css/color.less";/**颜色配置 */
 @import "../../../assets/admin/css/style.less";/**颜色配置 */
+.cursor{
+    cursor: pointer;
+}
 .steps-page{
     width: 100%;
     height: 50px;

@@ -311,7 +311,7 @@ export default {
               overflow: hidden;
               text-overflow:ellipsis;
               white-space: nowrap;
-              color: #999;
+              color: #a21e1e;
               position: relative;
               display: block;
               &::before{
@@ -320,7 +320,7 @@ export default {
                   width: 5px;
                   height: 5px;
                   border-radius: 50%;
-                  background: #999;
+                  background: #a21e1e;
                   position: absolute;
                   left:8px;
                   top: 15px;

@@ -3,55 +3,64 @@
   <div class="admin-warp-page">
       <el-form :model="postForm" :rules="rules" ref="postForm" label-width="120px" class="admin-form">
         <div class="form-content">
-          <el-form-item label="默认模板" prop="defaultTemplate">
-            <div class="temp-select c-l">
-              <div class="d-temp-box" :style="{background:'url('+$root.fileUrl+it.previewPic+')'}" v-for="(it,i) in template_list" :key="i+'a'">
-                <span class="temp-name">{{it.name}}</span>
-                <el-button type="primary" class="button" size="mini" @click="templateClick(it.id)"><i class="iconfont" :class="it.id==postForm.defaultTemplate?'el-icon-vip-check':'el-icon-vip-no-check'"></i> {{it.id==postForm.defaultTemplate?'已选':'选择'}}</el-button>
-              </div>
-              <div class="higher-set" @click="hfShow()">
-                <i class="iconfont el-icon-vip-gaojishezhi"></i>
-                <span>高级设置</span>
-              </div>
-            </div>
+          <el-form-item label="必须登录访问" prop="isLoginAcess">
+            <!-- <el-radio-group v-model="postForm.isLoginAcess">
+              <el-radio :label="0">关闭</el-radio>
+              <el-radio :label="1">启用</el-radio>
+            </el-radio-group> -->
+            <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isLoginAcess"></el-switch>
           </el-form-item>
-          <el-form-item label="侧边列表" prop="sideList">
-            <el-checkbox-group v-model="postForm.sideList">
-                <el-checkbox label="1" name="type">左侧显示同标签栏目</el-checkbox>
-                <el-checkbox label="2" name="type">左侧显示新闻标签</el-checkbox>
-            </el-checkbox-group>
+          <el-form-item label="授权访问名单" prop="visitingList">
+            <el-radio-group v-model="postForm.visitingList">
+              <el-radio label="-1">全部</el-radio>
+              <el-radio label="指定"></el-radio>
+              <el-button size="medium" class="m-l" v-if="postForm.visitingList!='-1'" type="primary" @click="selectUserShow()">选择用户</el-button>
+            </el-radio-group>
           </el-form-item>
-          <el-form-item label="显示系统信息">
-            <el-checkbox-group v-model="postForm.sysMesList">
-                <el-checkbox label="1" name="type">列表显示发布日期</el-checkbox>
-                <el-checkbox label="2" name="type">列表显示新闻访问次数</el-checkbox>
-                <el-checkbox label="3" name="type">列表显示摘要</el-checkbox>
-                <el-checkbox label="4" name="type">列表显示新闻标签</el-checkbox>
-                <el-checkbox label="5" name="type">详情显示发布日期</el-checkbox>
-                <el-checkbox label="6" name="type">详情显示访问次数</el-checkbox>
-                <el-checkbox label="7" name="type">详情显示审核信息</el-checkbox>
-            </el-checkbox-group>
+          <el-form-item label="启用内容评论">
+            <!-- <el-radio-group v-model="postForm.resource">
+              <el-radio label="否"></el-radio>
+              <el-radio label="是"></el-radio>
+            </el-radio-group> -->
+            <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isOpenComment"></el-switch>
           </el-form-item>
-          <el-form-item label="启用内容封面">
-            <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isOpenCover"></el-switch>
-            <el-select class="m-l" v-model="postForm.coverSize" placeholder="请选择" :disabled="postForm.isOpenCover!=1">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
+          <el-form-item label="启用内容审查">
+            <el-switch  :active-value="1" :inactive-value="0" v-model="postForm.isOpenAudit"></el-switch>
+          </el-form-item>
+          <el-form-item label="设置审核流程" class="m-t" v-if="postForm.isOpenAudit==1">
+            <div class="audit-warp">
+              <span class="next-txt" @click="checkClick('0')" :class="postForm.auditFlow.indexOf('0')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 撰稿</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('1')" :class="postForm.auditFlow.indexOf('1')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 提交</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('2')" :class="postForm.auditFlow.indexOf('2')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 初审</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('3')" :class="postForm.auditFlow.indexOf('3')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 初校</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('4')" :class="postForm.auditFlow.indexOf('4')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 复审</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('5')" :class="postForm.auditFlow.indexOf('5')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 二校</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('6')" :class="postForm.auditFlow.indexOf('6')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 终审</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('7')" :class="postForm.auditFlow.indexOf('7')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 终校</span></span>
+              <span class="next-icon"><i class="next-bj"></i></span>
+              <span class="next-txt" @click="checkClick('8')" :class="postForm.auditFlow.indexOf('8')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 发布</span></span>
+            </div><!--撰稿和发布是必须的-->
           </el-form-item>
           <el-form-item class="m-top">
             <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="backHistory()">取消</el-button>
             <el-button icon="iconfont el-icon-vip-shangyibu" size="medium" type="primary" @click="preStep()">上一步</el-button>
-            <el-button icon="iconfont el-icon-vip-xiayibu" size="medium" type="primary" @click="nextStep()">下一步</el-button>
+            <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">确认</el-button>
           </el-form-item>
         </div>
       </el-form>
-      <head_foter @hfHide="hfHide" @setHeadFoot="setHeadFoot" v-if="head_foter_alert" ref="head_foter_ref" :dataList="header_footer_list"></head_foter>
+      <selectUser :dataList="select_user_data" @selectUserHide="selectUserHide" @getCheckUser="getCheckUser" v-if="select_user_show"></selectUser>
   </div>
 </template>
 
 <script>
-import head_foter from "../../model/head_foter"
-import paging from "@/components/admin/common/paging";
+import selectUser from "../../model/selectUser";
 export default {
   name: 'index',
   created(){
@@ -59,89 +68,103 @@ export default {
         this.$root.collapse = msg;
     })
   },
-  components:{head_foter},
+  components:{selectUser},
   mounted(){
-    this.initData();
-    
   },
   data () {
     return {
-      head_foter_alert:false,
-      options: [{
-        value: 'default',
-        label: '封面默认尺寸'
-      },{
-        value: '200x400',
-        label: '200x400'
-      }],
-      template_list:[],
+      select_user_data:{},
+      select_user_show:false,
       postForm: {
-        defaultTemplate:'',//默认模板 必填
-        sideList:[],//侧边列表
-        sysMesList:[],//显示的系统信息
-        isOpenCover:0,//启用内容封面 1开启 0关闭
-        coverSize:'default',//封面尺寸
+        isLoginAcess:0,//必须登录访问
+        visitingList:'-1',//授权访问名称 必填 0是全部 1是指定授权访问名单
+        isOpenComment:0,//启用内容评分
+        isOpenAudit:0,//启用内容审查
+        auditFlow:'0;8',
       },
       rules: {
-          defaultTemplate: [
-              { required: true, message: '请输入内容', trigger: 'blur' }
-          ],
-          desc: [
-              { required: true, message: '请输入内容', trigger: 'blur' }
-          ]
+        visitingList: [
+          { required: true, message: '请输入内容', trigger: 'blur' }
+        ],
       },
     }
   },
+  mounted(){
+  },
   methods:{
     setDetails(newVal){
-        this.postForm.sideList = (newVal.sideList||'').split(';');
-        this.postForm.sysMesList = (newVal.sysMesList||'').split(';');
-        this.postForm.isOpenCover = newVal.isOpenCover||0;
-        this.postForm.defaultTemplate = newVal.defaultTemplate;
-        this.postForm.coverSize = newVal.coverSize||'default';
-        this.postForm.headTemplate = newVal.headTemplate||'';
-        this.postForm.footTemplate = newVal.footTemplate||'';
-        this.header_footer_list={head:newVal.headTemplate,foot:newVal.footTemplate};
+      this.postForm.isLoginAcess = newVal.isLoginAcess||0;
+      this.postForm.isOpenComment = newVal.isOpenComment||0;
+      this.postForm.visitingList = newVal.visitingList;
+      this.postForm.visitingListModel = newVal.visitingListModel||{};
+      this.select_user_data = newVal.visitingListModel||{};
+      this.postForm.isOpenAudit = newVal.isOpenAudit||0;
+      this.postForm.auditFlow = newVal.auditFlow||'0,8';
     },
-    initData(){
-      //获取模板列表
-      this.http.getPlain_url('news-template-get',[]).then(res=>{
-        this.template_list = res.data||[];
-        if(this.template_list.length>0){
-          this.postForm.defaultTemplate = this.template_list[0].id;//默认选中第一个模板
+    //设置审核流程
+    checkClick(val){
+      if(val == '0' || val == '8'){
+        this.$message({type: 'warning',message: '此流程为必须项！'});
+      }else{
+        var list = this.postForm.auditFlow.split(';');
+        var is_yes = false;
+        list.forEach((item,index)=>{
+          if(item == val){
+            is_yes = true;
+            list.splice(index,1);
+            return;
+          }
+        });
+        if(!is_yes){
+          list.push(val);
         }
-      }).catch(err=>{})
-    },
-    //设置头部底部
-    setHeadFoot(val){      
-      this.postForm.headTemplate = val.head;
-      this.postForm.footTemplate = val.foot;
-       console.log(this.postForm.footTemplate);
-    },
-    //隐藏高级设置弹窗
-    hfHide(){
-      this.head_foter_alert = false;
-    },
-    //显示高级设置弹窗
-    hfShow(){
-      this.head_foter_alert = true;
-      console.log('显示高级弹窗');
-      var _this = this;
-      setTimeout(() => {
-        _this.$refs.head_foter_ref.setDetail({head:this.postForm.headTemplate,foot:this.postForm.footTemplate});  
-      }, 200);
-    },
-    //模板选择
-    templateClick(val){
-      this.postForm.defaultTemplate = val;
+        this.postForm.auditFlow = list.toString().replace(/\,/g,';');
+      }
     },
     //上一步
     preStep(){
       this.$emit('nextStep',{n:1,step:'pre'});
     },
-    //下一步
-    nextStep(){
-      this.$emit('nextStep',{n:3,step:'next',data:this.postForm});
+    //设置审核流程
+    checkClick(val){
+      if(val == '0' || val == '8'){
+        this.$message({type: 'warning',message: '此流程为必须项！'});
+      }else{
+        var list = this.postForm.auditFlow.split(';');
+        var is_yes = false;
+        list.forEach((item,index)=>{
+          if(item == val){
+            is_yes = true;
+            list.splice(index,1);
+            return;
+          }
+        });
+        if(!is_yes){
+          list.push(val);
+        }
+        this.postForm.auditFlow = list.toString().replace(/\,/g,';');
+      }
+    },
+    selectUserShow(){
+      this.select_user_show = true;
+    },
+    selectUserHide(){
+      this.select_user_show = false;
+    },
+    getCheckUser(val){
+      console.log(val);//这里将拿到的数据放入表单
+      this.postForm['visitingListModel'] = val;
+      this.select_user_show = false;
+    },
+    //表单提交-表单提交后，需要 返回到列表页。
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+          if (valid) {
+              this.$emit('nextStep',{n:2,step:'save',data:this.postForm});
+          } else {
+              
+          }
+      });
     },
   },
 }
@@ -151,27 +174,89 @@ export default {
 @import "../../../../assets/admin/css/color.less";/**颜色配置 */
 @import "../../../../assets/admin/css/style.less";/**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
-  .content{
+   .content{
     border-radius: 4px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
     .admin-form{
-      background-color: @fff;
+        background-color: @fff;
     }
     .form-content{
-      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
-      border-radius: 4px;
-      padding: 0;
-      max-width: 824px;
-      padding-top: 36px;
-      padding-bottom:10px;
-      .m-top{
-        margin-top: 30px;
-      }
-      .m-l{
-        margin-left: 24px;
-      }
-      .width500{
-        width: 500px;
-      }
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
+        border-radius: 4px;
+        padding: 0;
+        padding-top: 36px;
+        padding-bottom:10px;
+        .m-top{
+          margin-top: 30px;
+        }
     }
+    /***审核流程 */
+        .audit-warp{
+          .next-txt{
+            cursor: pointer;
+            vertical-align: text-top;
+            width: 70px;
+            height: 110px;
+            margin-top: -30px;
+            display: inline-block;
+            text-align: center;
+            i.m-icon{
+              color: @6777EF;
+              display: block;
+              width: 70px;
+              height: 70px;
+              line-height: 70px;
+              font-size: 30px;
+              border: 2px solid @E4E6FC;
+              border-radius: 50%;
+            }
+            span{
+              color: @ADB6FE;
+              display: block;
+              font-size: 14px;
+            }
+            &:hover{
+              span{
+                color: @6777EF;
+              }
+              i.m-icon{
+                color: @fff;
+                border: 2px solid @6777EF;
+                background-color:@6777EF;
+              }
+            }
+            .el-icon-vip-gou2{
+              font-size: 12px;
+              padding-right: 2px;
+            }
+          }
+          .active{
+            span{
+              color: @6777EF;
+            }
+            i.m-icon{
+              color: @fff;
+              border: 2px solid @6777EF;
+              background-color:@6777EF;
+            }
+          }
+          .next-icon{
+            vertical-align: top;
+            display: inline-block;
+            height: 90px;
+            line-height: 90px;
+            color: @6777EF;
+            font-size: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+            .next-bj{
+              display: inline-block;
+              width: 50px;
+              height: 39px;
+              vertical-align: top;
+              background: url(../../../../assets/admin/img/news-next.png) no-repeat center;
+            }
+          }
+        }
   }
 </style>

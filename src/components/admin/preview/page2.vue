@@ -331,11 +331,11 @@ export default {
             }
           }
           .sub-menu{
-            background-color: @fff;
+            background-color: #f9f9f9;
             padding: 0;
             a{
               font-size: 12px;
-              color: @6b;
+              color: #a21e1e;
               position: relative;
               display: block;
               padding-left: 30px;
@@ -347,7 +347,7 @@ export default {
                 width: 5px;
                 height: 5px;
                 border-radius: 50%;
-                background: @999;
+                background: #a21e1e;
                 position: absolute;
                 left: 20px;
                 top: 15px;

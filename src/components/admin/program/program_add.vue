@@ -7,11 +7,11 @@
         <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'"></breadcrumb><!--面包屑导航--->
         <div class="content">
           <h1 class="s-b-border-title">{{id?'编辑新闻栏目':'新增新闻栏目'}}</h1>
-          <steps :countNum="countNum" :cuStep="cuStep" class="step-bg"></steps>
+          <steps :countNum="countNum" :cuStep="cuStep" class="step-bg" :isEdit="isEdit" @handleCuStep="handleCuStep"></steps>
           <step_one v-show="cuStep==1" @nextStep="nextStep" ref="step_one_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_one>
           <step_two v-show="cuStep==2" @nextStep="nextStep" ref="step_two_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_two>
-          <step_three v-show="cuStep==3" @nextStep="nextStep" ref="step_three_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_three>
-          <step_four v-show="cuStep==4" @nextStep="nextStep" ref="step_four_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_four>
+          <!-- <step_three v-show="cuStep==3" @nextStep="nextStep" ref="step_three_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_three> -->
+          <!-- <step_four v-show="cuStep==4" @nextStep="nextStep" ref="step_four_ref" :dataDetails="details_ob" :is_edit="id?true:false"></step_four> -->
         </div><!---顶部查询板块 end--->
         <footerPage class="top20"></footerPage>
       </el-main>
@@ -27,8 +27,8 @@ import serviceLMenu from "@/components/admin/common/serviceLMenu";
 import steps from '../model/steps';
 import step_one from './step/step_one';
 import step_two from './step/step_two';
-import step_three from './step/step_three';
-import step_four from './step/step_four';
+// import step_three from './step/step_three';
+// import step_four from './step/step_four';
 export default {
   name: 'index',
   created(){
@@ -36,10 +36,11 @@ export default {
         this.$root.collapse = msg;
     })
   },
-  components:{footerPage,serviceLMenu,breadcrumb,steps,step_one,step_two,step_three,step_four},
+  components:{footerPage,serviceLMenu,breadcrumb,steps,step_one,step_two},
   data () {
     return {
-      countNum:[{title:'基本信息'},{title:'风格样式'},{title:'读者互动'},{title:'内容审查'}],//步骤列表
+      isEdit: false,//是否编辑
+      countNum:[{title:'基本信息'},{title:'权限设置'}],//步骤列表
       cuStep:1,//当前步骤
       id:this.$route.query.id,
       details_ob:JSON.parse(window.sessionStorage.getItem('news-column')||'{}'),
@@ -58,9 +59,9 @@ export default {
     next()
   },
   mounted(){
-    console.log(111);
     var _this = this;
     if(this.$route.query.id){ //有id表示修改，则获取详情数据
+      this.isEdit = true;
       this.http.getPlain_url('news-column-get','/'+this.$route.query.id).then(res=>{
         _this.details_ob = res.data||{};
         _this.$refs.step_one_ref.setDetails(_this.details_ob);
@@ -87,8 +88,6 @@ export default {
           this.postForm['status'] = list['status']||this.postForm['status'];
           this.postForm['extensionKV'] = list['extensionKV']||this.postForm['extensionKV']; //要做处理
           this.postForm['linkUrl'] = list['linkUrl']||this.postForm['linkUrl'];
-        }
-        if(data.n == 3){
           this.postForm['defaultTemplate'] = list['defaultTemplate']||this.postForm['defaultTemplate'];
           this.postForm['headTemplate'] = list['headTemplate']||this.postForm['headTemplate'];
           this.postForm['footTemplate'] = list['footTemplate']||this.postForm['footTemplate'];
@@ -96,9 +95,9 @@ export default {
           this.postForm['sysMesList'] = (list['sysMesList']||[]).toString().replace(/\,/g,';')||this.postForm['sysMesList'];
           this.postForm['isOpenCover'] =  list['isOpenCover'];
           this.postForm['coverSize'] =  list['coverSize']||this.postForm['coverSize'];
-          this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];          
+          this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];  
         }
-        if(data.n == 4){
+        if(data.n == 3){
           this.postForm['isLoginAcess'] =  list['isLoginAcess'];
           this.postForm['visitingList'] =  list['visitingList']||this.postForm['visitingList'];
           this.postForm['isOpenComment'] =  list['isOpenComment'];
@@ -108,6 +107,9 @@ export default {
         this.postForm['auditFlow'] =  list['auditFlow']||this.postForm['auditFlow'];
         this.submitForm();
       }
+    },
+    handleCuStep(step) {
+      this.cuStep = step;
     },
     //表单提交
     submitForm() {
