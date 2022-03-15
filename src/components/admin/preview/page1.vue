@@ -24,7 +24,7 @@
         <div class="body-title">
           <div class="menu-top child_bg">当前位置：{{content_title}}</div>
           <div class="right-content">
-              <div class="news-content-warp">
+              <div class="news-content-warp news-img-max-sys">
                 <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</h1>
                 <div class="details_content">
                   <div class="rich-title">
@@ -202,7 +202,6 @@ export default {
   },
 }
 </script>
-
 
 <style lang="less" scoped>
   @import "../../../assets/web/css/style.less";/**通用文件 */
@@ -391,6 +390,9 @@ export default {
   }
   /*****新闻详情 */
   .news-content-warp{
+    img{
+      max-width: 100%;
+    }
 h1{
   margin: 0 -15px;
   padding: 10px 50px;

@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="body-title">
-          <div class="right-content">
+          <div class="right-content news-img-max-sys">
             <div class="content-top-title">
               <span :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</span>
               <div class="news-sub-warp">

@@ -25,6 +25,12 @@ export default {
 @import "../../../assets/admin/css/color.less";
 @import "../../../assets/admin/font/iconfont.css";
 @import "../../../assets/admin/css/style.less";
+/***主要针对新闻中富文本的图片大小 */
+.news-img-max-sys{
+  img{
+    max-width: 100%;
+  }
+}
 .warp{
   width: 100%;
   height: 100%;

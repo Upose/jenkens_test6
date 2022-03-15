@@ -293,6 +293,9 @@ export default {
             position: relative;
             display: block;
             color:@6b;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
             padding: 0 20px;
             &:after{
               content: '';
@@ -302,18 +305,33 @@ export default {
             }
           }
           .sub-menu{
-            background-color: @fff;
+            background-color: #f9f9f9;
             padding: 0;
             a{
-              color: @6b;
+              overflow: hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;
+              color: #999;
               position: relative;
               display: block;
+              &::before{
+                content: '';
+                  display: block;
+                  width: 5px;
+                  height: 5px;
+                  border-radius: 50%;
+                  background: #999;
+                  position: absolute;
+                  left:8px;
+                  top: 15px;
+              }
               &:hover{
                 text-decoration: revert;
               }
             }
             li{
               border-bottom: none;
+              padding-left: 10px;
               &:hover{
                 color: @23;
               }
