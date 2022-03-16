@@ -100,6 +100,7 @@ export default {
     }
   },
   mounted(){
+    document.title = '详情-新闻发布'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
     this.initData();
     // setTimeout(()=>{
     //   this.menuClick(this.menu_list[0].title,0);

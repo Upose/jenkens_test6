@@ -12,6 +12,9 @@ import footerpage from '@/components/admin/common/footer'
 export default {
   name: 'index',
   components:{headerpage,footerpage},
+  created(){
+    document.title = '新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
+  },
   data () {
     return {}
   },

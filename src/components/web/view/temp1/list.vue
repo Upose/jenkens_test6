@@ -62,6 +62,7 @@ export default {
     }
   },
   mounted(){
+    document.title = '列表-新闻发布'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
     this.initData();
   },
   methods:{
