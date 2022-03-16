@@ -570,7 +570,7 @@ export default {
       setTimeout(() => {
         //这里还需要根据栏目选择的模板，确定预览某一个模板，默认是1
         if(this.columnDeatils && this.columnDeatils.columnTemplate){
-          window.open(window.location.origin+"/#/admin_preview"+this.columnDeatils.columnTemplate)
+          window.open(location.href.split('#')[0]+"/#/admin_preview"+this.columnDeatils.columnTemplate)
         }
       }, 200);
     },
