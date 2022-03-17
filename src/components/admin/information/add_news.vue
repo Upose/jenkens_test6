@@ -97,14 +97,14 @@
                         <span class="filter-hint">填写链接后，编辑内容将不会显示，直接跳转链接</span>
                       </div>
                       <div v-show="activeName=='div1'">
-                        <div class="edit-fwb" v-show="edit_check==1"><textarea id="mytextarea" v-model="postForm.content"></textarea> </div>
-                        <div class="edit-fwb" v-show="edit_check==2">
+                        <div class="edit-fwb" v-show="contentEditor==1"><textarea id="mytextarea" v-model="postForm.content"></textarea> </div>
+                        <div class="edit-fwb" v-show="contentEditor==2">
                           <vue-ueditor-wrap v-model="postForm.content" :config="myConfig" class="ueditors"></vue-ueditor-wrap>
                           <!-- <textarea id="remark_textarea" v-model="postForm.content" style="display: none;"></textarea> -->
                           </div>
                         <div class="edit-check-list">
-                          <div class="edit-col" @click="editorCheck(1)" :class="edit_check==1?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji1 filter-icon"></i>编辑器1</div>
-                          <div class="edit-col" @click="editorCheck(2)" :class="edit_check==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
+                          <div class="edit-col" @click="editorCheck(1)" :class="contentEditor==1?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji1 filter-icon"></i>编辑器1</div>
+                          <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
                         </div>
                       </div>
                       <div class="table-pd" v-show="activeName=='div2'">
@@ -251,6 +251,7 @@ export default {
         //获取新闻详情
         this.http.getPlain_url('news-content-manage-get','/'+this.columnID+'?contentid='+this.id).then(res=>{
           this.postForm = res.data.content||{};
+          this.contentEditor = this.postForm.contentEditor||1;
           var list = res.data.content||{};
           //按钮集合
           this.postForm['nextAuditStatus'] = res.data.nextAuditStatus||[];
@@ -336,7 +337,7 @@ export default {
       tag_edit:false,//打开-选择已有标签弹窗
       tag_edit_data:[],//选择标签列表
       id:this.$route.query.id||'',
-      edit_check:1,//编辑器切换
+      contentEditor:'1',//编辑器切换
       activeName:"div1",//富文本还是链接
       coumn_data_list:[],//栏目下拉选择列表
       content1:'',//富文本1
@@ -561,7 +562,7 @@ export default {
     },
     //编辑器切换
     editorCheck(val){
-        this.edit_check = val;
+        this.contentEditor = val;
     },
     //预览
     previewPage(){
@@ -594,8 +595,11 @@ export default {
       _this.row_list.forEach(item=>{
         _this.postForm[item.key] = item.input_val||item.get_val;
       })
+      _this.postForm.contentEditor = _this.contentEditor||1;
       _this.postForm.columnIDs = coumn_list;
-      _this.postForm.content = tinyMCE.activeEditor.getContent()||'';//获取富文本信息
+      if(_this.contentEditor == 1){
+        _this.postForm.content = tinyMCE.activeEditor.getContent()||'';//获取富文本信息
+      }
     },
     //表单提交
     submitForm(formName,val) {
