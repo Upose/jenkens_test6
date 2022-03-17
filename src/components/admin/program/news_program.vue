@@ -22,7 +22,8 @@
               <div class="row-list c-l">
                 <div class="row-box set-hover" v-for="(it,i) in item.columnList" :key="i+'a'">
                   <div class="r-box-bg">
-                    <img src="@/assets/admin/img/upload/s1.png"/>
+                    <img :src="fileUrl+it.cover"/>
+                    <!-- <img src="@/assets/admin/img/upload/s1.png"/> -->
                     <span class="name">{{it.title||'暂无'}}</span>
                   </div>
                   <div class="r-box-btns">
@@ -67,6 +68,7 @@ export default {
     return {
       search_title:'',
       dataList:[],
+      fileUrl:window.localStorage.getItem('fileUrl'),
     }
   },
   mounted(){
@@ -184,6 +186,7 @@ export default {
         }
         img{
           width: 100%;
+          height: 178px;
           border-radius: 5px 5px 0px 0px;
         }
         span.name{
