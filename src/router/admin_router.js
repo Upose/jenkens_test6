@@ -15,7 +15,7 @@ export default {
       name: 'admin_programInfo',
       component: r => require.ensure([], () => r(require('@/components/admin/information/news_infor')), 'news_infor'),
       meta: {
-        title: [{ name: '新闻发布', }, { name: '栏目信息管理'}],
+        title: [{ name: '新闻发布',}],
         keepAlive: true
       },
     },
@@ -24,7 +24,7 @@ export default {
       name: 'admin_addNews',
       component: r => require.ensure([], () => r(require('@/components/admin/information/add_news')), 'add_news'),
       meta: {
-        title: [{ name: '新闻发布', }, { name: '栏目信息管理'}, { name: '新闻内容', }],
+        title: [{ name: '新闻发布',}],
         keepAlive: true
       },
     },
