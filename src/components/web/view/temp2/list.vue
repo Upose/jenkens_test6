@@ -195,9 +195,7 @@ export default {
   }
 
   .cur-sub-key{
-    a{
-      text-decoration: underline;
-    }
+    background-color: #ffeaea;
   }
   
   .articledetails-warp{
