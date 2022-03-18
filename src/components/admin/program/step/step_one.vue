@@ -41,7 +41,7 @@
           </el-form-item>
           <el-form-item label="默认模板" prop="defaultTemplate">
             <div class="temp-select c-l">
-              <div class="d-temp-box" @click="templateClick(it.id)" :style="{background:'url('+$root.fileUrl+it.previewPic+')'}" v-for="(it,i) in template_list" :key="i+'a'">
+              <div class="d-temp-box" :class="it.id==postForm.defaultTemplate?'d-temp-box-check':''" @click="templateClick(it.id)" :style="{background:'url('+$root.fileUrl+it.previewPic+')'}" v-for="(it,i) in template_list" :key="i+'a'">
                 <span class="temp-name">{{it.name}}</span>
                 <el-button type="primary" class="button" size="mini"><i class="iconfont" :class="it.id==postForm.defaultTemplate?'el-icon-vip-check':'el-icon-vip-no-check'"></i> {{it.id==postForm.defaultTemplate?'已选':'选择'}}</el-button>
               </div>
