@@ -4,7 +4,7 @@
     <el-container>
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''"><serviceLMenu :isActive="2"></serviceLMenu></el-aside>
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
-        <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'"></breadcrumb><!--面包屑导航--->
+        <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'" ref="breadcrumb_ref"></breadcrumb><!--面包屑导航--->
         <div class="content search-table-general">
             <div class="search-table-w">
                 <h1 class="search-title">{{columnDeatils.columnName||''}}</h1>
@@ -194,9 +194,15 @@ export default {
   methods:{
     //获取栏目详情
     getColumndetails(){
+      var _this = this;
       this.http.getPlain_url('news-column-template-get-by-column-id','/'+this.$route.query.id).then(res=>{
         this.columnDeatils = res.data||{};
-        console.log(this.columnDeatils.columnName);
+        var list = {
+              title: [{ name: '新闻发布',  }, { name: this.columnDeatils.columnName, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}],
+              keepAlive: true
+            }
+          ;
+      _this.$refs.breadcrumb_ref.setMeta(list);
       }).catch(err=>{})
     },
     //初始化数据

@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import http from "@/assets/public/js/http";
 export default {
   name: 'breadcrumbPage',
   created() {
@@ -33,7 +32,11 @@ export default {
       let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
       let info = urlInfo.find(item => item.code == 'workbench');
       window.location.href = info.path + '/workbench/#/admin_workbench';
-    }
+    },
+    //针对栏目页面-单独重置栏目面包屑
+    setMeta(list){
+      this.breadcrumbList = list.title;
+    },
   },
 }
 </script>
