@@ -100,7 +100,6 @@ export default {
     }
   },
   mounted(){
-    document.title = '详情-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
     this.initData();
     // setTimeout(()=>{
     //   this.menuClick(this.menu_list[0].title,0);
@@ -128,6 +127,8 @@ export default {
             if(res.data && res.data.content){
               this.data = res.data||[];
               this.detailsData = res.data.content||{};
+              let title = res.data.content.title || ''
+              document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
               if(this.detailsData && this.detailsData.titleStyleKV){
                 this.titleStyleKV = this.detailsData.titleStyleKV||[];
               }

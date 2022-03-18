@@ -131,6 +131,7 @@ export default {
       },
       menuClick(title,index){//标题,index下标
         this.curSubKey = ''
+        document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
         this.pageIndex = 1;
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;

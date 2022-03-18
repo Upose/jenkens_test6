@@ -9,7 +9,7 @@
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -59,6 +59,7 @@ export default {
         totalPages:0,//总页数
         menu_list:[],
         news_list:[],
+        curSubKey: '',
     }
   },
   mounted(){
@@ -118,6 +119,8 @@ export default {
         })
       },
       menuClick(title,index){//标题,index下标
+        this.curSubKey = ''
+        document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
         this.pageIndex = 1;
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
@@ -154,6 +157,7 @@ export default {
       },
       //点击二级菜单
       foxbaseClick(val){
+        this.curSubKey = val
         this.getNewsList(this.left_index,val);
       },
   },
@@ -175,6 +179,9 @@ export default {
     background-size: 100% 165px;
     padding-bottom: 20px;
     padding-top: 95px;
+  }
+  .cur-sub-key{
+    background-color: #ffeaea;
   }
     .body-content{
     background-color: #fff;
