@@ -463,6 +463,7 @@ export default {
           // 'drafts', // 从草稿箱加载 
           // 'charts', // 图表
         ]],
+        zIndex:3000,
         autoHeightEnabled: false,// 编辑器不自动被内容撑高
         initialFrameHeight: 240,// 初始容器高度
         initialFrameWidth: '100%',// 初始容器宽度
@@ -784,6 +785,9 @@ export default {
     }
     /deep/.edui-default .edui-editor-bottomContainer td{
       border-top:1px solid #eee;
+    }
+    /deep/.edui-default .edui-colorpicker-nocolor{
+      height: 20px;
     }
   }
 </style>
