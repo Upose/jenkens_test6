@@ -34,6 +34,7 @@
                     <el-button class="u-btn-r" icon="iconfont el-icon-vip-fangdajing" size="medium" type="primary" @click="tagEditShow()">选择已有标签</el-button>
                     <tagEdit :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
                 </div>
+                <span class="tips">20字以内</span>
               </div>
               <el-form-item label="多栏目投递">
                 <div class="btns-colse-warp">
@@ -105,6 +106,7 @@
                         <div class="edit-check-list">
                           <div class="edit-col" @click="editorCheck(1)" :class="contentEditor==1?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji1 filter-icon"></i>编辑器1</div>
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
+                          <p class="tips">可切换编辑器，适应您的使用习惯</p>
                         </div>
                       </div>
                       <div class="table-pd" v-show="activeName=='div2'">
@@ -671,6 +673,17 @@ export default {
         .u-btn-r{
             width: 130px !important;
         }
+        .tips{
+          margin-left: 15px;
+          font-size: 14px;
+        }
+    }
+    .edit-check-list{
+      .tips{
+        line-height: 22px;
+        color: #6C757D;
+        font-size: 14px;
+      }
     }
     .txt-set{
       /deep/.el-input-group__append{
