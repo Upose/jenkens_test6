@@ -166,6 +166,7 @@ export default {
         width: 724px;
         box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
         border-radius: 4px;
+      
       /deep/.el-input{
         max-width: 500px;
       }

@@ -656,17 +656,18 @@ export default {
     background-color: @fff;
     border-radius: 4px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
-    .form-content{
-    //   max-width: 760px;
-        .el-input,.up-img-form-item{
-            width: 500px;
-        }
-    }
   }
   .form-content{
-      .m-top{
-          margin-top: 10px;
-      }
+    //   max-width: 760px;
+    .el-input,.up-img-form-item{
+        width: 500px;
+    }
+    /deep/.table-el-textarea{
+      height: auto !important;
+    }
+    .m-top{
+        margin-top: 10px;
+    }
     .user-form-item{
         .u-label{
             width: 100px !important;

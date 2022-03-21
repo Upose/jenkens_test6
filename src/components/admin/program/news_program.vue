@@ -22,9 +22,8 @@
               <div class="row-list c-l">
                 <div class="row-box set-hover" v-for="(it,i) in item.columnList" :key="i+'a'">
                   <div class="r-box-bg">
-                    <img :src="fileUrl+it.cover"/>
-                    <!-- <img src="@/assets/admin/img/upload/s1.png"/> -->
-                    <span class="name">{{it.title||'暂无'}}</span>
+                    <img :src="fileUrl+it.cover" @click="coumCover(it)"/>
+                    <span class="name" @click="coumCover(it)">{{it.title||'暂无'}}</span>
                   </div>
                   <div class="r-box-btns">
                     <el-button type="primary" class="admin-red-btn" size="medium" icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
@@ -81,6 +80,10 @@ export default {
       }).catch(err=>{
         this.$message({type: 'error',message: '数据获取失败!'});  
       })
+    },
+    //栏目封面点击
+    coumCover(val){
+      this.$router.push({path:'/admin_programInfo',query:{id:val.columnID}})
     },
     //查找
     selectClick(){
@@ -193,12 +196,15 @@ export default {
           display: block;
           height: 60px;
           color: @34395E;
-          font-size: 14px;
+          font-size: 15px;
           line-height: 60px;
           text-align: center;
           position: relative;
+          font-weight: bold;
           border-radius: 0px 0px 3px 3px;
-          
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
         }
         .r-box-btns{
           display: none;
