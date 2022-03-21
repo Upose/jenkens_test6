@@ -2,6 +2,18 @@
 export default {
     router:[
         {
+          path: '/web_newsList',
+          name: 'web_newsList',
+          component: r => require.ensure([], () => r(require('@/components/web/view/news_list')), 'list'),
+          meta: { title: '列表页面' , keepAlive:true},
+        },
+        {
+          path: '/web_newsDetails',
+          name: 'web_newsDetails',
+          component: r => require.ensure([], () => r(require('@/components/web/view/news_details')), 'list'),
+          meta: { title: '详情页面' , keepAlive:true},
+        },
+        {
           path: '/web_list1',
           name: 'web_list1',
           component: r => require.ensure([], () => r(require('@/components/web/view/temp1/list')), 'list'),
