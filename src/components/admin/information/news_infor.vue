@@ -254,6 +254,7 @@ export default {
     },
     getId(){
       this.postForm['columnID'] = this.$route.query.id;
+      this.getColumndetails();
       this.initData();
       this.$forceUpdate();
     },
