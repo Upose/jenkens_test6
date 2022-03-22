@@ -51,7 +51,7 @@ export default {
     return {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
-        c_id:decodeURI(this.$route.query.c_id||''),
+        cid:decodeURI(this.$route.query.cid||''),
         l_id:'',
         pageIndex:1,//当前页
         pageSize:5,//每页条数
@@ -69,7 +69,7 @@ export default {
   methods:{
       initData(){
         //获取左边菜单列表
-        this.http.getPlain('pront-news-column-list-get','columnid='+this.c_id).then(res=>{
+        this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             this.menu_list = res.data||[];
             if(this.$route.query.id){
               this.menu_list.forEach((item,i)=>{
@@ -92,16 +92,16 @@ export default {
       //获取分页数据
       currentClick(val){
         this.pageIndex = val;
-        this.getNewsList(this.c_id,this.l_id);
+        this.getNewsList(this.cid,this.l_id);
       },
       //获取新闻列表
-      getNewsList(c_id,l_id){//栏目id，labeleid
-        this.c_id = c_id;
+      getNewsList(cid,l_id){//栏目id，labeleid
+        this.cid = cid;
         this.l_id = l_id;
         var list = {
           pageIndex:this.pageIndex,
           pageSize:this.pageSize,
-          columnID:c_id,
+          columnID:cid,
           contentCutLength:160,
           lableID:l_id,
           searchKey:'',
@@ -153,7 +153,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/web_detailspage1',query:{id:encodeURI(val),c_id:encodeURI(this.left_index)}})
+        this.$router.push({path:'/web_newsDetails',query:{id:encodeURI(val),cid:encodeURI(this.left_index)}})
       },
       //点击二级菜单
       foxbaseClick(val){

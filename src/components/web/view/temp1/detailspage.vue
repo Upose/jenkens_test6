@@ -91,7 +91,7 @@ export default {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
         id:decodeURI(this.$route.query.id||''),//新闻id
-        c_id:decodeURI(this.$route.query.c_id||''),//栏目id
+        cid:decodeURI(this.$route.query.cid||''),//栏目id
         detailsData:{},//新闻详情
         curScore:2,//评论分数
         data:{},
@@ -108,11 +108,11 @@ export default {
   methods:{
       initData(){
         var _this = this;
-        this.http.getPlain('pront-news-column-list-get','columnid='+this.c_id).then(res=>{
+        this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             _this.menu_list = res.data||[];
             if(_this.menu_list && _this.menu_list.length>0){
               _this.menu_list.forEach((item,i)=>{
-                if(item.columnID == _this.c_id){
+                if(item.columnID == _this.cid){
                  setTimeout(() => {
                    _this.menu_list[i]['check'] = false;
                     _this.menuClick(_this.menu_list[i].name,i,false);
@@ -168,7 +168,7 @@ export default {
           }
         })
         if(is_open){
-          this.$router.push({path:'/web_list1',query:{c_id:encodeURI(this.menu_list[index].columnID)}})
+          this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.menu_list[index].columnID)}})
         }
         this.$forceUpdate();
       },
@@ -188,7 +188,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/web_detailspage1',query:{id:val}})
+        this.$router.push({path:'/web_newsDetails',query:{id:val}})
       },
   },
 }

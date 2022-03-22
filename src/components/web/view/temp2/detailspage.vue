@@ -83,7 +83,7 @@ export default {
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
         id:decodeURI(this.$route.query.id||''),//新闻id
-        c_id:decodeURI(this.$route.query.c_id||''),//栏目id
+        cid:decodeURI(this.$route.query.cid||''),//栏目id
         detailsData:{},//新闻详情
         titleStyleKV:[],
         data:{},
@@ -98,7 +98,7 @@ export default {
   },
   methods:{
       initData(){
-        this.http.getPlain('pront-news-column-list-get','columnid='+this.c_id).then(res=>{
+        this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             this.menu_list = res.data||[];
         }).catch(err=>{
             console.log(err);
@@ -149,7 +149,7 @@ export default {
           }
         })
         if(is_open){
-          this.$router.push({path:'/web_list2',query:{c_id:encodeURI(this.menu_list[index].columnID)}})
+          this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.menu_list[index].columnID)}})
         }
         this.$forceUpdate();
       },
@@ -169,7 +169,7 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/web_detailspage2',query:{id:1}})
+        this.$router.push({path:'/web_newsDetails',query:{id:1}})
       },
       //分享
       handleShare() {

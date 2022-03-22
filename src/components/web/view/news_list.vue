@@ -1,8 +1,10 @@
 <!--此页面本打算做详情统一页面，然后在此页面做模板的区分页面，但目前还未采用此方法，待思考-->
 <template>
-    <div>
-        <list1 v-if="details_template==2"></list1>
-        <list2 v-if="details_template==4"></list2>
+    <div class="details-warp">
+        <div class="temp-loading" v-if="request_of"></div><!--加载中-->
+        <div class="web-empty-data" v-if="!request_of && template_num==0" :style="{background: 'url('+fileUrl+'/public/image/data-empty.png) no-repeat center'}" ></div><!--暂无数据-->
+        <list1 v-if="template_num==1"></list1>
+        <list2 v-if="template_num==2"></list2>
     </div>
 </template>
 
@@ -14,16 +16,19 @@ export default {
     props: {},
     data() {
         return {
-            details_template:2,
-            c_id:decodeURI(this.$route.query.c_id||''),
+            template_num:0,
+            request_of:true,//请求中
+            fileUrl: window.localStorage.getItem('fileUrl'),//图片地址前缀
+            cid:decodeURI(this.$route.query.cid||''),
         };
     },
     created() {
-        // this.http.getPlain('pront-news-column-list-get','columnid='+this.c_id).then(res=>{
-
-        // }).catch(err=>{
-
-        // })
+        this.http.getPlain('pront-column-link-info','columnid='+this.cid).then(res=>{
+            this.request_of = false;
+            if(res.data){
+                this.template_num = res.data.template||0;
+            }
+        }).catch(err=>{this.request_of = false;})
     },
     mounted() {},
     methods: {
@@ -33,5 +38,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-
+    .details-warp{
+        min-height: 500px;
+    }
 </style>
