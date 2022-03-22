@@ -119,6 +119,7 @@ export default {
         })
       },
       menuClick(title,index){//标题,index下标
+        this.$router.push({path:'/web_newsList',query:{cid:this.menu_list[index].columnID}}).catch((err) => {});
         this.curSubKey = ''
         document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
         this.pageIndex = 1;

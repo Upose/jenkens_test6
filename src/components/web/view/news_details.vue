@@ -3,8 +3,8 @@
     <div class="details-warp">
         <div class="temp-loading" v-if="request_of"></div><!--加载中-->
         <div class="web-empty-data" v-if="!request_of && template_num==0" :style="{background: 'url('+fileUrl+'/public/image/data-empty.png) no-repeat center'}" ></div><!--暂无数据-->
-        <detailspage1 v-if="template==1"></detailspage1>
-        <detailspage2 v-if="template==2"></detailspage2>
+        <detailspage1 v-if="template_num==1"></detailspage1>
+        <detailspage2 v-if="template_num==2"></detailspage2>
     </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
     props: {},
     data() {
         return {
-            template:2,
+            template_num:0,
             request_of:true,//请求中
             fileUrl: window.localStorage.getItem('fileUrl'),//图片地址前缀
             cid:decodeURI(this.$route.query.cid||''),//栏目id

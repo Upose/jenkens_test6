@@ -13,6 +13,9 @@ import list1 from './temp1/list';
 import list2 from './temp2/list';
 export default {
     components: {list1,list2},
+    watch:{
+        '$route':'getId'
+    },
     props: {},
     data() {
         return {
@@ -23,16 +26,25 @@ export default {
         };
     },
     created() {
-        this.http.getPlain('pront-column-link-info','columnid='+this.cid).then(res=>{
-            this.request_of = false;
-            if(res.data){
-                this.template_num = res.data.template||0;
-            }
-        }).catch(err=>{this.request_of = false;})
+        this.initData();
     },
-    mounted() {},
-    methods: {
+    mounted() {
         
+    },
+    methods: {
+        initData(){
+            this.http.getPlain('pront-column-link-info','columnid='+this.cid).then(res=>{
+                this.request_of = false;
+                if(res.data){
+                    this.template_num = res.data.template||0;
+                }
+            }).catch(err=>{this.request_of = false;})
+        },
+        getId(){
+            this.cid = this.$route.query.cid;
+            this.initData();
+            this.$forceUpdate();
+        },
     },
 };
 </script>
