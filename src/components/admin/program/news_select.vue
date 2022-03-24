@@ -94,7 +94,7 @@ export default {
       this.postForm.pageSize = this.pageData.pageSize;
       this.http.postJson('news-content-get-by-search',this.postForm).then(res=>{
         this.tableData = res.data.items||[];
-        this.pageData.totalCount = res.data.items.totalCount;
+        this.pageData.totalCount = res.data.totalCount;
       }).catch(err=>{
           console.log(err);
       })
@@ -106,6 +106,7 @@ export default {
     },
     //查询
     searchClick(){
+      this.pageData.pageIndex = 1;
       this.initData();
     },
     /**应用表格选择框**/

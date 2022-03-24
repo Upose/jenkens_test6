@@ -434,9 +434,8 @@ export default {
     },
     //查找
     searchClick(){
-      this.initData();
       this.pageData.pageIndex = 1;
-      this.pageData.pageSize = 50;
+      this.initData();
     },
     //删除
     handleDel(row){

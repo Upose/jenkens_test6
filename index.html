@@ -44,4 +44,10 @@
   <body>
     <div id="news_sys"></div>
   </body>
+  <script>
+    document.body.ondrop = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  </script>
 </html>

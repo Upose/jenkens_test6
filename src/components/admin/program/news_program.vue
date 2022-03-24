@@ -108,8 +108,7 @@ export default {
         }).then(() => { 
           this.http.getPlain_url('column_delete','/'+val).then(res=>{
             _this.$message({type: 'success',message: '删除成功!'});
-            // _this.initData();
-            window.location.reload();
+            _this.initData();
           }).catch(err=>{
             _this.$message({type: 'error',message: '删除失败!'});          
           })   
