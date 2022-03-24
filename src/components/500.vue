@@ -10,7 +10,7 @@
         <button class="go-home" @click="goHome()">回到首页</button>
       </div>
       <div class="img-404">
-        <img src="@/assets/public/img/404.gif">
+        <img src="@/assets/public/img/500.gif">
       </div>
     </div>
   </div>
@@ -125,7 +125,7 @@ export default {
   float:right;
   width: 550px;
   height: 500px;
-  background-image: url(../assets/public/img/404.png);
+  background-image: url(../assets/public/img/500.png);
   background-position: center;
   background-repeat: no-repeat;
   background-position-y: -1px;
