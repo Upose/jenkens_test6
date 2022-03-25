@@ -12,7 +12,7 @@
           <div class="user-form-item">
             <label class="u-label"><span class="el-input">栏目标签</span></label>
             <div class="u-list">
-              <input type="text" class="u-input" v-model="postForm.label" placeholder="标签可以为栏目设置分类，方便筛选"/>
+              <input type="text" class="u-input" v-model="postForm.label" placeholder="标签可以为栏目设置分类，方便筛选。多个；号分割"/>
               <!-- <el-popover popper-class="el-down-alert" placement="bottom" width="400" trigger="click">
                 <div>内容</div>
                 <el-button class="u-btn-r" icon="el-icon-search" size="medium" slot="reference" type="primary">选择已有标签</el-button>

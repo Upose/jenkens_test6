@@ -65,13 +65,13 @@
                   </div>
                 </div>
               </el-form-item>
-              <el-form-item label="发布人">
+              <el-form-item label="发布人" prop="publisher">
                 <el-input v-model="postForm.publisher" placeholder="请输入发布人"></el-input>
               </el-form-item>
-              <el-form-item label="发布日期">
+              <el-form-item label="发布日期" prop="publishDate">
                 <el-date-picker v-model="postForm.publishDate" type="date" class="data-clear-icon" placeholder="请选择发布日期"></el-date-picker>
               </el-form-item>
-              <el-form-item label="显示状态">
+              <el-form-item label="显示状态" prop="status">
                 <el-radio-group v-model="postForm.status">
                   <el-radio :label="1">正常</el-radio>
                   <el-radio :label="2">下架</el-radio>
@@ -89,7 +89,7 @@
                 <el-input v-model="item.input_val" v-if="id" :placeholder="'请输入'+item.value" :value="item.get_val"></el-input>
                 <el-input v-model="item.input_val" v-if="!id" :placeholder="'请输入'+item.value"></el-input>
               </el-form-item>
-              <el-form-item label="内容">
+              <el-form-item label="内容" prop="content">
                 <div class="filter-form-item">
                     <div class="filter-r-t-editor">
                       <div class="filter-f-title">
@@ -360,12 +360,28 @@ export default {
         font:20,
         color:'#000000',
       },
-      postForm: {terminals:[]},
+      postForm: {terminals:[1,2,3,4]},
       rules: {
           title: [
-              { required: true, message: '请输入内容', trigger: 'blur' }
+              { required: true, message: '请输入标题', trigger: 'blur' }
           ],
-          desc: [
+          subTitle: [
+              { min: 0, max: 100, message: '长度在 0 到 100 个字符', trigger: 'blur' }
+          ],
+          parentCatalogue: [
+              { min: 0, max: 20, message: '长度在 0 到 20 个字符', trigger: 'blur' }
+          ],
+          publisher: [
+              { required: true, message: '请输入发布人', trigger: 'blur' },
+              { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
+          ],
+          status: [
+              { required: true, message: '请选择显示状态', trigger: 'blur' },
+          ],
+          publishDate: [
+              { required: true, message: '请选择日期', trigger: 'blur' },
+          ],
+          content: [
               { required: true, message: '请输入内容', trigger: 'blur' }
           ]
       },
