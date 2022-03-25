@@ -33,7 +33,7 @@
                   </div>
                 </div><!--顶部查询 end-->
                 <div class="t-p">
-                    <el-table stripe :data="tableData" ref="singleTable" @selection-change="handleSelectionApp" border class="admin-table">
+                    <el-table stripe :data="tableData" v-loading="loading" ref="singleTable" @selection-change="handleSelectionApp" border class="admin-table">
                         <el-table-column type="selection" width="45"></el-table-column>
                         <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
                         <el-table-column prop="title" label="新闻标题" min-width="150px">
@@ -123,6 +123,7 @@ export default {
   components:{footerPage,serviceLMenu,breadcrumb,paging},
   data () {
     return {
+      loading:true,
       auditStatus_menu:0,//菜单
       multipleSelection:[],//选择列表
       pageData: {
@@ -211,11 +212,13 @@ export default {
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
       this.http.postJsonParameter_url('news-content-get-by-column',this.postForm,'/'+this.postForm.columnID).then(res=>{
+        this.loading = false;
         _this.auditStatusCountList = res.data.auditStatusCountList||[];
         if(_this.auditStatusCountList.length>0){
           _this.auditStatus(0,_this.auditStatusCountList[0]);
         }
       }).catch(err=>{
+        this.loading = false;
           console.log(err);
       })
     },
@@ -434,6 +437,7 @@ export default {
     },
     //查找
     searchClick(){
+      this.loading = true;
       this.pageData.pageIndex = 1;
       this.initData();
     },

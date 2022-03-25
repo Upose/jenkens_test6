@@ -36,7 +36,8 @@
                 </div>
               </div>
             </div>
-            <div v-if="news_list.length == 0" class="web-empty-data"></div>
+            <div class="temp-loading" v-if="loading"></div><!--加载中-->
+            <div v-if="!loading && news_list.length == 0" class="web-empty-data"></div>
             <pages2 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages2>
           </div>
           
@@ -54,6 +55,7 @@ export default {
   created(){},
   data () {
     return {
+      loading:true,
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
         cid:decodeURI(this.$route.query.cid||''),
@@ -77,27 +79,29 @@ export default {
   methods:{
       initData(){
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
-            this.menu_list = res.data||[];
-            this.menu_list.forEach((item,i)=>{
-              this.menu_list[i]['check'] = false;
-              if(this.$route.query.id){
-                this.menu_list.forEach((item,i)=>{
-                    if(item.columnID == this.$route.query.id){
-                      console.log(i)
-                      setTimeout(() => {
-                        this.menu_list[i]['check'] = false;
-                        this.menuClick(this.menu_list[i].name,i,false);
-                      }, 200);
-                    }
-                  })
-              }else{
-                setTimeout(()=>{
-                  this.menuClick(this.menu_list[0].name,0);
-                },200)
-              }
-            })
+          this.loading = false;
+          this.menu_list = res.data||[];
+          this.menu_list.forEach((item,i)=>{
+            this.menu_list[i]['check'] = false;
+            if(this.$route.query.id){
+              this.menu_list.forEach((item,i)=>{
+                  if(item.columnID == this.$route.query.id){
+                    console.log(i)
+                    setTimeout(() => {
+                      this.menu_list[i]['check'] = false;
+                      this.menuClick(this.menu_list[i].name,i,false);
+                    }, 200);
+                  }
+                })
+            }else{
+              setTimeout(()=>{
+                this.menuClick(this.menu_list[0].name,0);
+              },200)
+            }
+          })
         }).catch(err=>{
-            console.log(err);
+          this.loading = false;
+          console.log(err);
         })
       },
       //获取分页数据
@@ -107,6 +111,7 @@ export default {
       },
       //获取新闻列表
       getNewsList(cid,l_id){//栏目id，labeleid
+        this.loading = true;
         this.cid = cid;
         this.l_id = l_id;
         var list = {
@@ -118,6 +123,7 @@ export default {
           searchKey:'',
         }
         this.http.postJson('pront-news-list-data-get',list).then(res=>{
+          this.loading = false;
           if(res.data && res.data.items){
             this.news_list = res.data.items||[];
             this.pageIndex = res.data.pageIndex||0;
@@ -126,6 +132,7 @@ export default {
             this.totalPages = res.data.totalPages||0;
           }
         }).catch(err=>{
+          this.loading = false;
             console.log(err);
         })
       },

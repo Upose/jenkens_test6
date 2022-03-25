@@ -18,7 +18,7 @@
               <el-form-item label="栏目管理权限">
                 <div class="table-pd">
                   <div class="table-pd-title"><span class="col col1">序号</span><span class="col col2">栏目名称</span><span class="col col3">授权管理员</span><span class="col col4">操作</span></div>
-                  <el-collapse @change="handleChange" v-model="activeNames">
+                  <el-collapse @change="handleChange" class="table-warp" v-model="activeNames" v-loading="loading" :class="!loading && tableData.length==0?'empty-data-admin':''">
                     <el-collapse-item v-for="(item,index) in tableData" :key="index" :name="index">
                       <template slot="title">
                         <span class="col col1">{{index+1}}</span>
@@ -61,6 +61,7 @@ export default {
   components:{footerPage,serviceLMenu,breadcrumb,editsq},
   data () {
     return {
+      loading:true,
       select_img:null,
       alert_data:{},
       activeNames: [],//展开了哪几栏
@@ -92,8 +93,10 @@ export default {
       })
       //获取列表父级
       this.http.getPlain_url('news-column-permissions-list-get','').then(res=>{
+        this.loading = false;
         this.tableData = res.data||[];
       }).catch(err=>{
+        this.loading = false;
           console.log(err);
       })
     },
@@ -158,6 +161,9 @@ export default {
     .form-content{
       // max-width: 740px;
     }
+  }
+  .table-warp{
+    min-height: 200px;
   }
   /****栏目管理权限表格 start */
   .table-pd{

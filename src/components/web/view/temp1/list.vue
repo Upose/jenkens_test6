@@ -32,7 +32,8 @@
                 </div>
               </li>
             </ul>
-            <div v-if="news_list.length == 0" class="web-empty-data"></div>
+            <div class="temp-loading" v-if="loading"></div><!--加载中-->
+            <div v-if="!loading && news_list.length == 0" class="web-empty-data"></div>
             <pages1 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages1>
           </div><!--新闻列表 end -->
         </div>
@@ -49,6 +50,7 @@ export default {
   created(){},
   data () {
     return {
+      loading:true,
         left_index:0,//左边的菜单
         content_title:'',//内容中的标题
         cid:decodeURI(this.$route.query.cid||''),
@@ -70,6 +72,7 @@ export default {
       initData(){
         //获取左边菜单列表
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
+            this.loading = false;
             this.menu_list = res.data||[];
             if(this.$route.query.id){
               this.menu_list.forEach((item,i)=>{
@@ -86,6 +89,7 @@ export default {
               },200)
             }
         }).catch(err=>{
+          this.loading = false;
             console.log(err);
         })
       },
@@ -96,6 +100,7 @@ export default {
       },
       //获取新闻列表
       getNewsList(cid,l_id){//栏目id，labeleid
+      this.loading = true;
         this.cid = cid;
         this.l_id = l_id;
         var list = {
@@ -107,6 +112,7 @@ export default {
           searchKey:'',
         }
         this.http.postJson('pront-news-list-data-get',list).then(res=>{
+          this.loading = false;
           if(res.data && res.data.items){
             this.news_list = res.data.items||[];
             this.pageIndex = res.data.pageIndex||0;
@@ -115,6 +121,7 @@ export default {
             this.totalPages = res.data.totalPages||0;
           }
         }).catch(err=>{
+          this.loading = false;
             console.log(err);
         })
       },

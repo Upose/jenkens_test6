@@ -13,14 +13,14 @@
                   <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="selectClick()">查找</el-button>
               </div>
           </div><!--顶部查询 end-->
-          
+          <div class="list-content-warp" v-loading="loading" :class="!loading && dataList.length==0?'empty-data-admin':''">
           <div class="list-content" v-for="(item,index) in dataList" :key="index+'m'">
             <div class="s-w c-l">
               <span class="m-title"><i class="iconfont el-icon-vip-moren"></i>{{item.lableName}}</span>
             </div>
             <div class="row">
-              <div class="row-list c-l">
-                <div class="row-box set-hover" v-for="(it,i) in item.columnList" :key="i+'a'">
+              <div class="row-list c-l" :class="!loading && (item.columnList||[]).length==0?'empty-data-admin':''">
+                <div class="row-box set-hover" v-for="(it,i) in (item.columnList||[])" :key="i+'a'">
                   <div class="r-box-bg">
                     <img :src="fileUrl+it.cover" @click="coumCover(it)"/>
                     <span class="name" @click="coumCover(it)">{{it.title||'暂无'}}</span>
@@ -41,7 +41,7 @@
               </div>
             </div>
           </div><!----默认标签 end-->
-
+        </div>
         </div><!---content end--->
         <footerPage class="top20"></footerPage>
       </el-main>
@@ -65,6 +65,7 @@ export default {
   components:{footerPage,serviceLMenu,breadcrumb,paging},
   data () {
     return {
+      loading:true,
       search_title:'',
       dataList:[],
       fileUrl:window.localStorage.getItem('fileUrl'),
@@ -76,8 +77,10 @@ export default {
   methods:{
     initData(){
       this.http.getJson('news-column-get-by-manager-id',"").then(res=>{
+        this.loading = false;
         this.dataList = res.data||[];
       }).catch(err=>{
+        this.loading = false;
         this.$message({type: 'error',message: '数据获取失败!'});  
       })
     },
@@ -141,6 +144,11 @@ export default {
   margin-top: 24px;
 }
   /***内容板块***/
+  .list-content-warp{
+    min-height: 300px;
+    background-color: @fff;
+    border-radius: 0 0 4px 4px;
+  }
   .list-content{
     background-color: @fff;
     border-radius: 0 0 4px 4px;
