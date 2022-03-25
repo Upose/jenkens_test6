@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted(){
-    document.title = '列表-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
+    document.title = '列表-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
     this.initData();
     // document.addEventListener('click',function(e){
     //   console.log(e,e.target);
@@ -139,7 +139,7 @@ export default {
       menuClick(title,index){//标题,index下标
         this.$router.push({path:'/web_newsList',query:{cid:this.menu_list[index].columnID}}).catch((err) => {});
         this.curSubKey = ''
-        document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
+        document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
         this.pageIndex = 1;
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;

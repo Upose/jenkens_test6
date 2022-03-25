@@ -13,7 +13,7 @@ export default {
   name: 'index',
   components:{headerpage,footerpage},
   created(){
-    document.title = '新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName+'图书馆';
+    document.title = '新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
   },
   data () {
     return {}
