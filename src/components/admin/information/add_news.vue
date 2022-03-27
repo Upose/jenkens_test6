@@ -495,7 +495,7 @@ export default {
       this.http.getPlain_url('news-column-template-get-by-column-id','/'+this.columnID).then(res=>{
         this.columnDeatils = res.data||{};
         var list = {
-              title: [{ name: '新闻发布',  }, { name: this.columnDeatils.columnName, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}, { name: this.id?'编辑专题':'新增专题', }],
+              title: [{ name: '新闻发布',  }, { name: this.columnDeatils.columnName, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}, { name: this.id?'编辑新闻':'新增新闻', }],
               keepAlive: true
             }
           ;
