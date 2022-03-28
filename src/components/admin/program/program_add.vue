@@ -92,7 +92,8 @@ export default {
           this.postForm['sideList'] = (list['sideList']||[]).toString().replace(/\,/g,';')||this.postForm['sideList'];
           this.postForm['sysMesList'] = (list['sysMesList']||[]).toString().replace(/\,/g,';')||this.postForm['sysMesList'];
           this.postForm['isOpenCover'] =  list['isOpenCover'];
-          this.postForm['coverSize'] =  list['coverSize']||this.postForm['coverSize'];
+          this.postForm['coverWidth'] =  list['coverWidth']||this.postForm['coverWidth'];
+          this.postForm['coverHeight'] =  list['coverHeight']||this.postForm['coverHeight'];
           this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];  
         }
       }else if(data.step == 'save'){

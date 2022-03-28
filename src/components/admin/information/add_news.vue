@@ -27,7 +27,7 @@
               <el-form-item label="副标题" prop="subTitle">
                 <el-input v-model="postForm.subTitle" placeholder="请输入副标题"></el-input>
               </el-form-item>
-              <div class="user-form-item">
+              <div class="user-form-item" v-if="isshow_ParentCatalogue">
                 <label class="u-label"><span class="u-el-input">新闻标签</span></label>
                 <div class="u-list">
                     <input type="text" v-model="postForm.parentCatalogue" class="u-input" placeholder="请输入新闻标签"/>
@@ -54,7 +54,7 @@
                 </div>
                 <p class="hint">每条内容支持最多同时投递到3个新闻栏目内。</p>
               </el-form-item>
-              <el-form-item label="内容封面">
+              <el-form-item label="内容封面" v-if="columnDeatils.isOpenCover==1">
                 <div class="up-img-form-item">
                   <!-- <div class="up-img-warp up-img-cover-img" v-if="id"> -->
                   <div class="up-img-warp up-img-cover-img" v-if="postForm.cover">
@@ -85,17 +85,17 @@
                   <el-checkbox :label="4" name="type">大厅查询机</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
-              <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
-                <el-input v-model="item.input_val" v-if="id" :placeholder="'请输入'+item.value" :value="item.get_val"></el-input>
-                <el-input v-model="item.input_val" v-if="!id" :placeholder="'请输入'+item.value"></el-input>
+              <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'" v-if="isShowRow(item.key)">
+                <el-input v-model="item.input_val" :placeholder="'请输入'+item.value" v-if="item.key !='ExpirationDate'"></el-input>
+                <el-date-picker v-model="item.input_val" type="date" v-if="item.key =='ExpirationDate'" placeholder="请选择发布日期"></el-date-picker>
               </el-form-item>
               <el-form-item label="内容" prop="content">
                 <div class="filter-form-item">
                     <div class="filter-r-t-editor">
                       <div class="filter-f-title">
                         <span class="filter-box-col" @click="handleClick('div1')" :class="activeName=='div1'?'active':''">编辑内容</span>
-                        <span class="filter-box-col" @click="handleClick('div2')" :class="activeName=='div2'?'active':''">链接跳转</span>
-                        <span class="filter-hint">填写链接后，编辑内容将不会显示，直接跳转链接</span>
+                        <span class="filter-box-col" @click="handleClick('div2')" :class="activeName=='div2'?'active':''" v-show="isshow_link">链接跳转</span>
+                        <span class="filter-hint" v-show="isshow_link">填写链接后，编辑内容将不会显示，直接跳转链接</span>
                       </div>
                       <div v-show="activeName=='div1'">
                         <div class="edit-fwb" v-show="contentEditor==1"><textarea id="mytextarea" v-model="postForm.content"></textarea> </div>
@@ -180,7 +180,7 @@
           </el-form>
         </div><!---顶部查询板块 end--->
         <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
-          <UpdateImg @imgUrl="imgUrl" :imgWidth="214" :imgHeight="100"></UpdateImg>
+          <UpdateImg @imgUrl="imgUrl" :imgWidth="coverWidth" :imgHeight="coverHeight"></UpdateImg>
         </el-dialog>
 
         <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false" :before-close="handleClose">
@@ -212,10 +212,21 @@ export default {
     this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
     })
-    //当前栏目信息-左边菜单栏目
+    //获取当前栏目信息
     this.http.getPlain_url('news-column-get','/'+this.columnID).then(res=>{
       if(res.data){
-        this.row_list = res.data.extensionKV||[];
+        this.columnDeatils = res.data||{};
+        this.row_list = this.columnDeatils.extensionKV||[];
+        this.coverHeight = this.columnDeatils.coverHeight||10;
+        this.coverWidth = this.columnDeatils.coverWidth||10;
+        this.isshow_link = JSON.stringify(this.columnDeatils.extensionKV).indexOf('JumpLink')>-1;
+        this.isshow_ParentCatalogue = JSON.stringify(this.columnDeatils.extensionKV).indexOf('ParentCatalogue')>-1;
+        var list = {
+              title: [{ name: '新闻发布',  }, { name: this.columnDeatils.title, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}, { name: this.id?'编辑新闻':'新增新闻', }],
+              keepAlive: true
+            }
+          ;
+        this.$refs.breadcrumb_ref.setMeta(list);
         if(this.$route.id==undefined){
           this.postForm['nextAuditStatus'] = res.data.contentDefaultAuditStatusKV||[];
         }
@@ -229,7 +240,6 @@ export default {
     this.http.getPlain('lable-info-get-by-type','type=2').then(res=>{
       this.tag_edit_data = res.data||[];
     }).catch(err=>{})
-    this.getColumndetails();
   },
   components:{footerPage,serviceLMenu,breadcrumb,UpdateImg,tagEdit,VueUeditorWrap},
   beforeDestroy() {
@@ -238,6 +248,7 @@ export default {
   },
   mounted(){
     var _this = this;
+    this.postForm['publisher'] = JSON.parse(this.userInfo).name;//这个地方应该由后台改为自动为登录用户，不用前端传
     //tinymce 编辑器
     tinymce.init({
       selector: '#mytextarea',
@@ -290,37 +301,38 @@ export default {
           }
           //扩展项
           this.row_list.forEach((item,index)=>{
-            if(item.key == 'Author'){
-              item.get_val = list.author;
-            }
+            // if(item.key == 'ParentCatalogue'){
+            //   item.input_val = list.parentCatalogue;
+            // }
+            // if(item.key == 'JumpLink'){
+            //   item.input_val = list.jumpLink;
+            // }
             if(item.key == 'Keywords'){
-              item.get_val = list.keywords;
+              this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.keywords})
+            }
+            if(item.key == 'Author'){
+              this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.author})
             }
             if(item.key == 'ExpirationDate'){
-              item.get_val = list.expirationDate;
-            }
-            if(item.key == 'JumpLink'){
-              item.get_val = list.jumpLink;
-            }
-            if(item.key == 'ParentCatalogue'){
-              item.get_val = list.parentCatalogue;
+              this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.expirationDate})
             }
             if(item.key == 'ExpendFiled1'){
-              item.get_val = list.expendFiled1;
+              this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.expendFiled1})
             }
             if(item.key == 'ExpendFiled2'){
-              item.get_val = list.expendFiled2;
+              this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.expendFiled2})
             }
             if(item.key == 'ExpendFiled3'){
-              item.get_val = list.expendFiled3;
+              this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.expendFiled3})
             }
             if(item.key == 'ExpendFiled4'){
-              item.get_val = list.expendFiled4;
+              this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.expendFiled4})
             }
             if(item.key == 'ExpendFiled5'){
-              item.get_val = list.expendFiled5;
+              this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.expendFiled5})
             }
           })
+          this.$forceUpdate();
         }).catch(err=>{
             console.log(err);
         })
@@ -328,10 +340,15 @@ export default {
     },
   data () {
     return {
-      columnDeatils:{},
+      userInfo:window.localStorage.getItem('userInfo'),
+      coverHeight: 10,
+      coverWidth: 10,
+      columnDeatils:{},//栏目详情
       base_url:window.localStorage.getItem('fileUrl'),
       columnID:this.$route.query.c_id,//栏目id-左边菜单
       layedit:null,
+      isshow_link:false,//是否显示跳转链接输入框
+      isshow_ParentCatalogue:false,//是否显示新闻标签
       row_list:[],//栏目定义的扩展字段列表
       coumn_list:[{value:''}],//新增删除栏目列表
       draw_back:false,//退回弹窗
@@ -360,7 +377,7 @@ export default {
         font:20,
         color:'#000000',
       },
-      postForm: {terminals:[1,2,3,4]},
+      postForm: {terminals:[1,2,3,4],publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').slice(0,10)},
       rules: {
           title: [
               { required: true, message: '请输入标题', trigger: 'blur' }
@@ -489,19 +506,6 @@ export default {
     }
   },
   methods:{
-    //获取栏目详情
-    getColumndetails(){
-      var _this = this;
-      this.http.getPlain_url('news-column-template-get-by-column-id','/'+this.columnID).then(res=>{
-        this.columnDeatils = res.data||{};
-        var list = {
-              title: [{ name: '新闻发布',  }, { name: this.columnDeatils.columnName, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}, { name: this.id?'编辑新闻':'新增新闻', }],
-              keepAlive: true
-            }
-          ;
-      _this.$refs.breadcrumb_ref.setMeta(list);
-      }).catch(err=>{})
-    },
     handleImgUpload(blobInfo, success, failure) {
       this.baseUrl = '你的baseurl'
       const imgBase64 = `data:${blobInfo.blob().type};base64,${blobInfo.base64()}`
@@ -596,8 +600,8 @@ export default {
       window.localStorage.setItem('news-page-preview',JSON.stringify(this.postForm));
       setTimeout(() => {
         //这里还需要根据栏目选择的模板，确定预览某一个模板，默认是1
-        if(this.columnDeatils && this.columnDeatils.columnTemplate){
-          window.open(location.href.split('#')[0]+"/#/admin_preview"+this.columnDeatils.columnTemplate)
+        if(this.defaultTemplate && this.columnDeatils.defaultTemplate){
+          window.open(location.href.split('#')[0]+"/#/admin_preview"+this.columnDeatils.defaultTemplate)
         }
       }, 200);
     },
@@ -619,7 +623,7 @@ export default {
       });
       //扩展项
       _this.row_list.forEach(item=>{
-        _this.postForm[item.key] = item.input_val||item.get_val;
+        _this.postForm[item.key] = item.input_val||'';
       })
       _this.postForm.contentEditor = _this.contentEditor||1;
       _this.postForm.columnIDs = coumn_list;
@@ -630,21 +634,21 @@ export default {
     //表单提交
     submitForm(formName,val) {
       var _this = this;
+      this.setPostFormPas();
       if(val == 9){ //表示退回
         this.draw_back = true;
       }else{
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.setPostFormPas();
             if(_this.id){
               this.http.postJsonParameter_url('news-content-update',_this.postForm,'/'+_this.columnID).then(res=>{
                 _this.$message({type: 'success',message: '提交成功!'});
+                _this.backHistory();
               }).catch(err=>{
                 _this.$message({type: 'error',message: '提交失败!'});
               })
             }else{
               _this.postForm['columnID'] = _this.columnID;
-              _this.postForm['publisher'] = 'cqviptest';//这个地方应该由后台改为自动为登录用户，不用前端传
               this.http.postJsonParameter_url('news-content-add',_this.postForm,'/'+_this.columnID).then(res=>{
                 if(res.succeeded){
                   _this.$message({type: 'success',message: '提交成功!'});
@@ -659,7 +663,16 @@ export default {
         });
       }
     },
-    
+    isShowRow(val){
+      let is_show = true;
+      if(val == 'JumpLink'){
+        is_show = false;
+      }
+      if(val == 'ParentCatalogue'){
+        is_show = false;
+      }
+      return is_show;
+    },
   },
 }
 </script>
@@ -676,7 +689,7 @@ export default {
   .form-content{
     //   max-width: 760px;
     .el-input,.up-img-form-item{
-        width: 500px;
+        width: 500px !important;
     }
     /deep/.table-el-textarea{
       height: auto !important;

@@ -24,7 +24,7 @@
             <div class="content-top-title">
               <span :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</span>
               <div class="news-sub-warp">
-                <span class="name child1_text_color">{{detailsData.publisherName||'无'}}</span><!--发布人-->
+                <span class="name child1_text_color">{{detailsData.publisher||'无'}}</span><!--发布人-->
                 <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
                 <span v-if="data.isShowAuthor">{{detailsData.author}}</span><!--作者-->
                 <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span><!--关键词-->

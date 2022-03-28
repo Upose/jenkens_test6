@@ -22,7 +22,7 @@
                 <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</h1>
                 <div class="details_content">
                   <div class="rich-title">
-                    <span class="col1"><i class="title">发布人：</i>{{detailsData.publisherName||'无'}}</span>
+                    <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||'无'}}</span>
                     <span class="col2" v-if="data.isShowPublishDate"><i class="title">发布时间：</i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
                     <span class="col3" v-if="data.isShowHitCount"><i class="title">范文次数：</i>{{detailsData.hitCount||0}}</span>
                     <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span><!--作者-->

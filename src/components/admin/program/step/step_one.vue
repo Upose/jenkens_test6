@@ -70,9 +70,14 @@
           </el-form-item>
           <el-form-item label="启用内容封面">
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isOpenCover"></el-switch>
-            <el-select class="m-l" v-model="postForm.coverSize" placeholder="请选择" :disabled="postForm.isOpenCover!=1">
+            <!-- <el-select class="m-l" v-model="postForm.coverSize" placeholder="请选择" :disabled="postForm.isOpenCover!=1">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
+            </el-select> -->
+            <div class="cover-warp">
+              <el-input v-model.trim="postForm.coverWidth" @blur="widthChange" :disabled="postForm.isOpenCover!=1" placeholder="宽" class="wh-px w"></el-input>
+              <span>X</span>
+              <el-input v-model.trim="postForm.coverHeight" @blur="heightChange" :disabled="postForm.isOpenCover!=1" placeholder="高" class="wh-px h"></el-input>
+            </div>
           </el-form-item>
           <el-form-item>
             <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="backHistory()">取消</el-button>
@@ -146,7 +151,8 @@ export default {
           sideList:[],//侧边列表
           sysMesList:[],//显示的系统信息
           isOpenCover:0,//启用内容封面 1开启 0关闭
-          coverSize:'default',//封面尺寸
+          coverWidth:400,
+          coverHeight:200,
       },
       rules: {
           title: [
@@ -160,7 +166,7 @@ export default {
               { required: true, message: '请输入内容', trigger: 'blur' }
           ],
           defaultTemplate: [
-              { required: true, message: '请输入内容', trigger: 'blur' }
+              { required: true, message: '请选择模板', trigger: 'blur' }
           ],
           desc: [
               { required: true, message: '请输入内容', trigger: 'blur' }
@@ -168,13 +174,6 @@ export default {
       },
       //步骤二
       head_foter_alert:false,
-      options: [{
-        value: 'default',
-        label: '封面默认尺寸'
-      },{
-        value: '200x400',
-        label: '200x400'
-      }],
       template_list:[],
     }
   },
@@ -185,6 +184,28 @@ export default {
       this.postForm.headTemplate = val.head;
       this.postForm.footTemplate = val.foot;
        console.log(this.postForm.footTemplate);
+    },
+    widthChange(e){
+      let num = e.target.value.replace(/^\.+|[^\d.]/g,'');
+      if(num){
+        this.postForm.coverWidth = parseInt(num);
+        if(this.postForm.coverWidth && this.postForm.coverWidth<10){
+          this.postForm.coverWidth = 10;
+        }
+      }else{
+        this.postForm.coverWidth = 10;
+      }
+    },
+    heightChange(e){
+      let num = e.target.value.replace(/^\.+|[^\d.]/g,'');
+      if(num){
+        this.postForm.coverHeight = parseInt(num);
+        if(this.postForm.coverHeight && this.postForm.coverHeight<10){
+          this.postForm.coverHeight = 10;
+        }
+      }else{
+        this.postForm.coverHeight = 10;
+      }
     },
     //隐藏高级设置弹窗
     hfHide(){
@@ -209,6 +230,8 @@ export default {
       this.postForm.terminals = newVal.terminals;
       this.postForm.linkUrl = newVal.linkUrl||'';
       this.postForm.label = newVal.label||'';
+      this.postForm.coverWidth = newVal.coverWidth;
+      this.postForm.coverHeight = newVal.coverHeight;
       if(newVal.extensionKV && newVal.extensionKV.length>0){
         for(let i=0;i<newVal.extensionKV.length;i++){
           this.postForm.extension.push(newVal.extensionKV[i].key);//将选中值添加到选中数组中
@@ -370,6 +393,40 @@ export default {
         }
         .u-btn-r{
           width: 130px;
+        }
+      }
+    }
+    .cover-warp{
+      display: inline-block;
+      .wh-px{
+        width: 110px;
+        position: relative;
+        margin: 0 10px;
+        /deep/.el-input__inner{
+          padding-right: 30px;
+          padding-left: 35px;
+        }
+        &::after{
+          content: 'px';
+          position: absolute;
+          right: 10px;
+          color: #999;
+        }
+      }
+      .w{
+        &::before{
+          content: '宽：';
+          position: absolute;
+          left: 10px;
+          color: #999;
+        }
+      }
+      .h{
+        &::before{
+          content: '高：';
+          position: absolute;
+          left: 10px;
+          color: #999;
         }
       }
     }

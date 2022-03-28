@@ -34,7 +34,7 @@
                 </div><!--顶部查询 end-->
                 <div class="t-p">
                     <el-table stripe :data="tableData" v-loading="loading" ref="singleTable" @selection-change="handleSelectionApp" border class="admin-table">
-                        <el-table-column type="selection" width="45"></el-table-column>
+                        <el-table-column type="selection" width="50"></el-table-column>
                         <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
                         <el-table-column prop="title" label="新闻标题" min-width="150px">
                           <template slot-scope="scope">
