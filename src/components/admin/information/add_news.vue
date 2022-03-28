@@ -265,6 +265,7 @@ export default {
         this.http.getPlain_url('news-content-manage-get','/'+this.columnID+'?contentid='+this.id).then(res=>{
           this.postForm = res.data.content||{};
           this.contentEditor = this.postForm.contentEditor||1;
+          tinymce.activeEditor.setContent(this.postForm.content)
           var list = res.data.content||{};
           //按钮集合
           this.postForm['nextAuditStatus'] = res.data.nextAuditStatus||[];
@@ -377,7 +378,8 @@ export default {
         font:20,
         color:'#000000',
       },
-      postForm: {terminals:[1,2,3,4],publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').slice(0,10)},
+      // postForm: {terminals:[1,2,3,4],publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').slice(0,10)},
+      postForm: {terminals:[1,2,3,4]},
       rules: {
           title: [
               { required: true, message: '请输入标题', trigger: 'blur' }
