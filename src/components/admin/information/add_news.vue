@@ -638,32 +638,37 @@ export default {
     submitForm(formName,val) {
       var _this = this;
       this.setPostFormPas();
-      if(val == 9){ //表示退回
-        this.draw_back = true;
-      }else{
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            if(_this.id){
-              this.http.postJsonParameter_url('news-content-update',_this.postForm,'/'+_this.columnID).then(res=>{
-                _this.$message({type: 'success',message: '提交成功!'});
-                _this.backHistory();
-              }).catch(err=>{
-                _this.$message({type: 'error',message: '提交失败!'});
-              })
-            }else{
-              _this.postForm['columnID'] = _this.columnID;
-              this.http.postJsonParameter_url('news-content-add',_this.postForm,'/'+_this.columnID).then(res=>{
-                if(res.succeeded){
+      if(val){
+        if(val == 9){ //表示退回
+          this.draw_back = true;
+        }else{
+          _this.postForm['auditStatus'] = val;
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              if(_this.id){
+                this.http.postJsonParameter_url('news-content-update',_this.postForm,'/'+_this.columnID).then(res=>{
                   _this.$message({type: 'success',message: '提交成功!'});
-                }else{
-                  _this.$message({type: 'error',message: res.data.message||'提交失败'});
-                }
-              }).catch(err=>{
-                _this.$message({type: 'error',message: '提交失败!'});
-              })
+                  _this.backHistory();
+                }).catch(err=>{
+                  _this.$message({type: 'error',message: '提交失败!'});
+                })
+              }else{
+                _this.postForm['columnID'] = _this.columnID;
+                this.http.postJsonParameter_url('news-content-add',_this.postForm,'/'+_this.columnID).then(res=>{
+                  if(res.succeeded){
+                    _this.$message({type: 'success',message: '提交成功!'});
+                  }else{
+                    _this.$message({type: 'error',message: res.data.message||'提交失败'});
+                  }
+                }).catch(err=>{
+                  _this.$message({type: 'error',message: '提交失败!'});
+                })
+              }
             }
-          }
-        });
+          });
+        }
+      }else{
+        console.log('退回提交的表单');
       }
     },
     isShowRow(val){
