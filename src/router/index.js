@@ -28,6 +28,11 @@ export default new Router({
       component: r => require.ensure([], () => r(require('@/components/404')), 'index'),
     },
     {
+      path: '/403',
+      name: '403',
+      component: r => require.ensure([], () => r(require('@/components/403')), 'index'),
+    },
+    {
       path: '/500',
       name: '500',
       component: r => require.ensure([], () => r(require('@/components/500')), 'index'),
