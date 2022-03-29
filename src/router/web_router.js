@@ -1,4 +1,12 @@
 /***门户路由 */
+async function beforeEnterImplAsync(to, from, next) {
+  let response = await  axios({
+    url:'/appcenter/api/baseinfo/getauthinfo?appcode=news',
+    method:'get'
+  }).then(x=>x.data);
+  if (response.data.canWeb) { next(); return }
+  next({ name: '403' })
+}
 export default {
     router:[
         {
@@ -37,5 +45,8 @@ export default {
           component: r => require.ensure([], () => r(require('@/components/web/view/temp2/detailspage')), 'list'),
           meta: { title: '详情页面-模板2' , keepAlive:true},
         },
-    ],
+    ].map(x=>{
+      x.  beforeEnter= beforeEnterImplAsync;
+      return x;
+    })
 }
