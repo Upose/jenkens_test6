@@ -89,7 +89,7 @@
                 <el-input v-model="item.input_val" :placeholder="'请输入'+item.value" v-if="item.key !='ExpirationDate'"></el-input>
                 <el-date-picker v-model="item.input_val" type="date" v-if="item.key =='ExpirationDate'" placeholder="请选择发布日期"></el-date-picker>
               </el-form-item>
-              <el-form-item label="内容" prop="content">
+              <el-form-item label="内容" :prop="activeName=='div1'?'content':'externalLink'">
                 <div class="filter-form-item">
                     <div class="filter-r-t-editor">
                       <div class="filter-f-title">
@@ -360,8 +360,6 @@ export default {
       contentEditor:'1',//编辑器切换
       activeName:"div1",//富文本还是链接
       coumn_data_list:[],//栏目下拉选择列表
-      content1:'',//富文本1
-      content2:'',//富文本2
       font_list:[ //字体大小
         {title:14},
         {title:16},
@@ -402,7 +400,10 @@ export default {
           ],
           content: [
               { required: true, message: '请输入内容', trigger: 'blur' }
-          ]
+          ],
+          externalLink: [
+              { required: true, message: '请输入链接', trigger: 'blur' }
+          ],
       },
       //百度富文本
       myConfig: {

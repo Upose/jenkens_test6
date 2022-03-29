@@ -74,9 +74,9 @@ export default {
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             this.loading = false;
             this.menu_list = res.data||[];
-            if(this.$route.query.id){
+            if(this.$route.query.cid){
               this.menu_list.forEach((item,i)=>{
-                  if(item.columnID == this.$route.query.id){
+                  if(item.columnID == this.$route.query.cid){
                     setTimeout(() => {
                       this.menu_list[i]['check'] = false;
                       this.menuClick(this.menu_list[i].name,i,false);

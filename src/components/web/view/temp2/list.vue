@@ -83,10 +83,9 @@ export default {
           this.menu_list = res.data||[];
           this.menu_list.forEach((item,i)=>{
             this.menu_list[i]['check'] = false;
-            if(this.$route.query.id){
+            if(this.$route.query.cid){
               this.menu_list.forEach((item,i)=>{
-                  if(item.columnID == this.$route.query.id){
-                    console.log(i)
+                  if(item.columnID == this.$route.query.cid){
                     setTimeout(() => {
                       this.menu_list[i]['check'] = false;
                       this.menuClick(this.menu_list[i].name,i,false);
