@@ -179,7 +179,7 @@
             </div>
           </el-form>
         </div><!---顶部查询板块 end--->
-        <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
+        <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="700px" :close-on-click-modal="false" :before-close="handleClose">
           <UpdateImg @imgUrl="imgUrl" :imgWidth="coverWidth" :imgHeight="coverHeight"></UpdateImg>
         </el-dialog>
 

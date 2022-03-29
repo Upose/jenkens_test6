@@ -1,4 +1,4 @@
-<!--图片上传弹窗 this.https://github.com/xyxiao001/vue-cropper --> 
+<!--图片上传弹窗 https://github.com/xyxiao001/vue-cropper --> 
 <template>
   <div class="cropper-content">
     <div class="left">
@@ -31,6 +31,7 @@
 
 <script>
 import { VueCropper } from 'vue-cropper';
+import http from "@/assets/public/js/http";
 export default {
   name: "CropperImage",
   created() { },
@@ -39,15 +40,15 @@ export default {
   },
   // props: ['imgWidth','imgHeight'],//图片宽高
   props: {
-    imgWidth:{
+    imgWidth: {
       type: Number,
       default: 150
     },
-    imgHeight:{
+    imgHeight: {
       type: Number,
       default: 150
     },
-    enlarge:{
+    enlarge: {
       type: String,
       default: 1
     }
@@ -57,11 +58,44 @@ export default {
       // name: this.Name,
       previews: {},
       input_value: '',
-      option: {
+      option: {},
+    };
+  },
+  created() {
+    this.initData();
+  },
+  methods: {
+    // 初始化宽高、缩放比
+    initData() {
+      // 最大宽高
+      let maxWidth = 300, maxHeight = 150;
+      if (this.imgWidth > maxWidth && this.imgHeight <= maxHeight) {
+        this.enlarge = this.imgWidth / maxWidth;
+        this.imgWidth = maxWidth;
+        this.imgHeight = this.imgHeight / this.enlarge;
+      } else if (this.imgWidth <= maxWidth && this.imgHeight > maxHeight) {
+        this.enlarge = this.imgHeight / maxHeight;
+        this.imgHeight = maxHeight;
+        this.imgWidth = this.imgWidth / this.enlarge;
+      } else if (this.imgWidth > maxWidth && this.imgHeight > maxHeight) {
+        // 当设置宽高都大于最大宽高--已放大比例更大的为基础
+        let widthEnlarge = this.imgWidth / maxWidth;
+        let heightEnlarge = this.imgHeight / maxHeight;
+        if (widthEnlarge >= heightEnlarge) {
+          this.enlarge = widthEnlarge;
+          this.imgWidth = maxWidth;
+          this.imgHeight = this.imgHeight / this.enlarge;
+        } else {
+          this.enlarge = heightEnlarge;
+          this.imgHeight = maxHeight;
+          this.imgWidth = this.imgWidth / this.enlarge;
+        }
+      }
+      this.option = {
         img: '',             //裁剪图片的地址
         outputSize: 1,       //裁剪生成图片的质量(可选0.1 - 1)
         outputType: 'png',  //裁剪生成图片的格式（jpeg || png || webp）
-        info: true,          //图片大小信息
+        info: false,          //图片大小信息
         canScale: true,      //图片是否允许滚轮缩放
         autoCrop: true,      //是否默认生成截图框
         autoCropWidth: this.imgWidth,  //默认生成截图框宽度
@@ -78,12 +112,10 @@ export default {
         infoTrue: false,     //true为展示真实输出图片宽高，false展示看到的截图框宽高
         maxImgSize: 3000,    //限制图片最大宽度和高度
         enlarge: this.enlarge,          //图片根据截图框输出比例倍数
-        // mode: '50px 50px'  //图片默认渲染方式
-        mode: this.imgWidth + 'px ' + this.imgHeight + 'px'  //图片默认渲染方式
+        mode: '50px 50px'  //图片默认渲染方式
+        // mode: this.imgWidth + 'px ' + this.imgHeight + 'px'  //图片默认渲染方式
       }
-    };
-  },
-  methods: {
+    },
     //初始化函数
     imgLoad(msg) {
       console.log("工具初始化函数=====" + msg)
@@ -136,13 +168,20 @@ export default {
           formData.append('files', data, "DX.jpg");
           console.log(formData);
           //调用axios上传
-          this.http.postFile('upload', formData).then(res => {
+          http.postFile('upload', formData).then(res => {
             this.previews = {};
             this.input_value = '';
             this.$forceUpdate();
             this.$emit('imgUrl', res.data || []);
+
+            // if (res.data && res.status == 0) {
+            //   this.$emit('upImg',res.data||[]);
+            // } else {
+            //   this.parentMessage('error', (res.msg || '无数据'));
+            // }
           }).then(err => {
             this.option.img = '';
+            console.log(err);
           })
         })
       }
@@ -153,8 +192,7 @@ export default {
 
 
 <style scoped lang="less">
-@import "../../../assets/admin/css/color.less";/**颜色配置 */
-@import "../../../assets/admin/css/style.less";/**颜色配置 */
+@import "../../../assets/admin/css/color.less"; /**颜色配置 */
 .cropper-content {
   display: flex;
   flex-direction: row;
@@ -174,8 +212,8 @@ export default {
     justify-content: center;
     .img-preview {
       overflow: hidden;
-      // min-height: 150px; 
-      max-width: 150px;
+      // min-width: 50px;
+      // min-height: 50px;
       border-radius: 2px;
       background: @F9F8FF;
       border: 1px solid @EBEEF5;
