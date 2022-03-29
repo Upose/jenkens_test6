@@ -4,7 +4,7 @@ async function beforeEnterImplAsync(to, from, next) {
     url:'/appcenter/api/baseinfo/getauthinfo?appcode=news',
     method:'get'
   }).then(x=>x.data);
-  if (response.data.canWeb) { next(); return }
+  if (response.data.canAdmin) { next(); return }
   next({ name: '403' })
 }
 export default {
