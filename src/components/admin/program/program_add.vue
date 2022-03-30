@@ -122,6 +122,7 @@ export default {
         this.postForm['id'] = this.id;
         this.http.postJsonParameter_url('news-column-update',this.postForm,'/'+this.id).then(res=>{
           this.$message({type: 'success',message: '修改成功'}); 
+          this.getColumn();
           setTimeout(()=>{
             window.sessionStorage.removeItem('news-column');
             window.history.go(-1);
