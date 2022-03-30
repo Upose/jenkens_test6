@@ -104,7 +104,6 @@ export default {
     //获取栏目详情
     this.http.getPlain_url('news-column-content-manage-get','/'+this.postForm.columnID).then(res=>{
       if(res.data){
-        this.auditStatusCountList = res.data.auditStatusCountList||[];
         this.lableList = res.data.lableList||[];
         this.isHasCatalogue = res.data.isHasCatalogue;
       }

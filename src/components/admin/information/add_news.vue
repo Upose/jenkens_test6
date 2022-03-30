@@ -376,8 +376,8 @@ export default {
         font:20,
         color:'#000000',
       },
-      // postForm: {terminals:[1,2,3,4],publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').slice(0,10)},
-      postForm: {terminals:[1,2,3,4]},
+      postForm: {terminals:[1,2,3,4],publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/\.[\d]{3}Z/, '')+'.000Z'},
+      // postForm: {terminals:[1,2,3,4]},
       rules: {
           title: [
               { required: true, message: '请输入标题', trigger: 'blur' }
@@ -638,7 +638,6 @@ export default {
     submitForm(formName,val) {
       var _this = this;
       this.setPostFormPas();
-      if(val){
         if(val == 9){ //表示退回
           this.draw_back = true;
         }else{
@@ -667,9 +666,6 @@ export default {
             }
           });
         }
-      }else{
-        console.log('退回提交的表单');
-      }
     },
     isShowRow(val){
       let is_show = true;
