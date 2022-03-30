@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: '404page',
+  name: '403page',
   beforeRouteEnter(to,from,next){
     if(from.fullPath.indexOf('admin')>-1){
       this.home = 'admin';
@@ -33,6 +33,7 @@ export default {
     }
   },
   mounted(){
+    document.title = '403'
     if(this.home == 'web'){
       this.code = 'index';
       this.path = '/#/index?page=1';

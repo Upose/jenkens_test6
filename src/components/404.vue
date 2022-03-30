@@ -33,6 +33,7 @@ export default {
     }
   },
   mounted(){
+    document.title = '404'
     if(this.home == 'web'){
       this.code = 'index';
       this.path = '/#/index?page=1';

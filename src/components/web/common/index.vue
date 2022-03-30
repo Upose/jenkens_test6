@@ -67,7 +67,12 @@ export default {
       console.log('用户基本信息',res);
     }).catch(err=>{})
   },
-  mounted(){},
+  mounted(){
+    var headerFooterInfo = localStorage.getItem('headerFooterInfo');
+    if(headerFooterInfo && headerFooterInfo!=null && headerFooterInfo!=undefined && headerFooterInfo!= 'undefined'){
+      this.skin_template = JSON.parse(headerFooterInfo).themeColor||'template1';
+    }
+  },
   data () {
     return {
       baseInfo:false,
