@@ -3,8 +3,8 @@
   <div class="header-warp">
     <div class="m-menu">
       <div class="m-text">
-        <span class="m">新闻发布</span>
-        <span class="v">v1.0.0</span>
+        <span class="m">{{appDetails.appName}}</span>
+        <span class="v">{{appDetails.appVersion}}</span>
       </div>
     </div>
     <div class="s-menu">
@@ -21,19 +21,21 @@ export default {
     '$route':'force'
   },
   mounted(){
-    this.http.getPlain('news-user-union-column-permission-list','').then(res=>{
-      this.dataList = res.data||[];
-      var path_url = window.localStorage.getItem('path_url');
-      if((path_url==undefined || path_url=='' || path_url==null || path_url=='null') && this.dataList.length>0){
-        this.openPage(this.dataList[0].component);
-      }
-    }).catch(err=>{
+    var _this = this;
+    let appMenu = sessionStorage.getItem('appMenu');
+    let appDetails = sessionStorage.getItem('appDetails');
 
-    })
+    if(appDetails && appDetails!=null && appDetails!=undefined && appDetails !=''){
+      _this.appDetails = JSON.parse(appDetails);
+    }
+    if(appMenu && appMenu!=null && appMenu!=undefined && appMenu !='' && appMenu != '[]'){
+      this.dataList = JSON.parse(appMenu);
+    }
   },
   data () {
     return {
       default_img:require('@/assets/admin/img/upload/user-img.png'),
+      appDetails:{},//应用详情
       dataList:[
         // {icon:'el-icon-warning-outline',name:'栏目管理',component:'/admin_newsProgram'},
         // {icon:'el-icon-warning-outline',name:'馆内资讯',component:'/newsInfo'},
@@ -49,7 +51,6 @@ export default {
       console.log(key, keyPath);
     },
     openPage(url){
-      window.localStorage.setItem('path_url',url);
       this.$router.push(url);
     },
     force(){
@@ -57,9 +58,19 @@ export default {
     },
     //是否当前菜单
     isActive(url){
-      var cu_href = window.localStorage.getItem('path_url');
-      if(url == cu_href){
-        return true;
+      var cu_url = this.$route.meta.parentRoute;
+      if(url.indexOf(cu_url)>-1){
+        let is_active = true;
+        if(cu_url == 'admin_programInfo'){
+          var id = this.$route.query.c_id||this.$route.query.id;
+          console.log(this.$route.meta.parentRoute,id);
+          if(url == '/admin_programInfo?id='+id){
+            is_active = true;
+          }else{
+            is_active = false;
+          }
+        }
+        return is_active;
       }else{
         return false;
       }

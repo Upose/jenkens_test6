@@ -40,7 +40,7 @@ Vue.prototype.addScript = function(url){
   document.getElementsByTagName("body")[0].appendChild(js_element);
 }
 Vue.prototype.authShowBtn = function(value){
-  var list = JSON.parse(window.localStorage.getItem('menuAuth')||'[]');
+  var list = JSON.parse(sessionStorage.getItem('appMenu')||'[]');
   var is_show = false;
   if(list.length>0){
     for(var i=0;i<list.length;i++){
