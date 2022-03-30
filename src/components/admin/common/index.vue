@@ -15,13 +15,13 @@ export default {
   components:{headerpage,footerpage},
   created(){
     var _that = this;
-    let appMenu = sessionStorage.getItem('appMenu');
-    let appDetails = sessionStorage.getItem('appDetails');
+    let news_appMenu = sessionStorage.getItem('news_appMenu');
+    let news_appDetails = sessionStorage.getItem('news_appDetails');
     //详情
-    if(!appDetails || appDetails==null || appDetails==undefined || appDetails ==''){
+    if(!news_appDetails || news_appDetails==null || news_appDetails==undefined || news_appDetails ==''){
       _that.http.getPlain('getcurrentappinfo','?appcode=news').then((res) => {
         if(res.data){
-          sessionStorage.setItem('appDetails', JSON.stringify(res.data));
+          sessionStorage.setItem('news_appDetails', JSON.stringify(res.data));
           document.title = res.data.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
         }
         _that.post_details = true;
@@ -30,13 +30,13 @@ export default {
       })
     }else{
        _that.post_details = true;
-      document.title = JSON.parse(appDetails).appName||''+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
+      document.title = JSON.parse(news_appDetails).appName||''+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
     }
     //菜单
-    if(!appMenu || appMenu==null || appMenu==undefined || appMenu =='' || appMenu == '[]'){
+    if(!news_appMenu || news_appMenu==null || news_appMenu==undefined || news_appMenu =='' || news_appMenu == '[]'){
       _that.http.getPlain('news-user-union-column-permission-list','').then((res) => {
         let dataList = res.data||[];
-        sessionStorage.setItem('appMenu',JSON.stringify(dataList));
+        sessionStorage.setItem('news_appMenu',JSON.stringify(dataList));
         _that.post_menu = true;
       }).catch((err) => {
         _that.$message({type: 'error',message: '获取菜单失败!'});
