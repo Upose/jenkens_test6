@@ -8,11 +8,10 @@
       </div>
     </div>
     <div class="s-menu">
-      <div class="s-row" :class="isActive(item.component)?'active':''"  :title="item.name" @click="openPage(item.component)" v-for="(item,index) in dataList" :key="index+'menu'"><i class="iconfont el-icon-vip-daohanglanmu"></i><span>{{item.name}}</span></div>
+      <div class="s-row" :class="isActive(item.component)?'active':''"  :title="item.name" @click="openPage(item.component)" v-for="(item,index) in (this.$store.state.menuList||[])" :key="index+'menu'"><i class="iconfont el-icon-vip-daohanglanmu"></i><span>{{item.name}}</span></div>
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -22,14 +21,13 @@ export default {
   },
   mounted(){
     var _this = this;
-    let appMenu = sessionStorage.getItem('news_appMenu');
-    let appDetails = sessionStorage.getItem('news_appDetails');
-
+    let appMenu = this.$store.state.menuList;
+    let appDetails = this.$store.state.appDetails;
     if(appDetails && appDetails!=null && appDetails!=undefined && appDetails !=''){
-      _this.appDetails = JSON.parse(appDetails);
+      _this.appDetails = appDetails;
     }
     if(appMenu && appMenu!=null && appMenu!=undefined && appMenu !='' && appMenu != '[]'){
-      this.dataList = JSON.parse(appMenu);
+      this.dataList = appMenu;
     }
   },
   data () {
@@ -44,12 +42,6 @@ export default {
     }
   },
   methods:{
-    handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
     openPage(url){
       this.$router.push(url);
     },
@@ -63,7 +55,6 @@ export default {
         let is_active = true;
         if(cu_url == 'admin_programInfo'){
           var id = this.$route.query.c_id||this.$route.query.id;
-          console.log(this.$route.meta.parentRoute,id);
           if(url == '/admin_programInfo?id='+id){
             is_active = true;
           }else{

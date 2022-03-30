@@ -54,6 +54,7 @@ import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
 import paging from "@/components/admin/common/paging";
+import store from '@/router/store'
 
 export default {
   name: 'index',
@@ -111,6 +112,7 @@ export default {
         }).then(() => { 
           this.http.getPlain_url('column_delete','/'+val).then(res=>{
             _this.$message({type: 'success',message: '删除成功!'});
+            _this.getColumn();
             _this.initData();
           }).catch(err=>{
             _this.$message({type: 'error',message: '删除失败!'});          
@@ -118,6 +120,14 @@ export default {
         }).catch(() => {
            _this.$message({type: 'info',message: '已取消删除'}); 
         });
+    },
+    getColumn(){
+      var _this =this;
+      this.http.getPlain('news-user-union-column-permission-list','').then((res) => {
+        let dataList = res.data||[];
+        store.commit('menuList',dataList);
+        _this.$forceUpdate();
+      }).catch((err) => {});
     },
   },
 }

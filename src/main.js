@@ -41,6 +41,7 @@ Vue.prototype.addScript = function(url){
 }
 Vue.prototype.authShowBtn = function(value){
   var list = JSON.parse(sessionStorage.getItem('news_appMenu')||'[]');
+  console.log(store.state.appDetails,'--main.js vuex')
   var is_show = false;
   if(list.length>0){
     for(var i=0;i<list.length;i++){

@@ -10,18 +10,19 @@
 <script>
 import headerpage from '@/components/admin/common/header'
 import footerpage from '@/components/admin/common/footer'
+import store from '@/router/store'
 export default {
   name: 'index',
   components:{headerpage,footerpage},
   created(){
     var _that = this;
-    let news_appMenu = sessionStorage.getItem('news_appMenu');
-    let news_appDetails = sessionStorage.getItem('news_appDetails');
+    let appMenu = store.state.menuList;
+    let appDetails = store.state.appDetails;
     //详情
-    if(!news_appDetails || news_appDetails==null || news_appDetails==undefined || news_appDetails ==''){
+    if(!appDetails || appDetails==null || appDetails==undefined || appDetails ==''){
       _that.http.getPlain('getcurrentappinfo','?appcode=news').then((res) => {
         if(res.data){
-          sessionStorage.setItem('news_appDetails', JSON.stringify(res.data));
+          store.commit('appDetails',res.data);
           document.title = res.data.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
         }
         _that.post_details = true;
@@ -30,13 +31,13 @@ export default {
       })
     }else{
        _that.post_details = true;
-      document.title = JSON.parse(news_appDetails).appName||''+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
+      document.title = appDetails.appName||''+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
     }
     //菜单
-    if(!news_appMenu || news_appMenu==null || news_appMenu==undefined || news_appMenu =='' || news_appMenu == '[]'){
+    if(!appMenu || appMenu==null || appMenu==undefined || appMenu =='' || appMenu == '[]'){
       _that.http.getPlain('news-user-union-column-permission-list','').then((res) => {
         let dataList = res.data||[];
-        sessionStorage.setItem('news_appMenu',JSON.stringify(dataList));
+        store.commit('menuList',dataList);
         _that.post_menu = true;
       }).catch((err) => {
         _that.$message({type: 'error',message: '获取菜单失败!'});

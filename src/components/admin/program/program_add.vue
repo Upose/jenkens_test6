@@ -29,6 +29,7 @@ import step_one from './step/step_one';
 import step_two from './step/step_two';
 // import step_three from './step/step_three';
 // import step_four from './step/step_four';
+import store from '@/router/store'
 export default {
   name: 'index',
   created(){
@@ -130,7 +131,8 @@ export default {
         })
       }else{
         this.http.postJson('news-column-add',this.postForm).then(res=>{
-          this.$message({type: 'success',message: '添加成功'}); 
+          this.$message({type: 'success',message: '添加成功'});
+          this.getColumn();
           setTimeout(()=>{
             window.sessionStorage.removeItem('news-column');
             window.history.go(-1);
@@ -140,7 +142,12 @@ export default {
         })
       }
     },
-    
+    getColumn(){
+      this.http.getPlain('news-user-union-column-permission-list','').then((res) => {
+        let dataList = res.data||[];
+        store.commit('menuList',dataList);
+      }).catch((err) => {});
+    },
   },
 }
 </script>

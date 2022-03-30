@@ -8,12 +8,20 @@ export default new Vuex.Store({
     token: undefined,//token参数
     language:'zh-CN',//语言
     skin_template:'template1',
+    menuList:[],//后台左侧菜单
+    appDetails:null,//应用信息
   },
   getters: {
     token: (state) => state.token,
     language: (state) => state.language||'zh-CN',
   },
   mutations: {
+    menuList: (state, data) => {
+      state.menuList = data;
+    },
+    appDetails: (state, data) => {
+      state.appDetails = data;
+    },
     login: (state, data) => {
       state.token = data.token || undefined;
       sessionStorage.setItem('token',data.token);
