@@ -11,31 +11,7 @@
     </div> -->
 </div>
 </template>
-<style lang="less">
-.web-empty-data{
-  background: url(../../../assets/public/img/data-empty.png) no-repeat center;
-  width: 100%;
-  min-height: 180px;
-}
-.web-warp{
-    min-width: 1200px;
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-// .template-warp{
-//   position: fixed;
-//   top: 10px;
-//   right: 0;
-//   span{
-//     cursor: pointer;
-//     padding: 1px 2px;
-//     border-radius: 4px;
-//     background-color: #eee;
-//     border: 1px solid #eee;
-//   }
-// }
-</style>
+
 <script>
 import store from '@/router/store'
 export default {
@@ -91,5 +67,29 @@ export default {
   }
 }
 </script>
-
+<style lang="less">
+.web-empty-data{
+  background: url(../../../assets/public/img/data-empty.png) no-repeat center;
+  width: 100%;
+  min-height: 180px;
+}
+.web-warp{
+    min-width: 1200px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+// .template-warp{
+//   position: fixed;
+//   top: 10px;
+//   right: 0;
+//   span{
+//     cursor: pointer;
+//     padding: 1px 2px;
+//     border-radius: 4px;
+//     background-color: #eee;
+//     border: 1px solid #eee;
+//   }
+// }
+</style>
 
