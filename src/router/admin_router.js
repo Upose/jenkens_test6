@@ -14,7 +14,7 @@ export default {
       name: 'admin_newsProgram',
       component: r => require.ensure([], () => r(require('@/components/admin/program/news_program')), 'news_program'),
       meta: {
-        title: [{ name: '新闻发布', }, { name: '栏目管理'}],
+        title: [{ name: '栏目管理'}],
         keepAlive: true,
         parentRoute:'admin_newsProgram'
       },
@@ -24,7 +24,7 @@ export default {
       name: 'admin_newsSelect',
       component: r => require.ensure([], () => r(require('@/components/admin/program/news_select')), 'news_select'),
       meta: {
-        title: [{ name: '新闻发布', }, { name: '栏目管理',path:'/admin_newsProgram' }, { name: '新闻检索', }],
+        title: [{ name: '栏目管理',path:'/admin_newsProgram' }, { name: '新闻检索', }],
         keepAlive: true,
         parentRoute:'admin_newsProgram'
       },
@@ -55,7 +55,7 @@ export default {
       component: r => require.ensure([], () => r(require('@/components/admin/news_set/news_set')), 'news_set'),
       meta: { title: '新闻发布-应用设置', keepAlive: true },
       meta: {
-        title: [{ name: '新闻发布', }, { name: '应用设置'}],
+        title: [{ name: '应用设置'}],
         keepAlive: true,
         parentRoute:'admin_newsSet'
       },
@@ -65,7 +65,7 @@ export default {
       name: 'admin_newsLog',
       component: r => require.ensure([], () => r(require('@/components/admin/news_log/news_log')), 'news_log'),
       meta: {
-        title: [{ name: '新闻发布', }, { name: '栏目信息管理'}, { name: '日志', }],
+        title: [{ name: '栏目信息管理'}, { name: '日志', }],
         keepAlive: true,
         parentRoute:'admin_newsProgram'
       },
@@ -75,7 +75,7 @@ export default {
       name: 'admin_programAdd',
       component: r => require.ensure([], () => r(require('@/components/admin/program/program_add')), 'news_release'),
       meta: {
-        title: [{ name: '新闻发布', }, { name: '栏目管理', path: '/admin_newsProgram' }, { name: '栏目内容', }],
+        title: [{ name: '栏目管理', path: '/admin_newsProgram' }, { name: '栏目内容', }],
         keepAlive: true,
         parentRoute:'admin_newsProgram'
       },
@@ -85,7 +85,7 @@ export default {
       name: 'admin_preview1',
       component: r => require.ensure([], () => r(require('@/components/admin/preview/page1')), 'news_preview'),
       meta: {
-        title: [{ name: '新闻发布', }, { name: '预览'}],
+        title: [{ name: '预览'}],
         keepAlive: true
       },
     },
@@ -94,7 +94,7 @@ export default {
       name: 'admin_preview2',
       component: r => require.ensure([], () => r(require('@/components/admin/preview/page2')), 'news_preview'),
       meta: {
-        title: [{ name: '新闻发布', }, { name: '预览'}],
+        title: [{ name: '预览'}],
         keepAlive: true
       },
     },

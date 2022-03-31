@@ -22,7 +22,7 @@
         <div class="body-title">
           <div class="right-content">
             <div class="content-top-title">新闻资讯</div>
-            <div class="row" v-for="(it,i) in news_list" :key="i+'content'" @click="detailsClick(it.contentID)">
+            <div class="row" v-for="(it,i) in news_list" :key="i+'content'" @click="detailsClick(it)">
               <div class="msg-warp">
                 <div class="title">{{it.title||'标题走丢了'}}</div>
                 <div class="msg">
@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted(){
-    document.title = '列表-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
+    document.title = '列表-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
     this.initData();
     // document.addEventListener('click',function(e){
     //   console.log(e,e.target);
@@ -138,7 +138,7 @@ export default {
       menuClick(title,index){//标题,index下标
         this.$router.push({path:'/web_newsList',query:{cid:this.menu_list[index].columnID}}).catch((err) => {});
         this.curSubKey = ''
-        document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
+        document.title = title + '-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
         this.pageIndex = 1;
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
@@ -171,7 +171,11 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/web_newsDetails',query:{id:encodeURI(val),cid:encodeURI(this.left_index)}})
+        if(val.externalLink && val.externalLink!=''){
+          location.href = val.externalLink;
+        }else{
+          this.$router.push({path:'/web_newsDetails',query:{id:encodeURI(val.contentID),cid:encodeURI(this.left_index)}})
+        }
       },
       //点击二级菜单
       foxbaseClick(val){

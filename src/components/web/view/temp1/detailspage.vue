@@ -128,7 +128,7 @@ export default {
               this.data = res.data||[];
               this.detailsData = res.data.content||{};
               let title = res.data.content.title || ''
-              document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
+              document.title = title + '-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
               if(this.detailsData && this.detailsData.titleStyleKV){
                 this.titleStyleKV = this.detailsData.titleStyleKV||[];
               }

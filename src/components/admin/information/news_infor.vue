@@ -198,7 +198,7 @@ export default {
       this.http.getPlain_url('news-column-template-get-by-column-id','/'+this.$route.query.id).then(res=>{
         this.columnDeatils = res.data||{};
         var list = {
-              title: [{ name: '新闻发布',  }, { name: this.columnDeatils.columnName, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}],
+              title: [{ name: this.columnDeatils.columnName, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}],
               keepAlive: true
             }
           ;

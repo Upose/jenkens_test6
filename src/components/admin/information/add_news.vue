@@ -222,7 +222,7 @@ export default {
         this.isshow_link = JSON.stringify(this.columnDeatils.extensionKV).indexOf('JumpLink')>-1;
         this.isshow_ParentCatalogue = JSON.stringify(this.columnDeatils.extensionKV).indexOf('ParentCatalogue')>-1;
         var list = {
-              title: [{ name: '新闻发布',  }, { name: this.columnDeatils.title, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}, { name: this.id?'编辑新闻':'新增新闻', }],
+              title: [{ name: this.columnDeatils.title, path: {path:'/admin_programInfo',query:{id:this.columnDeatils.id}},}, { name: this.id?'编辑新闻':'新增新闻', }],
               keepAlive: true
             }
           ;

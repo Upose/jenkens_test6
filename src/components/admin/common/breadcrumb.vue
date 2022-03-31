@@ -24,8 +24,8 @@ export default {
     }
   },
   mounted() {
-    //   this.initData();
     this.breadcrumbList = this.$route.meta.title;
+    this.breadcrumbList.unshift({ name: this.$store.state.appDetails.appName});
   },
   methods: {
     toWorkbench() {
@@ -36,6 +36,7 @@ export default {
     //针对栏目页面-单独重置栏目面包屑
     setMeta(list){
       this.breadcrumbList = list.title;
+      this.breadcrumbList.unshift({ name: this.$store.state.appDetails.appName});
     },
   },
 }

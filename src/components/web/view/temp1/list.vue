@@ -19,7 +19,7 @@
           <div class="menu-top child_bg">当前位置：{{content_title}}</div>
           <div class="right-content">
             <ul class="news-ul">
-              <li class="next_hover" @click="detailsClick(it.contentID)" v-for="(it,i) in news_list" :key="i+'content'" :class="it.isShowPublishDate?'min-h':''">
+              <li class="next_hover" @click="detailsClick(it)" v-for="(it,i) in news_list" :key="i+'content'" :class="it.isShowPublishDate?'min-h':''">
                 <div class="time n_hover" v-if="it.isShowPublishDate">
                   <span class="data">{{(it.publishDate||'').slice(8,10)}}</span>
                   <span>{{(it.publishDate||'').slice(0,7)}}</span>
@@ -65,7 +65,7 @@ export default {
     }
   },
   mounted(){
-    document.title = '列表-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
+    document.title = '列表-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
     this.initData();
   },
   methods:{
@@ -128,7 +128,7 @@ export default {
       menuClick(title,index){//标题,index下标
         this.$router.push({path:'/web_newsList',query:{cid:this.menu_list[index].columnID}}).catch((err) => {});
         this.curSubKey = ''
-        document.title = title + '-新闻发布-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
+        document.title = title + '-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
         this.pageIndex = 1;
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
@@ -161,7 +161,11 @@ export default {
         return cs;
       },
       detailsClick(val){
-        this.$router.push({path:'/web_newsDetails',query:{id:encodeURI(val),cid:encodeURI(this.left_index)}})
+        if(val.externalLink && val.externalLink!=''){
+          location.href = val.externalLink;
+        }else{
+          this.$router.push({path:'/web_newsDetails',query:{id:encodeURI(val.contentID),cid:encodeURI(this.left_index)}})
+        }
       },
       //点击二级菜单
       foxbaseClick(val){
