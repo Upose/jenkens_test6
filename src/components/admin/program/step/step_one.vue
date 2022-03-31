@@ -1,6 +1,6 @@
 <!---新闻发布-栏目管理-新增栏目-->
 <template>
-  <div class="admin-warp-page">
+  <div class="admin-warp-page" @click="tag_edit == false">
       <el-form :model="postForm" :rules="rules" ref="postForm" label-width="120px" class="admin-form">
         <div class="form-content">
           <el-form-item label="栏目名称" prop="title">
@@ -17,8 +17,10 @@
                 <div>内容</div>
                 <el-button class="u-btn-r" icon="el-icon-search" size="medium" slot="reference" type="primary">选择已有标签</el-button>
               </el-popover> -->
-              <el-button class="u-btn-r" icon="el-icon-search" size="medium" slot="reference" type="primary" @click="tagEditShow()">选择已有标签</el-button>
-              <tagEdit ref="editTag" :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
+              <el-popover placement="bottom-end" trigger="click" width="490" v-model="visible">
+                <el-button class="u-btn-r" icon="el-icon-search" size="medium" slot="reference" type="primary" @click.stop="tagEditShow()">选择已有标签</el-button>
+                <tagEdit ref="editTag" :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
+              </el-popover>
             </div>
           </div>
           <el-form-item label="多终端同步">
@@ -276,6 +278,7 @@ export default {
     },
     //关闭-选择已有标签
     tagEditHide(){
+      this.visible = false;
       this.tag_edit = false;
     },
     //关闭-自定义扩展
@@ -454,5 +457,9 @@ export default {
         font-size: 16px;
         vertical-align: middle;
     }
+}
+/deep/.el-popover{
+  padding: 0;
+  border: 0;
 }
 </style>
