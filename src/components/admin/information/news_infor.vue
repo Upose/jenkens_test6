@@ -46,23 +46,23 @@
                             <span v-for="(item,index) in (scope.row.parentCatalogue||[])">{{item.value}},</span>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="aduitStatusName" label="状态" width="70">
+                        <el-table-column prop="aduitStatusName" label="状态" align="center" width="70">
                           <template slot-scope="scope">
                             <span :class="scope.row.aduitStatus==8?'color-blue':'color-red'">{{scope.row.aduitStatusName}}</span>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="publisher" label="发布者" width="100"></el-table-column>
-                        <el-table-column prop="createdTime" label="创建时间" width="100">
+                        <el-table-column prop="publisher" label="发布者" align="center" width="100"></el-table-column>
+                        <el-table-column prop="createdTime" label="创建时间" align="center" width="100">
                           <template slot-scope="scope">
                             <span>{{(scope.row.createdTime||'0000-00-00').substring(0,10)}} </span>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="updateTime" label="更新时间" width="100">
+                        <el-table-column prop="updateTime" label="更新时间" align="center" width="100">
                           <template slot-scope="scope">
                             <span>{{(scope.row.updateTime||'0000-00-00').substring(0,10)}} </span>
                           </template>
                         </el-table-column>
-                        <el-table-column label="操作" width="380">
+                        <el-table-column label="操作" align="center" width="380">
                           <template slot-scope="scope">
                             <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
                             <el-button @click="previewPage(scope.row.id)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>预览</el-button>
@@ -71,7 +71,7 @@
                             <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round>编辑</el-button>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="content" label="操作记录" width="85">
+                        <el-table-column prop="content" label="操作记录" align="center" width="85">
                           <template slot-scope="scope">
                             <!-- <el-button @click="handleEdit(scope.row)" type="text" size="mini" round>日志</el-button> -->
                             <el-button @click="handleLog(scope.row)" type="text" size="mini">日志</el-button>

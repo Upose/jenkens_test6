@@ -19,11 +19,11 @@
                 <el-button type="primary" size="medium" icon="el-icon-search">查找</el-button>
             </div> -->
             <el-table stripe size="medium" :data="tableData" border class="admin-table" height="230">
-                <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
+                <el-table-column type="index" label="序号" align="center" width="58"></el-table-column>
                 <el-table-column prop="name" label="姓名"></el-table-column>
                 <el-table-column prop="cardNum" label="卡号"></el-table-column>
                 <el-table-column prop="depart" label="部门"></el-table-column>
-                <el-table-column prop="content" label="操作" width="100">
+                <el-table-column prop="content" label="操作" align="center" width="100">
                     <template slot-scope="scope">
                         <el-button @click="handleAdd(scope.row)" type="text" size="mini" icon="el-icon-delete" round >添加</el-button>
                     </template>

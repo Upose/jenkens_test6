@@ -91,7 +91,11 @@ export default {
     },
     //查找
     selectClick(){
-      this.$router.push({path:'/admin_newsSelect',query:{title:encodeURI(this.search_title)}});
+      if(this.search_title){
+        this.$router.push({path:'/admin_newsSelect',query:{title:encodeURI(this.search_title)}});
+      }else{
+        this.$message({type: 'info',message: '请输入检索内容'});  
+      }
     },
     //新增栏目
     addClick(){

@@ -27,13 +27,13 @@
                              <span v-for="(item,index) in scope.row.columnIDs" :key="index+'_'+item.title">{{item.value}};</span>
                            </template>
                         </el-table-column>
-                        <el-table-column prop="publisher" label="发布人" width="120"></el-table-column>
-                        <el-table-column prop="publishDate" label="发布时间" width="100">
+                        <el-table-column prop="publisher" align="center" label="发布人" width="110"></el-table-column>
+                        <el-table-column align="center" prop="publishDate" label="发布时间" width="100">
                           <template slot-scope="scope">
                              <span>{{(scope.row.publishDate||'0000-00-00').slice(0,10)}}</span>
                            </template>
                         </el-table-column>
-                        <el-table-column prop="updateTime" label="更新时间" width="100">
+                        <el-table-column align="center" prop="updateTime" label="更新时间" width="100">
                           <template slot-scope="scope">
                              <span>{{(scope.row.updateTime||'0000-00-00').slice(0,10)}}</span>
                            </template>
