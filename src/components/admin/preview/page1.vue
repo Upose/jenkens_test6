@@ -3,7 +3,7 @@
   <div class="admin-warp-page template1">
     <el-container>
       <!-- <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''"><serviceLMenu :isActive="1"></serviceLMenu></el-aside> -->
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <div class="content search-table-general">
           <div class="list-warp">
     <div class="articledetails-warp">
