@@ -90,6 +90,7 @@ export default {
   },
   methods:{
     initData(){
+      this.initpageData();
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
       this.http.postJson('news-content-get-by-search',this.postForm).then(res=>{
@@ -98,6 +99,12 @@ export default {
       }).catch(err=>{
           console.log(err);
       })
+    },
+    initpageData(){
+      this.pageData = {
+        pageIndex:1,
+        pageSize: 50,
+      };
     },
     // 分页 页面修改
     pageChange(data) {

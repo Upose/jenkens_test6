@@ -205,8 +205,15 @@ export default {
       _this.$refs.breadcrumb_ref.setMeta(list);
       }).catch(err=>{})
     },
+    initpageData(){
+      this.pageData = {
+        pageIndex:1,
+        pageSize: 50,
+      };
+    },
     //初始化数据
     initData(){
+      this.initpageData();
       var _this = this;
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
