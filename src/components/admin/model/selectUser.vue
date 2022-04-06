@@ -2,7 +2,7 @@
 <template>
   <div>
     <el-dialog append-to-body title="新增授权" :visible.sync="dialogBulk" width="480px" :close-on-click-modal="false" :before-close="handleClose">
-        <h1 class="d-title"><i class="el-icon-menu"></i> <span>已选标签：2021年毕业生</span></h1>
+        <!-- <h1 class="d-title"><i class="el-icon-menu"></i> <span>已选标签：2021年毕业生</span></h1> -->
         <div class="select-user check-box">
             <div class="box-title">选择用户</div>
             <div class="check-list">
@@ -17,11 +17,11 @@
                             <el-checkbox v-for="item in cities2" @change="checkClick(2,item)" :label="item" :key="item">{{item.value}}</el-checkbox>
                         </el-checkbox-group>
                     </el-tab-pane>
-                    <el-tab-pane label="标签" :name="3">
+                    <!-- <el-tab-pane label="标签" :name="3">
                         <el-checkbox-group v-model="checkedCities">
                             <el-checkbox v-for="item in cities3" @change="checkClick(3,item)" :label="item" :key="item">{{item.value}}</el-checkbox>
                         </el-checkbox-group>
-                    </el-tab-pane>
+                    </el-tab-pane> -->
                 </el-tabs>
             </div>
         </div>
