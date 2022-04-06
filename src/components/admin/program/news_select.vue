@@ -21,7 +21,11 @@
                     <el-table stripe :data="tableData" @selection-change="handleSelectionApp" border class="admin-table">
                         <!-- <el-table-column type="selection" width="45"></el-table-column> -->
                         <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
-                        <el-table-column prop="title" label="标题"></el-table-column>
+                        <el-table-column prop="title" label="标题">
+                          <template slot-scope="scope">
+                            <span class="news-title" :title="scope.row.title" @click="handleEdit(scope.row)">{{scope.row.title}}</span>
+                          </template>
+                        </el-table-column>
                         <el-table-column prop="columnIDs" label="所属栏目">
                            <template slot-scope="scope">
                              <span v-for="(item,index) in scope.row.columnIDs" :key="index+'_'+item.title">{{item.value}};</span>
@@ -89,6 +93,11 @@ export default {
       this.initData();
   },
   methods:{
+    //编辑新闻
+    handleEdit(row){
+      console.log(row.columnIDs[0]);
+      this.$router.push({path:'/admin_addNews',query:{id:row.id,c_id:row.columnIDs[0].key}})
+    },
     initData(){
       this.initpageData();
       this.postForm.pageIndex = this.pageData.pageIndex;
@@ -128,4 +137,14 @@ export default {
 @import "../../../assets/admin/css/color.less";/**颜色配置 */
 @import "../../../assets/admin/css/style.less";/**颜色配置 */
 @import "../../../assets/admin/css/table.less";
+.news-title{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  color: @6777EF;
+  cursor: pointer;
+  &:hover{
+    border-bottom: 1px solid @6777EF;
+  }
+}
 </style>

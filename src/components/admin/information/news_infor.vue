@@ -9,7 +9,7 @@
             <div class="search-table-w">
                 <h1 class="search-title">{{columnDeatils.columnName||''}}</h1>
                 <div class="search-term" v-if="auditStatusCountList.length>0">
-                  <div class="col-select" :class="auditStatus_menu==index?'col-select-active':''" v-for="(it,index) in auditStatusCountList" :key="index+'audit'" @click="auditStatus(index,it)"><span>{{it.name||'无'}}</span><span class="number">{{it.counts||0}}</span></div>
+                  <div class="col-select" :class="auditStatus_menu==index?'col-select-active':''" v-for="(it,index) in auditStatusCountList" :key="index+'audit'" @click="auditStatus(index,it.auditStatus)"><span>{{it.name||'无'}}</span><span class="number">{{it.counts||0}}</span></div>
                    <!-- <h2 class="m-title" v-if="auditStatusCountList.length>0">
                     <el-button size="medium" v-for="(it,index) in auditStatusCountList" :key="index+'audit'" class="gray-btn" @click="auditStatus(0)">{{it.name||'无'}}({{it.counts||0}})</el-button>
                   </h2> -->
@@ -137,7 +137,7 @@ export default {
         "pageSize":50,
         "searchKey": "",
         "lableId": "",
-        "auditStatus": 0,
+        "auditStatus":null,
       },
       lableList:[],
       auditStatusCountList: [
@@ -221,7 +221,11 @@ export default {
         this.loading = false;
         _this.auditStatusCountList = res.data.auditStatusCountList||[];
         if(_this.auditStatusCountList.length>0){
-          _this.auditStatus(0,_this.auditStatusCountList[0]);
+          if(!_this.postForm.auditStatus){
+            _this.postForm.auditStatus = _this.auditStatusCountList[0].auditStatus;
+            console.log(this.postForm['auditStatus']);
+          }
+          _this.auditStatus(this.auditStatus_menu,_this.postForm.auditStatus);
         }
       }).catch(err=>{
         this.loading = false;
@@ -348,9 +352,10 @@ export default {
       });
     },
     //审核状态
-    auditStatus(index,row){
+    auditStatus(index,auditStatus){
       this.auditStatus_menu = index;
-      this.postForm['auditStatus'] = row.auditStatus||0;
+      this.postForm['auditStatus'] = auditStatus;
+      console.log(this.postForm['auditStatus']);
       this.postForm.pageIndex = 1;
       this.postForm.pageSize = 50;
       this.initDataTable();

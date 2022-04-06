@@ -599,12 +599,17 @@ export default {
     },
     //预览
     previewPage(){
+      var _this = this;
       this.setPostFormPas();
-      window.localStorage.setItem('news-page-preview',JSON.stringify(this.postForm));
+      if(!_this.postForm.title || !_this.postForm.content){
+        _this.$message({type: 'info',message: '请填写标题和内容!'});
+        return;
+      }
+      window.localStorage.setItem('news-page-preview',JSON.stringify(_this.postForm));
       setTimeout(() => {
         //这里还需要根据栏目选择的模板，确定预览某一个模板，默认是1
-        if(this.defaultTemplate && this.columnDeatils.defaultTemplate){
-          window.open(location.href.split('#')[0]+"/#/admin_preview"+this.columnDeatils.defaultTemplate)
+        if(_this.columnDeatils.defaultTemplate){
+          window.open(location.href.split('#')[0]+"/#/admin_preview"+_this.columnDeatils.defaultTemplate)
         }
       }, 200);
     },
@@ -656,6 +661,7 @@ export default {
                 this.http.postJsonParameter_url('news-content-add',_this.postForm,'/'+_this.columnID).then(res=>{
                   if(res.succeeded){
                     _this.$message({type: 'success',message: '提交成功!'});
+                    _this.backHistory();
                   }else{
                     _this.$message({type: 'error',message: res.data.message||'提交失败'});
                   }
