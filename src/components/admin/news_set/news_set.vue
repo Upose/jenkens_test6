@@ -32,7 +32,7 @@
                 </div>
               </el-form-item>
               <el-form-item>
-                <el-button icon="iconfont el-icon-vip-quxiao" size="medium">重置</el-button>
+                <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="resetForm()">重置</el-button>
                 <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
               </el-form-item>
             </div>
@@ -99,6 +99,10 @@ export default {
         this.loading = false;
           console.log(err);
       })
+    },
+    //重置表单
+    resetForm(){
+      this.initData();
     },
      openMenu(id,index){
       //根据父级id获取子集列表
