@@ -391,7 +391,7 @@ export default {
           cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
-          this.http.postJson('news-content-delete',this.multipleSelection,'/'+this.postForm.columnID).then(res=>{//传数组
+          this.http.postJson('news-content-delete',this.multipleSelection,'/'+this.postForm.columnID).then(res=>{
             _this.$message({type: 'success',message: '删除成功!'});
             _this.initData();
           }).catch(err=>{
@@ -412,7 +412,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{//传数组
+          this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
             _this.$message({type: 'success',message: '操作成功!'});
             _this.initData();
           }).catch(err=>{
