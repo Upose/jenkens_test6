@@ -21,14 +21,17 @@
               <div class="news-content-warp news-img-max-sys">
                 <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</h1>
                 <div class="details_content">
+                  <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0">
+                    <span v-for="i in auditProcessList">{{i.name}}:{{i.auditManager}}</span>
+                  </div>
                   <div class="rich-title">
                     <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||'无'}}</span>
                     <span class="col2" v-if="data.isShowPublishDate"><i class="title">发布时间：</i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
-                    <span class="col3" v-if="data.isShowHitCount"><i class="title">范文次数：</i>{{detailsData.hitCount||0}}</span>
+                    <span class="col3" v-if="data.isShowHitCount"><i class="title">访问次数：</i>{{detailsData.hitCount||0}}</span>
                     <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span><!--作者-->
                     <span v-if="data.isShowKeywords">关键词：{{detailsData.keywords}}</span><!--关键词-->
-                    <a v-if="data.isShowJumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
-                    <span v-if="data.isShowParentCatalogue">标签：{{detailsData.parentCatalogue}}</span><!--标签-->
+                    <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
+                    <span v-if="data.isShowParentCatalogue">标签：{{detailsData.parentCatalogue||'无'}}</span><!--标签-->
                     <span v-if="data.isShowExpirationDate">失效日期：{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
                     <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                     <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
@@ -93,6 +96,7 @@ export default {
         id:decodeURI(this.$route.query.id||''),//新闻id
         cid:decodeURI(this.$route.query.cid||''),//栏目id
         detailsData:{},//新闻详情
+        auditProcessList:[],//审核流程
         curScore:2,//评论分数
         data:{},
         titleStyleKV:[],
@@ -110,22 +114,30 @@ export default {
         var _this = this;
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             _this.menu_list = res.data||[];
-            if(_this.menu_list && _this.menu_list.length>0){
+            _this.menu_list.forEach((item,i)=>{
+            _this.menu_list[i]['check'] = false;
+            if(_this.$route.query.cid){
               _this.menu_list.forEach((item,i)=>{
-                if(item.columnID == _this.cid){
-                 setTimeout(() => {
-                   _this.menu_list[i]['check'] = false;
-                    _this.menuClick(_this.menu_list[i].name,i,false);
-                 }, 200);
-                }
-              })
+                  if(item.columnID == _this.$route.query.cid){
+                    setTimeout(() => {
+                      _this.menu_list[i]['check'] = false;
+                      _this.menuClick(_this.menu_list[i].name,i,false);
+                    }, 200);
+                  }
+                })
+            }else{
+              setTimeout(()=>{
+                _this.menuClick(_this.menu_list[0].name,0);
+              },200)
             }
+          })
         }).catch(err=>{
             console.log(err);
         })
         this.http.getPlain_url('pront-news-content-get','?contentid='+this.id+'').then(res=>{
             if(res.data && res.data.content){
               this.data = res.data||[];
+              this.auditProcessList = res.data.auditProcessList||[];
               this.detailsData = res.data.content||{};
               let title = res.data.content.title || ''
               document.title = title + '-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
@@ -515,5 +527,15 @@ h1{
     }
   }
 }
+}
+/****审核流程 */
+.audit-process{
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+  span{
+    margin-right: 10px;
+  }
 }
 </style>

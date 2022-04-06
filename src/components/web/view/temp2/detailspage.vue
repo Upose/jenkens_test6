@@ -22,14 +22,17 @@
         <div class="body-title">
           <div class="right-content news-img-max-sys">
             <div class="content-top-title">
-              <span :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</span>
+              <span class="title" :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</span>
+              <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0">
+                <span v-for="i in auditProcessList">{{i.name}}:{{i.auditManager}}</span>
+              </div>
               <div class="news-sub-warp">
                 <span class="name child1_text_color">{{detailsData.publisher||'无'}}</span><!--发布人-->
                 <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
                 <span v-if="data.isShowAuthor">{{detailsData.author}}</span><!--作者-->
                 <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span><!--关键词-->
                 <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
-                <a v-if="data.isShowJumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
+                <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
                 <span v-if="data.isShowParentCatalogue">{{detailsData.parentCatalogue}}</span><!--标签-->
                 <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                 <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
@@ -85,6 +88,7 @@ export default {
         id:decodeURI(this.$route.query.id||''),//新闻id
         cid:decodeURI(this.$route.query.cid||''),//栏目id
         detailsData:{},//新闻详情
+        auditProcessList:[],//审核流程
         titleStyleKV:[],
         data:{},
         menu_list:[],
@@ -100,12 +104,30 @@ export default {
       initData(){
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             this.menu_list = res.data||[];
+            this.menu_list.forEach((item,i)=>{
+            this.menu_list[i]['check'] = false;
+            if(this.$route.query.cid){
+              this.menu_list.forEach((item,i)=>{
+                  if(item.columnID == this.$route.query.cid){
+                    setTimeout(() => {
+                      this.menu_list[i]['check'] = false;
+                      this.menuClick(this.menu_list[i].name,i,false);
+                    }, 200);
+                  }
+                })
+            }else{
+              setTimeout(()=>{
+                this.menuClick(this.menu_list[0].name,0);
+              },200)
+            }
+          })
         }).catch(err=>{
             console.log(err);
         })
         this.http.getPlain_url('pront-news-content-get','?contentid='+this.id+'').then(res=>{
             if(res.data && res.data.content){
               this.data = res.data||[];
+              this.auditProcessList = res.data.auditProcessList||[];
               this.detailsData = res.data.content||{};
               let title = res.data.content.title || ''
               document.title = title + '-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
@@ -372,11 +394,14 @@ export default {
         font-size: 24px;
         // font-weight: bold;
         color: #000;
+        .title{
+          margin-bottom: 20px;
+          display: block;
+        }
         .news-sub-warp{
           font-size: 12px;
           color: @999;
           font-weight: 400;
-          margin-top: 20px;
           margin-bottom: 40px;
           padding-bottom: 20px;
           border-bottom: 1px solid #dedede;
@@ -490,6 +515,15 @@ export default {
       padding: 10px;
       outline: none;
     }
+  }
+}
+/****审核流程 */
+.audit-process{
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+  span{
+    margin-right: 10px;
   }
 }
 </style>
