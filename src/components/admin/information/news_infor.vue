@@ -46,7 +46,12 @@
                             <span v-for="(item,index) in (scope.row.parentCatalogue||[])">{{item.value}},</span>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="aduitStatusName" label="状态" align="center" width="70">
+                        <el-table-column prop="aduitStatusName" label="显示状态" align="center" width="80">
+                          <template slot-scope="scope">
+                            <span :class="scope.row.status==1?'color-blue':'color-red'">{{scope.row.status==1?'上架':'下架'}}</span>
+                          </template>
+                        </el-table-column>
+                        <el-table-column prop="aduitStatusName" label="审核状态" align="center" width="80">
                           <template slot-scope="scope">
                             <span :class="scope.row.aduitStatus==8?'color-blue':'color-red'">{{scope.row.aduitStatusName}}</span>
                           </template>

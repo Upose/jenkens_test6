@@ -87,7 +87,7 @@
               </el-form-item>
               <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'" v-if="isShowRow(item.key)">
                 <el-input v-model="item.input_val" :placeholder="'请输入'+item.value" v-if="item.key !='ExpirationDate'"></el-input>
-                <el-date-picker v-model="item.input_val" type="date" v-if="item.key =='ExpirationDate'" placeholder="请选择发布日期"></el-date-picker>
+                <el-date-picker v-model="item.input_val" type="date" v-if="item.key =='ExpirationDate'" placeholder="请选择失效日期"></el-date-picker>
               </el-form-item>
               <el-form-item label="内容" :prop="activeName=='div1'?'content':'externalLink'">
                 <div class="filter-form-item">
@@ -649,6 +649,9 @@ export default {
           _this.postForm['auditStatus'] = val;
           this.$refs[formName].validate((valid) => {
             if (valid) {
+              if(_this.postForm['ExpirationDate'] == ''){
+                _this.postForm['ExpirationDate'] = null;
+              }
               if(_this.id){
                 this.http.postJsonParameter_url('news-content-update',_this.postForm,'/'+_this.columnID).then(res=>{
                   _this.$message({type: 'success',message: '提交成功!'});
