@@ -85,7 +85,7 @@
                   <el-checkbox :label="4" name="type">大厅查询机</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
-              <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'" v-if="isShowRow(item.key)">
+              <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
                 <el-input v-model="item.input_val" :placeholder="'请输入'+item.value" v-if="item.key !='ExpirationDate'"></el-input>
                 <el-date-picker v-model="item.input_val" type="date" v-if="item.key =='ExpirationDate'" placeholder="请选择失效日期"></el-date-picker>
               </el-form-item>
@@ -216,7 +216,14 @@ export default {
     this.http.getPlain_url('news-column-get','/'+this.columnID).then(res=>{
       if(res.data){
         this.columnDeatils = res.data||{};
-        this.row_list = this.columnDeatils.extensionKV||[];
+        // this.row_list = this.columnDeatils.extensionKV||[];
+        if(this.columnDeatils.extensionKV && this.columnDeatils.extensionKV.length>0){
+          this.columnDeatils.extensionKV.forEach(item=>{
+            if(item.key !='ParentCatalogue' && item.key !='JumpLink'){
+              this.row_list.push(item);
+            }
+          })
+        }
         this.coverHeight = this.columnDeatils.coverHeight||10;
         this.coverWidth = this.columnDeatils.coverWidth||10;
         this.isshow_link = JSON.stringify(this.columnDeatils.extensionKV).indexOf('JumpLink')>-1;
@@ -269,6 +276,9 @@ export default {
           var list = res.data.content||{};
           //按钮集合
           this.postForm['nextAuditStatus'] = res.data.nextAuditStatus||[];
+          if(this.postForm.externalLink){
+            this.activeName = 'div2';
+          }
           //标题样式设置
           if(list.titleStyleKV && list.titleStyleKV!=undefined){
             list.titleStyleKV.forEach(item=>{
@@ -595,7 +605,7 @@ export default {
     },
     //编辑器切换
     editorCheck(val){
-        this.contentEditor = val;
+      this.contentEditor = val;
     },
     //预览
     previewPage(){
@@ -646,9 +656,15 @@ export default {
         if(val == 9){ //表示退回
           this.draw_back = true;
         }else{
+          console.log(_this.postForm);
           _this.postForm['auditStatus'] = val;
           this.$refs[formName].validate((valid) => {
             if (valid) {
+              if(this.activeName =='div1'){
+                _this.postForm['externalLink']='';
+              }else{
+                _this.postForm['content']='';
+              }
               if(_this.postForm['ExpirationDate'] == ''){
                 _this.postForm['ExpirationDate'] = null;
               }
@@ -675,16 +691,6 @@ export default {
             }
           });
         }
-    },
-    isShowRow(val){
-      let is_show = true;
-      if(val == 'JumpLink'){
-        is_show = false;
-      }
-      if(val == 'ParentCatalogue'){
-        is_show = false;
-      }
-      return is_show;
     },
   },
 }
@@ -725,15 +731,16 @@ export default {
             width: 130px !important;
         }
         .tips{
-          margin-left: 15px;
-          font-size: 14px;
+          margin-left: 10px;
+          font-size: 12px;
+          color: #999;
         }
     }
     .edit-check-list{
       .tips{
         line-height: 22px;
-        color: #6C757D;
-        font-size: 14px;
+        color: #999;
+        font-size: 12px;
       }
     }
     .txt-set{

@@ -153,8 +153,8 @@ export default {
           sideList:[],//侧边列表
           sysMesList:[],//显示的系统信息
           isOpenCover:0,//启用内容封面 1开启 0关闭
-          coverWidth:400,
-          coverHeight:200,
+          coverWidth:10,
+          coverHeight:10,
       },
       rules: {
           title: [

@@ -22,8 +22,8 @@
                       <el-select class="width136" v-if="isHasCatalogue" v-model="postForm.lableId" size="medium" placeholder="子类">
                           <el-option v-for="item in lableList" :key="item.value" :label="item.label" :value="item.value"></el-option>
                       </el-select>
-                      <el-date-picker class="width187" v-model="postForm.beginCreateTime" size="medium" type="date" placeholder="创建时间"></el-date-picker>
-                      <el-date-picker class="width187" v-model="postForm.endCreateTime" size="medium" type="date" placeholder="更新时间"></el-date-picker>
+                      <el-date-picker class="width187" v-model="postForm.beginCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="创建时间"></el-date-picker>
+                      <el-date-picker class="width187" v-model="postForm.endCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="更新时间"></el-date-picker>
                       <el-button type="primary" size="medium" icon="el-icon-search" @click="searchClick()">查找</el-button>
                       <div class="r-btn">
                         <el-button type="primary" size="medium" @click="newsAdd()">新增新闻</el-button>
@@ -396,7 +396,7 @@ export default {
           cancelButtonText: '关闭',
           type: 'warning'
         }).then(() => {
-          this.http.postJson('news-content-delete',this.multipleSelection,'/'+this.postForm.columnID).then(res=>{
+          this.http.postJsonParameter_url('news-content-delete',this.multipleSelection,'/'+this.postForm.columnID).then(res=>{
             _this.$message({type: 'success',message: '删除成功!'});
             _this.initData();
           }).catch(err=>{
