@@ -9,12 +9,12 @@
                 <el-tabs :tab-position="'left'" v-model="check_name" style="height: 200px;" @tab-click="handleClick">
                     <el-tab-pane label="类型" :name="1">
                         <el-checkbox-group v-model="checkedCities">
-                            <el-checkbox v-for="item in cities1" @change="checkClick(1,item)" :label="item" :key="item">{{item.value}}</el-checkbox>
+                            <el-checkbox v-for="item in cities1" @change="checkClick(1,item)" :label="item.key" :key="item">{{item.value}}</el-checkbox>
                         </el-checkbox-group>
                     </el-tab-pane>
                     <el-tab-pane label="分组" :name="2">
                         <el-checkbox-group v-model="checkedCities">
-                            <el-checkbox v-for="item in cities2" @change="checkClick(2,item)" :label="item" :key="item">{{item.value}}</el-checkbox>
+                            <el-checkbox v-for="item in cities2" @change="checkClick(2,item)" :label="item.key" :key="item">{{item.value}}</el-checkbox>
                         </el-checkbox-group>
                     </el-tab-pane>
                     <!-- <el-tab-pane label="标签" :name="3">
@@ -47,16 +47,21 @@ export default {
       cities1:[],
       cities2:[],
       cities3:[],
-      checkedCities:[],//选择的项
+      checkedCities:['30'],//选择的项
     }
   },
-  mounted(){
+  created(){
     this.initData();
-    setTimeout(()=>{
-        this.type = this.dataList.type||1;
-        this.check_name = this.dataList.type||1;
-        this.checkedCities = this.dataList.visitList||[];
-    },300)
+  },
+  mounted(){
+    var _this = this;
+    _this.type = _this.dataList.type||1;
+    _this.check_name = _this.dataList.type||1;
+    if(_this.dataList.visitList && _this.dataList.visitList.length>0){
+        _this.dataList.visitList.forEach((it,i) => {
+           _this.checkedCities.push(it.key);
+        });
+    }
   },
   methods:{
       initData(){
@@ -74,13 +79,13 @@ export default {
         }).catch(err=>{
             console.log(err);
         })
-        this.http.getPlain('user-permission-list-get','type=3').then(res=>{
-            if(res.data){
-                this.cities3 = res.data||[];
-            }
-        }).catch(err=>{
-            console.log(err);
-        })
+        // this.http.getPlain('user-permission-list-get','type=3').then(res=>{
+        //     if(res.data){
+        //         this.cities3 = res.data||[];
+        //     }
+        // }).catch(err=>{
+        //     console.log(err);
+        // })
       },
       //菜单选择
       handleClick(val){
@@ -101,8 +106,22 @@ export default {
       },
       /****保存按钮*******/
       submitForm(){
+        
         if(this.checkedCities.length>0){
-            this.$emit('getCheckUser',{type:this.check_name,visitList:this.checkedCities});
+            var list = [];
+            var data_list = [];
+            var str = this.checkedCities.join();
+            if(this.type == 1){
+                data_list = this.cities1;
+            }else{
+                data_list = this.cities2;
+            }
+            data_list.forEach(item=>{
+                if(str.indexOf(item.key)>-1){
+                    list.push(item);
+                }
+            });
+            this.$emit('getCheckUser',{type:this.check_name,visitList:list});
         }else{
             this.$message({type: 'info',message: '请选择用户'});   
         }

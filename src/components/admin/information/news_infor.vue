@@ -212,7 +212,7 @@ export default {
     },
     initpageData(){
       this.pageData = {
-        pageIndex:1,
+        pageIndex:this.pageData.pageIndex,
         pageSize: 50,
       };
     },

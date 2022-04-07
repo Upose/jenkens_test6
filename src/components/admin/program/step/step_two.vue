@@ -12,9 +12,9 @@
           </el-form-item>
           <el-form-item label="授权访问名单" prop="visitingList">
             <el-radio-group v-model="postForm.visitingList">
-              <el-radio label="-1">全部</el-radio>
-              <el-radio label="指定"></el-radio>
-              <el-button size="medium" class="m-l" v-if="postForm.visitingList!='-1'" type="primary" @click="selectUserShow()">选择用户</el-button>
+              <el-radio label="0">全部</el-radio>
+              <el-radio label="1">指定</el-radio>
+              <el-button size="medium" class="m-l" v-if="postForm.visitingList=='1'" type="primary" @click="selectUserShow()">选择用户</el-button>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="启用内容评论">
@@ -77,7 +77,7 @@ export default {
       select_user_show:false,
       postForm: {
         isLoginAcess:0,//必须登录访问
-        visitingList:'-1',//授权访问名称 必填 0是全部 1是指定授权访问名单
+        visitingList:'0',//授权访问名称 必填 0是全部 1是指定授权访问名单
         isOpenComment:0,//启用内容评分
         isOpenAudit:0,//启用内容审查
         auditFlow:'0;8',

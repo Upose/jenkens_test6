@@ -95,9 +95,9 @@ export default {
           this.postForm['isOpenCover'] =  list['isOpenCover'];
           this.postForm['coverWidth'] =  list['coverWidth']||this.postForm['coverWidth'];
           this.postForm['coverHeight'] =  list['coverHeight']||this.postForm['coverHeight'];
-          this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];  
         }
       }else if(data.step == 'save'){
+        this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];
         this.postForm['isLoginAcess'] =  list['isLoginAcess'];
         this.postForm['visitingList'] =  list['visitingList']||this.postForm['visitingList'];
         this.postForm['isOpenComment'] =  list['isOpenComment'];

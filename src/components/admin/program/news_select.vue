@@ -28,7 +28,7 @@
                         </el-table-column>
                         <el-table-column prop="columnIDs" label="所属栏目">
                            <template slot-scope="scope">
-                             <span v-for="(item,index) in scope.row.columnIDs" :key="index+'_'+item.title">{{item.value}};</span>
+                             <span class="news-title" v-for="(item,index) in scope.row.columnIDs"  @click="ColumnEdit(item)" :key="index+'_'+item.title">{{item.value}};</span>
                            </template>
                         </el-table-column>
                         <el-table-column prop="publisher" align="center" label="发布人" width="110"></el-table-column>
@@ -98,6 +98,10 @@ export default {
       console.log(row.columnIDs[0]);
       this.$router.push({path:'/admin_addNews',query:{id:row.id,c_id:row.columnIDs[0].key}})
     },
+    //编辑栏目
+    ColumnEdit(row){
+      this.$router.push({path:'/admin_programAdd',query:{id:row.key}})
+    },
     initData(){
       this.initpageData();
       this.postForm.pageIndex = this.pageData.pageIndex;
@@ -111,7 +115,7 @@ export default {
     },
     initpageData(){
       this.pageData = {
-        pageIndex:1,
+        pageIndex:this.pageData.pageIndex,
         pageSize: 50,
       };
     },
