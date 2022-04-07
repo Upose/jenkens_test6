@@ -21,7 +21,7 @@
               <div class="news-content-warp news-img-max-sys">
                 <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</h1>
                 <div class="details_content">
-                  <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0">
+                  <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
                     <span v-for="i in auditProcessList">{{i.name}}:{{i.auditManager}}</span>
                   </div>
                   <div class="rich-title">
