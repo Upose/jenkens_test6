@@ -77,7 +77,7 @@
                   <el-radio :label="2">下架</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="投递终端">
+              <el-form-item label="投递终端" v-if="columnDeatils.terminals == 1">
                 <el-checkbox-group v-model="postForm.terminals">
                   <el-checkbox :label="1" name="type">PC门户</el-checkbox>
                   <el-checkbox :label="2" name="type">微信小程序</el-checkbox>
