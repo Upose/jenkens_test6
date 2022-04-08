@@ -11,7 +11,7 @@
             <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.name,index)">{{item.name}}</a>
+                <a href="javascript:;" @click="menuClick(item.name,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
                   <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
@@ -135,9 +135,11 @@ export default {
             console.log(err);
         })
       },
-      menuClick(title,index){//标题,index下标
-        this.$router.push({path:'/web_newsList',query:{cid:this.menu_list[index].columnID}}).catch((err) => {});
-        this.curSubKey = ''
+      menuClick(title,index, leve){//标题,index下标
+        if (leve == 'first') {
+          this.$router.push({path:'/web_newsList',query:{cid:this.menu_list[index].columnID}}).catch((err) => {});
+        }
+        this.curSubKey = this.$route.query.detailId || ''
         document.title = title + '-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
         this.pageIndex = 1;
         this.content_title = title;
@@ -152,7 +154,7 @@ export default {
             this.menu_list[i]['check'] = false;
           }
         })
-        this.getNewsList(this.menu_list[index].columnID,'');
+        this.getNewsList(this.menu_list[index].columnID, this.curSubKey);
         this.$forceUpdate();
       },
       isActive(val,check){

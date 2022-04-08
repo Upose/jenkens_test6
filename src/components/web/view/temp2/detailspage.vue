@@ -13,7 +13,7 @@
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -158,6 +158,7 @@ export default {
         return class_val;
       },
       menuClick(title,index,is_open){//标题,index下标
+        console.log('222222', title, index, is_open)
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
@@ -196,6 +197,9 @@ export default {
       //分享
       handleShare() {
       this.$refs.dialogShare_ref.show();
+    },
+    foxbaseClick(key) {
+      this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.left_index), detailId: key}})
     }
   },
 }

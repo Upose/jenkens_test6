@@ -10,11 +10,10 @@
             </el-radio-group> -->
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isLoginAcess"></el-switch>
           </el-form-item>
-          <el-form-item label="授权访问名单" prop="visitingList">
-            <el-radio-group v-model="postForm.visitingList">
-              <el-radio label="0">全部</el-radio>
-              <el-radio label="1">指定</el-radio>
-              <el-button size="medium" class="m-l" v-if="postForm.visitingList=='1'" type="primary" @click="selectUserShow()">选择用户</el-button>
+          <el-form-item label="授权访问名单" prop="acessAll">
+            <el-radio-group v-model="postForm.acessAll">
+              <el-radio v-for="item in acessAllList" :key="item.label" :label="item.label">{{item.val}}</el-radio>
+              <el-button size="medium" class="m-l" v-if="postForm.acessAll==false" type="primary" @click="selectUserShow()">选择用户</el-button>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="启用内容评论">
@@ -75,15 +74,22 @@ export default {
     return {
       select_user_data:{},
       select_user_show:false,
+      acessAllList: [{
+        label: true,
+        val: '全部'
+      }, {
+        label: false,
+        val: '指定'
+      }],
       postForm: {
         isLoginAcess:0,//必须登录访问
-        visitingList:'0',//授权访问名称 必填 0是全部 1是指定授权访问名单
+        acessAll:true,//授权访问名称 必填 true是全部 false是指定授权访问名单
         isOpenComment:0,//启用内容评分
         isOpenAudit:0,//启用内容审查
         auditFlow:'0;8',
       },
       rules: {
-        visitingList: [
+        acessAll: [
           { required: true, message: '请选择授权访问名单', trigger: 'blur' }
         ],
       },
@@ -96,7 +102,7 @@ export default {
       console.log(newVal);
       this.postForm.isLoginAcess = newVal.isLoginAcess||0;
       this.postForm.isOpenComment = newVal.isOpenComment||0;
-      this.postForm.visitingList = newVal.visitingList||'-1';
+      this.postForm.acessAll = newVal.acessAll||true;
       this.postForm.visitingListModel = newVal.visitingListModel||{};
       this.select_user_data = newVal.visitingListModel||{};
       this.postForm.isOpenAudit = newVal.isOpenAudit||0;

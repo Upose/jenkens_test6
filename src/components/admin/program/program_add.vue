@@ -50,7 +50,7 @@ export default {
         sysMesList:'',
         sideList:'',
         coverSize:'',
-        visitingList:'',
+        acessAll:'',
         linkUrl:'',
       },
     }
@@ -75,7 +75,7 @@ export default {
   },
   methods:{
     nextStep(data){
-      console.log(data);
+      console.log(data, 'data', this.postForm);
       this.cuStep = data.n;
       var list = data.data||{};
       if(data.step == 'next'){
@@ -99,7 +99,7 @@ export default {
       }else if(data.step == 'save'){
         this.postForm['visitingListModel'] =  list['visitingListModel']||this.postForm['visitingListModel'];
         this.postForm['isLoginAcess'] =  list['isLoginAcess'];
-        this.postForm['visitingList'] =  list['visitingList']||this.postForm['visitingList'];
+        this.postForm['acessAll'] =  this.postForm['acessAll'] || list['acessAll'];
         this.postForm['isOpenComment'] =  list['isOpenComment'];
         this.postForm['isOpenAudit'] =  list['isOpenAudit'];
         this.postForm['auditFlow'] =  list['auditFlow']||this.postForm['auditFlow'];
