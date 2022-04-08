@@ -24,10 +24,10 @@ export default {
     },
     created() {
         this.http.getPlain('pront-column-link-info','columnid='+this.cid).then(res=>{
-            this.request_of = false;
             if(res.data){
                 this.template_num = res.data.template||0;
             }
+            this.request_of = false;
         }).catch(err=>{this.request_of = false;})
     },
     mounted() {},

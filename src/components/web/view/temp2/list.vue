@@ -79,8 +79,8 @@ export default {
   methods:{
       initData(){
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
-          this.loading = false;
           this.menu_list = res.data||[];
+          this.loading = false;
           this.menu_list.forEach((item,i)=>{
             this.menu_list[i]['check'] = false;
             if(this.$route.query.cid){
@@ -100,7 +100,6 @@ export default {
           })
         }).catch(err=>{
           this.loading = false;
-          console.log(err);
         })
       },
       //获取分页数据
@@ -110,7 +109,6 @@ export default {
       },
       //获取新闻列表
       getNewsList(cid,l_id){//栏目id，labeleid
-        this.loading = true;
         this.cid = cid;
         this.l_id = l_id;
         var list = {
