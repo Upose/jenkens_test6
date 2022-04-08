@@ -9,7 +9,7 @@
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':id == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -218,6 +218,9 @@ export default {
     background-size: 100% 165px;
     padding-bottom: 20px;
     padding-top: 95px;
+  }
+  .cur-sub-key{
+    background-color: #ffeaea;
   }
     .body-content{
     background-color: #fff;

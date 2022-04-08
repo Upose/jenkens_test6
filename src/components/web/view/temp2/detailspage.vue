@@ -13,7 +13,7 @@
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':id == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -95,6 +95,7 @@ export default {
     }
   },
   mounted(){
+    // console.log(this.id, 'id')
     this.initData();
     // setTimeout(()=>{
     //   this.menuClick(this.menu_list[0].title,0);
@@ -223,6 +224,9 @@ export default {
       font-size: 14px;
       color: @fff;
     }
+  }
+  .cur-sub-key{
+    background-color: #ffeaea;
   }
   
   .articledetails-warp{

@@ -167,8 +167,9 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.postForm['visitingListModel'], 'www')
-          // if (this.postForm['visitingListModel'])
+          if (!this.postForm['visitingListModel'] || !this.postForm['visitingListModel'].type) {
+            return this.$message({ type: 'error', message: '请选择授权访问用户'})
+          }
           this.$emit('nextStep',{n:2,step:'save',data:this.postForm});
         } else {
         }
