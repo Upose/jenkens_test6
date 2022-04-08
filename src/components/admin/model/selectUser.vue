@@ -47,7 +47,7 @@ export default {
       cities1:[],
       cities2:[],
       cities3:[],
-      checkedCities:['30'],//选择的项
+      checkedCities:[],//选择的项
     }
   },
   created(){
