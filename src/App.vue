@@ -1,23 +1,47 @@
 <template>
   <div id="news_sys" class="admin-warp-app">
-    <router-view/>
+    <router-view v-if="isInfoLoad"/>
+    <div class="admin-loading" v-if="!isInfoLoad" v-loading="true"></div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'news_sys',
+  created(){
+    this.getBaseInfo();
+  },
   mounted(){
-    this.$store.commit('getSession');
-    this.$i18n.locale = this.$store.state.language;
-    this.skin_template = this.$store.state.skin_template;
+    // this.$store.commit('getSession');
+    // this.$i18n.locale = this.$store.state.language;
+    // this.skin_template = this.$store.state.skin_template;
   },
   data(){
     return {
-      
+      isInfoLoad:false,
     }
   },
   methods:{
+    // 获取基础信息
+    getBaseInfo() {
+      this.http.getJson('getbaseinfo').then(res => {
+        if (res.data) {
+          localStorage.setItem('fileUrl', res.data.orgInfo.fileUrl);
+          this.$root.fileUrl = res.data.orgInfo.fileUrl;
+          localStorage.setItem('headerFooterInfo', JSON.stringify(res.data.headerFooterInfo));
+          localStorage.setItem('orgInfo', JSON.stringify(res.data.orgInfo));
+          localStorage.setItem('urlInfo', JSON.stringify(res.data.urlInfo));
+          if (res.data && res.data.userInfo) {
+            localStorage.setItem('userInfo', JSON.stringify(res.data.userInfo));
+          }
+          localStorage.setItem('baseinfo_time_stamp', new Date().getTime());
+          this.isInfoLoad = true;
+        }
+      }).catch(err => {
+        // alert('基础数据获取失败！');
+        this.$message({ type: 'error', message: '获取基础数据失败!' });
+      });
+    },
   },
 }
 </script>

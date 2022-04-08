@@ -1,7 +1,7 @@
 <template>
 <div class="web-warp" :class="skin_template">
     <div :class="header_class" id="jl_vip_zt_header_warp"><div id="jl_vip_zt_header"></div></div>
-    <div class="content-warp"><router-view v-if="post_details&&baseInfo"></router-view></div>
+    <div class="content-warp"><router-view v-if="post_details"></router-view></div>
     <div :class="footer_class" id="jl_vip_zt_footer_warp"><div id="jl_vip_zt_footer"></div></div>
     <!-- <div class="template-warp">
       <span @click="skinClick('template1')">红</span>
@@ -32,31 +32,25 @@ export default {
     }else{
        _that.post_details = true;
     }
-    //获取当前用户机构基础信息
-    this.http.getJson('getbaseinfo').then(res=>{
-      if(res.data){
-        this.header_class = res.data.headerFooterInfo.headerTemplateCode||'';
-        this.footer_class = res.data.headerFooterInfo.footerTemplateCode||'';
-        this.addStyle(res.data.headerFooterInfo.headerRouter+'/component.css');
-        this.addScript(res.data.headerFooterInfo.headerRouter+'/component.js');
+    if(this.headerFooterInfo){
+      this.header_class = this.headerFooterInfo.headerTemplateCode||'';
+      this.footer_class = this.headerFooterInfo.footerTemplateCode||'';
+      this.addStyle(this.headerFooterInfo.headerRouter+'/component.css');
+      this.addScript(this.headerFooterInfo.headerRouter+'/component.js');
 
-        this.addStyle(res.data.headerFooterInfo.footerRouter+'/component.css');
-        this.addScript(res.data.headerFooterInfo.footerRouter+'/component.js');
-        this.$root.fileUrl = res.data.orgInfo.fileUrl||'';
-        this.baseInfo = true;
-      }
-    }).catch(err=>{})
+      this.addStyle(this.headerFooterInfo.footerRouter+'/component.css');
+      this.addScript(this.headerFooterInfo.footerRouter+'/component.js');
+    }
   },
   mounted(){
-    var headerFooterInfo = localStorage.getItem('headerFooterInfo');
-    if(headerFooterInfo && headerFooterInfo!=null && headerFooterInfo!=undefined && headerFooterInfo!= 'undefined'){
-      this.skin_template = JSON.parse(headerFooterInfo).themeColor||'template1';
+    if(this.headerFooterInfo && this.headerFooterInfo!=null && this.headerFooterInfo!=undefined && this.headerFooterInfo!= 'undefined'){
+      this.skin_template = this.headerFooterInfo.themeColor||'template1';
     }
   },
   data () {
     return {
+      headerFooterInfo:JSON.parse(localStorage.getItem('headerFooterInfo')),
       post_details:false,
-      baseInfo:false,
       header_class:'',
       footer_class:'',
       skin_template:this.$store.state.skin_template||'template1',
