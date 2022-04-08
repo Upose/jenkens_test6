@@ -75,7 +75,7 @@ export default {
   },
   methods:{
     nextStep(data){
-      console.log(data, 'data', this.postForm);
+      // console.log(data, 'data', this.postForm);
       this.cuStep = data.n;
       var list = data.data||{};
       if(data.step == 'next'){
@@ -117,7 +117,7 @@ export default {
           {}
         ],
       }
-      console.log('提交数据',this.postForm);
+      // console.log('提交数据',this.postForm);
       if(this.id){
         this.postForm['id'] = this.id;
         this.http.postJsonParameter_url('news-column-update',this.postForm,'/'+this.id).then(res=>{

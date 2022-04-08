@@ -99,7 +99,7 @@ export default {
   },
   methods:{
     setDetails(newVal){
-      console.log(newVal);
+      // console.log(newVal);
       this.postForm.isLoginAcess = newVal.isLoginAcess||0;
       this.postForm.isOpenComment = newVal.isOpenComment||0;
       this.postForm.acessAll = newVal.acessAll||true;
@@ -159,18 +159,19 @@ export default {
       this.select_user_show = false;
     },
     getCheckUser(val){
-      console.log(val);//这里将拿到的数据放入表单
+      // console.log(val);//这里将拿到的数据放入表单
       this.postForm['visitingListModel'] = val;
       this.select_user_show = false;
     },
     //表单提交-表单提交后，需要 返回到列表页。
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
-          if (valid) {
-              this.$emit('nextStep',{n:2,step:'save',data:this.postForm});
-          } else {
-              
-          }
+        if (valid) {
+          console.log(this.postForm['visitingListModel'], 'www')
+          // if (this.postForm['visitingListModel'])
+          this.$emit('nextStep',{n:2,step:'save',data:this.postForm});
+        } else {
+        }
       });
     },
   },
