@@ -29,11 +29,11 @@
               <div class="news-sub-warp">
                 <span class="name child1_text_color">{{detailsData.publisher||'无'}}</span><!--发布人-->
                 <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
-                <span v-if="data.isShowAuthor">{{detailsData.author}}</span><!--作者-->
-                <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span><!--关键词-->
-                <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
-                <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
-                <span v-if="data.isShowParentCatalogue">{{detailsData.parentCatalogue}}</span><!--标签-->
+                <!-- <span v-if="data.isShowAuthor">{{detailsData.author}}</span>作者 -->
+                <!-- <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
+                <!-- <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
+                <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
+                <span v-if="data.isShowParentCatalogue"><i v-for="i in (detailsData.parentCatalogueKV||[])">{{i.value}}</i></span><!--标签-->
                 <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                 <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
                 <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>

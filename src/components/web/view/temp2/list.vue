@@ -2,7 +2,7 @@
   <div class="list-warp">
     <div class="articledetails-warp">
       <div class="m-width top-title">
-        <span class="m-title">新闻公告 NEWS</span>
+        <span class="m-title">{{content_title}}</span>
       <span class="m-address">当前位置：{{content_title}}</span>
       </div>
      <div class="body-content m-width c-l">
@@ -29,7 +29,7 @@
                   <span class="content" v-html="it.content"></span>
                   <span class="show-details child_text_color">[查看详细]</span>
                   <span class="txt-right">
-                    <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}，</span></span>
+                    <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}} </span></span>
                     <span v-if="it.isShowHitCount">访问次数：{{it.hitCount||0}}</span>
                     <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span></span>
                   </span>
@@ -38,7 +38,7 @@
             </div>
             <div class="temp-loading" v-if="loading"></div><!--加载中-->
             <div v-if="!loading && news_list.length == 0" class="web-empty-data"></div>
-            <pages2 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages2>
+            <pages1 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages1>
           </div>
           
         </div>
@@ -48,10 +48,10 @@
 </template>
 
 <script>
-import pages2 from '@/components/web/model/pages2';
+import pages1 from '@/components/web/model/pages1';
 export default {
   name: 'footerPage',
-  components:{pages2},
+  components:{pages1},
   created(){},
   data () {
     return {
@@ -61,7 +61,7 @@ export default {
         cid:decodeURI(this.$route.query.cid||''),
         l_id:'',
         pageIndex:1,//当前页
-        pageSize:5,//每页条数
+        pageSize:20,//每页条数
         totalCount:0,//总条数
         totalPages:0,//总页数
         menu_list:[],

@@ -3,7 +3,7 @@
     <div class="articledetails-warp">
      <div class="body-content m-width c-l">
         <div class="left-menu">
-          <div class="menu-top child_bg">新闻公告</div>
+          <div class="menu-top child_bg">{{content_title}}</div>
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
@@ -27,7 +27,7 @@
                 <div class="title-warp" :class="it.isShowPublishDate?'':'p-l'">
                   <a href="javascript:void(0)">{{it.title||'标题走丢了'}}</a>
                   <span v-if="it.isShowHitCount">点击量：{{it.hitCount||0}}次</span>
-                  <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}，</span></span>
+                  <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}} </span></span>
                   <p class="intros"><span v-html="it.content"></span></p>
                 </div>
               </li>
@@ -56,7 +56,7 @@ export default {
         cid:decodeURI(this.$route.query.cid||''),
         l_id:'',
         pageIndex:1,//当前页
-        pageSize:5,//每页条数
+        pageSize:20,//每页条数
         totalCount:0,//总条数
         totalPages:0,//总页数
         menu_list:[],
