@@ -34,7 +34,7 @@
             </ul>
             <div class="temp-loading" v-if="loading"></div><!--加载中-->
             <div v-if="!loading && news_list.length == 0" class="web-empty-data"></div>
-            <pages1 :total="totalPages" :Cindex="pageIndex" @totalCount="totalCount" @currentClick="currentClick"></pages1>
+            <pages1 :total="totalPages" :Cindex="pageIndex" :totalCount="totalCount" @currentClick="currentClick" v-if="totalCount"></pages1>
           </div><!--新闻列表 end -->
         </div>
      </div>
@@ -113,10 +113,10 @@ export default {
           this.loading = false;
           if(res.data && res.data.items){
             this.news_list = res.data.items||[];
-            this.pageIndex = res.data.pageIndex||0;
-            this.pageSize = res.data.pageSize||0;
-            this.totalCount = res.data.totalCount||0;
-            this.totalPages = res.data.totalPages||0;
+            this.pageIndex = res.data.pageIndex;
+            this.pageSize = res.data.pageSize;
+            this.totalCount = res.data.totalCount;
+            this.totalPages = res.data.totalPages;
           }
         }).catch(err=>{
           this.loading = false;
@@ -130,6 +130,7 @@ export default {
         this.curSubKey = this.$route.query.detailId || ''
         document.title = title + '-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
         this.pageIndex = 1;
+        this.totalCount = 0;
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){

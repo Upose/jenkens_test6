@@ -19,11 +19,9 @@ export default {
     this.pageList = this.total < 5 ? this.total : 5;
   },
   watch: {
-    // total(newVal, oldVal) {
-    //   if (newVal <= 5) {
-    //     this.pageList = newVal;
-    //   }
-    // },
+    total(newVal, oldVal) {
+      this.pageList =newVal < 5 ? newVal : 5;
+    },
     PageIndex() {
       if (this.total > 5 && this.PageIndex >= 3 && this.PageIndex < this.total - 3) {
         this.start_number = this.PageIndex - 3;
