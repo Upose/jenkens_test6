@@ -116,7 +116,7 @@ export default {
     initpageData(){
       this.pageData = {
         pageIndex:this.pageData.pageIndex,
-        pageSize: 50,
+        pageSize: this.pageData.pageSize,
       };
     },
     // 分页 页面修改

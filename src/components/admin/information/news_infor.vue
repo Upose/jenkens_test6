@@ -213,7 +213,7 @@ export default {
     initpageData(){
       this.pageData = {
         pageIndex:this.pageData.pageIndex,
-        pageSize: 50,
+        pageSize: this.pageData.pageSize,
       };
     },
     //初始化数据
@@ -251,6 +251,7 @@ export default {
     },
     // 分页 页面修改
     pageChange(data) {
+      console.log(data);
       this.pageData[data.key] = data.value;
       this.initData();
     },
