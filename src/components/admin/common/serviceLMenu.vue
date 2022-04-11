@@ -43,7 +43,7 @@ export default {
   },
   methods:{
     openPage(url){
-      this.$router.push(url);
+      this.$router.push(url).catch(err=>{});
     },
     force(){
       this.$forceUpdate();

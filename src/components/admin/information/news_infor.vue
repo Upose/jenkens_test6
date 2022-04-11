@@ -228,13 +228,11 @@ export default {
         if(_this.auditStatusCountList.length>0){
           if(!_this.postForm.auditStatus){
             _this.postForm.auditStatus = _this.auditStatusCountList[0].auditStatus;
-            console.log(this.postForm['auditStatus']);
           }
           _this.auditStatus(this.auditStatus_menu,_this.postForm.auditStatus);
         }
       }).catch(err=>{
         this.loading = false;
-          console.log(err);
       })
     },
     initDataTable(){
@@ -251,7 +249,6 @@ export default {
     },
     // 分页 页面修改
     pageChange(data) {
-      console.log(data);
       this.pageData[data.key] = data.value;
       this.initData();
     },
@@ -423,23 +420,19 @@ export default {
     handleAudit(row){
       var _this = this;
       this.$confirm('是否通过该新闻初审?', '提示', {
-          confirmButtonText: '通过',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
-            _this.$message({type: 'success',message: '操作成功!'});
-            _this.initData();
-          }).catch(err=>{
-            _this.$message({type: 'error',message: '操作失败!'});
-          })
-        }).catch(() => {
-          // console.log('弹窗新窗口，填写退回备注（输入框，0-200字）状态改为已退回');     
-        });
-    },
-    //预览
-    handlePreview(row){
-      console.log(row);
+        confirmButtonText: '通过',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
+          _this.$message({type: 'success',message: '操作成功!'});
+          _this.initData();
+        }).catch(err=>{
+          _this.$message({type: 'error',message: '操作失败!'});
+        })
+      }).catch(() => {
+        // console.log('弹窗新窗口，填写退回备注（输入框，0-200字）状态改为已退回');     
+      });
     },
     //新增新闻
     newsAdd(){
