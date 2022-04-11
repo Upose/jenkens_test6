@@ -116,9 +116,9 @@ export default {
             _this.menu_list = res.data||[];
             _this.menu_list.forEach((item,i)=>{
             _this.menu_list[i]['check'] = false;
-            if(_this.$route.query.cid){
+            if(_this.cid){
               _this.menu_list.forEach((item,i)=>{
-                  if(item.columnID == _this.$route.query.cid){
+                  if(item.columnID == _this.cid){
                     setTimeout(() => {
                       _this.menu_list[i]['check'] = false;
                       _this.menuClick(_this.menu_list[i].name,i,false);

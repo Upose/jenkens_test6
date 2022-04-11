@@ -33,7 +33,7 @@
                 <!-- <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
                 <!-- <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
                 <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
-                <span v-if="data.isShowParentCatalogue"><i v-for="i in (detailsData.parentCatalogueKV||[])">{{i.value}}</i></span><!--标签-->
+                <span v-if="data.isShowParentCatalogue"><i v-for="i in (detailsData.parentCatalogueKV||[])">{{i.value}} </i></span><!--标签-->
                 <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                 <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
                 <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
@@ -103,22 +103,24 @@ export default {
   },
   methods:{
       initData(){
+        var _this = this;
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
-            this.menu_list = res.data||[];
-            this.menu_list.forEach((item,i)=>{
-            this.menu_list[i]['check'] = false;
-            if(this.$route.query.cid){
-              this.menu_list.forEach((item,i)=>{
-                  if(item.columnID == this.$route.query.cid){
+            _this.menu_list = res.data||[];
+            _this.menu_list.forEach((item,i)=>{
+            _this.menu_list[i]['check'] = false;
+            if(_this.cid){
+              console.log(1111111111111);
+              _this.menu_list.forEach((item,i)=>{
+                  if(item.columnID == _this.cid){
                     setTimeout(() => {
-                      this.menu_list[i]['check'] = false;
-                      this.menuClick(this.menu_list[i].name,i,false);
+                      _this.menu_list[i]['check'] = false;
+                      _this.menuClick(_this.menu_list[i].name,i,false);
                     }, 200);
                   }
                 })
             }else{
               setTimeout(()=>{
-                this.menuClick(this.menu_list[0].name,0);
+                _this.menuClick(_this.menu_list[0].name,0);
               },200)
             }
           })
@@ -159,7 +161,7 @@ export default {
         return class_val;
       },
       menuClick(title,index,is_open){//标题,index下标
-        console.log('222222', title, index, is_open)
+      console.log(title);
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
@@ -418,6 +420,9 @@ export default {
           span,a{
             margin-right:5px;
             white-space: nowrap;
+          }
+          i{
+            font-style: inherit;
           }
           /***一键分享 */
           .r-share{
