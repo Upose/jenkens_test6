@@ -2,7 +2,7 @@
   <div class="list-warp">
     <div class="articledetails-warp">
       <div class="m-width top-title">
-        <span class="m-title">新闻公告 NEWS</span>
+        <span class="m-title">{{content_title}}</span>
         <span class="m-address">当前位置：{{content_title}}</span>
       </div>
      <div class="body-content m-width c-l">

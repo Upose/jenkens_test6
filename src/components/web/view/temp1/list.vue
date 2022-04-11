@@ -131,6 +131,7 @@ export default {
         document.title = title + '-'+this.$store.state.appDetails.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
         this.pageIndex = 1;
         this.totalCount = 0;
+        debugger
         this.content_title = title;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
@@ -170,6 +171,8 @@ export default {
       },
       //点击二级菜单
       foxbaseClick(val){
+        this.pageIndex = 1;
+        this.totalCount = 0;
         this.curSubKey = val
         this.getNewsList(this.left_index,val);
       },

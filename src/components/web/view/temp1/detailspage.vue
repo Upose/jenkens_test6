@@ -3,7 +3,7 @@
     <div class="articledetails-warp">
      <div class="body-content m-width c-l">
         <div class="left-menu">
-          <div class="menu-top child_bg">新闻公告</div>
+          <div class="menu-top child_bg">{{content_title}}</div>
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">

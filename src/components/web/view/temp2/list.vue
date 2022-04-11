@@ -180,6 +180,8 @@ export default {
       },
       //点击二级菜单
       foxbaseClick(val){
+        this.pageIndex = 1;
+        this.totalCount = 0;
         this.curSubKey = val
         this.getNewsList(this.left_index,val);
       },

@@ -272,7 +272,16 @@ export default {
       })
     },
     getId(){
-      this.postForm['columnID'] = this.$route.query.id;
+      this.postForm = {
+        "columnID": this.$route.query.id,//栏目id 左边菜单
+        "pageIndex":1,
+        "pageSize":50,
+        "searchKey": "",
+        "lableId": "",
+        "auditStatus":null,
+      }
+      this.pageData.pageIndex = 1;
+      this.pageData.pageSize = 50;
       this.getColumndetails();
       this.initData();
       this.$forceUpdate();
