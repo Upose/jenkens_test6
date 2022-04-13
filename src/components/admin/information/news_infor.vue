@@ -22,8 +22,10 @@
                       <el-select class="width136" v-if="isHasCatalogue" v-model="postForm.lableId" size="medium" placeholder="子类">
                           <el-option v-for="item in lableList" :key="item.value" :label="item.label" :value="item.value"></el-option>
                       </el-select>
-                      <el-date-picker class="width187" v-model="postForm.beginCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="创建时间"></el-date-picker>
-                      <el-date-picker class="width187" v-model="postForm.endCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="更新时间"></el-date-picker>
+                      <!-- <el-date-picker class="width187" v-model="postForm.beginCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="创建时间"></el-date-picker>
+                      <el-date-picker class="width187" v-model="postForm.endCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="更新时间"></el-date-picker> -->
+                      <el-date-picker v-model="beginCreateTime" type="daterange" range-separator="至" value-format="yyyy-MM-dd" start-placeholder="创建开始日期" end-placeholder="创建结束日期" size="medium"></el-date-picker>
+                      <el-date-picker v-model="endCreateTime" type="daterange" range-separator="至" value-format="yyyy-MM-dd" start-placeholder="更新开始日期" end-placeholder="更新结束日期" size="medium"></el-date-picker>
                       <el-button type="primary" size="medium" icon="el-icon-search" @click="searchClick()">查找</el-button>
                       <div class="r-btn">
                         <el-button type="primary" size="medium" @click="newsAdd()">新增新闻</el-button>
@@ -136,6 +138,8 @@ export default {
       },//分页参数
       isHasCatalogue:false,//是否显示子类
       //列表查询条件
+      beginCreateTime:'',
+      endCreateTime:'',
       postForm:{
         "columnID": this.$route.query.id||"",//栏目id 左边菜单
         "pageIndex":1,
@@ -456,6 +460,15 @@ export default {
     },
     //查找
     searchClick(){
+      console.log(this.beginCreateTime,this.endCreateTime);
+      if(this.beginCreateTime){
+        this.postForm['beginCreateTime'] = this.beginCreateTime[0];
+        this.postForm['endCreateTime'] = this.beginCreateTime[1];
+      }
+      if(this.endCreateTime){
+        this.postForm['beginOperateTime'] = this.endCreateTime[0];
+        this.postForm['endOperateTime'] = this.endCreateTime[1];
+      }
       this.loading = true;
       this.pageData.pageIndex = 1;
       this.initData();
