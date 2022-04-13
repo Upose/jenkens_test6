@@ -99,10 +99,10 @@ export default {
   },
   methods:{
     setDetails(newVal){
-      // console.log(newVal);
+      console.log(newVal);
       this.postForm.isLoginAcess = newVal.isLoginAcess||0;
       this.postForm.isOpenComment = newVal.isOpenComment||0;
-      this.postForm.acessAll = newVal.acessAll||true;
+      this.postForm.acessAll = newVal.acessAll;
       this.postForm.visitingListModel = newVal.visitingListModel||{};
       this.select_user_data = newVal.visitingListModel||{};
       this.postForm.isOpenAudit = newVal.isOpenAudit||0;
