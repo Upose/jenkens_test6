@@ -58,7 +58,7 @@
                 <div class="up-img-form-item">
                   <!-- <div class="up-img-warp up-img-cover-img" v-if="id"> -->
                   <div class="up-img-warp up-img-cover-img" v-if="postForm.cover">
-                    <img :src="base_url+postForm.cover">
+                    <img :src="fileUrl+postForm.cover">
                   </div>
                   <div class="up-img-warp up-icon up-img-cover-icon" @click="upImg()">
                     <span>上传封面</span>
@@ -355,7 +355,7 @@ export default {
       coverHeight: 10,
       coverWidth: 10,
       columnDeatils:{},//栏目详情
-      base_url:window.localStorage.getItem('fileUrl'),
+      fileUrl:window.localStorage.getItem('fileUrl'),
       columnID:this.$route.query.c_id,//栏目id-左边菜单
       layedit:null,
       isshow_link:false,//是否显示跳转链接输入框
@@ -529,11 +529,8 @@ export default {
       let formData = new FormData();
       formData.append('files', blobInfo.blob(), "DX.jpg");
       this.http.postFile('', formData).then(res => {
-        success(`http://192.168.21.46:6900/${res.data}`)
-      }).then(err => {
-        this.option.img = '';
-        console.log(err);
-      });
+        success(this.fileUrl+res.data)
+      }).then(err => {});
     },
     //标签选择
     checkTag(val){
