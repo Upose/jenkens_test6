@@ -119,7 +119,7 @@ export default {
           lableID:l_id,
           searchKey:'',
         }
-        this.http.postJson('pront-news-list-data-get',list).then(res=>{
+        this.http.postJsonParameter_url('pront-news-list-data-get',list,'?cid='+cid).then(res=>{
           this.loading = false;
           if(res.data && res.data.items){
             this.news_list = res.data.items||[];
