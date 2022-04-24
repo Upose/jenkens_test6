@@ -317,6 +317,9 @@ export default {
           font-size: 15px;
           color: @6b;
           border-bottom: 1px solid @de;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
           &:hover{
             color: @fff;
             a{

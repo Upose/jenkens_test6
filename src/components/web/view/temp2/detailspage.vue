@@ -346,6 +346,9 @@ export default {
             display: block;
             color:@6b;
             padding: 0 20px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
             &:after{
               content: '';
               width: 0;
