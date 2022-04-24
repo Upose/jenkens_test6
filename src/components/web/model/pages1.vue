@@ -27,6 +27,8 @@ export default {
         this.start_number = this.PageIndex - 3;
       } else if (this.total > 5 && this.PageIndex > this.total - 3) {
         this.start_number = this.total - 5;
+      }else{
+        this.start_number = 0;
       }
     }
   },
