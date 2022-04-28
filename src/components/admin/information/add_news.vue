@@ -234,7 +234,8 @@ export default {
             }
           ;
         this.$refs.breadcrumb_ref.setMeta(list);
-        if(this.$route.id==undefined){
+        if(!this.$route.query.id){
+          console.log(res.data.contentDefaultAuditStatusKV)
           this.postForm['nextAuditStatus'] = res.data.contentDefaultAuditStatusKV||[];
         }
       }
@@ -275,6 +276,7 @@ export default {
           tinymce.activeEditor.setContent(this.postForm.content)
           var list = res.data.content||{};
           //按钮集合
+          console.log(res.data.nextAuditStatus);
           this.postForm['nextAuditStatus'] = res.data.nextAuditStatus||[];
           if(this.postForm.externalLink){
             this.activeName = 'div2';
