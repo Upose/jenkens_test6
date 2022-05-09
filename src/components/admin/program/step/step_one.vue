@@ -4,27 +4,25 @@
       <el-form :model="postForm" :rules="rules" ref="postForm" label-width="120px" class="admin-form">
         <div class="form-content">
           <el-form-item label="栏目名称" prop="title">
-            <el-input v-model="postForm.title" placeholder="请输入栏目名称"></el-input>
+            <el-input v-model="postForm.title" placeholder="请输入栏目名称" class="r-pad-num-max" maxlength="50" minlength="2" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="栏目别名" prop="alias">
-            <el-input v-model="postForm.alias" placeholder="请输入栏目别名"></el-input>
+            <el-input v-model="postForm.alias" placeholder="请输入栏目别名" class="r-pad-num-max" maxlength="50" minlength="2" show-word-limit></el-input>
           </el-form-item>
           <div class="user-form-item">
             <label class="u-label"><span class="el-input">栏目标签</span></label>
             <div class="u-list">
-              <input type="text" class="u-input" v-model="postForm.label" placeholder="标签可以为栏目设置分类，方便筛选。多个；号分割"/>
-              <!-- <el-popover popper-class="el-down-alert" placement="bottom" width="400" trigger="click">
-                <div>内容</div>
-                <el-button class="u-btn-r" icon="el-icon-search" size="medium" slot="reference" type="primary">选择已有标签</el-button>
-              </el-popover> -->
-              <el-popover placement="bottom-end" trigger="click" width="490" v-model="visible">
+              <input type="text" class="u-input" @keyup="inputBlur" show-word-limit v-model="postForm.label" placeholder="标签可以为栏目设置分类，方便筛选。多个；号分割"/>
+              <!-- <el-popover placement="bottom-end" trigger="click" width="490" v-model="visible"> -->
+                <span class="hint-num-max">{{label_length}}/100</span>
                 <el-button class="u-btn-r" icon="el-icon-search" size="medium" slot="reference" type="primary" @click.stop="tagEditShow()">选择已有标签</el-button>
                 <tagEdit ref="editTag" :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
-              </el-popover>
+              <!-- </el-popover> -->
             </div>
           </div>
           <el-form-item label="多终端同步">
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.terminals"></el-switch>
+            <p class="hint row-hint">当停止同步时，每次发新闻都需要选择投递终端</p>
           </el-form-item>
           <el-form-item label="状态" prop="status">
             <el-radio-group v-model="postForm.status">
@@ -128,6 +126,7 @@ export default {
   data () {
     return {
       dataDetails:{},//详情
+      label_length:0,//输入标签长度
       extend_content:false,
       tag_edit:false,
       tag_edit_data:[],//已有标签
@@ -153,8 +152,8 @@ export default {
           sideList:[],//侧边列表
           sysMesList:[],//显示的系统信息
           isOpenCover:0,//启用内容封面 1开启 0关闭
-          coverWidth:10,
-          coverHeight:10,
+          coverWidth:200,
+          coverHeight:100,
       },
       rules: {
           title: [
@@ -191,22 +190,22 @@ export default {
       let num = e.target.value.replace(/^\.+|[^\d.]/g,'');
       if(num){
         this.postForm.coverWidth = parseInt(num);
-        if(this.postForm.coverWidth && this.postForm.coverWidth<10){
-          this.postForm.coverWidth = 10;
+        if(this.postForm.coverWidth && this.postForm.coverWidth<200){
+          this.postForm.coverWidth = 200;
         }
       }else{
-        this.postForm.coverWidth = 10;
+        this.postForm.coverWidth = 200;
       }
     },
     heightChange(e){
       let num = e.target.value.replace(/^\.+|[^\d.]/g,'');
       if(num){
         this.postForm.coverHeight = parseInt(num);
-        if(this.postForm.coverHeight && this.postForm.coverHeight<10){
-          this.postForm.coverHeight = 10;
+        if(this.postForm.coverHeight && this.postForm.coverHeight<100){
+          this.postForm.coverHeight = 100;
         }
       }else{
-        this.postForm.coverHeight = 10;
+        this.postForm.coverHeight = 100;
       }
     },
     //隐藏高级设置弹窗
@@ -232,6 +231,7 @@ export default {
       this.postForm.terminals = newVal.terminals;
       this.postForm.linkUrl = newVal.linkUrl||'';
       this.postForm.label = newVal.label||'';
+      this.label_length = this.postForm.label.length;
       this.postForm.coverWidth = newVal.coverWidth;
       this.postForm.coverHeight = newVal.coverHeight;
       if(newVal.extensionKV && newVal.extensionKV.length>0){
@@ -270,6 +270,15 @@ export default {
     //标签选择
     checkTag(val){
       this.postForm.label = val;
+      this.inputBlur();
+      this.$forceUpdate();
+    },
+    //标签键盘事件
+    inputBlur(){
+      if(this.postForm.label.length>100){
+        this.postForm.label = this.postForm.label.slice(0,100);
+      }
+      this.label_length = this.postForm.label.length;
       this.$forceUpdate();
     },
     //打开-选择已有标签
@@ -461,5 +470,24 @@ export default {
 /deep/.el-popover{
   padding: 0;
   border: 0;
+}
+/***更改input为element控件 */
+.u-list{
+  .u-input{
+    padding-right: 190px !important;
+  }
+  .hint-num-max{
+    position: absolute;
+    right: 140px;
+    top:0;
+    padding: 0 5px;
+    color: #909399;
+    font-size: 12px;
+  }
+}
+.row-hint{
+  position: absolute;
+  top: 8px;
+  left: 60px;
 }
 </style>

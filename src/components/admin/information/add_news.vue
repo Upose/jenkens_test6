@@ -10,7 +10,7 @@
             <h1 class="s-b-border-title">{{id?'编辑':'新增'}}新闻</h1>
             <div class="form-content">
               <el-form-item label="新闻标题" prop="title">
-                <el-input v-model="postForm.title" placeholder="请输入新闻标题" class="txt-set">
+                <el-input v-model="postForm.title" placeholder="请输入新闻标题" maxlength="100" minlength="2" show-word-limit class="txt-set r-pad-num-max-100">
                     <template slot="append">
                         <div class="news-font-set">
                           <i class="iconfont el-icon-vip-B" @click="fontClick(titleStyleKV.B,'B')" :class="titleStyleKV.B?'active':''"></i>
@@ -25,16 +25,16 @@
                 </el-input>
               </el-form-item>
               <el-form-item label="副标题" prop="subTitle">
-                <el-input v-model="postForm.subTitle" placeholder="请输入副标题"></el-input>
+                <el-input v-model="postForm.subTitle" placeholder="请输入副标题" class="r-pad-num-max-100" maxlength="100" minlength="0" show-word-limit></el-input>
               </el-form-item>
               <div class="user-form-item" v-if="isshow_ParentCatalogue">
                 <label class="u-label"><span class="u-el-input">新闻标签</span></label>
                 <div class="u-list">
-                    <input type="text" v-model="postForm.parentCatalogue" class="u-input" placeholder="请输入新闻标签"/>
+                    <input type="text" @keyup="inputBlur" v-model="postForm.parentCatalogue" class="u-input" placeholder="请输入新闻标签"/>
+                    <span class="hint-num-max">{{parentCatalogue_length}}/20</span>
                     <el-button class="u-btn-r" icon="iconfont el-icon-vip-fangdajing" size="medium" type="primary" @click="tagEditShow()">选择已有标签</el-button>
                     <tagEdit :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
                 </div>
-                <span class="tips">20字以内</span>
               </div>
               <el-form-item label="多栏目投递">
                 <div class="btns-colse-warp">
@@ -66,7 +66,7 @@
                 </div>
               </el-form-item>
               <el-form-item label="发布人" prop="publisher">
-                <el-input v-model="postForm.publisher" placeholder="请输入发布人"></el-input>
+                <el-input v-model="postForm.publisher" placeholder="请输入发布人" class="r-pad-num-max" maxlength="50" minlength="0" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="发布日期" prop="publishDate">
                 <el-date-picker v-model="postForm.publishDate" type="date" class="data-clear-icon" placeholder="请选择发布日期"></el-date-picker>
@@ -77,7 +77,7 @@
                   <el-radio :label="2">下架</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="投递终端" v-if="columnDeatils.terminals == 1">
+              <el-form-item label="投递终端" v-if="columnDeatils.terminals != 1">
                 <el-checkbox-group v-model="postForm.terminals">
                   <el-checkbox :label="1" name="type">PC门户</el-checkbox>
                   <el-checkbox :label="2" name="type">微信小程序</el-checkbox>
@@ -87,7 +87,7 @@
               </el-form-item>
               <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
                 <el-input v-model="item.input_val" :placeholder="'请输入'+item.value" v-if="item.key !='ExpirationDate'"></el-input>
-                <el-date-picker v-model="item.input_val" type="date" v-if="item.key =='ExpirationDate'" placeholder="请选择失效日期"></el-date-picker>
+                <el-date-picker v-model="item.input_val" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" v-if="item.key =='ExpirationDate'" placeholder="请选择失效日期"></el-date-picker>
               </el-form-item>
               <el-form-item label="内容" :prop="activeName=='div1'?'content':'externalLink'">
                 <div class="filter-form-item">
@@ -95,7 +95,7 @@
                       <div class="filter-f-title">
                         <span class="filter-box-col" @click="handleClick('div1')" :class="activeName=='div1'?'active':''">编辑内容</span>
                         <span class="filter-box-col" @click="handleClick('div2')" :class="activeName=='div2'?'active':''" v-show="isshow_link">链接跳转</span>
-                        <span class="filter-hint" v-show="isshow_link">填写链接后，编辑内容将不会显示，直接跳转链接</span>
+                        <span class="filter-hint">{{activeName=='div2'?'填写链接后，编辑内容将不会显示，直接跳转链接':'可切换编辑器，适应您的使用习惯'}}</span>
                       </div>
                       <div v-show="activeName=='div1'">
                         <div class="edit-fwb" v-show="contentEditor==1"><textarea id="mytextarea" v-model="postForm.content"></textarea> </div>
@@ -106,11 +106,12 @@
                         <div class="edit-check-list">
                           <div class="edit-col" @click="editorCheck(1)" :class="contentEditor==1?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji1 filter-icon"></i>编辑器1</div>
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
-                          <p class="tips">可切换编辑器，适应您的使用习惯</p>
                         </div>
                       </div>
                       <div class="table-pd" v-show="activeName=='div2'">
-                        <textarea class="table-el-textarea" v-model="postForm.externalLink" placeholder="请输入链接地址"></textarea>
+                      <!-- <el-input type="textarea" class="tab-el-textarea" placeholder="请输入链接地址" v-model="postForm.externalLink" maxlength="500" show-word-limit></el-input> -->
+                        <textarea class="table-el-textarea" @keyup="textareaBlur" v-model="postForm.externalLink" placeholder="请输入链接地址"></textarea>
+                        <span class="hint-num-max">{{externalLink_length}}/500</span>
                       </div>
                     </div>
                 </div>
@@ -272,6 +273,9 @@ export default {
         //获取新闻详情
         this.http.getPlain_url('news-content-manage-get','/'+this.columnID+'?contentid='+this.id).then(res=>{
           this.postForm = res.data.content||{};
+          if(this.postForm.parentCatalogue){
+            this.parentCatalogue_length = this.postForm.parentCatalogue.length||0;
+          }
           this.contentEditor = this.postForm.contentEditor||1;
           tinymce.activeEditor.setContent(this.postForm.content)
           var list = res.data.content||{};
@@ -279,6 +283,7 @@ export default {
           console.log(res.data.nextAuditStatus);
           this.postForm['nextAuditStatus'] = res.data.nextAuditStatus||[];
           if(this.postForm.externalLink){
+            this.externalLink_length = this.postForm.externalLink.length||0;
             this.activeName = 'div2';
           }
           //标题样式设置
@@ -356,6 +361,8 @@ export default {
       userInfo:window.localStorage.getItem('userInfo'),
       coverHeight: 10,
       coverWidth: 10,
+      parentCatalogue_length:0,//标签输入长度
+      externalLink_length:0,//链接地址长度
       columnDeatils:{},//栏目详情
       fileUrl:window.localStorage.getItem('fileUrl'),
       columnID:this.$route.query.c_id,//栏目id-左边菜单
@@ -388,7 +395,11 @@ export default {
         font:20,
         color:'#000000',
       },
-      postForm: {terminals:[1,2,3,4],publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/\.[\d]{3}Z/, '')+'.000Z'},
+      postForm: {
+        terminals:[1,2,3,4],
+        publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/\.[\d]{3}Z/, '')+'.000Z',
+        status:1,
+      },
       // postForm: {terminals:[1,2,3,4]},
       rules: {
           title: [
@@ -414,7 +425,8 @@ export default {
               { required: true, message: '请输入内容', trigger: 'blur' }
           ],
           externalLink: [
-              { required: true, message: '请输入链接', trigger: 'blur' }
+              { required: true, message: '请输入链接', trigger: 'blur' },
+              { min: 0, max: 500, message: '长度在 0 到 500 个字符', trigger: 'blur' }
           ],
       },
       //百度富文本
@@ -537,6 +549,23 @@ export default {
     //标签选择
     checkTag(val){
       this.postForm.parentCatalogue = val;
+      this.inputBlur();
+      this.$forceUpdate();
+    },
+    //标签键盘事件
+    inputBlur(){
+      if(this.postForm.parentCatalogue.length>20){
+        this.postForm.parentCatalogue = this.postForm.parentCatalogue.slice(0,20);
+      }
+      this.parentCatalogue_length = this.postForm.parentCatalogue.length;
+      this.$forceUpdate();
+    },
+    //链接地址键盘事件
+    textareaBlur(){
+      if(this.postForm.externalLink.length>20){
+        this.postForm.externalLink = this.postForm.externalLink.slice(0,500);
+      }
+      this.externalLink_length = this.postForm.externalLink.length;
       this.$forceUpdate();
     },
     //字体设置-点击事件
@@ -549,6 +578,7 @@ export default {
     },
     //添加多栏目投递
     addCoumn(){
+      if(this.coumn_list.length == 3){return;}
       this.coumn_list.push({value:''});
     },
     //退回-打开弹窗
@@ -565,17 +595,6 @@ export default {
         return;
       }
       this.activeName = val;
-      // if(val == 'div1'){
-      //   console.log('清空链接');
-        
-      // }else{
-      //   this.postForm.content = '';
-      //   if(document.getElementById('tinymce')){document.getElementById('tinymce').innerHTML = ''}
-      //   console.log('清空内容');
-      // }
-      // setTimeout(()=>{
-      //   this.activeName = val;
-      // },200)
     },
     imgUrl(val){
       this.postForm['cover'] = val[0];
@@ -588,11 +607,6 @@ export default {
     //图片上传-弹窗关闭
     handleClose(done) {
       done();
-      // this.$confirm('确认关闭？')
-      //   .then(_ => {
-      //     done();
-      //   })
-      //   .catch(_ => {});
     },
     //打开-选择已有标签
     tagEditShow(){
@@ -712,6 +726,10 @@ export default {
     /deep/.table-el-textarea{
       height: auto !important;
     }
+    /deep/.table-el-textarea:focus{
+      outline: none;
+      border: 1px solid #6777EF !important;
+    }
     .m-top{
         margin-top: 10px;
     }
@@ -729,18 +747,6 @@ export default {
         .u-btn-r{
             width: 130px !important;
         }
-        .tips{
-          margin-left: 10px;
-          font-size: 12px;
-          color: #999;
-        }
-    }
-    .edit-check-list{
-      .tips{
-        line-height: 22px;
-        color: #999;
-        font-size: 12px;
-      }
     }
     .txt-set{
       /deep/.el-input-group__append{
@@ -846,6 +852,29 @@ export default {
       height: 20px;
     }
   }
- 
+  .u-list{
+    .u-input{
+      padding-right: 190px !important;
+    }
+  }
+  .hint-num-max{
+    position: absolute;
+    right: 140px;
+    top:0;
+    padding: 0 5px;
+    color: #909399;
+    font-size: 12px;
+  }
+  .table-pd{
+    .table-el-textarea{
+      resize: none;
+      padding-bottom: 25px !important;
+    }
+    .hint-num-max{
+      line-height: 20px;
+      top: 45px !important;
+      right: 125px;
+    }
+  }
 </style>
 

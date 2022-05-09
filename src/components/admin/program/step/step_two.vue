@@ -10,7 +10,7 @@
             </el-radio-group> -->
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isLoginAcess"></el-switch>
           </el-form-item>
-          <el-form-item label="授权访问名单" prop="acessAll">
+          <el-form-item label="授权访问名单" prop="acessAll" v-if="postForm.isLoginAcess==1">
             <el-radio-group v-model="postForm.acessAll">
               <el-radio v-for="item in acessAllList" :key="item.label" :label="item.label">{{item.val}}</el-radio>
               <el-button size="medium" class="m-l" v-if="postForm.acessAll==false" type="primary" @click="selectUserShow()">选择用户</el-button>

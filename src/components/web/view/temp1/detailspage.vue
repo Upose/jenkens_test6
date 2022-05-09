@@ -235,6 +235,11 @@ export default {
         font-weight: lighter;
         line-height: 74px;
         color: @fff;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        text-align: center;
+        padding: 0 10px;
         text-align: center;
       }
       // &::after{
@@ -351,6 +356,9 @@ export default {
             position: relative;
             display: block;
             color:@6b;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             padding: 0 20px;
             &:after{
               content: '';

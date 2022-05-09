@@ -7,16 +7,16 @@
       <el-button size="medium" class="btn-r" type="text" @click="editClick">{{is_input?'完成标签':'编辑标签'}}</el-button>
     </h1>
     <div class="select-user c-l">
-      <div class="box" :class="is_input ? 'edit-tag-box':''" v-for="i in dataList" :key="i">
+      <div class="box" :class="is_input ? 'edit-tag-box':''" v-for="(it,i) in dataList" :key="i">
         <div v-if="!is_input" class="tag-text">
-          <span @click="checkTag(i.name)" :title="i.name">{{i.name}}</span>
-          <i :class="isCheckClass(i.name)?'el-icon-check':'el-icon-plus'" @click="checkTag(i.name)" v-if="!i.check"></i>
+          <span @click="checkTag(it.name)" :title="it.name">{{it.name}}</span>
+          <i :class="isCheckClass(it.name)?'el-icon-check':'el-icon-plus'" @click="checkTag(it.name)" v-if="!it.check"></i>
           <!-- <i class="el-icon-plus" @click="checkTag(i)" v-if="!i.check"></i> -->
           <i class="el-icon-check" v-else></i>
         </div>
         <div v-if="is_input" class="tag-inp">
-          <input type="text" v-model="i.name" />
-          <i class="el-icon-close del-tag" @click="delTag(i.id)"></i>
+          <input type="text" v-model="it.name" />
+          <i class="el-icon-close del-tag" @click="delTag(i)"></i>
         </div>
       </div>
     </div>
@@ -65,8 +65,9 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => { 
-        this.http.postJson('lable-info-delete',_this.dataList[index].id).then(res=>{
+      }).then(() => {
+        debugger
+        _this.http.postJson('lable-info-delete',_this.dataList[index].id).then(res=>{
           _this.$message({type: 'success',message: '删除成功!'});
           _this.dataList.splice(index,1);
         }).catch(err=>{
