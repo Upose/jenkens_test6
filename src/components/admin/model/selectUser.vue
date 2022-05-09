@@ -54,6 +54,7 @@ export default {
     this.initData();
   },
   mounted(){
+    console.log(this.dataList)
     var _this = this;
     _this.type = _this.dataList.type||1;
     _this.check_name = _this.dataList.type||1;

@@ -159,8 +159,9 @@ export default {
       this.select_user_show = false;
     },
     getCheckUser(val){
-      // console.log(val);//这里将拿到的数据放入表单
+      console.log(val);//这里将拿到的数据放入表单
       this.postForm['visitingListModel'] = val;
+      this.select_user_data = val;
       this.select_user_show = false;
     },
     //表单提交-表单提交后，需要 返回到列表页。
