@@ -90,7 +90,7 @@
         <h1 class="d-title"><i class="el-icon-menu"></i> <span>自定义扩展添加</span></h1>
           <el-form>
             <el-form-item label="">
-              <el-input v-model="scalable_input" placeholder="请输入内容名称(2-20个字符)"></el-input>
+              <el-input v-model="scalable_input" placeholder="请输入内容名称(2-20个字符)" class="r-pad-num-max" maxlength="20" minlength="2" show-word-limit></el-input>
             </el-form-item>
           </el-form>
         </div>
