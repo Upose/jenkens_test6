@@ -27,7 +27,7 @@
                 <div class="title-warp" :class="it.isShowPublishDate?'':'p-l'">
                   <a href="javascript:void(0)">{{it.title||'标题走丢了'}}</a>
                   <span v-if="it.isShowHitCount">点击量：{{it.hitCount||0}}次</span>
-                  <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}} </span></span>
+                  <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span></span>
                   <p class="intros"><span v-html="it.content"></span></p>
                 </div>
               </li>

@@ -33,7 +33,7 @@
                 <!-- <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
                 <!-- <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
                 <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
-                <span v-if="data.isShowParentCatalogue"><i v-for="i in (detailsData.parentCatalogueKV||[])">{{i.value}} </i></span><!--标签-->
+                <span v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0"><i v-for="i in (detailsData.parentCatalogueKV||[])">{{i.value}}&nbsp;</i></span><!--标签-->
                 <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                 <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
                 <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>

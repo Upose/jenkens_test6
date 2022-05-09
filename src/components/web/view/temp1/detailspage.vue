@@ -31,7 +31,7 @@
                     <!-- <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span>作者 -->
                     <!-- <span v-if="data.isShowKeywords">关键词：{{detailsData.keywords}}</span>关键词 -->
                     <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
-                    <span v-if="data.isShowParentCatalogue">标签：<i v-for="i in (detailsData.parentCatalogueKV||[])" :key="i.key">{{i.value}}</i></span><!--标签-->
+                    <span v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">标签：<i v-for="i in (detailsData.parentCatalogueKV||[])" :key="i.key">{{i.value}}&nbsp;</i></span><!--标签-->
                     <!-- <span v-if="data.isShowExpirationDate">失效日期：{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
                     <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                     <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
