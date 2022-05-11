@@ -186,7 +186,7 @@
 
         <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false" :before-close="handleClose">
           <div class="">
-            <el-input type="textarea" v-model="postForm.desc" rows="8" placeholder="输入备注原因"></el-input>
+            <el-input type="textarea" v-model="postForm.desc" maxlength="200" minlength="0" show-word-limit rows="8" placeholder="输入备注原因"></el-input>
           </div>
           <span slot="footer" class="dialog-footer">
               <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="drawBackClose()">取消</el-button>

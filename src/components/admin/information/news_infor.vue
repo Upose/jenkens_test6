@@ -90,7 +90,15 @@
                     <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
                 </div>
             </div><!--管理页列表 end--->
-            
+            <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false" :before-close="handleClose">
+              <div class="">
+                <el-input type="textarea" v-model="postForm.desc" maxlength="200" minlength="0" show-word-limit rows="8" placeholder="输入备注原因"></el-input>
+              </div>
+              <span slot="footer" class="dialog-footer">
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="draw_back = false">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+              </span>
+            </el-dialog>
         </div><!---顶部查询板块 end--->
         <footerPage class="top20"></footerPage>
       </el-main>
@@ -130,6 +138,7 @@ export default {
   data () {
     return {
       loading:true,
+      draw_back:false,//退回弹窗
       auditStatus_menu:0,//菜单
       multipleSelection:[],//选择列表
       pageData: {
@@ -422,10 +431,33 @@ export default {
     },
     //评审
     handleAudit(row){
+      console.log(row);
       var _this = this;
-      this.$confirm('是否通过该新闻初审?', '提示', {
+      var content = '是否通过该新闻'+row.nextAuditBottonName+'?';
+      var is_xd = false;//校对只有取消按钮
+      if(row.nextAuditBottonName == '提交'){
+        content = '是否提交该新闻?';
+      }else if(row.nextAuditBottonName == '初校'){
+        is_xd = true;
+        content = '是否通过该新闻初校?'
+      }else if(row.nextAuditBottonName == '初审'){
+        content = '是否通过该新闻初审?'
+      }else if(row.nextAuditBottonName == '二审'){
+        content = '是否通过该新闻二审?'
+      }else if(row.nextAuditBottonName == '二校'){
+        is_xd = true;
+        content = '是否通过该新闻二校?'
+      }else if(row.nextAuditBottonName == '终审'){
+        content = '是否通过该新闻终审?'
+      }else if(row.nextAuditBottonName == '终校'){
+        is_xd = true;
+        content = '是否通过该新闻终校?'
+      }else if(row.nextAuditBottonName == '发布'){
+        content = '是否发布改新闻?'
+      }
+      this.$confirm(content, '提示', {
         confirmButtonText: '通过',
-        cancelButtonText: '取消',
+        cancelButtonText: is_xd?'取消':'不通过',
         type: 'warning'
       }).then(() => {
         this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
@@ -435,7 +467,10 @@ export default {
           _this.$message({type: 'error',message: '操作失败!'});
         })
       }).catch(() => {
-        // console.log('弹窗新窗口，填写退回备注（输入框，0-200字）状态改为已退回');     
+        if(!is_xd){
+          this.draw_back = true;
+        }
+        console.log('弹窗新窗口，填写退回备注（输入框，0-200字）状态改为已退回');     
       });
     },
     //新增新闻
