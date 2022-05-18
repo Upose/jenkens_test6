@@ -170,21 +170,21 @@ export default {
     .row{
       padding: 10px;
       .row-box{
-        width:16.6666%;
-        width: 268px;
+        // width:16.6666%;
+        width: 200px;
         float: left;
         padding: 15px;
         position: relative;
         .r-box-bg{
-          width: 238px;
-          height: 238px;
+          // width: 238px;
+          // height: 238px;
           box-shadow: 0px 2px 15px rgba(40, 120, 255, 0.1);
           &:hover{
             box-shadow: 0px 2px 15px rgba(40, 120, 255, 0.25);
           }
         }
         .add-btn{
-          height: 241px;
+          height: 183px;
           padding: 5px;
           border: 1px dotted @ACACAC;
           border-radius: 5px;
@@ -210,7 +210,7 @@ export default {
         }
         img{
           width: 100%;
-          height: 178px;
+          height: 120px;
           border-radius: 5px 5px 0px 0px;
         }
         span.name{
@@ -226,6 +226,7 @@ export default {
           overflow: hidden;
           text-overflow:ellipsis;
           white-space: nowrap;
+          padding: 0 10px;
         }
         .r-box-btns{
           display: none;
@@ -236,7 +237,10 @@ export default {
           text-align: center;
           /deep/ .el-button{
             height: 32px;
-            padding: 6px 14px;
+            padding: 6px 8px;
+          }
+          /deep/.el-button+.el-button{
+            margin-left: 5px;
           }
         }
       }
