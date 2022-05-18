@@ -111,10 +111,14 @@ export default {
         lableID: l_id,
         searchKey: '',
       }
+      this.news_list = [];
       this.http.postJsonParameter_url('pront-news-list-data-get', list, '?columnID=' + cid).then(res => {
         this.loading = false;
         if (res.data && res.data.items) {
           this.news_list = res.data.items || [];
+          if(this.news_list.length ==1){
+            this.detailsClick(this.news_list[0]);
+          }
           this.pageIndex = res.data.pageIndex;
           this.pageSize = res.data.pageSize;
           this.totalCount = res.data.totalCount;
