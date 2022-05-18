@@ -1,6 +1,7 @@
-<!---新闻发布-具体栏目-新闻发布-->
+<!---新闻发布-具体栏目-新闻发布 npm install myjs-common 文件上传 -->
 <template>
   <div class="admin-warp-page">
+    <!-- <img width="100" height="100" v-for="i in img_list" :src="'blob:'+i"/> -->
     <el-container>
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''"><serviceLMenu :isActive="2"></serviceLMenu></el-aside>
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
@@ -206,7 +207,7 @@ import serviceLMenu from "@/components/admin/common/serviceLMenu";
 import UpdateImg from "@/components/admin/common/UpdateImg";
 import tagEdit from "../model/tagEdit";
 import VueUeditorWrap from 'vue-ueditor-wrap'
-
+// const FuRequire = require("myjs-common").FuRequire;
 export default {
   name: 'index',
   created(){
@@ -236,7 +237,7 @@ export default {
           ;
         this.$refs.breadcrumb_ref.setMeta(list);
         if(!this.$route.query.id){
-          console.log(res.data.contentDefaultAuditStatusKV)
+          // console.log(res.data.contentDefaultAuditStatusKV)
           this.postForm['nextAuditStatus'] = res.data.contentDefaultAuditStatusKV||[];
         }
       }
@@ -258,15 +259,36 @@ export default {
   mounted(){
     var _this = this;
     this.postForm['publisher'] = JSON.parse(this.userInfo).name;//这个地方应该由后台改为自动为登录用户，不用前端传
+    // this.$set();
+    // this.$set(this.row_list,index,{key:item.key,value:item.value,input_val:list.expendFiled2})
     //tinymce 编辑器
     tinymce.init({
       selector: '#mytextarea',
       language: 'zh_CN',
       height: 400,
       plugins: 'image',
+      // toolbar: 'code bullist numlist emoticons charmap hr insertdatetime link | help fullscreen image', 
+      // plugins: 'image,wordcount,charmap,code,hr,lists,advlist,emoticons,fullscreen,help,insertdatetime,link',
       images_upload_handler: (blobInfo, success, failure) => { // 图片上传
+        console.log(blobInfo, success, failure);
         this.handleImgUpload(blobInfo, success, failure)
       }
+    });
+    tinyMCE.activeEditor.on('paste', function(e) {
+      setTimeout(() => {
+        var html = null;
+        e.path.forEach(item=>{
+          if(item.tagName == 'body' || item.tagName=='BODY'){
+            html = item.innerHTML;
+            var img_data = [];
+            html.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, function (match, capture) {
+              img_data.push(capture);
+            });
+            _this.img_list = img_data;
+            console.log(img_data);
+          }
+        })
+      }, 50);
     });
       //获取修改信息
       if(this.id && this.id!=undefined){
@@ -358,6 +380,7 @@ export default {
     },
   data () {
     return {
+      img_list:[],//富文本图片路径
       userInfo:window.localStorage.getItem('userInfo'),
       coverHeight: 10,
       coverWidth: 10,
@@ -399,6 +422,7 @@ export default {
         terminals:[1,2,3,4],
         publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/\.[\d]{3}Z/, '')+'.000Z',
         status:1,
+        publisher:'',
       },
       // postForm: {terminals:[1,2,3,4]},
       rules: {
