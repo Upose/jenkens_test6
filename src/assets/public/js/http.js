@@ -268,6 +268,34 @@ export default {
       });
     });
   },
+  // post方法 自拼参数  带token，可传参
+  postJsonByIdSelf: function (url, id, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url] + id,
+        method: 'POST',
+        data: data,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(response => {
+        const result = response.data;
+        setTimeout(() => {
+          if (result.statusCode == 200) {
+            resolve(result);
+          } else {
+            this.error(result.errors);
+            reject(result);
+          }
+        }, 5000)
+      }).catch(err => {
+        setTimeout(() => {
+          reject(err);
+        }, 5000)
+        
+      });
+    });
+  },
   //带token的delete方法自己拼接  --- json
   deleteJsonSelf: function (url, data) {
     return new Promise((resolve, reject) => {

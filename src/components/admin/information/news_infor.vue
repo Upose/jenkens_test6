@@ -20,7 +20,7 @@
                   <div class="search-term">
                       <el-input class="width187" v-model="postForm.searchKey" size="medium" placeholder="标题/内容/发布者"></el-input>
                       <el-select class="width136" v-if="isHasCatalogue" v-model="postForm.lableId" size="medium" placeholder="子类">
-                          <el-option v-for="item in lableList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                          <el-option v-for="item in lableList" :key="item.key" :label="item.value" :value="item.key"></el-option>
                       </el-select>
                       <!-- <el-date-picker class="width187" v-model="postForm.beginCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="创建时间"></el-date-picker>
                       <el-date-picker class="width187" v-model="postForm.endCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="更新时间"></el-date-picker> -->
@@ -45,19 +45,24 @@
                         </el-table-column>
                         <el-table-column prop="parentCatalogue" label="子类" v-if="isHasCatalogue">
                            <template slot-scope="scope">
-                            <span v-for="(item,index) in (scope.row.parentCatalogue||[])">{{item.value}},</span>
+                            <span v-for="(item,index) in (scope.row.parentCatalogue||[])" :key="index">{{item.value}},</span>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="aduitStatusName" label="显示状态" align="center" width="80">
+                        <el-table-column prop="aduitStatusName" label="状态" align="center" width="80">
+                          <template slot-scope="scope">
+                            <span>{{scope.row.aduitStatusName}}</span>
+                          </template>
+                        </el-table-column>
+                        <!-- <el-table-column prop="aduitStatusName" label="显示状态" align="center" width="80">
                           <template slot-scope="scope">
                             <span :class="scope.row.status==1?'color-blue':'color-red'">{{scope.row.status==1?'上架':'下架'}}</span>
                           </template>
-                        </el-table-column>
-                        <el-table-column prop="aduitStatusName" label="审核状态" align="center" width="80">
+                        </el-table-column> -->
+                        <!-- <el-table-column prop="aduitStatusName" label="审核状态" align="center" width="80">
                           <template slot-scope="scope">
                             <span :class="scope.row.aduitStatus==8?'color-blue':'color-red'">{{scope.row.aduitStatusName}}</span>
                           </template>
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column prop="publisher" label="发布者" align="center" width="100"></el-table-column>
                         <el-table-column prop="createdTime" label="创建时间" align="center" width="100">
                           <template slot-scope="scope">
@@ -90,13 +95,13 @@
                     <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
                 </div>
             </div><!--管理页列表 end--->
-            <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false" :before-close="handleClose">
+            <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false">
               <div class="">
-                <el-input type="textarea" v-model="postForm.desc" maxlength="200" minlength="0" show-word-limit rows="8" placeholder="输入备注原因"></el-input>
+                <el-input type="textarea" v-model="sendBack.sendBackDesc" maxlength="200" minlength="0" show-word-limit rows="8" placeholder="输入备注原因"></el-input>
               </div>
               <span slot="footer" class="dialog-footer">
                   <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="draw_back = false">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="sendBackHande">保存</el-button>
               </span>
             </el-dialog>
         </div><!---顶部查询板块 end--->
@@ -207,6 +212,7 @@ export default {
       ],
       tableData:[],
       columnDeatils:{},
+      sendBack: {},
     }
   },
   methods:{
@@ -432,46 +438,72 @@ export default {
     //评审
     handleAudit(row){
       console.log(row);
-      var _this = this;
-      var content = '是否通过该新闻'+row.nextAuditBottonName+'?';
-      var is_xd = false;//校对只有取消按钮
+      let _this = this;
+      let content = '是否通过该新闻'+row.nextAuditBottonName+'?';
+      let is_xd = true; // 校对只有取消按钮,审核相关是通过按钮
       if(row.nextAuditBottonName == '提交'){
         content = '是否提交该新闻?';
       }else if(row.nextAuditBottonName == '初校'){
-        is_xd = true;
-        content = '是否通过该新闻初校?'
+        content = '是否通过该新闻初校?';
       }else if(row.nextAuditBottonName == '初审'){
-        content = '是否通过该新闻初审?'
+        content = '是否通过该新闻初审?';
+        is_xd = false;
       }else if(row.nextAuditBottonName == '二审'){
-        content = '是否通过该新闻二审?'
+        content = '是否通过该新闻二审?';
+        is_xd = false;
       }else if(row.nextAuditBottonName == '二校'){
-        is_xd = true;
-        content = '是否通过该新闻二校?'
+        content = '是否通过该新闻二校?';
       }else if(row.nextAuditBottonName == '终审'){
-        content = '是否通过该新闻终审?'
+        content = '是否通过该新闻终审?';
+        is_xd = false;
       }else if(row.nextAuditBottonName == '终校'){
         is_xd = true;
         content = '是否通过该新闻终校?'
       }else if(row.nextAuditBottonName == '发布'){
         content = '是否发布改新闻?'
       }
+      
       this.$confirm(content, '提示', {
+        distinguishCancelAndClose: true,
         confirmButtonText: '通过',
-        cancelButtonText: is_xd?'取消':'不通过',
-        type: 'warning'
-      }).then(() => {
-        this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
-          _this.$message({type: 'success',message: '操作成功!'});
-          _this.initData();
-        }).catch(err=>{
-          _this.$message({type: 'error',message: '操作失败!'});
-        })
-      }).catch(() => {
-        if(!is_xd){
-          this.draw_back = true;
+        cancelButtonText: is_xd ? '取消' : '不通过',
+        type: "warning",
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
+              _this.$message({type: 'success',message: '操作成功!'});
+              _this.initData();
+              done();
+              return;
+            }).catch(err=>{
+              _this.$message({type: 'error',message: '操作失败!'});
+              done();
+              return;
+            })
+          } else if (action === 'cancel') {
+            if (!is_xd) {
+              this.sendBack.contentID = row.id;
+              this.draw_back = true;
+            }
+            // console.log('弹窗新窗口，填写退回备注（输入框，0-200字）状态改为已退回');
+            done();
+          } else {
+            done();
+          }
         }
-        console.log('弹窗新窗口，填写退回备注（输入框，0-200字）状态改为已退回');     
-      });
+      }).catch(() => {})
+    },
+    // 退回新闻
+    sendBackHande() {
+      if (!this.sendBack.sendBackDesc) {
+        return this.$message({type: 'error',message: '退回备注不能为空!'});
+      }
+      this.http.postJsonByIdSelf('news-content-send-back', this.postForm.columnID, this.sendBack).then(res=>{
+        this.$message({type: 'success',message: '退回成功!'});
+        this.initData();
+      }).catch(err=>{
+        this.$message({type: 'error',message: '退回失败!'});
+      })
     },
     //新增新闻
     newsAdd(){

@@ -70,7 +70,7 @@
                 <el-input v-model="postForm.publisher" placeholder="请输入发布人" class="r-pad-num-max" maxlength="50" minlength="0" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="发布日期" prop="publishDate">
-                <el-date-picker v-model="postForm.publishDate" type="date" class="data-clear-icon" placeholder="请选择发布日期"></el-date-picker>
+                <el-date-picker v-model="postForm.publishDate" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" class="data-clear-icon" placeholder="请选择发布日期"></el-date-picker>
               </el-form-item>
               <el-form-item label="显示状态" prop="status">
                 <el-radio-group v-model="postForm.status">
@@ -80,10 +80,11 @@
               </el-form-item>
               <el-form-item label="投递终端" v-if="columnDeatils.terminals != 1">
                 <el-checkbox-group v-model="postForm.terminals">
-                  <el-checkbox :label="1" name="type">PC门户</el-checkbox>
-                  <el-checkbox :label="2" name="type">微信小程序</el-checkbox>
-                  <el-checkbox :label="3" name="type">手机APP</el-checkbox>
-                  <el-checkbox :label="4" name="type">大厅查询机</el-checkbox>
+                  <el-checkbox :label="1" name="type">PC端</el-checkbox>
+                  <el-checkbox :label="2" name="type">APP端</el-checkbox>
+                  <el-checkbox :label="3" name="type">小程序端</el-checkbox>
+                  <el-checkbox :label="4" name="type">自适应移动端</el-checkbox>
+                  <el-checkbox :label="5" name="type">显示屏</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
               <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
@@ -207,6 +208,7 @@ import serviceLMenu from "@/components/admin/common/serviceLMenu";
 import UpdateImg from "@/components/admin/common/UpdateImg";
 import tagEdit from "../model/tagEdit";
 import VueUeditorWrap from 'vue-ueditor-wrap'
+import { datePipe } from '@/assets/public/js/time'
 // const FuRequire = require("myjs-common").FuRequire;
 export default {
   name: 'index',
@@ -294,7 +296,12 @@ export default {
       if(this.id && this.id!=undefined){
         //获取新闻详情
         this.http.getPlain_url('news-content-manage-get','/'+this.columnID+'?contentid='+this.id).then(res=>{
-          this.postForm = res.data.content||{};
+          if (res.data.content) {
+            this.postForm = {...res.data.content, publishDate: datePipe(res.data.content.publishDate, 'yyyy-MM-dd')}
+          } else {
+            this.postForm = {};
+          }
+          console.log(this.postForm, res.data.content)
           if(this.postForm.parentCatalogue){
             this.parentCatalogue_length = this.postForm.parentCatalogue.length||0;
           }
@@ -419,7 +426,7 @@ export default {
         color:'#000000',
       },
       postForm: {
-        terminals:[1,2,3,4],
+        terminals:[],
         publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/\.[\d]{3}Z/, '')+'.000Z',
         status:1,
         publisher:'',
