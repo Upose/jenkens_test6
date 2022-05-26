@@ -9,14 +9,17 @@
               <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
           </div>
         </div>
         <div class="body-title">
-          <div class="menu-top child_bg">当前位置：{{content_title}}</div>
+          <div class="menu-top child_bg">
+            当前位置：{{content_title}}
+            <span v-show="subTitle"> > {{subTitle}}</span>
+          </div>
           <div class="right-content">
             <ul class="news-ul">
               <li class="next_hover" @click="detailsClick(it)" v-for="(it,i) in news_list" :key="i+'content'" :class="it.isShowPublishDate?'min-h':''">
@@ -68,6 +71,7 @@ export default {
       menu_list: [],
       news_list: [],
       curSubKey: '',
+      subTitle: '',
     }
   },
   mounted() {
@@ -181,10 +185,11 @@ export default {
     },
     //点击二级菜单
     foxbaseClick(val) {
+      this.subTitle = val.value;
       this.pageIndex = 1;
       this.totalCount = 0;
-      this.curSubKey = val
-      this.getNewsList(this.left_index, val);
+      this.curSubKey = val.key;
+      this.getNewsList(this.left_index, val.key);
     },
   },
 }

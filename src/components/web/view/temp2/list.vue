@@ -3,7 +3,10 @@
     <div class="articledetails-warp">
       <div class="m-width top-title">
         <span class="m-title">{{content_title}}</span>
-      <span class="m-address">当前位置：{{content_title}}</span>
+        <span class="m-address">
+          当前位置：{{content_title}}
+          <span style="display:inline;" v-show="subTitle"> > {{subTitle}}</span>
+        </span>
       </div>
      <div class="body-content m-width c-l">
         <div class="left-menu">
@@ -13,7 +16,7 @@
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -71,6 +74,7 @@ export default {
         menu_list:[],
         news_list:[],
         curSubKey: '',
+        subTitle: '',
     }
   },
   mounted(){
@@ -188,10 +192,12 @@ export default {
       },
       //点击二级菜单
       foxbaseClick(val){
+        console.log(val)
+        this.subTitle = val.value;
         this.pageIndex = 1;
         this.totalCount = 0;
-        this.curSubKey = val
-        this.getNewsList(this.left_index,val);
+        this.curSubKey = val.key
+        this.getNewsList(this.left_index,val.key);
       },
   },
 }
