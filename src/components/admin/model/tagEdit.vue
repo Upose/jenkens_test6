@@ -43,12 +43,14 @@ export default {
     },
     //选择标签
     checkTag(val){
-      if(this.check_list.indexOf(val)>-1){
-        this.check_list = this.check_list.replace((val+';'),'');
-      }else{
-        this.check_list = this.check_list+val+';';
-      }
-      this.$emit('checkTag',this.check_list);
+      // if(this.check_list.indexOf(val)>-1){
+      //   this.check_list = this.check_list.replace((val+';'),'');
+      // }else{
+      //   this.check_list = this.check_list+val+';';
+      // }
+      // this.$emit('checkTag',this.check_list);
+      this.check_list = val;
+      this.$emit('checkTag',val);
     },
     //当前标签是否为已选中
     isCheckClass(val){
@@ -102,7 +104,7 @@ export default {
 @import "../../../assets/admin/css/style.less";/**颜色配置 */
 .tag-box {
   position: absolute;
-  z-index: 9;
+  z-index: 10;
   left: 0;
   margin-top:5px;
   width: 500px;

@@ -6,10 +6,10 @@
           <div class="menu-top child_bg">{{content_title}}</div>
           <div class="menu-list">
             <ul>
-              <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
+              <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -25,9 +25,13 @@
                   <span>{{(it.publishDate||'').slice(0,7)}}</span>
                 </div>
                 <div class="title-warp" :class="it.isShowPublishDate?'':'p-l'">
-                  <a href="javascript:void(0)">{{it.title||'标题走丢了'}}</a>
+                  <a href="javascript:void(0)">
+                    <span class="tag" v-if="it.isShowLablesName && it.lablesName.length">
+                      【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span>】
+                    </span>
+                    {{it.title||'标题走丢了'}}
+                  </a>
                   <span v-if="it.isShowHitCount">点击量：{{it.hitCount||0}}次</span>
-                  <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span></span>
                   <p class="intros"><span v-html="it.content"></span></p>
                 </div>
               </li>
@@ -119,6 +123,7 @@ export default {
           if(this.news_list.length ==1){
             this.detailsClick(this.news_list[0]);
           }
+          console.log(this.news_list, 'news_list')
           this.pageIndex = res.data.pageIndex;
           this.pageSize = res.data.pageSize;
           this.totalCount = res.data.totalCount;
@@ -415,6 +420,10 @@ export default {
           font-size: 18px;
           color: @333;
           display: block;
+          .tag{
+            font-size: 17px;
+            color: #333;
+          }
         }
         span {
           font-size: 12px;

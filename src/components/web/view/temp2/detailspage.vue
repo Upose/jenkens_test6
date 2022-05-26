@@ -22,7 +22,12 @@
         <div class="body-title">
           <div class="right-content news-img-max-sys">
             <div class="content-top-title">
-              <span class="title" :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</span>
+              <span class="title" :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
+                <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
+                  【<span class="tag" v-for="(i, index) in (detailsData.parentCatalogueKV||[])" :key="index">{{i.value}}&nbsp;</span>】
+                </span>
+                {{detailsData.title||"标题走丢了"}}
+              </span>
               <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
                 <span v-for="i in auditProcessList">{{i.name}}:{{i.auditManager}}</span>
               </div>
@@ -33,7 +38,6 @@
                 <!-- <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
                 <!-- <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
                 <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
-                <span v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0"><i v-for="i in (detailsData.parentCatalogueKV||[])">{{i.value}}&nbsp;</i></span><!--标签-->
                 <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                 <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
                 <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
@@ -410,6 +414,9 @@ export default {
         .title{
           margin-bottom: 20px;
           display: block;
+          .tag{
+            font-size: 18px;
+          }
         }
         .news-sub-warp{
           font-size: 12px;

@@ -24,12 +24,16 @@
             <div class="content-top-title">新闻资讯</div>
             <div class="row" v-for="(it,i) in news_list" :key="i+'content'" @click="detailsClick(it)">
               <div class="msg-warp">
-                <div class="title">{{it.title||'标题走丢了'}}</div>
+                <div class="title">
+                  <span v-if="it.isShowLablesName && it.lablesName.length" class="tag">
+                    【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span>】
+                  </span>
+                  {{it.title||'标题走丢了'}}
+                </div>
                 <div class="msg c-l">
                   <span class="content" v-html="it.content||'无'"></span>
                   <span class="show-details child_text_color">[查看详细]</span>
                   <span class="txt-right">
-                    <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span></span>
                     <span v-if="it.isShowHitCount">访问次数：{{it.hitCount||0}}</span>
                     <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span></span>
                   </span>

@@ -580,6 +580,7 @@ export default {
     //标签选择
     checkTag(val){
       this.postForm.parentCatalogue = val;
+      console.log(val, this.postForm.parentCatalogue)
       this.inputBlur();
       this.$forceUpdate();
     },

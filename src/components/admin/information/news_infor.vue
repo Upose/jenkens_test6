@@ -136,7 +136,8 @@ export default {
     '$route':'getId'
   },
   mounted(){
-    this.initData();
+    this.postForm.auditStatus = null;
+    this.initData(0);
     this.dragSort();
   },
   components:{footerPage,serviceLMenu,breadcrumb,paging},
@@ -236,7 +237,7 @@ export default {
       };
     },
     //初始化数据
-    initData(){
+    initData(idx){
       this.initpageData();
       var _this = this;
       this.postForm.pageIndex = this.pageData.pageIndex;
@@ -245,10 +246,10 @@ export default {
         this.loading = false;
         _this.auditStatusCountList = res.data.auditStatusCountList||[];
         if(_this.auditStatusCountList.length>0){
-          if(!_this.postForm.auditStatus){
+          if(!_this.postForm.auditStatus && _this.postForm.auditStatus !== 0){
             _this.postForm.auditStatus = _this.auditStatusCountList[0].auditStatus;
           }
-          _this.auditStatus(this.auditStatus_menu,_this.postForm.auditStatus);
+          _this.auditStatus(idx === 0 ? 0 : this.auditStatus_menu, _this.postForm.auditStatus);
         }
       }).catch(err=>{
         this.loading = false;
@@ -386,7 +387,7 @@ export default {
     auditStatus(index,auditStatus){
       this.auditStatus_menu = index;
       this.postForm['auditStatus'] = auditStatus;
-      console.log(this.postForm['auditStatus']);
+      // console.log(this.postForm['auditStatus'], this.auditStatus_menu);
       this.postForm.pageIndex = 1;
       this.postForm.pageSize = 50;
       this.initDataTable();
@@ -472,7 +473,8 @@ export default {
           if (action === 'confirm') {
             this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
               _this.$message({type: 'success',message: '操作成功!'});
-              _this.initData();
+              this.postForm.auditStatus = null;
+              _this.initData(0);
               done();
               return;
             }).catch(err=>{
@@ -498,10 +500,12 @@ export default {
       if (!this.sendBack.sendBackDesc) {
         return this.$message({type: 'error',message: '退回备注不能为空!'});
       }
-      this.http.postJsonByIdSelf('news-content-send-back', this.postForm.columnID, this.sendBack).then(res=>{
+      this.http.postJson('news-content-send-back', this.sendBack).then(res=>{
+        this.draw_back = false;
         this.$message({type: 'success',message: '退回成功!'});
         this.initData();
       }).catch(err=>{
+        this.draw_back = false;
         this.$message({type: 'error',message: '退回失败!'});
       })
     },

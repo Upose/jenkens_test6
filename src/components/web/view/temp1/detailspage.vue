@@ -19,10 +19,15 @@
           <div class="menu-top child_bg">当前位置：{{content_title}}</div>
           <div class="right-content">
               <div class="news-content-warp news-img-max-sys">
-                <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</h1>
+                <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
+                  <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
+                    【<span class="tag" v-for="i in (detailsData.parentCatalogueKV||[])" :key="i.key">{{i.value}}&nbsp;</span>】
+                  </span>
+                  {{detailsData.title||"标题走丢了"}}
+                </h1>
                 <div class="details_content">
                   <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
-                    <span v-for="i in auditProcessList">{{i.name}}:{{i.auditManager}}</span>
+                    <span v-for="(i, index) in auditProcessList" :key="index">{{i.name}}:{{i.auditManager}}</span>
                   </div>
                   <div class="rich-title">
                     <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||'无'}}</span>
@@ -31,7 +36,6 @@
                     <!-- <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span>作者 -->
                     <!-- <span v-if="data.isShowKeywords">关键词：{{detailsData.keywords}}</span>关键词 -->
                     <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
-                    <span v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">标签：<i v-for="i in (detailsData.parentCatalogueKV||[])" :key="i.key">{{i.value}}&nbsp;</i></span><!--标签-->
                     <!-- <span v-if="data.isShowExpirationDate">失效日期：{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
                     <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                     <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
@@ -403,7 +407,7 @@ export default {
     }
   }
   /*****新闻详情 */
-  .news-content-warp{
+.news-content-warp{
 h1{
   margin: 0 -15px;
   padding: 10px 50px;
@@ -412,6 +416,9 @@ h1{
   line-height: 30px;
   text-align: center;
   border-bottom: 1px dashed #dedad6;
+  .tag{
+    font-size: 18px;
+  }
 }
 .details_content{
   margin-top: 20px;
