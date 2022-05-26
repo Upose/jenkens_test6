@@ -220,6 +220,11 @@ export default {
     this.http.getPlain_url('news-column-get','/'+this.columnID).then(res=>{
       if(res.data){
         this.columnDeatils = res.data||{};
+        // 开启时默认选全部
+        if (this.columnDeatils.terminals == 1) {
+          this.postForm.terminals = [1,2,3,4,5];
+        }
+        // console.log(this.columnDeatils)
         // this.row_list = this.columnDeatils.extensionKV||[];
         if(this.columnDeatils.extensionKV && this.columnDeatils.extensionKV.length>0){
           this.columnDeatils.extensionKV.forEach(item=>{
