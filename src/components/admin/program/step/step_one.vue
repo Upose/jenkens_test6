@@ -12,13 +12,14 @@
           <div class="user-form-item">
             <label class="u-label"><span class="el-input">栏目标签</span></label>
             <div class="u-list">
-              <input type="text" class="u-input" @keyup="inputBlur" show-word-limit v-model="postForm.label" placeholder="标签可以为栏目设置分类，方便筛选。多个；号分割"/>
+              <input type="text" class="u-input" @keyup="inputBlur" show-word-limit v-model="postForm.label" placeholder="请选择标签"/>
               <!-- <el-popover placement="bottom-end" trigger="click" width="490" v-model="visible"> -->
                 <span class="hint-num-max">{{label_length}}/100</span>
                 <el-button class="u-btn-r" icon="el-icon-search" size="medium" slot="reference" type="primary" @click.stop="tagEditShow()">选择已有标签</el-button>
                 <tagEdit ref="editTag" :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
               <!-- </el-popover> -->
             </div>
+            <p class="hint com-hint">标签可以为栏目设置分类，方便筛选。多个；号分割</p>
           </div>
           <el-form-item label="多终端同步">
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.terminals"></el-switch>
@@ -494,5 +495,9 @@ export default {
   position: absolute;
   top: 8px;
   left: 60px;
+}
+.com-hint{
+  margin-left: 120px;
+  margin-top: -14px !important;
 }
 </style>
