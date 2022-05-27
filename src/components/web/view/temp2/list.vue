@@ -3,7 +3,10 @@
     <div class="articledetails-warp">
       <div class="m-width top-title">
         <span class="m-title">{{content_title}}</span>
-      <span class="m-address">当前位置：{{content_title}}</span>
+        <span class="m-address">
+          当前位置：{{content_title}}
+          <span style="display:inline;" v-show="subTitle"> > {{subTitle}}</span>
+        </span>
       </div>
      <div class="body-content m-width c-l">
         <div class="left-menu">
@@ -13,7 +16,7 @@
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -24,14 +27,18 @@
             <div class="content-top-title">新闻资讯</div>
             <div class="row" v-for="(it,i) in news_list" :key="i+'content'" @click="detailsClick(it)">
               <div class="msg-warp">
-                <div class="title">{{it.title||'标题走丢了'}}</div>
+                <div class="title">
+                  <span v-if="it.isShowLablesName && it.lablesName.length" class="tag">
+                    【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span>】
+                  </span>
+                  {{it.title||'标题走丢了'}}
+                </div>
                 <div class="msg c-l">
-                  <span class="content" v-html="it.content||'无'"></span>
+                  <span class="content" v-if="it.isShowContent" v-html="it.content||'无'"></span>
                   <span class="show-details child_text_color">[查看详细]</span>
                   <span class="txt-right">
-                    <span v-if="it.isShowLablesName">标签：<span v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span></span>
                     <span v-if="it.isShowHitCount">访问次数：{{it.hitCount||0}}</span>
-                    <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span></span>
+                    <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span>
                   </span>
                 </div>
               </div>
@@ -55,18 +62,19 @@ export default {
   created(){},
   data () {
     return {
-      loading:true,
-        left_index:0,//左边的菜单
-        content_title:'',//内容中的标题
-        cid:decodeURI(this.$route.query.cid||''),
-        l_id:'',
-        pageIndex:1,//当前页
-        pageSize:20,//每页条数
-        totalCount:0,//总条数
-        totalPages:0,//总页数
-        menu_list:[],
-        news_list:[],
-        curSubKey: '',
+      loading:false,
+      left_index:0,//左边的菜单
+      content_title:'',//内容中的标题
+      cid:decodeURI(this.$route.query.cid||''),
+      l_id:'',
+      pageIndex:1,//当前页
+      pageSize:20,//每页条数
+      totalCount:0,//总条数
+      totalPages:0,//总页数
+      menu_list:[],
+      news_list:[],
+      curSubKey: '',
+      subTitle: '',
     }
   },
   mounted(){
@@ -78,9 +86,9 @@ export default {
   },
   methods:{
       initData(){
+        this.loading = true;
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
           this.menu_list = res.data||[];
-          this.loading = false;
           this.menu_list.forEach((item,i)=>{
             this.menu_list[i]['check'] = false;
             if(this.$route.query.cid){
@@ -98,6 +106,7 @@ export default {
               },200)
             }
           })
+          this.loading = false;
         }).catch(err=>{
           this.loading = false;
         })
@@ -177,17 +186,19 @@ export default {
       },
       detailsClick(val){
         if(val.externalLink && val.externalLink!=''){
-          location.href = val.externalLink;
+          window.open(val.externalLink, '_blank');
         }else{
           this.$router.push({path:'/web_newsDetails',query:{id:encodeURI(val.contentID),cid:encodeURI(this.left_index)}})
         }
       },
       //点击二级菜单
       foxbaseClick(val){
+        console.log(val)
+        this.subTitle = val.value;
         this.pageIndex = 1;
         this.totalCount = 0;
-        this.curSubKey = val
-        this.getNewsList(this.left_index,val);
+        this.curSubKey = val.key
+        this.getNewsList(this.left_index,val.key);
       },
   },
 }

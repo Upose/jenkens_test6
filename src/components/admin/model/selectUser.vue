@@ -54,15 +54,6 @@ export default {
     this.initData();
   },
   mounted(){
-    console.log(this.dataList)
-    var _this = this;
-    _this.type = _this.dataList.type||1;
-    _this.check_name = _this.dataList.type||1;
-    if(_this.dataList.visitList && _this.dataList.visitList.length>0){
-        _this.dataList.visitList.forEach((it,i) => {
-           _this.checkedCities.push(it.key);
-        });
-    }
   },
   methods:{
       initData(){
@@ -70,12 +61,18 @@ export default {
             if(res.data){
                 this.cities1 = res.data||[];
             }
+            if (this.dataList.type != 2) {
+                this.initChecked();
+            }
         }).catch(err=>{
             console.log(err);
         })
         this.http.getPlain('user-permission-list-get','type=2').then(res=>{
             if(res.data){
                 this.cities2 = res.data||[];
+            }
+            if (this.dataList.type == 2) {
+                this.initChecked();
             }
         }).catch(err=>{
             console.log(err);
@@ -87,6 +84,22 @@ export default {
         // }).catch(err=>{
         //     console.log(err);
         // })
+      },
+      initChecked() {
+        // console.log(this.dataList)
+        var _this = this;
+        _this.type = _this.dataList.type||1;
+        _this.check_name = _this.dataList.type||1;
+        let clist = [];
+        if(_this.dataList.visitList && _this.dataList.visitList.length>0){
+            _this.dataList.visitList.forEach((it,i) => {
+                clist.push(it.key);
+                if ((i+1) == _this.dataList.visitList.length){
+                    this.$set(this, 'checkedCities', clist);
+                }
+            });
+        }
+        // console.log(this.dataList, this.checkedCities, this.type, this.cities2)
       },
       //菜单选择
       handleClick(val){

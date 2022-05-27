@@ -197,6 +197,7 @@ export default {
           reject(result);
         }
       }).catch(err => {
+        this.error(err);
         reject(err);
       });
     });

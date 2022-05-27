@@ -99,8 +99,8 @@ export default {
   },
   methods:{
     setDetails(newVal){
-      console.log(newVal);
       this.postForm.isLoginAcess = newVal.isLoginAcess||0;
+      this.postForm.defaultTemplate = newVal.defaultTemplate;
       this.postForm.isOpenComment = newVal.isOpenComment||0;
       this.postForm.acessAll = newVal.acessAll;
       this.postForm.visitingListModel = newVal.visitingListModel||{};
