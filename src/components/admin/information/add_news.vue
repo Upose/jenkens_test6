@@ -434,7 +434,7 @@ export default {
       // postForm: {terminals:[1,2,3,4]},
       rules: {
           title: [
-              { required: true, message: '请输入标题', trigger: 'blur' }
+              { required: true,min: 2, max: 100, message: '标题长度在 2 到 100 个字符', trigger: 'blur' }
           ],
           subTitle: [
               { min: 0, max: 100, message: '长度在 0 到 100 个字符', trigger: 'blur' }
@@ -750,6 +750,9 @@ export default {
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
   }
   .form-content{
+    /deep/.el-form-item__label{
+      white-space: nowrap;
+    }
     //   max-width: 760px;
     .el-input,.up-img-form-item{
         width: 500px !important;
