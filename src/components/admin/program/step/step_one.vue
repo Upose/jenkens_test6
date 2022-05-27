@@ -327,7 +327,9 @@ export default {
       //保存之前需先判断是否存在，且只能添加5个，
       if(this.scalable_data.length>=10){
         this.$message({type: 'error',message: '自定义扩展内容最多只能添加5个'}); 
-      }else{
+      } else if (!this.scalable_input || this.scalable_input.length < 2){
+        this.$message({type: 'error',message: '内容名称应为2-20个字符！'}); 
+      } else{
         var is_exist = false;//是否已存在
         this.scalable_data.forEach(item=>{
           if(item.title == this.scalable_input){
