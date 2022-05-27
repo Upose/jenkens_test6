@@ -34,11 +34,11 @@
                   {{it.title||'标题走丢了'}}
                 </div>
                 <div class="msg c-l">
-                  <span class="content" v-html="it.content||'无'"></span>
+                  <span class="content" v-if="it.isShowContent" v-html="it.content||'无'"></span>
                   <span class="show-details child_text_color">[查看详细]</span>
                   <span class="txt-right">
                     <span v-if="it.isShowHitCount">访问次数：{{it.hitCount||0}}</span>
-                    <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span></span>
+                    <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span>
                   </span>
                 </div>
               </div>
@@ -62,19 +62,19 @@ export default {
   created(){},
   data () {
     return {
-      loading:true,
-        left_index:0,//左边的菜单
-        content_title:'',//内容中的标题
-        cid:decodeURI(this.$route.query.cid||''),
-        l_id:'',
-        pageIndex:1,//当前页
-        pageSize:20,//每页条数
-        totalCount:0,//总条数
-        totalPages:0,//总页数
-        menu_list:[],
-        news_list:[],
-        curSubKey: '',
-        subTitle: '',
+      loading:false,
+      left_index:0,//左边的菜单
+      content_title:'',//内容中的标题
+      cid:decodeURI(this.$route.query.cid||''),
+      l_id:'',
+      pageIndex:1,//当前页
+      pageSize:20,//每页条数
+      totalCount:0,//总条数
+      totalPages:0,//总页数
+      menu_list:[],
+      news_list:[],
+      curSubKey: '',
+      subTitle: '',
     }
   },
   mounted(){
@@ -86,9 +86,9 @@ export default {
   },
   methods:{
       initData(){
+        this.loading = true;
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
           this.menu_list = res.data||[];
-          this.loading = false;
           this.menu_list.forEach((item,i)=>{
             this.menu_list[i]['check'] = false;
             if(this.$route.query.cid){
@@ -106,6 +106,7 @@ export default {
               },200)
             }
           })
+          this.loading = false;
         }).catch(err=>{
           this.loading = false;
         })
@@ -185,7 +186,7 @@ export default {
       },
       detailsClick(val){
         if(val.externalLink && val.externalLink!=''){
-          location.href = val.externalLink;
+          window.open(val.externalLink, '_blank');
         }else{
           this.$router.push({path:'/web_newsDetails',query:{id:encodeURI(val.contentID),cid:encodeURI(this.left_index)}})
         }

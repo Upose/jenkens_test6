@@ -43,7 +43,9 @@
             <div class="temp-select c-l">
               <div class="d-temp-box" :class="it.id==postForm.defaultTemplate?'d-temp-box-check':''" @click="templateClick(it.id)" :style="{background:'url('+$root.fileUrl+it.previewPic+')'}" v-for="(it,i) in template_list" :key="i+'a'">
                 <span class="temp-name">{{it.name}}</span>
-                <el-button type="primary" class="button" size="mini"><i class="iconfont" :class="it.id==postForm.defaultTemplate?'el-icon-vip-check':'el-icon-vip-no-check'"></i> {{it.id==postForm.defaultTemplate?'已选':'选择'}}</el-button>
+                <el-button type="primary" class="button" size="mini">
+                  <i class="iconfont" :class="it.id==postForm.defaultTemplate?'el-icon-vip-check':'el-icon-vip-no-check'"></i> {{it.id==postForm.defaultTemplate?'已选':'选择'}}
+                </el-button>
               </div>
               <div class="higher-set" @click="hfShow()">
                 <i class="iconfont el-icon-vip-gaojishezhi"></i>
@@ -234,6 +236,7 @@ export default {
       this.label_length = this.postForm.label.length;
       this.postForm.coverWidth = newVal.coverWidth;
       this.postForm.coverHeight = newVal.coverHeight;
+      this.postForm.defaultTemplate = newVal.defaultTemplate;
       if(newVal.extensionKV && newVal.extensionKV.length>0){
         for(let i=0;i<newVal.extensionKV.length;i++){
           this.postForm.extension.push(newVal.extensionKV[i].key);//将选中值添加到选中数组中
@@ -248,7 +251,7 @@ export default {
       this.postForm.sideList = (newVal.sideList||'').split(';');
       this.postForm.sysMesList = (newVal.sysMesList||'').split(';');
       this.postForm.isOpenCover = newVal.isOpenCover||0;
-      this.postForm.defaultTemplate = newVal.defaultTemplate;
+      // this.postForm.defaultTemplate = newVal.defaultTemplate;
       this.postForm.coverSize = newVal.coverSize||'default';
       this.postForm.headTemplate = newVal.headTemplate||'';
       this.postForm.footTemplate = newVal.footTemplate||'';
@@ -262,7 +265,7 @@ export default {
       //获取模板列表
       this.http.getPlain_url('news-template-get',[]).then(res=>{
         this.template_list = res.data||[];
-        if(this.template_list.length>0){
+        if(this.template_list.length>0 && !this.is_edit){
           this.postForm.defaultTemplate = this.template_list[0].id;//默认选中第一个模板
         }
       }).catch(err=>{})

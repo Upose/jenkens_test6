@@ -10,17 +10,17 @@
           <div class="menu-list">
             <span class="title">栏目列表</span>
             <ul>
-              <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
+              <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':id == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':id == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
           </div>
         </div>
-        <div class="body-title">
-          <div class="right-content news-img-max-sys">
+        <div class="body-title" :class="{'empty-box' : loading}">
+          <div v-if="!loading && !removed" class="right-content news-img-max-sys">
             <div class="content-top-title">
               <span class="title" :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
                 <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
@@ -75,6 +75,10 @@
               <div class="more">查看更多</div>
             </div> -->
           </div>
+          <div class="empty-box" v-if="!loading && removed">
+            <div class="web-empty-data"></div>
+          </div>
+          <div class="temp-loading" v-if="loading"></div>
         </div>
      </div>
     </div>
@@ -96,6 +100,8 @@ export default {
         titleStyleKV:[],
         data:{},
         menu_list:[],
+        removed: false,
+        loading: false,
     }
   },
   mounted(){
@@ -107,6 +113,7 @@ export default {
   },
   methods:{
       initData(){
+        this.loading = true;
         var _this = this;
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             _this.menu_list = res.data||[];
@@ -142,8 +149,11 @@ export default {
                 this.titleStyleKV = this.detailsData.titleStyleKV||[];
               }
             }
+            this.loading = false;
         }).catch(err=>{
-            console.log(err);
+          this.removed = true;
+          this.loading = false;
+          console.log(err);
         })
       },
       getTitleClass(type){
@@ -215,6 +225,9 @@ export default {
 <style lang="less" scoped>
   @import "../../../../assets/web/css/style.less";/**通用文件 */
   @import "../../../../assets/web/css/color.less";/**通用文件 */
+  .empty-box{
+    padding-top: 50px;
+  }
   /***主标题 */
   .top-title{
     margin-bottom: 15px;

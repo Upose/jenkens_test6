@@ -195,7 +195,7 @@ export default {
     .col{
       display: inline-block;
       padding: 0 5px;
-      height: 28px;
+      min-height: 28px;
       line-height: 28px;
       vertical-align: middle;
       

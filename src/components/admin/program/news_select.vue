@@ -100,7 +100,8 @@ export default {
     },
     //编辑栏目
     ColumnEdit(row){
-      this.$router.push({path:'/admin_programAdd',query:{id:row.key}})
+      // this.$router.push({path:'/admin_programAdd',query:{id:row.key}})
+      this.$router.push({path:'/admin_programInfo',query:{id:row.key}})
     },
     initData(){
       this.initpageData();

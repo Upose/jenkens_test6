@@ -35,7 +35,7 @@
                     {{it.title||'标题走丢了'}}
                   </a>
                   <span v-if="it.isShowHitCount">点击量：{{it.hitCount||0}}次</span>
-                  <p class="intros"><span v-html="it.content"></span></p>
+                  <p class="intros" v-if="it.isShowContent"><span v-html="it.content"></span></p>
                 </div>
               </li>
             </ul>
@@ -59,7 +59,7 @@ export default {
   created() { },
   data() {
     return {
-      loading: true,
+      loading: false,
       left_index: 0,//左边的菜单
       content_title: '',//内容中的标题
       cid: decodeURI(this.$route.query.cid || ''),
@@ -80,10 +80,10 @@ export default {
   },
   methods: {
     initData() {
+      this.loading = true;
       //获取左边菜单列表
       this.http.getPlain('pront-news-column-list-get', 'columnid=' + this.cid).then(res => {
         this.menu_list = res.data || [];
-        this.loading = false;
         if (this.$route.query.cid) {
           this.menu_list.forEach((item, i) => {
             if (item.columnID == this.$route.query.cid) {
@@ -98,6 +98,7 @@ export default {
             this.menuClick(this.menu_list[0].name, 0);
           }, 200)
         }
+        this.loading = false;
       }).catch(err => {
         this.loading = false;
       })
@@ -178,7 +179,7 @@ export default {
     },
     detailsClick(val) {
       if (val.externalLink && val.externalLink != '') {
-        location.href = val.externalLink;
+        window.open(val.externalLink, '_blank');
       } else {
         this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.contentID), cid: encodeURI(this.left_index) } })
       }

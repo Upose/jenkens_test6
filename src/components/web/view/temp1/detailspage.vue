@@ -6,10 +6,10 @@
           <div class="menu-top child_bg">{{content_title}}</div>
           <div class="menu-list">
             <ul>
-              <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
+              <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':id == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':id == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -18,7 +18,7 @@
         <div class="body-title">
           <div class="menu-top child_bg">当前位置：{{content_title}}</div>
           <div class="right-content">
-              <div class="news-content-warp news-img-max-sys">
+              <div v-if="!loading && !removed" class="news-content-warp news-img-max-sys">
                 <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
                   <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
                     【<span class="tag" v-for="i in (detailsData.parentCatalogueKV||[])" :key="i.key">{{i.value}}&nbsp;</span>】
@@ -79,6 +79,8 @@
                   <div class="more">查看更多</div>
                 </div> -->
               </div>
+              <div v-if="!loading && removed" class="web-empty-data"></div>
+              <div class="temp-loading" v-if="loading"></div>
           </div><!--文章详情页面 end -->
         </div>
      </div>
@@ -105,6 +107,8 @@ export default {
         data:{},
         titleStyleKV:[],
         menu_list:[],
+        removed: false,
+        loading: false,
     }
   },
   mounted(){
@@ -115,6 +119,8 @@ export default {
   },
   methods:{
       initData(){
+        this.removed = false;
+        this.loading = true;
         var _this = this;
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             _this.menu_list = res.data||[];
@@ -149,8 +155,11 @@ export default {
                 this.titleStyleKV = this.detailsData.titleStyleKV||[];
               }
             }
+            this.loading = false;
         }).catch(err=>{
-            console.log(err);
+          this.removed = true;
+          this.loading = false;
+          console.log(err, this.removed);
         })
       },
        getTitleClass(type){
