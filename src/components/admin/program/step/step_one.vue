@@ -16,7 +16,7 @@
               <!-- <el-popover placement="bottom-end" trigger="click" width="490" v-model="visible"> -->
                 <span class="hint-num-max">{{label_length}}/100</span>
                 <el-button class="u-btn-r" icon="el-icon-search" size="medium" slot="reference" type="primary" @click.stop="tagEditShow()">选择已有标签</el-button>
-                <tagEdit ref="editTag" :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
+                <tagEdit ref="editTag" :cType="1" :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
               <!-- </el-popover> -->
             </div>
             <p class="hint com-hint">标签可以为栏目设置分类，方便筛选。多个；号分割</p>

@@ -34,7 +34,7 @@
                     <input type="text" @keyup="inputBlur" v-model="postForm.parentCatalogue" class="u-input" placeholder="请输入新闻标签"/>
                     <span class="hint-num-max">{{parentCatalogue_length}}/20</span>
                     <el-button class="u-btn-r" icon="iconfont el-icon-vip-fangdajing" size="medium" type="primary" @click="tagEditShow()">选择已有标签</el-button>
-                    <tagEdit :dataList="tag_edit_data" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
+                    <tagEdit :dataList="tag_edit_data" :cType="2" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
                 </div>
               </div>
               <el-form-item label="多栏目投递">
@@ -212,6 +212,7 @@ import { datePipe } from '@/assets/public/js/time'
 // const FuRequire = require("myjs-common").FuRequire;
 export default {
   name: 'index',
+  components:{footerPage,serviceLMenu,breadcrumb,UpdateImg,tagEdit,VueUeditorWrap},
   created(){
     this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
@@ -258,7 +259,6 @@ export default {
       this.tag_edit_data = res.data||[];
     }).catch(err=>{})
   },
-  components:{footerPage,serviceLMenu,breadcrumb,UpdateImg,tagEdit,VueUeditorWrap},
   beforeDestroy() {
     // 销毁组件前销毁编辑器
     window.tinymce.get('mytextarea').destroy();

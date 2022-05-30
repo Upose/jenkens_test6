@@ -4,7 +4,7 @@
     <div class="m-menu">
       <div class="m-text">
         <span class="m">{{appDetails.appName}}</span>
-        <span class="v">{{appDetails.appVersion}}</span>
+        <span class="v" @click="openLog(appDetails.logUrl)">{{appDetails.appVersion}}</span>
       </div>
     </div>
     <div class="s-menu">
@@ -42,6 +42,9 @@ export default {
     }
   },
   methods:{
+    openLog(url){
+      window.location.href = url;
+    },
     openPage(url){
       this.$router.push(url).catch(err=>{});
     },
@@ -105,6 +108,7 @@ export default {
       font-weight: bold;
     }
     .v{
+      cursor: pointer;
       display: block;
       font-size: 12px;
     }

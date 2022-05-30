@@ -27,7 +27,7 @@
 <script>
 export default {
   name: 'index',
-  props: ['dataList'],
+  props: ['dataList','cType'],//cType 类型：2新闻 1栏目
   data() {
     return {
       is_input: false,
@@ -85,7 +85,7 @@ export default {
       if(!this.is_input){
         var _this = this;
         var data={
-          "Type":1,
+          "Type":this.cType,
           "UpdateParmList":this.dataList
         };
         this.http.postJson('lable-info-update',data).then(res=>{

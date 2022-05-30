@@ -1,4 +1,4 @@
- 
+
 var axios = window.axios;
 var basicTokenKey = 'BasicToken';
 var ApplicationBuilder = /** @class */ (function () {
@@ -134,11 +134,16 @@ var ApplicationBuilder = /** @class */ (function () {
         var _this = this;
         if (axios) {
             axios.interceptors.response.use(undefined, function (error) {
-                if (error.response.status == 403 && error.response.headers.unauth) {
+                if (error.response.status == 403 && error.response.headers.unauth == 1) {
                     localStorage.removeItem('token');
                     var current = window.location.href;
                     localStorage.setItem('COM+', current);
-                    window.location.href = _this._casBase + '/cas/login?service=' + encodeURIComponent(_this.oriinalPart())
+                    window.location.href = _this._casBase + '/cas/login?service=' + encodeURIComponent(_this.oriinalPart()) + '&orgcode=' + _this._tokenRequestConfigure.orgCode;
+                }
+                if (error.response.status == 403 && error.response.headers.unauth == 2) {
+                    var path = location.href.substring(0, location.href.indexOf(location.hash));
+                    window.location.href = path + '#/403';
+                    window.location.reload();
                 }
                 return MyPromise.reject(error);
             });
@@ -200,6 +205,7 @@ var ApplicationBuilder = /** @class */ (function () {
     /**配置默认的token请求服务 */
     ApplicationBuilder.prototype.configureOrgInfo = function (orgTokenConfigure) {
         this._tokenRequestConfigure = orgTokenConfigure;
+        window.orgcode = orgTokenConfigure.orgCode;
         return this;
     };
     /**配置api接口的域名和端口部分 */
@@ -219,22 +225,25 @@ var ApplicationBuilder = /** @class */ (function () {
         var _this = this;
         this.ensureTokenAsync()
             .then(function () {
-            if (_this._tokenRequestConfigure == null)
-                throw new Error('在调用此方法前，必须先调用configureOrgInfo以配置机构信息');
-            if (axios == null)
-                throw new Error("请确保该调用该方法是,axios已被初始化");
-            axios.defaults.timeout = 30000;
-            axios.defaults.loaded = true;
-            _this
-                .withDomainAndToken() //给api请求加上域名部分
-                .withCors() //跨域请求
-                .withToken() //带上token
-                .withBasicToken() //如果没有token，带上含有基本信息的token
-                .handle401RetypResponse() //后端返回401的时候，表示token失效或过期，需要先带上基本token请求
-                .handle403Go2LoginResponse() //当后端返回403的时候，跳转登录页面;
-                .handle410CaptchaRequired() //输入验证码
-                .handle429BlacklistShow(); //到黑名单
-        });
+                if (_this._tokenRequestConfigure == null)
+                    throw new Error('在调用此方法前，必须先调用configureOrgInfo以配置机构信息');
+                if (axios == null)
+                    throw new Error("请确保该调用该方法是,axios已被初始化");
+                axios.defaults.timeout = 30000;
+                axios.defaults.loaded = true;
+                _this
+                    .withDomainAndToken() //给api请求加上域名部分
+                    .withCors() //跨域请求
+                    .withToken() //带上token
+                    .withBasicToken() //如果没有token，带上含有基本信息的token
+                    .handle401RetypResponse() //后端返回401的时候，表示token失效或过期，需要先带上基本token请求
+                    .handle403Go2LoginResponse() //当后端返回403的时候，跳转登录页面;
+                    .handle410CaptchaRequired() //输入验证码
+                    .handle429BlacklistShow(); //到黑名单
+
+
+                window.ApplicationBuilder = _this;
+            });
     };
     return ApplicationBuilder;
 }());
@@ -433,12 +442,34 @@ MyPromise.all = function (values) {
         }
     });
 };
+
+// 以下JS函数用于获取url参数
+// 没有#情况 
+function getQueryString() {
+  let data = {};
+  let src = window.location.href;
+  let index = src.indexOf("?");
+  if (index === -1) {
+    return data;
+  }
+  let dataStr = src.substring(src.indexOf("?") + 1);
+  let dataArray = dataStr.split("&"); 
+  dataArray.forEach((str)=>{
+    let param =str.split("=");
+    data[param[0]] = param[1];
+  })
+  return data;
+}
+
+var orgCode_hw = getQueryString().orgCode_hw
+console.log('orgCode_hw',orgCode_hw || 'cqu');
 new ApplicationBuilder()
     .configureCasBase("http://192.168.21.46:10011")
     .configureApiBase('http://192.168.21.46:8000')
     .configureOrgInfo({
-    orgId: "string",
-    orgSecret: 'string',
-    orgCode: "cqu",
-    OrgTokenLink: 'http://192.168.21.46:5002/api/Auth/AccessToken'
-}).buildDefaultApplication();
+        // orgId: "cqu",
+        // orgSecret: 'cqu123',
+        orgCode:orgCode_hw || 'cqu',
+        OrgTokenLink: 'http://192.168.21.46:5002/api/Auth/AccessToken'
+    })
+    .buildDefaultApplication();
