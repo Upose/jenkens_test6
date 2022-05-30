@@ -186,13 +186,13 @@
           <UpdateImg @imgUrl="imgUrl" :imgWidth="coverWidth" :imgHeight="coverHeight"></UpdateImg>
         </el-dialog>
 
-        <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false" :before-close="handleClose">
+        <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false">
           <div class="">
-            <el-input type="textarea" v-model="postForm.desc" maxlength="200" minlength="0" show-word-limit rows="8" placeholder="输入备注原因"></el-input>
+            <el-input type="textarea" v-model="sendBack.sendBackDesc" maxlength="200" minlength="0" show-word-limit rows="8" placeholder="输入备注原因"></el-input>
           </div>
           <span slot="footer" class="dialog-footer">
-              <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="drawBackClose()">取消</el-button>
-              <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+              <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="draw_back = false">取消</el-button>
+              <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="sendBackHande">保存</el-button>
           </span>
         </el-dialog>
         <footerPage class="top20"></footerPage>
@@ -430,6 +430,7 @@ export default {
         font:20,
         color:'#000000',
       },
+      sendBack:{},
       postForm: {
         terminals:[],
         publishDate:new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/\.[\d]{3}Z/, '')+'.000Z',
@@ -625,6 +626,20 @@ export default {
     //退回-关闭弹窗
     drawBackClose(){
       this.draw_back = false;
+    },
+    // 退回新闻
+    sendBackHande() {
+      if (!this.sendBack.sendBackDesc) {
+        return this.$message({type: 'error',message: '退回备注不能为空!'});
+      }
+      this.http.postJson('news-content-send-back', this.sendBack).then(res=>{
+        this.draw_back = false;
+        this.$message({type: 'success',message: '退回成功!'});
+        this.backHistory();
+      }).catch(err=>{
+        this.draw_back = false;
+        this.$message({type: 'error',message: '退回失败!'});
+      })
     },
     //内容、链接切换
     handleClick(val){
