@@ -53,6 +53,14 @@ import editsq from "./model/editsq";
 
 export default {
   name: 'index',
+  beforeCreate(){
+    if(this.$store.state.menuList && this.$store.state.menuList.length>0){
+      var is_list = this.$store.state.menuList.filter(x=>x.component == this.$route.path)||[];
+      if(is_list.length==0){
+        this.$router.push('/403')
+      }
+    }
+  },
   created(){
     this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;

@@ -17,11 +17,12 @@
 </template>
 
 <script>
+var home_type = 'web'
 export default {
   name: '403page',
   beforeRouteEnter(to,from,next){
     if(from.fullPath.indexOf('admin')>-1){
-      this.home = 'admin';
+      home_type = 'admin';
     }
     next();
   },
@@ -29,7 +30,7 @@ export default {
     return {
       code:'index',
       path:'/#/index',
-      home:'web',
+      home:home_type,
     }
   },
   mounted(){

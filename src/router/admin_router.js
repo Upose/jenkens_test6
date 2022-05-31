@@ -6,11 +6,14 @@ async function beforeEnterImplAsync(to, from, next) {
       url:'/appcenter/api/baseinfo/getauthinfo?appcode=news',
       method:'get'
     }).then(x=>x.data);
-    if (response.data.canAdmin) { next(); return }
+    if (response.data.canAdmin) { nextPage(to.fullPath,next); return }
     next({ name: '403' })
   }else{
-    next();
+    nextPage(to.fullPath,next);
   }
+}
+async function nextPage(path,next){
+  next()
 }
 export default {
   router: [
@@ -104,7 +107,7 @@ export default {
       },
     },
   ].map(x=>{
-    x.  beforeEnter= beforeEnterImplAsync;
+    x.beforeEnter= beforeEnterImplAsync;
     return x;
   })
 }

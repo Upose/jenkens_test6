@@ -105,7 +105,6 @@ export default {
 
   //带token的post方法  --- json
   postJson: function (url, data) {
-    console.log(url);
     return new Promise((resolve, reject) => {
       axios({
         url: this.postUrl[url],
