@@ -20,6 +20,7 @@
 export default {
   name: '404page',
   beforeRouteEnter(to,from,next){
+    console.log(to,from,next);
     if(from.fullPath.indexOf('admin')>-1){
       this.home = 'admin';
     }
