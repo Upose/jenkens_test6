@@ -217,6 +217,7 @@ export default {
   background-color: #ffeaea;
 }
 .body-content {
+  min-height: calc(100vh - 380px);
   background-color: #fff;
   position: relative;
   &::before {

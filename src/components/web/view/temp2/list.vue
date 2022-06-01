@@ -236,6 +236,7 @@ export default {
     padding-top: 100px;
   }
     .body-content{
+      min-height: calc(100vh - 450px);
     background-color: @fff;
     .left-menu{
       float: left;
