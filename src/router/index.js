@@ -55,9 +55,7 @@ export default new Router({
           axios({
             url: ticketHref,
             method: 'get',
-          })
-            .then(x => {
-
+          }).then(x => {
               let xml = x.data.data;
               if (!xml) { next('/404'); return; }
               let xdoc = new DOMParser().parseFromString(xml.toString(), 'application/xml');
