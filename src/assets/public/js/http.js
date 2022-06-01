@@ -318,6 +318,28 @@ export default {
       });
     });
   },
+  //post url请求
+  postUrlpj:function (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url] + data,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+      }).then(response => {
+        const result = response.data;
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
+          error(result.message);
+          reject(result);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
   //设置header参数
   postHaderJson:function (url, data , parameter) {
     return new Promise((resolve, reject) => {

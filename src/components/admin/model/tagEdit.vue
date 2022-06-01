@@ -68,8 +68,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        debugger
-        _this.http.postJson('lable-info-delete',_this.dataList[index].id).then(res=>{
+        _this.http.postUrlpj('lable-info-delete','?lableid='+_this.dataList[index].id).then(res=>{
           _this.$message({type: 'success',message: '删除成功!'});
           _this.dataList.splice(index,1);
         }).catch(err=>{

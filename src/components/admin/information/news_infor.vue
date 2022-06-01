@@ -266,6 +266,7 @@ export default {
     },
     initDataTable(){
       var _this = this;
+      this.tableData = [];
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
       this.http.postJsonParameter_url('news-content-get-by-column',this.postForm,'/'+this.postForm.columnID).then(res=>{
@@ -336,7 +337,9 @@ export default {
       if(type == 'ghost'){ //拖动排序
         this.http.postJsonParameter_url('news-sort-content-by-target',{"sourceID": sourceID,"targetCataID": TargetCataID,"isUp": isUp},'/'+this.postForm['columnID']).then(res=>{
           _this.$message({type: 'success',message: '排序成功!'});
-          _this.initData();
+          setTimeout(() => {
+            _this.initDataTable();
+          }, 300);
         }).catch(err=>{
           _this.$message({type: 'error',message: '排序失败'});
          
@@ -344,7 +347,9 @@ export default {
       }else{ //输入序号排序
         this.http.postJsonParameter_url('news-sort-content-by-index',{sourceID:sourceID,sortIndex:sortIndex},'/'+this.postForm['columnID']).then(res=>{
           _this.$message({type: 'success',message: '排序成功!'});
-           _this.initData();
+          setTimeout(() => {
+            _this.initDataTable();
+          }, 300);
         }).catch(err=>{
            _this.$message({type: 'error',message: '排序失败'});
         })
