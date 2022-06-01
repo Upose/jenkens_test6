@@ -22,7 +22,7 @@ export default {
   data () {
     return {
       path:'',
-      home:'web',
+      home:'admin',
     }
   },
   mounted(){
@@ -48,10 +48,10 @@ export default {
       }
     },
     goHome(){
-      if(this.home == 'admin'){
-        this.linkTo('workbench','/workbench/#/admin_workbench');//到馆员工作台
-      }else{
+      if(this.home == 'web'){
         this.linkTo('index','/#/index');//到web首页
+      }else{
+        this.linkTo('workbench','/workbench/#/admin_workbench');//到馆员工作台
       }
     },
     linkTo(code, url) {
