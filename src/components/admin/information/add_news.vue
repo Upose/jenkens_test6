@@ -632,6 +632,7 @@ export default {
       if (!this.sendBack.sendBackDesc) {
         return this.$message({type: 'error',message: '退回备注不能为空!'});
       }
+      this.sendBack.contentID = this.id;
       this.http.postJson('news-content-send-back', this.sendBack).then(res=>{
         this.draw_back = false;
         this.$message({type: 'success',message: '退回成功!'});
