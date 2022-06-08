@@ -10,12 +10,16 @@ export default new Vuex.Store({
     skin_template:'template1',
     menuList:[],//后台左侧菜单
     appDetails:null,//应用信息
+    baseinfo:{},
   },
   getters: {
     token: (state) => state.token,
     language: (state) => state.language||'zh-CN',
   },
   mutations: {
+    baseinfo: (state, data) => {
+      state.baseinfo = data;
+    },
     menuList: (state, data) => {
       state.menuList = data;
     },
