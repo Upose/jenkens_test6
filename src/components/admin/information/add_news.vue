@@ -124,60 +124,6 @@
                   <el-button icon="iconfont el-icon-vip-yulan1" size="medium" class="admin-green-btn" @click="previewPage()">预览</el-button>
                   <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm',it.key)" v-for="(it,index) in postForm.nextAuditStatus" :key="index+'bts'">{{it.value||'保存'}}</el-button>
                 </div>
-                <!-- <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium">保存并发布</el-button>
-                </div>
-                <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary">保存</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium">保存并提交</el-button>
-                </div>
-                <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" class="admin-red-btn">初审不通过</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">初审通过</el-button>
-                </div>
-                <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary">保存</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">初校完成</el-button>
-                </div>
-                <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" class="admin-red-btn">二审不通过</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">二审通过</el-button>
-                </div>
-                <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary">保存</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">二校完成</el-button>
-                </div>
-                <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" class="admin-red-btn">终校不通过</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">终校通过</el-button>
-                </div>
-                <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary">保存</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">终校完成</el-button>
-                </div>
-                <div>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn">取消</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-green-btn">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="drawBack">退回</el-button>
-                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" type="primary">发布</el-button>
-                </div> -->
               </el-form-item>
             </div>
           </el-form>
@@ -459,7 +405,7 @@ export default {
               { required: true, message: '请选择日期', trigger: 'blur' },
           ],
           content: [
-              { required: true, message: '请输入内容', trigger: 'blur' }
+              { required: true, message: '请输入内容',}
           ],
           externalLink: [
               { required: true, message: '请输入链接', trigger: 'blur' },
@@ -725,39 +671,51 @@ export default {
           console.log(_this.postForm);
           _this.postForm['auditStatus'] = val;
           this.$refs[formName].validate((valid) => {
-            if (valid) {
-              if(this.activeName =='div1'){
-                _this.postForm['externalLink']='';
-              }else{
-                _this.postForm['content']='';
-              }
-              if(_this.postForm['ExpirationDate'] == ''){
-                _this.postForm['ExpirationDate'] = null;
-              }
-              if(_this.id){
-                this.http.postJsonParameter_url('news-content-update',_this.postForm,'/'+_this.columnID).then(res=>{
-                  _this.$message({type: 'success',message: '提交成功!'});
-                  _this.backHistory();
-                }).catch(err=>{
-                  _this.$message({type: 'error',message: '提交失败!'});
-                })
-              }else{
-                _this.postForm['columnID'] = _this.columnID;
-                this.http.postJsonParameter_url('news-content-add',_this.postForm,'/'+_this.columnID).then(res=>{
-                  if(res.succeeded){
-                    _this.$message({type: 'success',message: '提交成功!'});
-                    _this.backHistory();
+              if(!valid){
+                if(_this.postForm.title && _this.postForm.publisher && _this.postForm.status && _this.postForm.publishDate){
+                  if(_this.activeName == 'div1'){
+                    if(_this.postForm.content)_this.postUrl();
                   }else{
-                    _this.$message({type: 'error',message: res.data.message||'提交失败'});
+                    if(_this.postForm.externalLink)_this.postUrl();
                   }
-                }).catch(err=>{
-                  _this.$message({type: 'error',message: '提交失败!'});
-                })
+                }
+              }else{
+                _this.postUrl();
               }
-            }
           });
         }
     },
+    postUrl(){
+      var _this = this;
+      if(this.activeName =='div1'){
+          _this.postForm['externalLink']='';
+        }else{
+          _this.postForm['content']='';
+        }
+        if(_this.postForm['ExpirationDate'] == ''){
+          _this.postForm['ExpirationDate'] = null;
+        }
+        if(_this.id){
+          this.http.postJsonParameter_url('news-content-update',_this.postForm,'/'+_this.columnID).then(res=>{
+            _this.$message({type: 'success',message: '提交成功!'});
+            _this.backHistory();
+          }).catch(err=>{
+            _this.$message({type: 'error',message: '提交失败!'});
+          })
+        }else{
+          _this.postForm['columnID'] = _this.columnID;
+          this.http.postJsonParameter_url('news-content-add',_this.postForm,'/'+_this.columnID).then(res=>{
+            if(res.succeeded){
+              _this.$message({type: 'success',message: '提交成功!'});
+              _this.backHistory();
+            }else{
+              _this.$message({type: 'error',message: res.data.message||'提交失败'});
+            }
+          }).catch(err=>{
+            _this.$message({type: 'error',message: '提交失败!'});
+          })
+        }
+    }
   },
 }
 </script>
