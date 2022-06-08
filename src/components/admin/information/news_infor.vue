@@ -452,56 +452,81 @@ export default {
     },
     //评审
     handleAudit(row){
-      console.log(row);
       let _this = this;
       let content = '是否通过该新闻'+row.nextAuditBottonName+'?';
-      let is_xd = true; // 校对只有取消按钮,审核相关是通过按钮
+      let l_btn = '取消'
+      let r_btn = '通过'
       if(row.nextAuditBottonName == '提交'){
         content = '是否提交该新闻?';
+        l_btn = '取消'
+        r_btn = '提交'
       }else if(row.nextAuditBottonName == '初校'){
         content = '是否通过该新闻初校?';
+        l_btn = '取消'
+        r_btn = '通过'
       }else if(row.nextAuditBottonName == '初审'){
         content = '是否通过该新闻初审?';
-        is_xd = false;
+        l_btn = '不通过'
+        r_btn = '通过'
       }else if(row.nextAuditBottonName == '二审'){
         content = '是否通过该新闻二审?';
-        is_xd = false;
+        l_btn = '不通过'
+        r_btn = '通过'
       }else if(row.nextAuditBottonName == '二校'){
         content = '是否通过该新闻二校?';
+        l_btn = '取消'
+        r_btn = '通过'
       }else if(row.nextAuditBottonName == '终审'){
         content = '是否通过该新闻终审?';
-        is_xd = false;
+        l_btn = '不通过'
+        r_btn = '通过'
       }else if(row.nextAuditBottonName == '终校'){
-        is_xd = true;
         content = '是否通过该新闻终校?'
+        l_btn = '取消'
+        r_btn = '通过'
       }else if(row.nextAuditBottonName == '发布'){
-        content = '是否发布改新闻?'
+        content = '是否发布该新闻?'
+        if(this.columnDeatils.isOpenAudit==1){//无审核流程按钮：取消，发布  1表示有审核
+          l_btn = '退回'
+          r_btn = '发布'
+        }else{
+          l_btn = '取消'
+          r_btn = '发布'
+        }
+      }else if(row.nextAuditBottonName == '退回'){
+        content = '是否退回该新闻?'
+        l_btn = '取消'
+        r_btn = '退回'
       }
-      
       this.$confirm(content, '提示', {
         distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: is_xd ? '取消' : '不通过',
+        cancelButtonText: l_btn,
+        confirmButtonText: r_btn,
         type: "warning",
         beforeClose: (action, instance, done) => {
-          if (action === 'confirm') {
-            this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
-              _this.$message({type: 'success',message: '操作成功!'});
-              this.postForm.auditStatus = null;
-              _this.initData(0);
+          if (action === 'confirm') {//右-按钮
+          if (r_btn == '退回') {//这里打开退回弹窗
+              this.sendBack.contentID = row.id;
+              this.draw_back = true;
               done();
-              return;
-            }).catch(err=>{
-              _this.$message({type: 'error',message: '操作失败!'});
-              done();
-              return;
-            })
-          } else if (action === 'cancel') {
-            if (!is_xd) {
+            }else{
+              this.http.postJsonParameter_url('news-content-update-audit-status',{contentID:row.id,auditStatus:row.nextAuditStatus[0].key},'/'+this.postForm['columnID']).then(res=>{
+                _this.$message({type: 'success',message: '操作成功!'});
+                this.postForm.auditStatus = null;
+                _this.initData(0);
+                done();
+                return;
+              }).catch(err=>{
+                _this.$message({type: 'error',message: '操作失败!'});
+                done();
+                return;
+              })
+            }
+          } else if (action === 'cancel') {//左-按钮
+            if (l_btn == '退回' || l_btn == '不通过') {//这里打开退回弹窗
               this.sendBack.contentID = row.id;
               this.draw_back = true;
             }
-            // console.log('弹窗新窗口，填写退回备注（输入框，0-200字）状态改为已退回');
             done();
           } else {
             done();
