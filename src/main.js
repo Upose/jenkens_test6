@@ -26,6 +26,22 @@ const i18n = new VueI18n({
 Vue.prototype.backHistory = function(){
   window.history.go(-1);
 }
+//判断是否本站地址url,返回true表示本站，无需open()(此应用暂时不存在此判断方法，但代码保留)
+Vue.prototype.isThirdpartyApp = function(is_web,url){
+  var port_url = {};
+  var is_open = false;//true 打开新窗口，false不打开新窗口
+  var orgInfo = localStorage.getItem('orgInfo');
+  if(orgInfo && orgInfo!='' && orgInfo!=undefined && orgInfo!='null' && orgInfo !='undefined'){
+    port_url = JSON.parse(localStorage.getItem('orgInfo'))||{};
+    console.log(url);
+    if(is_web){
+      (url.indexOf(port_url.onlinePortalUrl)>-1|| url.indexOf(port_url.portalUrl)>-1) ? is_open = true : is_open = false;
+    }else{
+      (url.indexOf(port_url.onlineManageUrl)>-1|| url.indexOf(port_url.manageUrl)>-1) ? is_open = true : is_open = false;
+    }
+  }
+  return is_open;
+}
 Vue.prototype.addStyle = function(url){
   var link=document.createElement("link"); 
   link.setAttribute("rel", "stylesheet"); 
