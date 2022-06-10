@@ -44,9 +44,7 @@
               <span class="next-icon"><i class="next-bj"></i></span>
               <span class="next-txt" @click="checkClick('6')" :class="postForm.auditFlow.indexOf('6')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 终校</span></span>
               <span class="next-icon"><i class="next-bj"></i></span>
-              <span class="next-txt" @click="checkClick('7')" :class="postForm.auditFlow.indexOf('7')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 待发布</span></span>
-              <span class="next-icon"><i class="next-bj"></i></span>
-              <span class="next-txt" @click="checkClick('8')" :class="postForm.auditFlow.indexOf('8')>-1?'active':''"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 发布</span></span>
+              <span class="next-txt active"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 发布</span></span>
             </div><!--撰稿和发布是必须的-->
           </el-form-item>
           <el-form-item class="m-top">
@@ -88,7 +86,7 @@ export default {
         acessAll:true,//授权访问名称 必填 true是全部 false是指定授权访问名单
         isOpenComment:0,//启用内容评分
         isOpenAudit:0,//启用内容审查
-        auditFlow:'8',
+        auditFlow:'7,8',
       },
       rules: {
         acessAll: [
@@ -108,7 +106,7 @@ export default {
       this.postForm.visitingListModel = newVal.visitingListModel||{};
       this.select_user_data = newVal.visitingListModel||{};
       this.postForm.isOpenAudit = newVal.isOpenAudit||0;
-      this.postForm.auditFlow = newVal.auditFlow||'0,8';
+      this.postForm.auditFlow = newVal.auditFlow||'7,8';
     },
     //设置审核流程
     checkClick(val){
@@ -136,9 +134,6 @@ export default {
     },
     //设置审核流程
     checkClick(val){
-      if(val == '8'){
-        this.$message({type: 'warning',message: '此流程为必须项！'});
-      }else{
         var list = this.postForm.auditFlow.split(';');
         var is_yes = false;
         list.forEach((item,index)=>{
@@ -152,7 +147,6 @@ export default {
           list.push(val);
         }
         this.postForm.auditFlow = list.toString().replace(/\,/g,';');
-      }
     },
     selectUserShow(){
       this.select_user_show = true;

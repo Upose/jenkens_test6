@@ -103,6 +103,12 @@ export default {
         this.postForm['isOpenComment'] =  list['isOpenComment'];
         this.postForm['isOpenAudit'] =  list['isOpenAudit'];
         this.postForm['auditFlow'] =  list['auditFlow']||this.postForm['auditFlow'];
+        if(this.postForm['auditFlow'].indexOf('7')<0){
+          this.postForm['auditFlow'] = this.postForm['auditFlow']+'7';
+        }
+        if(this.postForm['auditFlow'].indexOf('8')<0){
+          this.postForm['auditFlow'] = this.postForm['auditFlow']+'8';
+        }
         this.submitForm();
       }
     },
