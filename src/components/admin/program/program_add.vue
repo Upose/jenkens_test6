@@ -105,11 +105,11 @@ export default {
         this.postForm['auditFlow'] =  list['auditFlow']||this.postForm['auditFlow'];
         if(this.postForm['auditFlow'].indexOf('7')<0){
           var les = this.postForm['auditFlow'].length;
-          les>0?this.postForm['auditFlow'] = this.postForm['auditFlow']+',7':this.postForm['auditFlow'] = this.postForm['auditFlow']+'7'
+          les>0?this.postForm['auditFlow'] = this.postForm['auditFlow']+';7':this.postForm['auditFlow'] = this.postForm['auditFlow']+'7'
         }
         if(this.postForm['auditFlow'].indexOf('8')<0){
           var les = this.postForm['auditFlow'].length;
-          les>0?this.postForm['auditFlow'] = this.postForm['auditFlow']+',8':this.postForm['auditFlow'] = this.postForm['auditFlow']+'8'
+          les>0?this.postForm['auditFlow'] = this.postForm['auditFlow']+';8':this.postForm['auditFlow'] = this.postForm['auditFlow']+'8'
         }
         this.submitForm();
       }
