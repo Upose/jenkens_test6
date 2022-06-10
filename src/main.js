@@ -33,7 +33,6 @@ Vue.prototype.isThirdpartyApp = function(is_web,url){
   var orgInfo = localStorage.getItem('orgInfo');
   if(orgInfo && orgInfo!='' && orgInfo!=undefined && orgInfo!='null' && orgInfo !='undefined'){
     port_url = JSON.parse(localStorage.getItem('orgInfo'))||{};
-    console.log(url);
     if(is_web){
       (url.indexOf(port_url.onlinePortalUrl)>-1|| url.indexOf(port_url.portalUrl)>-1) ? is_open = true : is_open = false;
     }else{
