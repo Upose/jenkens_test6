@@ -34,8 +34,10 @@
                   {{it.title||'标题走丢了'}}
                 </div>
                 <div class="msg c-l">
-                  <span class="content" v-if="it.isShowContent" v-html="it.content||'无'"></span>
-                  <span class="show-details child_text_color">[查看详细]</span>
+                  <span class="content">
+                    <span v-if="it.isShowContent" v-html="it.content"></span>
+                    <span class="show-details child_text_color">[查看详细]</span>
+                  </span>
                   <span class="txt-right">
                     <span v-if="it.isShowHitCount">访问次数：{{it.hitCount||0}}</span>
                     <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span>
@@ -124,7 +126,7 @@ export default {
           pageIndex:this.pageIndex,
           pageSize:this.pageSize,
           columnID:cid,
-          contentCutLength:160,
+          contentCutLength:300,
           lableID:l_id,
           searchKey:'',
         }
@@ -417,8 +419,19 @@ export default {
             line-height: 26px;
           }
           .msg{
+            width: 100%;
             color: @999;
             line-height: 22px;
+            .content{
+              display: inline-block;
+              width: 100%;
+              word-break: break-all;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+            }
             .txt-right{
               float: right;
             }

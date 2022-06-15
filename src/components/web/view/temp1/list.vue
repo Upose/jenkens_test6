@@ -116,7 +116,7 @@ export default {
         pageIndex: this.pageIndex,
         pageSize: this.pageSize,
         columnID: cid,
-        contentCutLength: 160,
+        contentCutLength: 300,
         lableID: l_id,
         searchKey: '',
       }
@@ -444,7 +444,7 @@ export default {
           text-overflow: ellipsis;
           display: -webkit-box;
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
+          -webkit-line-clamp: 3;
         }
       }
     }
