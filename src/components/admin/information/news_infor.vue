@@ -43,7 +43,7 @@
                             <span class="news-title" :title="scope.row.title" @click="handleEdit(scope.row)">{{scope.row.title}}</span>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="parentCatalogue" label="子类" v-if="isHasCatalogue">
+                        <el-table-column prop="parentCatalogue" label="标签" v-if="isHasCatalogue">
                            <template slot-scope="scope">
                             <span v-for="(item,index) in (scope.row.parentCatalogue||[])" :key="index">{{item.value}},</span>
                           </template>
@@ -558,7 +558,7 @@ export default {
     },
     //新闻日志
     handleLog(row){
-      this.$router.push({path:'/admin_newsLog',query:{id:row.id,c_id:this.$route.query.id}})
+      this.$router.push({path:'/admin_newsLog',query:{id:row.id,c_id:this.$route.query.id,title:row.title}})
     },
     /**表格选择框**/
     handleSelectionApp(val) {

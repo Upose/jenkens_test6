@@ -4,12 +4,13 @@
     <el-container>
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''"><serviceLMenu :isActive="2"></serviceLMenu></el-aside>
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
-        <breadcrumb :cuMenu="'栏目管理'" :fontColor="'fff'"></breadcrumb><!--面包屑导航--->
+        <breadcrumb :cuMenu="'栏目管理'" :fontColor="'fff'" ref="breadcrumb_ref"></breadcrumb><!--面包屑导航--->
         <div class="content search-table-general">
             <div class="search-table-w">
                 <h1 class="search-title">操作日志</h1>
             </div><!--顶部查询 end-->
             <div class="table-w">
+              <h2 class="m-title">标题：{{title}}</h2>
                 <div class="t-p">
                     <el-table @selection-change="handleSelectionChange" stripe :data="tableData" border class="admin-table">
                         <el-table-column prop="id" label="序号" align="center" width="58">
@@ -65,8 +66,10 @@ export default {
         pageSize: 50,
       },//分页参数
       id:this.$route.query.id,
+      title:this.$route.query.title,
       c_id:this.$route.query.c_id,
       alert_show:false,
+      columnDeatils:{},
       options: [{
         value: '选项1',
         label: '选项1'
@@ -76,6 +79,16 @@ export default {
   },
   mounted(){
     this.initData();
+    var _this = this;
+      this.http.getPlain_url('news-column-template-get-by-column-id','/'+_this.c_id).then(res=>{
+        _this.columnDeatils = res.data||{};
+        var list = {
+              title: [{ name: _this.columnDeatils.columnName, path: {path:'/admin_programInfo',query:{id:_this.c_id}}},{name:'日志'}],
+              keepAlive: true
+            }
+          ;
+      _this.$refs.breadcrumb_ref.setMeta(list);
+      }).catch(err=>{})
   },
   methods:{
     //初始化数据
@@ -94,4 +107,10 @@ export default {
 @import "../../../assets/admin/css/color.less";/**颜色配置 */
 @import "../../../assets/admin/css/style.less";/**颜色配置 */
 @import "../../../assets/admin/css/table.less";
+.search-table-general .table-w .m-title{
+  min-height: 64px;
+  height: auto;
+  line-height: 30px;
+  padding:16px 20px;
+}
 </style>

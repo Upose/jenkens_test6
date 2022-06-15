@@ -31,7 +31,7 @@
                              <span class="news-title" v-for="(item,index) in scope.row.columnIDs"  @click="ColumnEdit(item)" :key="index+'_'+item.title">{{item.value}};</span>
                            </template>
                         </el-table-column>
-                        <el-table-column prop="publisher" align="center" label="发布人" width="110"></el-table-column>
+                        <el-table-column prop="publisher" align="center" label="发布者" width="110"></el-table-column>
                         <el-table-column align="center" prop="publishDate" label="发布时间" width="100">
                           <template slot-scope="scope">
                              <span>{{(scope.row.publishDate||'0000-00-00').slice(0,10)}}</span>
