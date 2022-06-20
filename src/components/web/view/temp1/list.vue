@@ -3,13 +3,13 @@
     <div class="articledetails-warp">
       <div class="body-content m-width c-l">
         <div class="left-menu">
-          <div class="menu-top child_bg">{{content_title}}</div>
+          <div class="menu-top child_bg">{{titleJson.name}}</div>
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.name,index, 'first')">{{item.name}}</a>
+                <a href="javascript:;" @click="menuClick(item,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it)" :class="{'cur-sub-key':curSubKey == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it)" :class="{'cur-sub-key':subTitle.key == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -17,8 +17,8 @@
         </div>
         <div class="body-title">
           <div class="menu-top child_bg">
-            当前位置：{{content_title}}
-            <span v-show="subTitle"> > {{subTitle}}</span>
+            当前位置：{{titleJson.name}}
+            <span v-if="subTitle.value"> > {{subTitle.value}}</span>
           </div>
           <div class="right-content">
             <ul class="news-ul">
@@ -56,22 +56,23 @@ import pages1 from '@/components/web/model/pages1';
 export default {
   name: 'footerPage',
   components: { pages1 },
-  created() { },
+  created() {
+    if(this.$route.query.subTitle){
+      this.subTitle = JSON.parse(this.$route.query.subTitle);
+    }
+  },
   data() {
     return {
       loading: false,
-      left_index: 0,//左边的菜单
-      content_title: '',//内容中的标题
+      titleJson: {},//一级标题
       cid: decodeURI(this.$route.query.cid || ''),
-      l_id: '',
       pageIndex: 1,//当前页
       pageSize: 20,//每页条数
       totalCount: 0,//总条数
       totalPages: 0,//总页数
       menu_list: [],
       news_list: [],
-      curSubKey: '',
-      subTitle: '',
+      subTitle:{},//二级标题
     }
   },
   mounted() {
@@ -84,18 +85,28 @@ export default {
       //获取左边菜单列表
       this.http.getPlain('pront-news-column-list-get', 'columnid=' + this.cid).then(res => {
         this.menu_list = res.data || [];
-        if (this.$route.query.cid) {
-          this.menu_list.forEach((item, i) => {
-            if (item.columnID == this.$route.query.cid) {
-              setTimeout(() => {
-                this.menu_list[i]['check'] = false;
-                this.menuClick(this.menu_list[i].name, i, false);
-              }, 200);
-            }
-          })
+        if (this.cid) {
+          if(this.subTitle && this.subTitle.value){
+            this.menu_list.forEach((item, i) => {
+              if (item.columnID == this.cid) {
+                this.titleJson = item;
+                this.menu_list[i].check = true;
+              }
+            })
+            this.foxbaseClick(this.subTitle);
+          }else{
+            this.menu_list.forEach((item, i) => {
+              if (item.columnID == this.cid) {
+                setTimeout(() => {
+                  this.menu_list[i]['check'] = false;
+                  this.menuClick(this.menu_list[i], i, false);
+                }, 200);
+              }
+            })
+          }
         } else {
           setTimeout(() => {
-            this.menuClick(this.menu_list[0].name, 0);
+            this.menuClick(this.menu_list[0], 0);
           }, 200)
         }
         this.loading = false;
@@ -106,18 +117,17 @@ export default {
     //获取分页数据
     currentClick(val) {
       this.pageIndex = val;
-      this.getNewsList(this.cid, this.l_id);
+      this.getNewsList(this.cid, this.subTitle);
     },
     //获取新闻列表
-    getNewsList(cid, l_id) {//栏目id，labeleid
+    getNewsList(cid, sub) {//栏目id，labeleid
       this.cid = cid;
-      this.l_id = l_id;
       var list = {
         pageIndex: this.pageIndex,
         pageSize: this.pageSize,
         columnID: cid,
         contentCutLength: 300,
-        lableID: l_id,
+        lableID: sub.key,
         searchKey: '',
       }
       this.news_list = [];
@@ -128,7 +138,6 @@ export default {
           if(this.news_list.length ==1){
             this.detailsClick(this.news_list[0]);
           }
-          console.log(this.news_list, 'news_list')
           this.pageIndex = res.data.pageIndex;
           this.pageSize = res.data.pageSize;
           this.totalCount = res.data.totalCount;
@@ -139,16 +148,16 @@ export default {
         console.log(err);
       })
     },
-    menuClick(title, index, leve) {//标题,index下标
+    menuClick(item, index, leve) {//标题,index下标
       if (leve == 'first') {
         this.$router.push({ path: '/web_newsList', query: { cid: this.menu_list[index].columnID } }).catch((err) => { });
       }
-      this.curSubKey = this.$route.query.detailId || ''
-      document.title = title + '-' + this.$store.state.appDetails.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
+      document.title = item.name + '-' + this.$store.state.appDetails.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
       this.pageIndex = 1;
       this.totalCount = 0;
-      this.content_title = title;
-      this.left_index = this.menu_list[index].columnID;
+      this.titleJson = item;
+      this.subTitle = {};//清空子选项
+      this.cid = this.menu_list[index].columnID;
       if (this.menu_list[index]['check'] == undefined) {
         this.menu_list[index]['check'] = false;
       } else {
@@ -159,15 +168,16 @@ export default {
           this.menu_list[i]['check'] = false;
         }
       })
-      this.getNewsList(this.menu_list[index].columnID, this.curSubKey);
+      this.getNewsList(this.menu_list[index].columnID,{});
       this.$forceUpdate();
     },
+    /***选中状态 */
     isActive(val, check) {
       var cs = '';
       if (val.lableList && val.lableList.length > 0) {
         cs = 'child-list ';
       }
-      if (this.left_index == val.columnID) {
+      if (this.cid == val.columnID) {
         cs = 'active child_bg';
         if (val.lableList && val.lableList.length > 0 && check == true) {
           cs = cs + ' child-list-active-open';
@@ -177,20 +187,25 @@ export default {
       }
       return cs;
     },
+    //点击二级菜单
+    foxbaseClick(val) {
+      this.subTitle = val;
+      this.pageIndex = 1;
+      this.totalCount = 0;
+      this.getNewsList(this.cid, val);
+    },
+    /***跳转详情 */
     detailsClick(val) {
       if (val.externalLink && val.externalLink != '') {
         window.open(val.externalLink, '_blank');
       } else {
-        this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.contentID), cid: encodeURI(this.left_index) } })
+        /**
+         * id：新闻详情id
+         * cid：栏目id
+         * subTitle:副标题
+         */
+        this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.contentID), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
       }
-    },
-    //点击二级菜单
-    foxbaseClick(val) {
-      this.subTitle = val.value;
-      this.pageIndex = 1;
-      this.totalCount = 0;
-      this.curSubKey = val.key;
-      this.getNewsList(this.left_index, val.key);
     },
   },
 }

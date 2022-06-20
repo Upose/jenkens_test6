@@ -3,20 +3,20 @@
     <div class="articledetails-warp">
      <div class="body-content m-width c-l">
         <div class="left-menu">
-          <div class="menu-top child_bg">{{content_title}}</div>
+          <div class="menu-top child_bg">{{titleJson.name}}</div>
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
+                <a href="javascript:;" @click="menuClick(item,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':id == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it)" :class="{'cur-sub-key':subTitle.key == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
           </div>
         </div>
         <div class="body-title">
-          <div class="menu-top child_bg">当前位置：{{content_title}}</div>
+          <div class="menu-top child_bg">当前位置：{{titleJson.name}}<span v-if="subTitle.value"> > {{subTitle.value}}</span></div>
           <div class="right-content">
               <div v-if="!loading && !removed" class="news-content-warp news-img-max-sys">
                 <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
@@ -92,19 +92,19 @@
 import my_rate from "../../model/rate";
 export default {
   name: 'footerPage',
-  
   components:{my_rate},
   created(){},
   data () {
     return {
         left_index:0,//左边的菜单
-        content_title:'',//内容中的标题
+        titleJson:{},//内容中的标题
         id:decodeURI(this.$route.query.id||''),//新闻id
         cid:decodeURI(this.$route.query.cid||''),//栏目id
         detailsData:{},//新闻详情
         auditProcessList:[],//审核流程
         curScore:2,//评论分数
         data:{},
+        subTitle:JSON.parse(this.$route.query.subTitle||'{}'),//副标题
         titleStyleKV:[],
         menu_list:[],
         removed: false,
@@ -113,9 +113,6 @@ export default {
   },
   mounted(){
     this.initData();
-    // setTimeout(()=>{
-    //   this.menuClick(this.menu_list[0].title,0);
-    // },200)
   },
   methods:{
       initData(){
@@ -131,13 +128,13 @@ export default {
                   if(item.columnID == _this.cid){
                     setTimeout(() => {
                       _this.menu_list[i]['check'] = false;
-                      _this.menuClick(_this.menu_list[i].name,i,false);
+                      _this.menuClick(_this.menu_list[i],i,false);
                     }, 200);
                   }
                 })
             }else{
               setTimeout(()=>{
-                _this.menuClick(_this.menu_list[0].name,0);
+                _this.menuClick(_this.menu_list[0],0);
               },200)
             }
           })
@@ -179,8 +176,8 @@ export default {
         })
         return class_val;
       },
-      menuClick(title,index,is_open){//标题,index下标
-        this.content_title = title;
+      menuClick(item,index,is_open){//标题,index下标
+        this.titleJson = item;
         this.left_index = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
           this.menu_list[index]['check'] = false;
@@ -212,11 +209,8 @@ export default {
         }
         return cs;
       },
-      detailsClick(val){
-        this.$router.push({path:'/web_newsDetails',query:{id:val}})
-      },
       foxbaseClick(key) {
-        this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.left_index), detailId: key}})
+        this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.left_index), subTitle:JSON.stringify(key)}})
       }
   },
 }
@@ -381,24 +375,39 @@ export default {
               position:absolute;
             }
           }
-          .sub-menu{
-            background-color: @fff;
-            padding: 0;
-            a{
-              color: @6b;
-              position: relative;
+          .sub-menu {
+          background-color: #f9f9f9;
+          padding: 0;
+          a {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #a21e1e;
+            position: relative;
+            display: block;
+            &::before {
+              content: "";
               display: block;
-              &:hover{
-                text-decoration: revert;
-              }
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              background: #a21e1e;
+              position: absolute;
+              left: 8px;
+              top: 15px;
             }
-            li{
-              border-bottom: none;
-              &:hover{
-                color: @23;
-              }
+            &:hover {
+              text-decoration: revert;
             }
           }
+          li {
+            border-bottom: none;
+            padding-left: 10px;
+            &:hover {
+              color: @23;
+            }
+          }
+        }
           
         }
         .active{

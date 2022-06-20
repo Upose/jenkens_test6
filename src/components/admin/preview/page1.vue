@@ -27,15 +27,17 @@
               <div class="news-content-warp news-img-max-sys">
                 <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</h1>
                 <div class="details_content">
+                  <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
+                    <span v-for="(i, index) in auditProcessList" :key="index">{{i.name}}:{{i.auditManager}}</span>
+                  </div>
                   <div class="rich-title">
-                    <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||''}}</span>
+                    <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||'无'}}</span>
                     <span class="col2" v-if="data.isShowPublishDate"><i class="title">发布时间：</i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
                     <span class="col3" v-if="data.isShowHitCount"><i class="title">访问次数：</i>{{detailsData.hitCount||0}}</span>
-                    <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span><!--作者-->
-                    <span v-if="data.isShowKeywords">关键词：{{detailsData.keywords}}</span><!--关键词-->
-                    <a v-if="data.isShowJumpLink" :href="detailsData.jumpLink">跳转链接</a><!--跳转链接-->
-                    <span v-if="data.isShowParentCatalogue">标签：{{detailsData.parentCatalogue}}</span><!--标签-->
-                    <span v-if="data.isShowExpirationDate">失效日期：{{(detailsData.expirationDate||'').slice(0,10)}}</span><!--失效日期-->
+                    <!-- <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span>作者 -->
+                    <!-- <span v-if="data.isShowKeywords">关键词：{{detailsData.keywords}}</span>关键词 -->
+                    <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
+                    <!-- <span v-if="data.isShowExpirationDate">失效日期：{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
                     <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
                     <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
                     <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
@@ -541,5 +543,15 @@ h1{
     }
   }
 }
+}
+/****审核流程 */
+.audit-process{
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+  span{
+    margin-right: 10px;
+  }
 }
 </style>

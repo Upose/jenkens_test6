@@ -450,6 +450,7 @@ export default {
           }
           /***一键分享 */
           .r-share{
+            cursor: pointer;
             position: absolute;
             right: 0;
             z-index: 2;
