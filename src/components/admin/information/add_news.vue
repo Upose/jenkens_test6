@@ -75,7 +75,7 @@
               <el-form-item label="显示状态" prop="status">
                 <el-radio-group v-model="postForm.status">
                   <el-radio :label="1">正常</el-radio>
-                  <el-radio :label="2">下架</el-radio>
+                  <el-radio :label="2" :disabled="!($route.query.of==1)">下架</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="投递终端" v-if="columnDeatils.terminals != 1">

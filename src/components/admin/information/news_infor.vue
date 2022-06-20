@@ -28,9 +28,9 @@
                       <el-date-picker v-model="endCreateTime" type="daterange" range-separator="至" value-format="yyyy-MM-dd" start-placeholder="更新开始日期" end-placeholder="更新结束日期" size="medium"></el-date-picker>
                       <el-button type="primary" size="medium" icon="el-icon-search" @click="searchClick()">查找</el-button>
                       <div class="r-btn">
-                        <el-button type="primary" size="medium" @click="newsAdd()">新增新闻</el-button>
-                        <el-button size="medium" class="gray-btn" @click="allOut()">批量下架</el-button>
-                        <el-button size="medium" class="gray-btn" @click="allDel()">批量删除</el-button>
+                        <el-button type="primary" size="medium" @click="newsAdd()" v-if="columnDeatils.hasPermission">新增新闻</el-button>
+                        <el-button size="medium" class="gray-btn" @click="allOut()" v-if="columnDeatils.hasPermission">批量下架</el-button>
+                        <el-button size="medium" class="gray-btn" @click="allDel()" v-if="columnDeatils.hasPermission">批量删除</el-button>
                       </div>
                   </div>
                 </div><!--顶部查询 end-->
@@ -76,17 +76,10 @@
                         </el-table-column>
                         <el-table-column label="操作" align="center" width="380">
                           <template slot-scope="scope">
-                            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
+                            <el-button @click="handleDel(scope.row)" v-if="columnDeatils.hasPermission" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
                             <el-button @click="previewPage(scope.row.id)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>预览</el-button>
                             <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-paixu" class="handleSort" round>排序</el-button>
-                            <el-button
-                              @click="handleAudit(scope.row)"
-                              type="text"
-                              size="mini"
-                              icon="iconfont el-icon-vip-pingshen"
-                              v-if="(scope.row.aduitStatus !=8 || scope.row.status!=2) && scope.row.nextAuditBottonName"
-                              round
-                            >
+                            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-pingshen" v-if="(scope.row.aduitStatus !=8 || scope.row.status!=2) && scope.row.nextAuditBottonName" round >
                               {{scope.row.nextAuditBottonName}}
                             </el-button>
                             <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round>编辑</el-button>
@@ -554,7 +547,7 @@ export default {
     },
     //编辑新闻
     handleEdit(row){
-      this.$router.push({path:'/admin_addNews',query:{id:row.id,c_id:this.$route.query.id}})
+      this.$router.push({path:'/admin_addNews',query:{id:row.id,c_id:this.$route.query.id,of:(this.columnDeatils.hasPermission?1:'')}})
     },
     //新闻日志
     handleLog(row){

@@ -54,14 +54,15 @@ Vue.prototype.addScript = function(url){
   js_element.setAttribute("src",url+'?version='+new Date().getTime());
   document.getElementsByTagName("body")[0].appendChild(js_element);
 }
-Vue.prototype.authShowBtn = function(value){
+Vue.prototype.authShowBtn = function(path,value){
   var list = store.state.menuList;
   var is_show = false;
   if(list.length>0){
     for(var i=0;i<list.length;i++){
-      if(list[i].permissionNodes && list[i].permissionNodes.length>0){
-        for(var k=0;k<list[i].permissionNodes.length;k++){
-            if(list[i].permissionNodes[k].permission == value){
+      if(list[i].listPermission && list[i].listPermission.length>0 && list[i].component.indexOf(path)>-1){
+        for(var k=0;k<list[i].listPermission.length;k++){
+            if(list[i].listPermission[k] == value){
+              console.log(list[i].listPermission[k] , value);
               is_show = true;
             }
         }
