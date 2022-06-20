@@ -3,7 +3,7 @@
     <div class="articledetails-warp">
       <div class="m-width top-title">
         <span class="m-title">{{titleJson.name}}</span>
-        <span class="m-address">当前位置：{{titleJson.name}}</span>
+        <span class="m-address">当前位置：{{titleJson.name}}<span style="display:inline;" v-show="subTitle.value"> > {{subTitle.value}}</span></span>
       </div>
      <div class="body-content m-width c-l">
         <div class="left-menu">
