@@ -96,7 +96,6 @@ export default {
   created(){},
   data () {
     return {
-        left_index:0,//左边的菜单
         titleJson:{},//内容中的标题
         id:decodeURI(this.$route.query.id||''),//新闻id
         cid:decodeURI(this.$route.query.cid||''),//栏目id
@@ -178,7 +177,7 @@ export default {
       },
       menuClick(item,index,is_open){//标题,index下标
         this.titleJson = item;
-        this.left_index = this.menu_list[index].columnID;
+        this.cid = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
           this.menu_list[index]['check'] = false;
         }else{
@@ -199,7 +198,7 @@ export default {
         if(val.lableList && val.lableList.length>0){
           cs = 'child-list ';
         }
-        if(this.left_index == val.columnID){
+        if(this.cid == val.columnID){
           cs = 'active child_bg';
           if(val.lableList && val.lableList.length>0 && check==true){
             cs = cs + ' child-list-active-open';
@@ -210,7 +209,7 @@ export default {
         return cs;
       },
       foxbaseClick(key) {
-        this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.left_index), subTitle:JSON.stringify(key)}})
+        this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.cid), subTitle:JSON.stringify(key)}})
       }
   },
 }

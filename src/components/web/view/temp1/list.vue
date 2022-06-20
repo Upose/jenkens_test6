@@ -64,7 +64,6 @@ export default {
   data() {
     return {
       loading: false,
-      titleJson: {},//一级标题
       cid: decodeURI(this.$route.query.cid || ''),
       pageIndex: 1,//当前页
       pageSize: 20,//每页条数
@@ -72,6 +71,7 @@ export default {
       totalPages: 0,//总页数
       menu_list: [],
       news_list: [],
+      titleJson: {},//一级标题
       subTitle:{},//二级标题
     }
   },

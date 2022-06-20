@@ -2,8 +2,8 @@
   <div class="list-warp">
     <div class="articledetails-warp">
       <div class="m-width top-title">
-        <span class="m-title">{{content_title}}</span>
-        <span class="m-address">当前位置：{{content_title}}</span>
+        <span class="m-title">{{titleJson.name}}</span>
+        <span class="m-address">当前位置：{{titleJson.name}}</span>
       </div>
      <div class="body-content m-width c-l">
         <div class="left-menu">
@@ -11,9 +11,9 @@
             <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
+                <a href="javascript:;" @click="menuClick(item,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it.key)" :class="{'cur-sub-key':id == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableList" :key="i" @click="foxbaseClick(it)" :class="{'cur-sub-key':subTitle.key == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -91,25 +91,21 @@ export default {
   components:{dialogShare},
   data () {
     return {
-        left_index:0,//左边的菜单
-        content_title:'',//内容中的标题
+        titleJson:{},//内容中的标题
         id:decodeURI(this.$route.query.id||''),//新闻id
         cid:decodeURI(this.$route.query.cid||''),//栏目id
         detailsData:{},//新闻详情
         auditProcessList:[],//审核流程
         titleStyleKV:[],
         data:{},
+        subTitle:JSON.parse(this.$route.query.subTitle||'{}'),//副标题
         menu_list:[],
         removed: false,
         loading: false,
     }
   },
   mounted(){
-    // console.log(this.id, 'id')
     this.initData();
-    // setTimeout(()=>{
-    //   this.menuClick(this.menu_list[0].title,0);
-    // },200)
   },
   methods:{
       initData(){
@@ -120,18 +116,17 @@ export default {
             _this.menu_list.forEach((item,i)=>{
             _this.menu_list[i]['check'] = false;
             if(_this.cid){
-              console.log(1111111111111);
               _this.menu_list.forEach((item,i)=>{
                   if(item.columnID == _this.cid){
                     setTimeout(() => {
                       _this.menu_list[i]['check'] = false;
-                      _this.menuClick(_this.menu_list[i].name,i,false);
+                      _this.menuClick(_this.menu_list[i],i,false);
                     }, 200);
                   }
                 })
             }else{
               setTimeout(()=>{
-                _this.menuClick(_this.menu_list[0].name,0);
+                _this.menuClick(_this.menu_list[0],0);
               },200)
             }
           })
@@ -174,10 +169,9 @@ export default {
         })
         return class_val;
       },
-      menuClick(title,index,is_open){//标题,index下标
-      console.log(title);
-        this.content_title = title;
-        this.left_index = this.menu_list[index].columnID;
+      menuClick(item,index,is_open){//标题,index下标
+        this.titleJson = item;
+        this.cid = this.menu_list[index].columnID;
         if(this.menu_list[index]['check']==undefined){
           this.menu_list[index]['check'] = false;
         }else{
@@ -198,7 +192,7 @@ export default {
         if(val.lableList && val.lableList.length>0){
           cs = 'child-list ';
         }
-        if(this.left_index == val.columnID){
+        if(this.cid == val.columnID){
           cs = 'active child_bg';
           if(val.lableList && val.lableList.length>0 && check==true){
             cs = cs + ' child-list-active-open';
@@ -208,15 +202,12 @@ export default {
         }
         return cs;
       },
-      detailsClick(val){
-        this.$router.push({path:'/web_newsDetails',query:{id:1}})
-      },
       //分享
       handleShare() {
       this.$refs.dialogShare_ref.show();
     },
     foxbaseClick(key) {
-      this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.left_index), detailId: key}})
+      this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.cid), subTitle:JSON.stringify(key)}})
     }
   },
 }
