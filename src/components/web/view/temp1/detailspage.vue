@@ -1,8 +1,8 @@
 <template>
   <div class="list-warp">
     <div class="articledetails-warp">
-     <div class="body-content m-width c-l">
-        <div class="left-menu">
+     <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
+        <div class="left-menu" v-if="is_show_menu">
           <div class="menu-top child_bg">{{titleJson.name}}</div>
           <div class="menu-list">
             <ul>
@@ -15,7 +15,7 @@
             </ul>
           </div>
         </div>
-        <div class="body-title">
+        <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
           <div class="menu-top child_bg">当前位置：{{titleJson.name}}<span v-if="subTitle.value"> > {{subTitle.value}}</span></div>
           <div class="right-content">
               <div v-if="!loading && !removed" class="news-content-warp news-img-max-sys">
@@ -93,7 +93,11 @@ import my_rate from "../../model/rate";
 export default {
   name: 'footerPage',
   components:{my_rate},
-  created(){},
+  created(){
+    this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
+      this.is_show_menu = res.data||false;
+    })
+  },
   data () {
     return {
         titleJson:{},//内容中的标题
@@ -108,6 +112,7 @@ export default {
         menu_list:[],
         removed: false,
         loading: false,
+        is_show_menu:false,//是否显示侧边栏目列表
     }
   },
   mounted(){
@@ -227,75 +232,69 @@ export default {
   }
   .cur-sub-key{
     background-color: #ffeaea;
-  }
-    .body-content{
-    min-height: calc(100vh - 380px);
-    background-color: #fff;
-    .left-menu{
-      float: left;
-      margin-top: -25px;
-      width: 250px;
-      .menu-top{
-        position: relative;
-        height: 69px;
-        font-size: 24px;
-        font-weight: lighter;
-        line-height: 74px;
-        color: @fff;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        text-align: center;
-        padding: 0 10px;
-        text-align: center;
+  } 
+    .body-content-clear{
+      &::before {
+        box-shadow:inherit !important;
       }
-      // &::after{
-      //   position: absolute;
-      //   right:0;
-      //   top: 72px;
-      //   bottom: 0;
-      //   width: 6px;
-      //   content: "";
-      //   background: @fff;
-      //   box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
-      //   z-index: 2;
-      // }
     }
-    .body-title{
-      margin-left: 250px;
+    .body-content{
+      min-height: calc(100vh - 380px);
+      background-color: #fff;
       position: relative;
-      &::after{
-        position: absolute;
-        left: -6px;
-        top: 45px;
+      &::before {
         bottom: 0;
-        width: 6px;
-        content: "";
-        background: #fff;
+        top: 0;
+        left:245px;
+        position: absolute;
+        width: 5px;
         box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
-        z-index: 2;
+        content: "";
       }
-      .menu-top{
+      .left-menu {
+        float: left;
+        margin-top: -25px;
+        width: 250px;
+        min-height: calc(100vh - 355px);
+        .menu-top {
+          position: relative;
+          height: 69px;
+          font-size: 24px;
+          font-weight: lighter;
+          line-height: 74px;
+          color: @fff;
+          padding: 0 10px;
+          text-align: center;
+          span{
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display: block;
+          }
+          &:after {
+            position: absolute;
+            right:-15px;
+            bottom: 0;
+            border-width: 0 0 44px 15px;
+            border-style: dashed dashed solid solid;
+            border-color: transparent transparent transparent rgba(0, 0, 0, 0.8);
+            content: "";
+          }
+        }
+      }
+    .body-title {
+      margin-left: 250px;
+      min-height: calc(100vh - 380px);
+      .menu-top {
         height: 44px;
         padding: 10px 20px;
         font-size: 14px;
         color: @fff;
         margin-top: 25px;
         line-height: 24px;
-        position: relative;
-        &:after{
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          border-width: 0 0 44px 15px;
-          border-style: dashed dashed solid solid;
-          border-color: transparent transparent transparent rgba(0,0,0,.8);
-          content: "";
-        }
       }
     }
     .menu-list,.right-content{
-      min-height: 550px;
       background-color: @fff;
     }
     /**左边的列表菜单*/

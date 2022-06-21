@@ -9,7 +9,7 @@
         </span>
       </div>
      <div class="body-content m-width c-l">
-        <div class="left-menu">
+        <div class="left-menu" v-if="is_show_menu">
           <div class="menu-list">
             <span class="title">栏目列表</span>
             <ul>
@@ -22,7 +22,7 @@
             </ul>
           </div>
         </div>
-        <div class="body-title">
+        <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
           <div class="right-content">
             <div class="content-top-title">新闻资讯</div>
             <div class="row" v-for="(it,i) in news_list" :key="i+'content'" @click="detailsClick(it)">
@@ -65,6 +65,9 @@ export default {
     if(this.$route.query.subTitle){
       this.subTitle = JSON.parse(this.$route.query.subTitle);
     }
+    this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
+      this.is_show_menu = res.data||false;
+    })
   },
   data () {
     return {
@@ -78,6 +81,7 @@ export default {
       news_list:[],
       titleJson: {},//一级标题
       subTitle:{},//二级标题
+      is_show_menu:false,//是否显示侧边栏目列表
     }
   },
   mounted(){

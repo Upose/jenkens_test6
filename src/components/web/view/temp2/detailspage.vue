@@ -6,7 +6,7 @@
         <span class="m-address">当前位置：{{titleJson.name}}<span style="display:inline;" v-show="subTitle.value"> > {{subTitle.value}}</span></span>
       </div>
      <div class="body-content m-width c-l">
-        <div class="left-menu">
+        <div class="left-menu" v-if="is_show_menu">
           <div class="menu-list">
             <span class="title">栏目列表</span>
             <ul>
@@ -19,7 +19,7 @@
             </ul>
           </div>
         </div>
-        <div class="body-title" :class="{'empty-box' : loading}">
+        <div class="body-title" :style="{'margin-right':!is_show_menu?'0':'250px'}" :class="{'empty-box' : loading}">
           <div v-if="!loading && !removed" class="right-content news-img-max-sys">
             <div class="content-top-title">
               <span class="title" :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
@@ -89,6 +89,11 @@ import dialogShare from '../../model/dialog_share';
 export default {
   name: 'footerPage',
   components:{dialogShare},
+  created(){
+    this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
+      this.is_show_menu = res.data||false;
+    })
+  },
   data () {
     return {
         titleJson:{},//内容中的标题
@@ -102,6 +107,7 @@ export default {
         menu_list:[],
         removed: false,
         loading: false,
+        is_show_menu:false,//是否显示侧边栏目列表
     }
   },
   mounted(){

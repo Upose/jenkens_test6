@@ -1,9 +1,9 @@
 <template>
   <div class="list-warp" v-aaa="'aaa'">
     <div class="articledetails-warp">
-      <div class="body-content m-width c-l">
-        <div class="left-menu">
-          <div class="menu-top child_bg">{{titleJson.name}}</div>
+      <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
+        <div class="left-menu" v-if="is_show_menu">
+          <div class="menu-top child_bg"><span>{{titleJson.name}}</span></div>
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
@@ -15,7 +15,7 @@
             </ul>
           </div>
         </div>
-        <div class="body-title">
+        <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
           <div class="menu-top child_bg">
             当前位置：{{titleJson.name}}
             <span v-if="subTitle.value"> > {{subTitle.value}}</span>
@@ -60,6 +60,9 @@ export default {
     if(this.$route.query.subTitle){
       this.subTitle = JSON.parse(this.$route.query.subTitle);
     }
+    this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
+      this.is_show_menu = res.data||false;
+    })
   },
   data() {
     return {
@@ -73,6 +76,7 @@ export default {
       news_list: [],
       titleJson: {},//一级标题
       subTitle:{},//二级标题
+      is_show_menu:false,//是否显示侧边栏目列表
     }
   },
   mounted() {
@@ -231,25 +235,29 @@ export default {
 .cur-sub-key {
   background-color: #ffeaea;
 }
+.body-content-clear{
+      &::before {
+        box-shadow:inherit !important;
+      }
+    }
 .body-content {
   min-height: calc(100vh - 380px);
   background-color: #fff;
   position: relative;
   &::before {
-    position: absolute;
-    left: 240px;
-    top: 45px;
     bottom: 0;
-    width: 6px;
-    content: "";
-    background: #fff;
+    top: 0;
+    left:245px;
+    position: absolute;
+    width: 5px;
     box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
-    z-index: 2;
+    content: "";
   }
   .left-menu {
     float: left;
     margin-top: -25px;
     width: 250px;
+    min-height: calc(100vh - 355px);
     .menu-top {
       position: relative;
       height: 69px;
@@ -257,26 +265,17 @@ export default {
       font-weight: lighter;
       line-height: 74px;
       color: @fff;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      text-align: center;
       padding: 0 10px;
-    }
-  }
-  .body-title {
-    margin-left: 250px;
-    .menu-top {
-      height: 44px;
-      padding: 10px 20px;
-      font-size: 14px;
-      color: @fff;
-      margin-top: 25px;
-      line-height: 24px;
-      position: relative;
+      text-align: center;
+      span{
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display: block;
+      }
       &:after {
         position: absolute;
-        left: 0;
+        right:-15px;
         bottom: 0;
         border-width: 0 0 44px 15px;
         border-style: dashed dashed solid solid;
@@ -285,9 +284,20 @@ export default {
       }
     }
   }
+  .body-title {
+    margin-left: 250px;
+    min-height: calc(100vh - 380px);
+    .menu-top {
+      height: 44px;
+      padding: 10px 20px;
+      font-size: 14px;
+      color: @fff;
+      margin-top: 25px;
+      line-height: 24px;
+    }
+  }
   .menu-list,
   .right-content {
-    min-height: 550px;
     background-color: @fff;
   }
   /**左边的列表菜单*/
