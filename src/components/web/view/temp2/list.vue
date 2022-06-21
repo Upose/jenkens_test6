@@ -4,8 +4,8 @@
       <div class="m-width top-title">
         <span class="m-title">{{titleJson.name}}</span>
         <span class="m-address">
-          当前位置：{{titleJson.name}}
-          <span style="display:inline;" v-show="subTitle.value"> > {{subTitle.value}}</span>
+          当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
+          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{subTitle.value}}</span>
         </span>
       </div>
      <div class="body-content m-width c-l">
@@ -14,7 +14,7 @@
             <span class="title">栏目列表</span>
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item.name,index, 'first')">{{item.name}}</a>
+                <a href="javascript:;" @click="menuClick(item,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
                   <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it)" :class="{'cur-sub-key':subTitle.key == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
@@ -235,6 +235,10 @@ export default {
     .m-address{
       font-size: 14px;
       color: @fff;
+      span{
+        cursor: pointer;
+        display: inline;
+      }
     }
   }
 

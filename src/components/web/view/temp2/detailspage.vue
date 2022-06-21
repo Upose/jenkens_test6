@@ -3,7 +3,10 @@
     <div class="articledetails-warp">
       <div class="m-width top-title">
         <span class="m-title">{{titleJson.name}}</span>
-        <span class="m-address">当前位置：{{titleJson.name}}<span style="display:inline;" v-show="subTitle.value"> > {{subTitle.value}}</span></span>
+        <span class="m-address">
+          当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
+          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{subTitle.value}}</span>
+        </span>
       </div>
      <div class="body-content m-width c-l">
         <div class="left-menu" v-if="is_show_menu">
@@ -239,6 +242,10 @@ export default {
     .m-address{
       font-size: 14px;
       color: @fff;
+      span{
+        cursor: pointer;
+        display: inline;
+      }
     }
   }
   .cur-sub-key{

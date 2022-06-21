@@ -17,8 +17,8 @@
         </div>
         <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
           <div class="menu-top child_bg">
-            当前位置：{{titleJson.name}}
-            <span v-if="subTitle.value"> > {{subTitle.value}}</span>
+            当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
+            <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{subTitle.value}}</span>
           </div>
           <div class="right-content">
             <ul class="news-ul">
@@ -294,6 +294,9 @@ export default {
       color: @fff;
       margin-top: 25px;
       line-height: 24px;
+      span{
+        cursor: pointer;
+      }
     }
   }
   .menu-list,
