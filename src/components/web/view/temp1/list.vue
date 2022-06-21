@@ -116,6 +116,7 @@ export default {
         this.loading = false;
       }).catch(err => {
         this.loading = false;
+        this.$message({type: 'error',message: err.errors||'查询内容失败'});
       })
     },
     //获取分页数据

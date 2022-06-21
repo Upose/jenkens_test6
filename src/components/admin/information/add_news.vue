@@ -80,7 +80,7 @@
               </el-form-item>
               <el-form-item label="投递终端" v-if="columnDeatils.terminals != 1">
                 <el-checkbox-group v-model="postForm.terminals">
-                  <el-checkbox :label="it.key" name="type" v-for="(it,index) in terminals_list">{{it.value}}</el-checkbox>
+                  <el-checkbox :label="it.key" name="type" v-for="(it,index) in terminals_list" :key="index+'_terminals'">{{it.value}}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
               <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
