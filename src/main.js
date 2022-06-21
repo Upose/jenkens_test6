@@ -62,7 +62,7 @@ Vue.prototype.authShowBtn = function(path,value){
       if(list[i].listPermission && list[i].listPermission.length>0 && list[i].component.indexOf(path)>-1){
         for(var k=0;k<list[i].listPermission.length;k++){
             if(list[i].listPermission[k] == value){
-              console.log(list[i].listPermission[k] , value);
+              // console.log(list[i].listPermission[k] , value);
               is_show = true;
             }
         }

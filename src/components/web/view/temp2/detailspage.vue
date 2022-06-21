@@ -4,8 +4,8 @@
       <div class="m-width top-title">
         <span class="m-title">{{titleJson.name}}</span>
         <span class="m-address">
-          当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
-          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{subTitle.value}}</span>
+          当前位置：<span @click="menuClick(titleJson,0, 'first')"  class="cursor">{{titleJson.name}}</span>
+          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"  class="cursor"> > {{subTitle.value}}</span> > 详情
         </span>
       </div>
      <div class="body-content m-width c-l">
@@ -243,7 +243,6 @@ export default {
       font-size: 14px;
       color: @fff;
       span{
-        cursor: pointer;
         display: inline;
       }
     }

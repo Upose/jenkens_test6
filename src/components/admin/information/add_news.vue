@@ -80,11 +80,7 @@
               </el-form-item>
               <el-form-item label="投递终端" v-if="columnDeatils.terminals != 1">
                 <el-checkbox-group v-model="postForm.terminals">
-                  <el-checkbox :label="1" name="type">PC端</el-checkbox>
-                  <el-checkbox :label="2" name="type">APP端</el-checkbox>
-                  <el-checkbox :label="3" name="type">小程序端</el-checkbox>
-                  <el-checkbox :label="4" name="type">自适应移动端</el-checkbox>
-                  <el-checkbox :label="5" name="type">显示屏</el-checkbox>
+                  <el-checkbox :label="it.key" name="type" v-for="(it,index) in terminals_list">{{it.value}}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
               <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
@@ -162,6 +158,10 @@ export default {
   created(){
     this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
+    })
+    //获取有哪些终端
+    this.http.getPlain_url('pront-terminals','').then(res=>{
+      this.terminals_list = res.data||[];
     })
     //获取当前栏目信息
     this.http.getPlain_url('news-column-get','/'+this.columnID).then(res=>{
@@ -360,6 +360,7 @@ export default {
       contentEditor:'1',//编辑器切换
       activeName:"div1",//富文本还是链接
       coumn_data_list:[],//栏目下拉选择列表
+      terminals_list:[],//终端列表
       font_list:[ //字体大小
         {title:14},
         {title:16},

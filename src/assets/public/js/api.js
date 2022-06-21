@@ -49,6 +49,7 @@ export default {
         'pront-news-content-get':baseURL+'/api/news/pront-news-content-get',//获取前台新闻数据
         'pront-column-link-info':baseURL+'/api/news/column-link-info',//取前台栏目跳转的的信息
         'pront-column-side-type':baseURL+'/api/news/column-side-type',//是否显示侧边栏
+        'pront-terminals':baseURL+'/api/news/terminals',//获取终端
 
         //权限及头部菜单
         'getmgrtopmenu':baseURL_apps + '/api/baseinfo/getmgrtopmenu',//获取头部菜单
