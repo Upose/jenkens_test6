@@ -30,7 +30,7 @@
                 <div class="title-warp" :class="it.isShowPublishDate?'':'p-l'">
                   <a href="javascript:void(0)">
                     <span class="tag" v-if="it.isShowLablesName && it.lablesName.length">
-                      【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span>】
+                      【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}</span>】
                     </span>
                     {{it.title||'标题走丢了'}}
                   </a>

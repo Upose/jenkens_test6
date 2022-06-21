@@ -29,7 +29,7 @@
               <div class="msg-warp">
                 <div class="title">
                   <span v-if="it.isShowLablesName && it.lablesName.length" class="tag">
-                    【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}&nbsp;</span>】
+                    【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}</span>】
                   </span>
                   {{it.title||'标题走丢了'}}
                 </div>

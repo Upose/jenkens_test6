@@ -41,7 +41,6 @@ export default {
             }).catch(err=>{this.request_of = false;})
         },
         getId(){
-            console.log(this.cid,this.$route.query.cid)
             this.cid = this.$route.query.cid;
             this.initData();
             this.$forceUpdate();
