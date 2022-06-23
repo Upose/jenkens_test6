@@ -632,7 +632,7 @@ export default {
       setTimeout(() => {
         //这里还需要根据栏目选择的模板，确定预览某一个模板，默认是1
         if(_this.columnDeatils.defaultTemplate){
-          window.open(location.href.split('#')[0]+"/#/admin_preview"+_this.columnDeatils.defaultTemplate)
+          window.open(location.href.split('#')[0]+"/#/admin_preview"+_this.columnDeatils.defaultTemplate+'?cid='+this.columnID)
         }
       }, 200);
     },

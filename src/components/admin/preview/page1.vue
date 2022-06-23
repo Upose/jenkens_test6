@@ -7,9 +7,9 @@
         <div class="content search-table-general">
           <div class="list-warp">
     <div class="articledetails-warp">
-     <div class="body-content m-width c-l">
-        <div class="left-menu">
-          <div class="menu-top child_bg">新闻公告</div>
+     <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
+        <div class="left-menu" v-if="is_show_menu">
+          <div class="menu-top child_bg">{{content_title}}</div>
           <div class="menu-list">
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
@@ -21,11 +21,16 @@
             </ul>
           </div>
         </div>
-        <div class="body-title">
-          <div class="menu-top child_bg">当前位置：{{content_title}}</div>
+        <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
+          <div class="menu-top child_bg">当前位置：{{content_title}} > 详情</div>
           <div class="right-content">
               <div class="news-content-warp news-img-max-sys">
-                <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">{{detailsData.title||"标题走丢了"}}</h1>
+                <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
+                  <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
+                    【<span class="tag" v-for="i in (detailsData.parentCatalogueKV||[])" :key="i.key">{{i.value}}&nbsp;</span>】
+                  </span>
+                  {{detailsData.title||"标题走丢了"}}
+                </h1>
                 <div class="details_content">
                   <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
                     <span v-for="(i, index) in auditProcessList" :key="index">{{i.name}}:{{i.auditManager}}</span>
@@ -101,6 +106,9 @@ export default {
   created(){
     this.detailsData = JSON.parse(window.localStorage.getItem('news-page-preview')||'{}');
     this.titleStyleKV = this.detailsData['titleStyleKV']||[];
+    this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
+      this.is_show_menu = res.data||false;
+    })
   },
   data () {
     return {
@@ -113,10 +121,11 @@ export default {
         data:{},
         titleStyleKV:[],
         menu_list:[],
+        is_show_menu:false,
     }
   },
   mounted(){
-    //this.initData();
+    this.initData();
   },
   methods:{
       initData(){
@@ -132,17 +141,6 @@ export default {
                  }, 200);
                 }
               })
-            }
-        }).catch(err=>{
-            console.log(err);
-        })
-        this.http.getPlain_url('pront-news-content-get','?contentid="'+this.id+'"').then(res=>{
-            if(res.data && res.data.content){
-              this.data = res.data||[];
-              this.detailsData = res.data.content||{};
-              if(this.detailsData && this.detailsData.titleStyleKV){
-                this.titleStyleKV = this.detailsData.titleStyleKV||[];
-              }
             }
         }).catch(err=>{
             console.log(err);
@@ -208,350 +206,8 @@ export default {
 <style lang="less" scoped>
   @import "../../../assets/web/css/style.less";/**通用文件 */
   @import "../../../assets/web/css/color.less";/**通用文件 */
+  @import "../../web/view/temp1/detailspage.less";
   .admin-content{
     left: 0;
   }
-  .articledetails-warp{
-    min-height:800px;
-    background: @e0dfdf url(../../../assets/web/img/banner-bg1.jpg) no-repeat center top;
-    background-size: 100% 165px;
-    padding-bottom: 20px;
-    padding-top: 95px;
-  }
-    .body-content{
-    background-color: #fff;
-    .left-menu{
-      float: left;
-      margin-top: -25px;
-      width: 250px;
-      .menu-top{
-        position: relative;
-        height: 69px;
-        font-size: 24px;
-        font-weight: lighter;
-        line-height: 74px;
-        color: @fff;
-        text-align: center;
-      }
-      // &::after{
-      //   position: absolute;
-      //   right:0;
-      //   top: 72px;
-      //   bottom: 0;
-      //   width: 6px;
-      //   content: "";
-      //   background: @fff;
-      //   box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
-      //   z-index: 2;
-      // }
-    }
-    .body-title{
-      margin-left: 250px;
-      position: relative;
-      &::after{
-        position: absolute;
-        left: -6px;
-        top: 45px;
-        bottom: 0;
-        width: 6px;
-        content: "";
-        background: #fff;
-        box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
-        z-index: 2;
-      }
-      .menu-top{
-        height: 44px;
-        padding: 10px 20px;
-        font-size: 14px;
-        color: @fff;
-        margin-top: 25px;
-        line-height: 24px;
-        position: relative;
-        &:after{
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          border-width: 0 0 44px 15px;
-          border-style: dashed dashed solid solid;
-          border-color: transparent transparent transparent rgba(0,0,0,.8);
-          content: "";
-        }
-      }
-    }
-    .menu-list,.right-content{
-      min-height: 550px;
-      background-color: @fff;
-    }
-    /**左边的列表菜单*/
-    .menu-list{
-      ul{
-        padding: 10px 20px 0;
-        .child-list{
-          > a{
-            &:after{
-                border-top: 6px solid transparent;
-                border-left: 6px solid @6b;
-                border-bottom: 6px solid transparent;
-                left:5px;
-                top: 12px;
-              }
-          }
-        }
-        .child-list-active-open{
-          > a{
-            &:after{
-                border-left: 6px solid transparent;
-                border-right: 6px solid transparent;
-                border-top: 6px solid @fff;
-                left:5px;
-                top: 16px;
-                 border-left-color: transparent !important;
-              }
-          }
-        }
-        .child-list-active-close{
-          > a{
-            &:after{
-                border-top: 6px solid transparent;
-                border-left: 6px solid @fff;
-                border-bottom: 6px solid transparent;
-                left:5px;
-                top: 12px;
-              }
-          }
-        }
-
-        .child_color_hover{
-            &:hover{
-              > a{
-                &::after{
-                  border-left-color: @fff;
-                }
-              }
-            }
-        }
-
-        li{
-          cursor: pointer;
-          line-height: 36px;
-          font-size: 15px;
-          color: @6b;
-          border-bottom: 1px solid @de;
-          &:hover{
-            color: @fff;
-            a{
-              color: @fff;
-            }
-          }
-          a{
-            position: relative;
-            display: block;
-            color:@6b;
-            padding: 0 20px;
-            &:after{
-              content: '';
-              width: 0;
-              height: 0;
-              position:absolute;
-            }
-          }
-          .sub-menu{
-            background-color: #f9f9f9;
-            padding: 0;
-            a{
-              color: #a21e1e;
-              position: relative;
-              display: block;
-              &::before{
-                content: '';
-                  display: block;
-                  width: 5px;
-                  height: 5px;
-                  border-radius: 50%;
-                  background: #a21e1e;
-                  position: absolute;
-                  left:8px;
-                  top: 15px;
-              }
-              &:hover{
-                text-decoration: revert;
-              }
-            }
-            li{
-              border-bottom: none;
-              &:hover{
-                color: @23;
-              }
-            }
-          }
-          
-        }
-        .active{
-          color: @fff;
-          a{
-            color: @fff;
-          }
-        }
-      }
-    }
-    .right-content{
-      padding: 20px 75px 55px;
-      a{
-        color: @333;
-      }
-    }
-  }
-  /*****新闻详情 */
-  .news-content-warp{
-    img{
-      max-width: 100%;
-    }
-h1{
-  margin: 0 -15px;
-  padding: 10px 50px;
-  font-size: 20px;
-  font-weight: lighter;
-  line-height: 30px;
-  text-align: center;
-  border-bottom: 1px dashed #dedad6;
-}
-.details_content{
-  margin-top: 20px;
-  min-height: 150px;
-  .rich-title{
-    margin-bottom: 20px;
-    text-align: center;
-    color: @6b;
-    span,a{
-      padding: 0 15px;
-      white-space: nowrap;
-    }
-    i{
-      font-style: normal;
-    }
-  }
-  .rich-text{
-    margin-bottom: 20px;
-  }
-}
-/***评论****/
-.comment{
-  margin: 0 -15px;
-  .row-score{
-    margin-bottom: 15px;
-    span.title{
-      vertical-align: middle;
-    }
-  }
-  .c-text{
-    position: relative;
-    height: 120px;
-    .textarea,.title{
-      position: absolute;
-      top: 0;
-    }
-    .title{
-      width:98px;
-      text-align: right;
-      span{
-        display: block;
-      }
-    }
-    textarea{
-      left: 100px;
-      outline: none;
-      width:calc(100% - 100px);
-      height: 100px;
-      resize: none;
-      border: 1px solid @de;
-      border-radius: 3px;
-      padding: 10px;
-      
-    }
-  }
-  .btns{
-    text-align: center;
-    .btn{
-      color: @fff;
-      width: 100px;
-      height: 30px;
-      outline: none;
-      border: 0px solid @fff;
-      border-radius: 3px;
-      cursor: pointer;
-      &:hover{
-        opacity: .8;
-      }
-    }
-    .b-clear{
-      margin-left: 30px;
-      background-color: @9ea0a5;
-    }
-  }
-}
-/**评论区**/
-.write-a-review{
-  margin-top: 20px;
-  .title{
-    margin: 0 -15px;
-    margin-bottom: 30px;
-    font-weight: bold;
-    line-height: 20px;
-    font-size: 16px;
-    border-bottom: 1px dashed @de;
-    span{
-      border-width: 3px;
-    }
-  }
-  .row{
-    width: 100%;
-    margin-bottom: 20px;
-    .r-top{
-      margin: 10px 0;
-    }
-    .r-top .u-img{
-      width: 46px;
-      height: 46px;
-      border-radius: 3px;
-    }
-    .r-top .text{
-      display: inline-block;
-      margin-left:20px;
-      vertical-align: top;
-      line-height: 23px;
-      span.name{
-        color: @3e3f42;
-        font-size: 16px;
-      }
-      span.time{
-        color: @9ea0a5;
-      }
-      span{
-        display: block;
-      }
-    }
-    .r-bottom{
-      color: @6b;
-      line-height: 20px;
-    }
-  }
-  .more{
-    cursor: pointer;
-    text-align: right;
-    &:hover{
-      opacity: 0.6;
-    }
-  }
-}
-}
-/****审核流程 */
-.audit-process{
-  text-align: center;
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 5px;
-  span{
-    margin-right: 10px;
-  }
-}
 </style>

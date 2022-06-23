@@ -8,11 +8,13 @@
           <div class="list-warp">
     <div class="articledetails-warp">
       <div class="m-width top-title">
-        <span class="m-title">新闻公告 NEWS</span>
-        <span class="m-address">当前位置：{{content_title}}</span>
+        <span class="m-title">{{content_title}}</span>
+        <span class="m-address">
+          当前位置：<span>{{content_title}}</span> > 详情
+        </span>
       </div>
      <div class="body-content m-width c-l">
-        <div class="left-menu">
+        <div class="left-menu" v-if="is_show_menu">
           <div class="menu-list">
             <span class="title">栏目列表</span>
             <ul>
@@ -25,7 +27,7 @@
             </ul>
           </div>
         </div>
-        <div class="body-title">
+        <div class="body-title" :style="{'margin-right':!is_show_menu?'0':'250px'}">
           <div class="right-content news-img-max-sys">
             <div class="content-top-title">
               <span class="title" :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
@@ -99,6 +101,9 @@ export default {
   created(){
     this.detailsData = JSON.parse(window.localStorage.getItem('news-page-preview')||'{}');
     this.titleStyleKV = this.detailsData['titleStyleKV']||[];
+    this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
+      this.is_show_menu = res.data||false;
+    })
   },
   components:{footerPage},
   data () {
@@ -114,22 +119,22 @@ export default {
     }
   },
   mounted(){
-    // this.initData();
+    this.initData();
   },
   methods:{
       initData(){
+        var _this = this;
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
-            this.menu_list = res.data||[];
-        }).catch(err=>{
-            console.log(err);
-        })
-        this.http.postJson('pront-news-content-get','"'+this.id+'"').then(res=>{
-            if(res.data && res.data.content){
-              this.data = res.data||[];
-              this.detailsData = res.data.content||{};
-              if(this.detailsData && this.detailsData.titleStyleKV){
-                this.titleStyleKV = this.detailsData.titleStyleKV||[];
-              }
+            _this.menu_list = res.data||[];
+            if(_this.menu_list && _this.menu_list.length>0){
+              _this.menu_list.forEach((item,i)=>{
+                if(item.columnID == _this.cid){
+                 setTimeout(() => {
+                   _this.menu_list[i]['check'] = false;
+                    _this.menuClick(_this.menu_list[i].name,i,false);
+                 }, 200);
+                }
+              })
             }
         }).catch(err=>{
             console.log(err);
@@ -194,320 +199,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
- @import "../../../assets/web/css/style.less";/**通用文件 */
+  @import "../../../assets/web/css/style.less";/**通用文件 */
   @import "../../../assets/web/css/color.less";/**通用文件 */
-.admin-content{
+  @import "../../web/view/temp2/detailspage.less";
+  .admin-content{
     left: 0;
   }
-  /***主标题 */
-  .top-title{
-    margin-bottom: 15px;
-    span{
-      display: block;
-      line-height: 36px;
-    }
-    .m-title{
-      font-size: 28px;
-      color: @fff;
-    }
-    .m-address{
-      font-size: 14px;
-      color: @fff;
-    }
-  }
-  
-  .articledetails-warp{
-    min-height:800px;
-    background: @e0dfdf url(../../../assets/web/img/banner-bg2.jpg) no-repeat center top;
-    background-size: 100% 240px;
-    padding-bottom: 20px;
-    padding-top: 100px;
-  }
-    .body-content{
-    background-color: @fff;
-    .left-menu{
-      float: right;
-      margin-right: 30px;
-      width: 250px;
-      .menu-top{
-        position: relative;
-        height: 69px;
-        font-size: 24px;
-        font-weight: lighter;
-        line-height: 74px;
-        text-align: center;
-      }
-      // &::after{
-      //   position: absolute;
-      //   right:0;
-      //   top: 72px;
-      //   bottom: 0;
-      //   width: 6px;
-      //   content: "";
-      //   background: @fff;
-      //   box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
-      //   z-index: 2;
-      // }
-    }
-    .body-title{
-      margin-right: 250px;
-      position: relative;
-      
-    }
-    .menu-list,.right-content{
-      min-height: 550px;
-      background-color: @fff;
-    }
-    /**左边的列表菜单*/
-    .menu-list{
-      .title{
-        color: @666;
-        display: block;
-        margin: 0 30px;
-        margin-right: 0;
-        margin-top: 20px;
-        line-height: 40px;
-        border-bottom: 1px solid #dedede;
-      }
-      ul{
-        padding-left:30px;
-        padding-right: 0;
-        .child-list{
-          > a{
-            &:after{
-                left: 5px;
-                top: 0px;
-                content: '>';
-              }
-          }
-        }
-        .child-list-active-open{
-          > a{
-            &:after{
-                content: '>';
-                left: 9px;
-                top: 9px;
-                width: 13px;
-                height: 22px;
-                transform: rotate(90deg);
-                border-left-color: transparent !important;
-              }
-          }
-        }
-        .child-list-active-close{
-          > a{
-            &:after{
-                content: '>';
-                left: 5px;
-                top: 0px;
-              }
-          }
-        }
-
-        .child_color_hover{
-            &:hover{
-              > a{
-                &::after{
-                  border-left-color: @fff;
-                }
-              }
-            }
-        }
-
-        li{
-          cursor: pointer;
-          line-height: 36px;
-          font-size: 15px;
-          color: @6b;
-          border-bottom: 1px solid @de;
-          &:hover{
-            color: @fff;
-            a{
-              color: @fff;
-            }
-          }
-          a{
-            position: relative;
-            display: block;
-            color:@6b;
-            padding: 0 20px;
-            &:after{
-              content: '';
-              width: 0;
-              height: 0;
-              position:absolute;
-            }
-          }
-          .sub-menu{
-            background-color: #f9f9f9;
-            padding: 0;
-            a{
-              font-size: 12px;
-              color: #a21e1e;
-              position: relative;
-              display: block;
-              padding-left: 30px;
-              &:hover{
-                text-decoration: revert;
-              }
-              &::after{
-                display: block;
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                background: #a21e1e;
-                position: absolute;
-                left: 20px;
-                top: 15px;
-              }
-            }
-            li{
-              border-bottom: none;
-              &:hover{
-                color: @23;
-              }
-            }
-          }
-          
-        }
-        .active{
-          color: @fff;
-          a{
-            color: @fff;
-          }
-        }
-      }
-    }
-    .right-content{
-      padding: 35px 75px 55px;
-      .edit-content{
-        img{
-          max-width: 100% !important;
-        }
-      }
-      .content-top-title{
-        font-size: 24px;
-        // font-weight: bold;
-        color: #000;
-        .news-sub-warp{
-          font-size: 12px;
-          color: @999;
-          font-weight: 400;
-          margin-top: 20px;
-          margin-bottom: 40px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #dedede;
-          position: relative;
-          padding-right: 80px;
-          span,a{
-            margin-right:5px;
-            white-space: nowrap;
-          }
-          /***一键分享 */
-          .r-share{
-            cursor: pointer;
-            position: absolute;
-            right: 0;
-            z-index: 2;
-            top: 3px;
-            color: @fff;
-            background-color: #000;
-            border-radius: 15px;
-            padding: 6px 12px;
-            margin-top: -10px;
-            padding-left: 35px;
-            background:#000 url(../../../assets/web/img/share.png) no-repeat left;
-            background-position-x: 12px;
-          }
-        }
-      }
-    }
-  }
-  /**评论区**/
-.write-a-review{
-  margin-top: 20px;
-  .title{
-    margin: 0 -15px;
-    margin-bottom: 30px;
-    line-height: 20px;
-    font-size: 16px;
-    line-height: 40px;
-    border-bottom: 1px solid @de;
-    span{
-      border-width: 3px;
-    }
-  }
-  .row{
-    width: 100%;
-    margin-bottom: 20px;
-    .r-top{
-      margin: 10px 0;
-    }
-    .r-top .u-img{
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-    }
-    .r-top .text{
-      display: inline-block;
-      margin-left:10px;
-      vertical-align: top;
-      line-height: 23px;
-      span.name{
-        font-size: 16px;
-      }
-      span.time{
-        color: @9ea0a5;
-      }
-      span{
-        display: block;
-      }
-    }
-    .r-bottom{
-      color: @6b;
-      line-height: 20px;
-    }
-  }
-  .more{
-    cursor: pointer;
-    text-align: right;
-    &:hover{
-      opacity: 0.6;
-    }
-  }
-}
-/****评论 */
-.comment{
-  margin-top: 30px;
-  .c-title{
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 40px;
-  }
-  .c-input{
-    background-color: #f8f8f8;
-    padding: 20px;
-    .no-login,.yes-login{
-      width: 100%;
-      height: 140px;
-      border: 1px solid #dedede;
-      background-color: #fff;
-      text-align: center;
-    }
-    .no-login{
-      color: #999;;
-      line-height: 140px;
-    }
-    .yes-login{
-      display: none;
-    }
-    .yes-login textarea{
-      width: 100%;
-      height: 100%;
-      border: none;
-      padding: 10px;
-      outline: none;
-    }
-  }
-}
 </style>
