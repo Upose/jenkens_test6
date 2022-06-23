@@ -448,6 +448,9 @@ export default {
               display: -webkit-box;
               -webkit-line-clamp: 3;
               -webkit-box-orient: vertical;
+              .show-details{
+                white-space: nowrap;
+              }
             }
             .txt-right{
               float: right;

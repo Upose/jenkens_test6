@@ -74,7 +74,7 @@
                             <span>{{(scope.row.updateTime||'0000-00-00').substring(0,10)}} </span>
                           </template>
                         </el-table-column>
-                        <el-table-column label="操作" align="center" width="380">
+                        <el-table-column label="操作" fixed="right" align="center" width="380">
                           <template slot-scope="scope">
                             <el-button @click="handleDel(scope.row)" v-if="columnDeatils.hasPermission" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
                             <el-button @click="previewPage(scope.row.id)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>预览</el-button>
