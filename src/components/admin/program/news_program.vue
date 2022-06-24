@@ -20,12 +20,12 @@
             </div>
             <div class="row">
               <div class="row-list c-l" :class="!loading && (item.columnList||[]).length==0?'empty-data-admin':''">
-                <div class="row-box set-hover" v-for="(it,i) in (item.columnList||[])" :key="i+'a'">
+                <div class="row-box set-hover" v-for="(it,i) in (item.columnList||[])" :key="i+'a'" :class="it.enable?'':'appsgraycolor'">
                   <div class="r-box-bg">
                     <img :src="fileUrl+it.cover" @click="coumCover(it)"/>
                     <span class="name" @click="coumCover(it)">{{it.title||'暂无'}}</span>
                   </div>
-                  <div class="r-box-btns">
+                  <div class="r-box-btns" v-if="it.enable">
                     <el-button type="primary" v-if="authShowBtn('admin_newsProgram','delete')" class="admin-red-btn" size="medium" icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
                     <el-button type="primary" v-if="authShowBtn('admin_newsProgram','edit')" size="medium" icon="iconfont el-icon-vip-bianji" @click="editClick(it.columnID)">编辑</el-button>
                   </div>
@@ -263,4 +263,13 @@ export default {
       }
     }
   }
+.appsgraycolor {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+  -webkit-filter: grayscale(1);
+}
 </style>
