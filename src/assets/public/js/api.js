@@ -42,6 +42,7 @@ export default {
         'news-column-template-get-by-column-id': baseURL + '/api/news/news-column-template-get-by-column-id',//拖动排序
         'getcurrentappinfo': baseURL_apps + '/api/baseinfo/getcurrentappinfo',//获取应用名称和版本号
         'news-content-send-back': baseURL + '/api/news/news-content-send-back', // 退回新闻
+        'column-show-infos': baseURL + '/api/news/column-show-infos', // 获取栏目及新闻展示项
 
         //前台接口
         'pront-news-column-list-get':baseURL+'/api/news/pront-news-column-list-get',//获取前台新闻栏目数据

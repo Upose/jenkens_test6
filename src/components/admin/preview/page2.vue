@@ -31,28 +31,28 @@
           <div class="right-content news-img-max-sys">
             <div class="content-top-title">
               <span class="title" :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
-                <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
+                <span class="tag" v-if="power.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
                   【<span class="tag" v-for="(i, index) in (detailsData.parentCatalogueKV||[])" :key="index">{{i.value}}&nbsp;</span>】
                 </span>
                 {{detailsData.title||"标题走丢了"}}
               </span>
-              <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
+              <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && power.isShowAuditProcess">
                 <span v-for="i in auditProcessList">{{i.name}}:{{i.auditManager}}</span>
               </div>
               <div class="news-sub-warp">
                 <span class="name child1_text_color">{{detailsData.publisher||'无'}}</span><!--发布人-->
-                <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
-                <!-- <span v-if="data.isShowAuthor">{{detailsData.author}}</span>作者 -->
-                <!-- <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
-                <!-- <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
-                <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
-                <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
-                <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
-                <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
-                <span v-if="data.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
-                <span v-if="data.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
-                <span v-if="data.isShowHitCount"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
-                <span class="r-share" @click="handleShare()">一键分享</span>
+                <span v-if="power.isShowPublishDate"><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
+                <!-- <span v-if="power.isShowAuthor">{{detailsData.author}}</span>作者 -->
+                <!-- <span v-if="power.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
+                <!-- <span v-if="power.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
+                <!-- <a v-if="power.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
+                <span v-if="power.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
+                <span v-if="power.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
+                <span v-if="power.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
+                <span v-if="power.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
+                <span v-if="power.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
+                <span v-if="power.isShowHitCount"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
+                <span class="r-share">一键分享</span>
                 <dialogShare ref="dialogShare_ref"></dialogShare>
               </div>
             </div>
@@ -104,6 +104,10 @@ export default {
     this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
       this.is_show_menu = res.data||false;
     })
+    //获取权限
+    this.http.getPlain('column-show-infos','columnid=' + this.cid+'&contentid='+this.id).then(res=>{
+      this.power = res.data||{};
+    })
   },
   components:{footerPage},
   data () {
@@ -116,6 +120,7 @@ export default {
         titleStyleKV:[],
         data:{},
         menu_list:[],
+        power:{},//权限
     }
   },
   mounted(){
