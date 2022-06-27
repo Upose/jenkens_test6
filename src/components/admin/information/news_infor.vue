@@ -74,11 +74,10 @@
                             <span>{{(scope.row.updateTime||'0000-00-00').substring(0,10)}} </span>
                           </template>
                         </el-table-column>
-                        <el-table-column label="操作" fixed="right" align="center" width="380">
+                        <el-table-column label="操作" fixed="right" align="center" width="310">
                           <template slot-scope="scope">
                             <el-button @click="handleDel(scope.row)" v-if="columnDeatils.hasPermission" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
                             <el-button @click="previewPage(scope.row.id)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>预览</el-button>
-                            <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-paixu" class="handleSort" round>排序</el-button>
                             <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-pingshen" v-if="(scope.row.aduitStatus !=8 || scope.row.status!=2) && scope.row.nextAuditBottonName" round >
                               {{scope.row.nextAuditBottonName}}
                             </el-button>
@@ -87,13 +86,15 @@
                         </el-table-column>
                         <el-table-column prop="content" label="操作记录" align="center" width="85">
                           <template slot-scope="scope">
-                            <!-- <el-button @click="handleEdit(scope.row)" type="text" size="mini" round>日志</el-button> -->
                             <el-button @click="handleLog(scope.row)" type="text" size="mini">日志</el-button>
                           </template>
                         </el-table-column>
+                        <el-table-column prop="content" label="排序" align="center" width="85">
+                          <template slot-scope="scope">
+                            <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-paixu" class="handleSort" round>排序</el-button>
+                          </template>
+                        </el-table-column>
                     </el-table>
-                    <!--<el-button size="small" class="default-btn-n-border next-btn">下一页</el-button>-->
-                    <!-- <paging></paging> -->
                     <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
                 </div>
             </div><!--管理页列表 end--->
@@ -354,9 +355,10 @@ export default {
         ".el-table__body-wrapper > table > tbody"
       )[0];
       this.sortable = Sortable.create(el, {
+        handle: ".handleSort",
+        sort: true,
         animation: 150,
         ghostClass: "sortable-ghost",
-        // handle: '.handleSort',
         onEnd: e => {
           // 拖动了但是没有改变位置 不执行
           if (e.newIndex == e.oldIndex) {
