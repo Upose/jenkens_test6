@@ -95,6 +95,7 @@ export default {
     },
     //栏目封面点击
     coumCover(val){
+      if(!val.enable) return;
       this.$router.push({path:'/admin_programInfo',query:{id:val.columnID}})
     },
     //查找
