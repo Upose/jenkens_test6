@@ -38,6 +38,11 @@
                     <el-table stripe :data="tableData" v-loading="loading" ref="singleTable" @selection-change="handleSelectionApp" border class="admin-table">
                         <el-table-column type="selection" width="50"></el-table-column>
                         <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
+                        <el-table-column prop="content" label="排序" align="center" width="85">
+                          <template slot-scope="scope">
+                            <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-paixu" class="handleSort" round>排序</el-button>
+                          </template>
+                        </el-table-column>
                         <el-table-column prop="title" label="新闻标题" min-width="150px">
                           <template slot-scope="scope">
                             <span class="news-title" :title="scope.row.title" @click="handleEdit(scope.row)">{{scope.row.title}}</span>
@@ -87,11 +92,6 @@
                         <el-table-column prop="content" label="操作记录" align="center" width="85">
                           <template slot-scope="scope">
                             <el-button @click="handleLog(scope.row)" type="text" size="mini">日志</el-button>
-                          </template>
-                        </el-table-column>
-                        <el-table-column prop="content" label="排序" align="center" width="85">
-                          <template slot-scope="scope">
-                            <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-paixu" class="handleSort" round>排序</el-button>
                           </template>
                         </el-table-column>
                     </el-table>
