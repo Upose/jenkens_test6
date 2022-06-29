@@ -20,25 +20,21 @@
             </div>
             <div class="row">
               <div class="row-list c-l" :class="!loading && (item.columnList||[]).length==0?'empty-data-admin':''">
-                <div class="box-warp" v-for="(it,i) in (item.columnList||[])" :key="i+'a'" :class="it.enable?'':'appsgraycolor'">
-                  <div class="row-box set-hover">
-                    <div class="r-box-bg">
-                      <img :src="fileUrl+it.cover" @click="coumCover(it)"/>
-                      <span class="name" @click="coumCover(it)">{{it.title||'暂无'}}</span>
-                    </div>
-                    <div class="r-box-btns" v-if="it.enable">
-                      <el-button type="primary" v-if="authShowBtn('admin_newsProgram','delete')" class="admin-red-btn" size="medium" icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
-                      <el-button type="primary" v-if="authShowBtn('admin_newsProgram','edit')" size="medium" icon="iconfont el-icon-vip-bianji" @click="editClick(it.columnID)">编辑</el-button>
-                    </div>
+                <div class="row-box set-hover" v-for="(it,i) in (item.columnList||[])" :key="i+'a'" :class="it.enable?'':'appsgraycolor'">
+                  <div class="r-box-bg">
+                    <img :src="fileUrl+it.cover" @click="coumCover(it)"/>
+                    <span class="name" @click="coumCover(it)">{{it.title||'暂无'}}</span>
+                  </div>
+                  <div class="r-box-btns" v-if="it.enable">
+                    <el-button type="primary" v-if="authShowBtn('admin_newsProgram','delete')" class="admin-red-btn" size="medium" icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
+                    <el-button type="primary" v-if="authShowBtn('admin_newsProgram','edit')" size="medium" icon="iconfont el-icon-vip-bianji" @click="editClick(it.columnID)">编辑</el-button>
                   </div>
                 </div>
-                <div class="box-warp">
-                  <div class="row-box set-hover" v-if="authShowBtn('admin_newsProgram','add') && item.lableName=='默认标签'" @click="addClick()">
-                    <div class="r-box-bg add-btn">
-                      <div class="r-box-add-warp">
-                        <i class="iconfont el-icon-vip-tianjia1"></i>
-                        <span>新增栏目</span>
-                      </div>
+                <div class="row-box set-hover" v-if="authShowBtn('admin_newsProgram','add') && item.lableName=='默认标签'" @click="addClick()">
+                  <div class="r-box-bg add-btn">
+                    <div class="r-box-add-warp">
+                      <i class="iconfont el-icon-vip-tianjia1"></i>
+                      <span>新增栏目</span>
                     </div>
                   </div>
                 </div>
@@ -182,6 +178,11 @@ export default {
     margin-top: 5px;
     .row{
       padding: 10px;
+      .row-list{
+        display: grid;
+        justify-content: space-between;
+        grid-template-columns: repeat(auto-fill, 200px);
+      }
       .row-box{
         width: 170px;
         padding: 15px 0;
@@ -266,55 +267,6 @@ export default {
         }
         
       }
-    }
-  }
-.box-warp{
-  width: 10%;
-  float: left;
-}
-  @media screen and (max-width: 2200px){
-    .box-warp{
-      width: 11.1111%;
-    }
-  }
-  @media screen and (max-width: 1920px){
-    .box-warp{
-      width: 12.5%;
-    }
-  }
-  @media screen and (max-width: 1820px){
-    .box-warp{
-      width: 14.285%;
-    }
-  }
-  @media screen and (max-width: 1600px){
-    .box-warp{
-      width: 16.6666%;
-    }
-  }
-  @media screen and (max-width: 1400px){
-    .box-warp{
-      width: 20%;
-    }
-  }
-  @media screen and (max-width: 1280px){
-    .box-warp{
-      width: 25%;
-    }
-  }
-  @media screen and (max-width: 1100px){
-    .box-warp{
-      width: 33.333%;
-    }
-  }
-  @media screen and (max-width: 900px){
-    .box-warp{
-      width: 50%;
-    }
-  }
-  @media screen and (max-width: 700px){
-    .box-warp{
-      width: 100%;
     }
   }
 .appsgraycolor {
