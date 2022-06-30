@@ -99,6 +99,7 @@ export default {
     color: @fff;
   }
   button {
+    font-size: 14px;
     border: 1px solid @999;
     padding: 0 5px;
     height: 30px;
