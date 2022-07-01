@@ -184,10 +184,11 @@ export default {
         grid-template-columns: repeat(auto-fill, 200px);
       }
       .row-box{
+        float: left;
         width: 170px;
         padding: 15px 0;
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 10px;
+        margin-right: 10px;
         position: relative;
         .r-box-bg{
           cursor: pointer;
