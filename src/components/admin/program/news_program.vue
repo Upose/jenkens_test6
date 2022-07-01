@@ -190,6 +190,7 @@ export default {
         margin-right: auto;
         position: relative;
         .r-box-bg{
+          cursor: pointer;
           // width: 238px;
           // height: 238px;
           box-shadow: 0px 2px 15px rgba(40, 120, 255, 0.1);
