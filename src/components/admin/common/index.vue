@@ -1,8 +1,8 @@
 <template>
 <div class="warp">
     <headerpage></headerpage>
-    <div class="admin-warp-content" v-if="post_details && post_menu"><router-view></router-view></div>
-    <div class="admin-warp-content" v-if="!post_details && !post_menu" v-loading="true"></div>
+    <div class="admin-warp-content" v-if="post_menu"><router-view></router-view></div>
+    <div class="admin-warp-content" v-if="!post_menu" v-loading="true"></div>
     <!-- <footerpage class="footer-page"></footerpage> -->
 </div>
 </template>
@@ -18,21 +18,7 @@ export default {
     var _that = this;
     let appMenu = store.state.menuList;
     let appDetails = store.state.appDetails;
-    //详情
-    if(!appDetails || appDetails==null || appDetails==undefined || appDetails ==''){
-      _that.http.getPlain('getcurrentappinfo','appcode=news').then((res) => {
-        if(res.data){
-          store.commit('appDetails',res.data);
-          document.title = res.data.appName+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
-        }
-        _that.post_details = true;
-      }).catch(err=>{
-        _that.$message({type: 'error',message: '获取应用详情失败!'});
-      })
-    }else{
-       _that.post_details = true;
-      document.title = appDetails.appName||''+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
-    }
+    document.title = (appDetails.appName||'')+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
     //菜单
     if(!appMenu || appMenu==null || appMenu==undefined || appMenu =='' || appMenu == '[]'){
       _that.http.getPlain('news-user-union-column-permission-list','').then((res) => {
@@ -48,13 +34,10 @@ export default {
   },
   data () {
     return {
-      post_details:false,
       post_menu:false,
     }
   },
-  methods:{
-    
-  }
+  methods:{}
 }
 </script>
 
@@ -80,19 +63,4 @@ export default {
   top: 40px;
   bottom: 0;
 }
-/**
-.content-warp{
-  position: absolute;
-  top: 61px;
-  left: 0;
-  right: 0;
-  bottom: 40px;
-}
-.footer-page{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-**/
 </style>
