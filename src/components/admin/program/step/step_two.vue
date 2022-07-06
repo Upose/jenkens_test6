@@ -86,7 +86,7 @@ export default {
         acessAll:true,//授权访问名称 必填 true是全部 false是指定授权访问名单
         isOpenComment:0,//启用内容评分
         isOpenAudit:0,//启用内容审查
-        auditFlow:'7,8',
+        auditFlow:'7;8',
       },
       rules: {
         acessAll: [
@@ -106,7 +106,7 @@ export default {
       this.postForm.visitingListModel = newVal.visitingListModel||{};
       this.select_user_data = newVal.visitingListModel||{};
       this.postForm.isOpenAudit = newVal.isOpenAudit||0;
-      this.postForm.auditFlow = newVal.auditFlow||'7,8';
+      this.postForm.auditFlow = newVal.auditFlow||'7;8';
     },
     //设置审核流程
     checkClick(val){
