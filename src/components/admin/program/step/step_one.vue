@@ -3,14 +3,14 @@
   <div class="admin-warp-page" @click="tag_edit == false">
       <el-form :model="postForm" :rules="rules" ref="postForm" label-width="120px" class="admin-form">
         <div class="form-content">
-          <el-form-item label="栏目名称" prop="title">
+          <el-form-item label="栏目名称：" prop="title">
             <el-input v-model="postForm.title" placeholder="请输入栏目名称" class="r-pad-num-max" maxlength="50" minlength="2" show-word-limit></el-input>
           </el-form-item>
-          <el-form-item label="栏目别名" prop="alias">
+          <el-form-item label="栏目别名：" prop="alias">
             <el-input v-model="postForm.alias" placeholder="请输入栏目别名" class="r-pad-num-max" maxlength="50" minlength="2" show-word-limit></el-input>
           </el-form-item>
           <div class="user-form-item">
-            <label class="u-label"><span class="el-input">栏目标签</span></label>
+            <label class="u-label"><span class="el-input">栏目标签：</span></label>
             <div class="u-list">
               <input type="text" class="u-input" @keyup="inputBlur" show-word-limit v-model="postForm.label" placeholder="请选择标签"/>
               <!-- <el-popover placement="bottom-end" trigger="click" width="490" v-model="visible"> -->
@@ -21,26 +21,26 @@
             </div>
             <p class="hint com-hint">标签可以为栏目设置分类，方便筛选。多个；号分割</p>
           </div>
-          <el-form-item label="多终端同步">
+          <el-form-item label="多终端同步：">
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.terminals"></el-switch>
             <p class="hint row-hint">当停止同步时，每次发新闻都需要选择投递终端</p>
           </el-form-item>
-          <el-form-item label="状态" prop="status">
+          <el-form-item label="状态：" prop="status">
             <el-radio-group v-model="postForm.status">
               <el-radio :label="1">启用</el-radio>
               <el-radio :label="2">下架</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="内容扩展项">
+          <el-form-item label="内容扩展项：">
             <el-checkbox-group v-model="postForm.extension">
               <el-checkbox :label="item.key" name="type" @change="extensionCheck(item)" v-for="(item,index) in scalable_data" :key="index+'extension'">{{item.value}}</el-checkbox>
               <el-button size="medium" type="primary" @click="extendContent()">自定义扩展</el-button>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item label="栏目地址" prop="a" v-if="is_edit">
+          <el-form-item label="栏目地址：" prop="a" v-if="is_edit">
             <el-input v-model="postForm.linkUrl" disabled="false" placeholder="在门户中访问该栏目的链接地址"></el-input>
           </el-form-item>
-          <el-form-item label="默认模板" prop="defaultTemplate">
+          <el-form-item label="默认模板：" prop="defaultTemplate">
             <div class="temp-select c-l">
               <div class="d-temp-box" :class="it.id==postForm.defaultTemplate?'d-temp-box-check':''" @click="templateClick(it.id)" :style="{background:'url('+$root.fileUrl+it.previewPic+')'}" v-for="(it,i) in template_list" :key="i+'a'">
                 <span class="temp-name">{{it.name}}</span>
@@ -54,13 +54,13 @@
               </div>
             </div>
           </el-form-item>
-          <el-form-item label="侧边列表" prop="sideList">
+          <el-form-item label="侧边列表：" prop="sideList">
             <el-checkbox-group v-model="postForm.sideList">
                 <el-checkbox label="1" name="type">左侧显示同标签栏目</el-checkbox>
                 <el-checkbox label="2" name="type">左侧显示新闻标签</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item label="显示系统信息">
+          <el-form-item label="显示系统信息：">
             <el-checkbox-group v-model="postForm.sysMesList">
                 <el-checkbox label="1" name="type">列表显示发布日期</el-checkbox>
                 <el-checkbox label="2" name="type">列表显示新闻访问次数</el-checkbox>
@@ -71,7 +71,7 @@
                 <el-checkbox label="7" name="type">详情显示审核信息</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item label="启用内容封面">
+          <el-form-item label="启用内容封面：">
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isOpenCover"></el-switch>
             <!-- <el-select class="m-l" v-model="postForm.coverSize" placeholder="请选择" :disabled="postForm.isOpenCover!=1">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>

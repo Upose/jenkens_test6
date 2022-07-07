@@ -1,32 +1,24 @@
 <!---新闻发布-栏目管理-新增栏目-->
 <template>
   <div class="admin-warp-page">
-      <el-form :model="postForm" :rules="rules" ref="postForm" label-width="120px" class="admin-form">
+      <el-form :model="postForm" :rules="rules" ref="postForm" label-width="140px" class="admin-form">
         <div class="form-content">
-          <el-form-item label="必须登录访问" prop="isLoginAcess">
-            <!-- <el-radio-group v-model="postForm.isLoginAcess">
-              <el-radio :label="0">关闭</el-radio>
-              <el-radio :label="1">启用</el-radio>
-            </el-radio-group> -->
+          <el-form-item label="必须登录访问：" prop="isLoginAcess">
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isLoginAcess"></el-switch>
           </el-form-item>
-          <el-form-item label="授权访问名单" prop="acessAll" v-if="postForm.isLoginAcess==1">
+          <el-form-item label="授权访问名单：" prop="acessAll" v-if="postForm.isLoginAcess==1">
             <el-radio-group v-model="postForm.acessAll">
               <el-radio v-for="item in acessAllList" :key="item.label" :label="item.label">{{item.val}}</el-radio>
               <el-button size="medium" class="m-l" v-if="postForm.acessAll==false" type="primary" @click="selectUserShow()">选择用户</el-button>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="启用内容评论">
-            <!-- <el-radio-group v-model="postForm.resource">
-              <el-radio label="否"></el-radio>
-              <el-radio label="是"></el-radio>
-            </el-radio-group> -->
+          <el-form-item label="启用内容评论：">
             <el-switch :active-value="1" :inactive-value="0" v-model="postForm.isOpenComment"></el-switch>
           </el-form-item>
-          <el-form-item label="启用内容审查">
+          <el-form-item label="启用内容审查：">
             <el-switch  :active-value="1" :inactive-value="0" v-model="postForm.isOpenAudit"></el-switch>
           </el-form-item>
-          <el-form-item label="设置审核流程" class="m-t" v-if="postForm.isOpenAudit==1">
+          <el-form-item label="设置审核流程：" class="m-t" v-if="postForm.isOpenAudit==1">
             <div class="audit-warp">
               <span class="next-txt active"><i class="m-icon iconfont el-icon-vip-zhuanxie"></i><span><i class="iconfont el-icon-vip-gou2"></i> 撰稿</span></span>
               <span class="next-icon"><i class="next-bj"></i></span>
@@ -193,8 +185,11 @@ export default {
         padding-top: 36px;
         padding-bottom:10px;
         .m-top{
-          margin-top: 30px;
+          margin-top: 10px;
         }
+    }
+    .m-t{
+      padding-top: 20px;
     }
     /***审核流程 */
         .audit-warp{
@@ -204,6 +199,7 @@ export default {
             width: 70px;
             height: 110px;
             margin-top: -30px;
+            margin-bottom: 20px;
             display: inline-block;
             text-align: center;
             i.m-icon{

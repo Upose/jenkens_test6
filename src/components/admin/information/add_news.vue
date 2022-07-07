@@ -10,7 +10,7 @@
           <el-form :model="postForm" :rules="rules" ref="postForm" label-width="100px" class="admin-form">
             <h1 class="s-b-border-title">{{id?'编辑':'新增'}}新闻</h1>
             <div class="form-content">
-              <el-form-item label="新闻标题" prop="title">
+              <el-form-item label="新闻标题：" prop="title">
                 <el-input v-model="postForm.title" placeholder="请输入新闻标题" maxlength="100" minlength="2" show-word-limit class="txt-set r-pad-num-max-100">
                     <template slot="append">
                         <div class="news-font-set">
@@ -25,11 +25,11 @@
                     </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="副标题" prop="subTitle">
+              <el-form-item label="副标题：" prop="subTitle">
                 <el-input v-model="postForm.subTitle" placeholder="请输入副标题" class="r-pad-num-max-100" maxlength="100" minlength="0" show-word-limit></el-input>
               </el-form-item>
               <div class="user-form-item" v-if="isshow_ParentCatalogue">
-                <label class="u-label"><span class="u-el-input">新闻标签</span></label>
+                <label class="u-label"><span class="u-el-input">新闻标签：</span></label>
                 <div class="u-list">
                     <input type="text" @keyup="inputBlur" v-model="postForm.parentCatalogue" class="u-input" placeholder="请输入新闻标签"/>
                     <span class="hint-num-max">{{parentCatalogue_length}}/20</span>
@@ -37,7 +37,7 @@
                     <tagEdit :dataList="tag_edit_data" :cType="2" @tagEditHide="tagEditHide" @checkTag="checkTag" v-if="tag_edit"></tagEdit>
                 </div>
               </div>
-              <el-form-item label="多栏目投递">
+              <el-form-item label="多栏目投递：">
                 <div class="btns-colse-warp">
                    <div class="btns-select-row" v-for="(it,i) in coumn_list" :key="i+'b'">
                      <el-select v-model="it.value" placeholder="请选择栏目">
@@ -55,7 +55,7 @@
                 </div>
                 <p class="hint">每条内容支持最多同时投递到3个新闻栏目内。</p>
               </el-form-item>
-              <el-form-item label="内容封面" v-if="columnDeatils.isOpenCover==1">
+              <el-form-item label="内容封面：" v-if="columnDeatils.isOpenCover==1">
                 <div class="up-img-form-item">
                   <!-- <div class="up-img-warp up-img-cover-img" v-if="id"> -->
                   <div class="up-img-warp up-img-cover-img" v-if="postForm.cover">
@@ -66,28 +66,28 @@
                   </div>
                 </div>
               </el-form-item>
-              <el-form-item label="发布人" prop="publisher">
+              <el-form-item label="发布人：" prop="publisher">
                 <el-input v-model="postForm.publisher" placeholder="请输入发布人" class="r-pad-num-max" maxlength="50" minlength="0" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="发布日期" prop="publishDate">
+              <el-form-item label="发布日期：" prop="publishDate">
                 <el-date-picker v-model="postForm.publishDate" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" class="data-clear-icon" placeholder="请选择发布日期"></el-date-picker>
               </el-form-item>
-              <el-form-item label="显示状态" prop="status">
+              <el-form-item label="显示状态：" prop="status">
                 <el-radio-group v-model="postForm.status">
                   <el-radio :label="1">正常</el-radio>
                   <el-radio :label="2" :disabled="!($route.query.of==1)">下架</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="投递终端" v-if="columnDeatils.terminals != 1">
+              <el-form-item label="投递终端：" v-if="columnDeatils.terminals != 1">
                 <el-checkbox-group v-model="postForm.terminals">
                   <el-checkbox :label="it.key" name="type" v-for="(it,index) in terminals_list" :key="index+'_terminals'">{{it.value}}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
-              <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
+              <el-form-item :label="item.value+'：'" v-for="(item,index) in row_list" :key="index +'row'">
                 <el-input v-model="item.input_val" :placeholder="'请输入'+item.value" v-if="item.key !='ExpirationDate'"></el-input>
                 <el-date-picker v-model="item.input_val" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" v-if="item.key =='ExpirationDate'" placeholder="请选择失效日期"></el-date-picker>
               </el-form-item>
-              <el-form-item label="内容" :prop="activeName=='div1'?'content':'externalLink'">
+              <el-form-item label="内容：" :prop="activeName=='div1'?'content':'externalLink'">
                 <div class="filter-form-item">
                     <div class="filter-r-t-editor">
                       <div class="filter-f-title">
