@@ -15,8 +15,8 @@
             <ul>
               <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item,index, 'first')">{{item.name}}</a>
-                <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableList" @click="foxbaseClick(it)" :class="{'cur-sub-key':subTitle.key == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length>0 && item.check">
+                  <li v-for="(it,i) in item.lableNewsList" @click="foxbaseClick(it)" :class="{'cur-sub-key':subTitle.key == it.key}"><a href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -159,6 +159,10 @@ export default {
         })
       },
       menuClick(item, index, leve) {//标题,index下标
+        if(item.newsCount && item.newsCount==1){
+          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
+          return;
+        }
         if (leve == 'first') {
           this.$router.push({ path: '/web_newsList', query: { cid: this.menu_list[index].columnID } }).catch((err) => { });
         }
@@ -183,14 +187,14 @@ export default {
       },
       isActive(val,check){
         var cs = '';
-        if(val.lableList && val.lableList.length>0){
+        if(val.lableNewsList && val.lableNewsList.length>0){
           cs = 'child-list ';
         }
         if(this.cid == val.columnID){
           cs = 'active child_bg';
-          if(val.lableList && val.lableList.length>0 && check==true){
+          if(val.lableNewsList && val.lableNewsList.length>0 && check==true){
             cs = cs + ' child-list-active-open';
-          }else if(val.lableList && val.lableList.length>0 && (check==undefined||check==false)){
+          }else if(val.lableNewsList && val.lableNewsList.length>0 && (check==undefined||check==false)){
             cs = cs+' child-list-active-close';
           }
         }
@@ -211,6 +215,10 @@ export default {
       //点击二级菜单
       foxbaseClick(val) {
         this.subTitle = val;
+        if(val.newsCount && val.newsCount==1){
+          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} });
+          return;
+        }
         this.pageIndex = 1;
         this.totalCount = 0;
         this.getNewsList(this.cid, val);
