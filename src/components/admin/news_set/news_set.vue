@@ -6,16 +6,16 @@
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <breadcrumb :cuMenu="'应用中心'" :fontColor="'fff'"></breadcrumb><!--面包屑导航--->
         <div class="content">
-          <el-form :model="postForm" :rules="rules" ref="postForm" label-width="150px" class="admin-form">
+          <el-form :model="postForm" :rules="rules" ref="postForm" label-width="160px" class="admin-form">
             <h1 class="s-b-border-title">应用设置</h1>
             <div class="form-content">
-              <el-form-item label="启用敏感词过滤">
+              <el-form-item label="启用敏感词过滤：">
                 <el-switch :active-value="1" :inactive-value="0" v-model="postForm.sensitiveWords"></el-switch>
               </el-form-item>
-              <el-form-item label="统一关闭评论留言">
+              <el-form-item label="统一关闭评论留言：">
                 <el-switch :active-value="1" :inactive-value="0" v-model="postForm.comments"></el-switch>
               </el-form-item>
-              <el-form-item label="栏目管理权限">
+              <el-form-item label="栏目管理权限：">
                 <div class="table-pd">
                   <div class="table-pd-title"><span class="col col1">序号</span><span class="col col2">栏目名称</span><span class="col col3">授权管理员</span><span class="col col4">操作</span></div>
                   <el-collapse @change="handleChange" class="table-warp" v-model="activeNames" v-loading="loading" :class="!loading && tableData.length==0?'empty-data-admin':''">
