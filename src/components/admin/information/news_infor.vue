@@ -39,6 +39,19 @@
                         <el-table-column type="selection" width="50"></el-table-column>
                         <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
                         <el-table-column prop="content" label="排序" align="center" width="85">
+                          <template slot="header" slot-scope="scope">
+                            <div>
+                              <span>排序</span>
+                              <el-popover placement="top-start" width="300" trigger="click">
+                                <div>
+                                  <div>提供两种排序方法：</div>
+                                  <div>1.按住按钮可直接拖动记录的位置；</div>
+                                  <div>2.点击按钮，在对话框输入新的位置编号。</div>
+                                </div>
+                                <i slot="reference" class="el-icon-question" style="cursor: pointer;"></i>
+                              </el-popover>
+                            </div>
+                          </template>
                           <template slot-scope="scope">
                             <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-paixu" class="handleSort" round>排序</el-button>
                           </template>
