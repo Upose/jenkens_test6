@@ -1,4 +1,4 @@
-<!---应用中心-管理权限设置-->
+<!---新闻列表-日志管理-->
 <template>
   <div class="admin-warp-page">
     <el-container>
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-// import paging from "@/components/admin/common/paging";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
@@ -104,8 +103,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/admin/css/color.less";/**颜色配置 */
-@import "../../../assets/admin/css/style.less";/**颜色配置 */
+@import "../../../assets/admin/css/color.less";
+@import "../../../assets/admin/css/style.less";
 @import "../../../assets/admin/css/table.less";
 .search-table-general .table-w .m-title{
   min-height: 64px;

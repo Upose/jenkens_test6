@@ -3,12 +3,6 @@
     <div :class="header_class" id="jl_vip_zt_header_warp"><div id="jl_vip_zt_header"></div></div>
     <div class="content-warp"><router-view v-if="post_details"></router-view></div>
     <div :class="footer_class" id="jl_vip_zt_footer_warp"><div id="jl_vip_zt_footer"></div></div>
-    <!-- <div class="template-warp">
-      <span @click="skinClick('template1')">红</span>
-      <span @click="skinClick('template2')">蓝</span>
-      <span @click="skinClick('template3')">绿</span>
-      <span @click="skinClick('template4')">紫</span>
-    </div> -->
 </div>
 </template>
 
@@ -73,17 +67,5 @@ export default {
     height: 100%;
     position: relative;
 }
-// .template-warp{
-//   position: fixed;
-//   top: 10px;
-//   right: 0;
-//   span{
-//     cursor: pointer;
-//     padding: 1px 2px;
-//     border-radius: 4px;
-//     background-color: #eee;
-//     border: 1px solid #eee;
-//   }
-// }
 </style>
 

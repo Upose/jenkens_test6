@@ -1,0 +1,133 @@
+.content{
+    min-height: 600px;
+    background-color: @fff;
+    border-radius: 4px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
+    padding-bottom: 20px;
+    .form-content{
+      // max-width: 740px;
+    }
+  }
+  .table-warp{
+    min-height: 200px;
+  }
+  /****栏目管理权限表格 start */
+  .table-pd{
+    border: 1px solid #E4E6FC;
+    border-radius: 3px;
+    padding:22px;
+    /deep/.el-collapse-item__content{
+      padding-bottom: 0;
+    }
+    .table-pd-title{
+      width: 100%;
+      background: @F1F3F7;
+      .col2{
+        padding-left: 5px;
+      }
+    }
+    .table-pd-row{
+      border-top: 1px solid @EBEEF5;
+      padding: 9px 0;
+      font-size: 14px;
+      &:hover{
+        background-color: @F8F8F8;
+      }
+    }
+    .col{
+      display: inline-block;
+      padding: 0 5px;
+      min-height: 28px;
+      line-height: 28px;
+      vertical-align: middle;
+      
+    }
+    .col1{
+      width: 10%;
+    }
+    .col2{
+      width: 40%;
+      position: relative;
+      padding-left: 25px;
+      i{
+        max-width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-style: inherit;
+        vertical-align: bottom;
+      }
+    }
+    .col3{
+      width: 40%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .col4{
+      width: 10%;
+    }
+    /deep/.el-collapse-item__arrow{
+      display: none;
+    }
+    /deep/.el-collapse-item:nth-child(even) .el-collapse-item__wrap,
+    /deep/.el-collapse-item:nth-child(even) .el-collapse-item__header{
+      background-color: @F8FAFF;
+    }
+    .col-icon{
+      position: absolute;
+      left: 3px;
+      top: 50%;
+      color: @78828A;
+      margin-top: -6px;
+    }
+    /****按钮 */
+    .btns-edit{
+      text-align: center;
+      display: inline-block;
+      width: 64px;
+      height: 28px;
+      line-height: 28px;
+      color: @6777EF;
+      background: #F9F8FF;
+      border-radius: 14px;
+      i{
+        margin-right: 5px;
+      }
+      &:hover{
+        opacity: .8;
+      }
+    }
+    /****延长线 */
+    .fold-line::after{
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      top: -32px;
+      left: 9px;
+      height: 50px;
+      border-left: 1px solid @78828A;
+    }
+    .fold-line::before{
+      content: '';
+      display: block;
+      position: absolute;
+      height: 0;
+      width: 12px;
+      left: 9px;
+      bottom: 10px;
+      border-bottom: 1px solid @78828A;
+    }
+    .open-fold-line::after{
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      bottom: -12px;
+      left: 9px;
+      height: 20px;
+      border-left: 1px solid @78828A;
+    }
+  }

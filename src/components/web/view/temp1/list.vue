@@ -2,6 +2,7 @@
   <div class="list-warp" v-aaa="'aaa'">
     <div class="articledetails-warp">
       <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
+        
         <div class="left-menu" v-if="is_show_menu">
           <div class="menu-top child_bg"><span>{{titleJson.name}}</span></div>
           <div class="menu-list">
@@ -14,12 +15,14 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div><!--左侧栏目菜单列表 end-->
+
         <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
           <div class="menu-top child_bg">
             当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
             <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{subTitle.value}}</span>
-          </div>
+          </div><!--顶部面包屑 end-->
+
           <div class="right-content">
             <ul class="news-ul">
               <li class="next_hover" @click="detailsClick(it)" v-for="(it,i) in news_list" :key="i+'content'" :class="it.isShowPublishDate?'min-h':''">
@@ -38,11 +41,12 @@
                   <p class="intros" v-if="it.isShowContent"><span v-html="it.content"></span></p>
                 </div>
               </li>
-            </ul>
+            </ul><!--顶部-其他基础信息 end-->
+
             <div class="temp-loading" v-if="loading"></div>
             <!--加载中-->
             <div v-if="!loading && news_list.length == 0" class="web-empty-data"></div>
-            <pages1 :total="totalPages" :Cindex="pageIndex" :totalCount="totalCount" @currentClick="currentClick" v-if="totalCount"></pages1>
+            <pages :total="totalPages" :Cindex="pageIndex" :totalCount="totalCount" @currentClick="currentClick" v-if="totalCount"></pages>
           </div>
           <!--新闻列表 end -->
         </div>
@@ -52,14 +56,15 @@
 </template>
 
 <script>
-import pages1 from '@/components/web/model/pages1';
+import pages from '@/components/web/model/pages';
 export default {
   name: 'footerPage',
-  components: { pages1 },
+  components: { pages },
   created() {
     if(this.$route.query.subTitle){
       this.subTitle = JSON.parse(this.$route.query.subTitle);
     }
+    //是否显示左侧菜单
     this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
       this.is_show_menu = res.data||false;
     })
@@ -84,9 +89,9 @@ export default {
     this.initData();
   },
   methods: {
+    //获取栏目菜单列表
     initData() {
       this.loading = true;
-      //获取左边菜单列表
       this.http.getPlain('pront-news-column-list-get', 'columnid=' + this.cid).then(res => {
         this.menu_list = res.data || [];
         if (this.cid) {
@@ -153,7 +158,10 @@ export default {
         console.log(err);
       })
     },
-    menuClick(item, index, leve) {//标题,index下标
+    /**一级菜单点击事件
+     * 行信息，下标，一级菜单
+     */
+    menuClick(item, index, leve) {
       if(item.newsCount && item.newsCount==1){
         this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
         return;
@@ -225,290 +233,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/web/css/style.less"; /**通用文件 */
-@import "../../../../assets/web/css/color.less"; /**通用文件 */
-.p-l {
-  padding-left: 0 !important;
-}
-.min-h {
-  min-height: 110px !important;
-}
-.articledetails-warp {
-  min-height: 700px;
-  background: @e0dfdf url(../../../../assets/web/img/banner-bg1.jpg) no-repeat
-    center top;
-  background-size: 100% 165px;
-  padding-bottom: 20px;
-  padding-top: 95px;
-}
-.cur-sub-key {
-  background-color: #ffeaea;
-}
-.body-content-clear{
-      &::before {
-        box-shadow:inherit !important;
-      }
-    }
-.body-content {
-  min-height: calc(100vh - 380px);
-  background-color: #fff;
-  position: relative;
-  &::before {
-    bottom: 0;
-    top: 0;
-    left:245px;
-    position: absolute;
-    width: 5px;
-    box-shadow: 8px 0 10px rgba(0, 0, 0, 0.05);
-    content: "";
-  }
-  .left-menu {
-    float: left;
-    margin-top: -25px;
-    width: 250px;
-    min-height: calc(100vh - 355px);
-    .menu-top {
-      position: relative;
-      height: 69px;
-      font-size: 24px;
-      font-weight: lighter;
-      line-height: 74px;
-      color: @fff;
-      padding: 0 10px;
-      text-align: center;
-      span{
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        display: block;
-      }
-      &:after {
-        position: absolute;
-        right:-15px;
-        bottom: 0;
-        border-width: 0 0 44px 15px;
-        border-style: dashed dashed solid solid;
-        border-color: transparent transparent transparent rgba(0, 0, 0, 0.8);
-        content: "";
-      }
-    }
-  }
-  .body-title {
-    margin-left: 250px;
-    min-height: calc(100vh - 380px);
-    .menu-top {
-      height: 44px;
-      padding: 10px 20px;
-      font-size: 14px;
-      color: @fff;
-      margin-top: 25px;
-      line-height: 24px;
-      span{
-        cursor: pointer;
-      }
-    }
-  }
-  .menu-list,
-  .right-content {
-    background-color: @fff;
-  }
-  /**左边的列表菜单*/
-  .menu-list {
-    ul {
-      padding: 10px 20px 0;
-      .child-list {
-        > a {
-          &:after {
-            border-top: 6px solid transparent;
-            border-left: 6px solid @6b;
-            border-bottom: 6px solid transparent;
-            left: 5px;
-            top: 12px;
-          }
-        }
-      }
-      .child-list-active-open {
-        > a {
-          &:after {
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 6px solid @fff;
-            left: 5px;
-            top: 16px;
-            border-left-color: transparent !important;
-          }
-        }
-      }
-      .child-list-active-close {
-        > a {
-          &:after {
-            border-top: 6px solid transparent;
-            border-left: 6px solid @fff;
-            border-bottom: 6px solid transparent;
-            left: 5px;
-            top: 12px;
-          }
-        }
-      }
-
-      .child_color_hover {
-        &:hover {
-          > a {
-            &::after {
-              border-left-color: @fff;
-            }
-          }
-        }
-      }
-
-      li {
-        cursor: pointer;
-        line-height: 36px;
-        font-size: 15px;
-        color: @6b;
-        border-bottom: 1px solid @de;
-        &:hover {
-          color: @fff;
-          a {
-            color: @fff;
-          }
-        }
-        a {
-          position: relative;
-          display: block;
-          color: @6b;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          padding: 0 20px;
-          &:after {
-            content: "";
-            width: 0;
-            height: 0;
-            position: absolute;
-          }
-        }
-        .sub-menu {
-          background-color: #f9f9f9;
-          padding: 0;
-          a {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: #a21e1e;
-            position: relative;
-            display: block;
-            &::before {
-              content: "";
-              display: block;
-              width: 5px;
-              height: 5px;
-              border-radius: 50%;
-              background: #a21e1e;
-              position: absolute;
-              left: 8px;
-              top: 15px;
-            }
-            &:hover {
-              text-decoration: revert;
-            }
-          }
-          li {
-            border-bottom: none;
-            padding-left: 10px;
-            &:hover {
-              color: @23;
-            }
-          }
-        }
-      }
-      .active {
-        color: @fff;
-        a {
-          color: @fff;
-        }
-      }
-    }
-  }
-  .right-content {
-    padding: 20px 75px 55px;
-    /***新闻列表 */
-    ul.news-ul {
-      li {
-        //min-height: 90px;
-        cursor: pointer;
-      }
-      .time {
-        min-height: 80px;
-        left: 15px;
-        width: 80px;
-        color: @fff;
-        text-align: center;
-        background-color: @e0dfdf;
-        font-size: 14px;
-        font-weight: bold;
-        line-height: 30px;
-        float: left;
-        .data {
-          font-size: 30px;
-          display: block;
-          margin-top: 12px;
-        }
-      }
-      .title-warp {
-        padding-left: 90px;
-        left: 95px;
-        right: 10px;
-        width: auto;
-        a {
-          font-size: 18px;
-          color: @333;
-          display: block;
-          .tag{
-            font-size: 17px;
-            color: #333;
-          }
-        }
-        span {
-          font-size: 12px;
-          color: @8b;
-          line-height: 22px;
-        }
-        p.intros {
-          color: @8b;
-          font-size: 14px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 3;
-        }
-      }
-    }
-    li {
-      padding: 20px 15px;
-      font-size: 18px;
-      margin-bottom: 10px;
-      vertical-align: middle;
-      border-bottom: 1px solid @de;
-    }
-    a {
-      color: @333;
-    }
-    .video {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 100%;
-    }
-    video::-internal-media-controls-download-button {
-      display: none;
-    }
-    video::-webkit-media-controls-enclosure {
-      overflow: hidden;
-    }
-    video::-webkit-media-controls-panel {
-      width: calc(100% + 30px);
-    }
-  }
-}
+@import "../../../../assets/web/css/style.less";
+@import "../../../../assets/web/css/color.less"; 
+@import "../../../../assets/web/css/temp1/list.less"; 
 </style>

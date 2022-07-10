@@ -614,8 +614,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/admin/css/color.less";/**颜色配置 */
-@import "../../../assets/admin/css/style.less";/**颜色配置 */
+@import "../../../assets/admin/css/color.less";
+@import "../../../assets/admin/css/style.less";
 @import "../../../assets/admin/css/table.less";
 .news-title{
   overflow: hidden;

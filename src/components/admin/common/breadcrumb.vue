@@ -2,7 +2,6 @@
 <template>
   <div class="breadcrumb-page">
     <el-breadcrumb separator-class="el-icon-arrow-right" :class="fontColor?'fff':'gray'">
-      <!-- 文献专题 -->
       <span class="el-breadcrumb__item cu-p" aria-current="page" @click="toWorkbench">
         <span role="link" class="el-breadcrumb__inner"><i class="el-icon-s-home"></i></span>
         <i class="el-breadcrumb__separator el-icon-arrow-right"></i>
@@ -30,6 +29,7 @@ export default {
     }
   },
   methods: {
+    //跳转馆员工作台
     toWorkbench() {
       let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
       let info = urlInfo.find(item => item.code == 'workbench');
@@ -62,8 +62,5 @@ export default {
 }
 .cu-p {
   cursor: pointer;
-  // &:hover{
-  //   opacity: .8;
-  // }
 }
 </style>

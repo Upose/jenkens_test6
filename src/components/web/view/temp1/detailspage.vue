@@ -2,6 +2,7 @@
   <div class="list-warp">
     <div class="articledetails-warp">
      <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
+        
         <div class="left-menu" v-if="is_show_menu">
           <div class="menu-top child_bg">{{titleJson.name}}</div>
           <div class="menu-list">
@@ -14,24 +15,29 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div><!--栏目菜单列表 end-->
+
         <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
           <div class="menu-top child_bg">
             当前位置：<span  class="cursor" @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
             <span @click="foxbaseClick(subTitle)" v-if="subTitle.value" class="cursor"> > {{subTitle.value}}</span> > 详情
-          </div>
+          </div><!--顶部面包屑 end -->
+
           <div class="right-content">
               <div v-if="!loading && !removed" class="news-content-warp news-img-max-sys">
+                
                 <h1 :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
                   <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
                     【<span class="tag" v-for="i in (detailsData.parentCatalogueKV||[])" :key="i.key">{{i.value}}&nbsp;</span>】
                   </span>
                   {{detailsData.title||"标题走丢了"}}
-                </h1>
+                </h1><!--标题信息 end-->
+
                 <div class="details_content">
                   <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
                     <span v-for="(i, index) in auditProcessList" :key="index">{{i.name}}:{{i.auditManager}}</span>
-                  </div>
+                  </div><!--审核信息end-->
+
                   <div class="rich-title">
                     <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||'无'}}</span>
                     <span class="col2" v-if="data.isShowPublishDate"><i class="title">发布时间：</i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
@@ -45,9 +51,11 @@
                     <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
                     <span v-if="data.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
                     <span v-if="data.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
-                  </div>
-                  <div class="rich-text" v-html="detailsData.content"></div>
+                  </div><!--顶部-其他基础信息 end-->
+                  
+                  <div class="rich-text" v-html="detailsData.content"></div><!--富文本详情 end-->
                 </div>
+
                 <!-- <div class="comment">
                   <div class="row-score">
                     <span class="title">是否对您有用：</span>
@@ -80,23 +88,26 @@
                     </div>
                   </div>
                   <div class="more">查看更多</div>
-                </div> -->
+                </div> 评论信息 end-->
               </div>
               <div v-if="!loading && removed" class="web-empty-data"></div>
               <div class="temp-loading" v-if="loading"></div>
           </div><!--文章详情页面 end -->
-        </div>
+
+        </div><!--右侧中间区域 end-->
+
      </div>
     </div>
   </div>
 </template>
 
 <script>
-import my_rate from "../../model/rate";
+import my_rate from "../../model/rate";//评论星星
 export default {
   name: 'footerPage',
   components:{my_rate},
   created(){
+    //栏目信息-是否显示左侧菜单
     this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
       this.is_show_menu = res.data||false;
     })
@@ -109,7 +120,7 @@ export default {
         detailsData:{},//新闻详情
         auditProcessList:[],//审核流程
         curScore:2,//评论分数
-        data:{},
+        data:{},//详情信息
         subTitle:JSON.parse(this.$route.query.subTitle||'{}'),//副标题
         titleStyleKV:[],
         menu_list:[],
@@ -122,6 +133,7 @@ export default {
     this.initData();
   },
   methods:{
+    //初始化基础信息
       initData(){
         this.removed = false;
         this.loading = true;
@@ -166,6 +178,7 @@ export default {
           console.log(err, this.removed);
         })
       },
+      //获取标题样式配置
        getTitleClass(type){
         var class_val = '';
         this.titleStyleKV.forEach(item=>{
@@ -183,7 +196,10 @@ export default {
         })
         return class_val;
       },
-      menuClick(item,index,is_open){//标题,index下标
+      /**一级菜单点击事件
+       * 行信息，下标，一级菜单
+       */
+      menuClick(item,index,leve){
         if(item.newsCount && item.newsCount==1){
           this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
           return;
@@ -200,11 +216,12 @@ export default {
             this.menu_list[i]['check'] = false;
           }
         })
-        if(is_open){
+        if(leve){
           this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.menu_list[index].columnID)}})
         }
         this.$forceUpdate();
       },
+      //是否选中状态
       isActive(val,check){
         var cs = '';
         if(val.lableNewsList && val.lableNewsList.length>0){
@@ -220,6 +237,7 @@ export default {
         }
         return cs;
       },
+      //二级菜单点击事件
       foxbaseClick(val) {
         if(val.newsCount && val.newsCount==1){
           this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} }).catch(()=>{});
@@ -232,7 +250,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "../../../../assets/web/css/style.less";/**通用文件 */
-  @import "../../../../assets/web/css/color.less";/**通用文件 */
-  @import "./detailspage.less";
+  @import "../../../../assets/web/css/style.less";
+  @import "../../../../assets/web/css/color.less";
+  @import "../../../../assets/web/css/temp1/detailspage.less";
 </style>

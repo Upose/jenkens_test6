@@ -3,8 +3,9 @@
     <div class="details-warp">
         <div class="temp-loading" v-if="request_of"></div><!--加载中-->
         <div class="web-empty-data" v-if="!request_of && template_num==0" :style="{background: 'url('+fileUrl+'/public/image/data-empty.png) no-repeat center'}" ></div><!--暂无数据-->
-        <list1 v-if="template_num==1"></list1>
-        <list2 v-if="template_num==2"></list2>
+        
+        <list1 v-if="template_num==1"></list1><!--模板一（2.2新闻模板）-->
+        <list2 v-if="template_num==2"></list2><!--模板二（外包设计）-->
     </div>
 </template>
 
@@ -28,10 +29,9 @@ export default {
     created() {
         this.initData();
     },
-    mounted() {
-        
-    },
+    mounted() {},
     methods: {
+        //根据栏目id获取模板信息
         initData(){
             this.http.getPlain('pront-column-link-info','columnid='+this.cid).then(res=>{
                 if(res.data){
@@ -40,6 +40,7 @@ export default {
                 this.request_of = false;
             }).catch(err=>{this.request_of = false;})
         },
+        //监听id是否变化
         getId(){
             this.cid = this.$route.query.cid;
             this.initData();

@@ -7,7 +7,8 @@
           当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
           <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{subTitle.value}}</span>
         </span>
-      </div>
+      </div><!--顶部面包屑 end-->
+
      <div class="body-content m-width c-l">
         <div class="left-menu" v-if="is_show_menu">
           <div class="menu-list">
@@ -21,10 +22,12 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div><!--左侧栏目菜单列表 end-->
+
         <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
           <div class="right-content">
-            <div class="content-top-title">新闻资讯</div>
+            <div class="content-top-title">新闻资讯</div><!--标题信息-->
+
             <div class="row" v-for="(it,i) in news_list" :key="i+'content'" @click="detailsClick(it)">
               <div class="msg-warp">
                 <div class="title">
@@ -44,10 +47,11 @@
                   </span>
                 </div>
               </div>
-            </div>
+            </div><!--顶部-其他基础信息 end-->
+
             <div class="temp-loading" v-if="loading"></div><!--加载中-->
             <div v-if="!loading && news_list.length == 0" class="web-empty-data"></div>
-            <pages1 :total="totalPages" :Cindex="pageIndex" :totalCount="totalCount" @currentClick="currentClick" v-if="totalCount"></pages1>
+            <pages :total="totalPages" :Cindex="pageIndex" :totalCount="totalCount" @currentClick="currentClick" v-if="totalCount"></pages>
           </div>
           
         </div>
@@ -57,14 +61,15 @@
 </template>
 
 <script>
-import pages1 from '@/components/web/model/pages1';
+import pages from '@/components/web/model/pages';
 export default {
   name: 'footerPage',
-  components:{pages1},
+  components:{pages},
   created(){
     if(this.$route.query.subTitle){
       this.subTitle = JSON.parse(this.$route.query.subTitle);
     }
+    //是否显示左侧菜单
     this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
       this.is_show_menu = res.data||false;
     })
@@ -77,8 +82,8 @@ export default {
       pageSize:20,//每页条数
       totalCount:0,//总条数
       totalPages:0,//总页数
-      menu_list:[],
-      news_list:[],
+      menu_list:[],//菜单列表
+      news_list:[],//新闻列表
       titleJson: {},//一级标题
       subTitle:{},//二级标题
       is_show_menu:false,//是否显示侧边栏目列表
@@ -89,9 +94,9 @@ export default {
     this.initData();
   },
   methods:{
+      //获取栏目菜单列表
       initData() {
         this.loading = true;
-        //获取左边菜单列表
         this.http.getPlain('pront-news-column-list-get', 'columnid=' + this.cid).then(res => {
           this.menu_list = res.data || [];
           if (this.cid) {
@@ -158,7 +163,10 @@ export default {
           console.log(err);
         })
       },
-      menuClick(item, index, leve) {//标题,index下标
+      /**一级菜单点击事件
+       * 行信息，下标，一级菜单
+       */
+      menuClick(item, index, leve) {
         if(item.newsCount && item.newsCount==1){
           this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
           return;
@@ -185,6 +193,7 @@ export default {
         this.getNewsList(this.menu_list[index].columnID,{});
         this.$forceUpdate();
       },
+      //选中状态
       isActive(val,check){
         var cs = '';
         if(val.lableNewsList && val.lableNewsList.length>0){
@@ -200,6 +209,7 @@ export default {
         }
         return cs;
       },
+      //跳转详情
       detailsClick(val){
         if(val.externalLink && val.externalLink!=''){
           window.open(val.externalLink, '_blank');
@@ -228,247 +238,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "../../../../assets/web/css/style.less";/**通用文件 */
-  @import "../../../../assets/web/css/color.less";/**通用文件 */
-  /***主标题 */
-  .top-title{
-    margin-bottom: 15px;
-    span{
-      display: block;
-      line-height: 36px;
-    }
-    .m-title{
-      font-size: 28px;
-      color: @fff;
-    }
-    .m-address{
-      font-size: 14px;
-      color: @fff;
-      span{
-        cursor: pointer;
-        display: inline;
-      }
-    }
-  }
-
-  .cur-sub-key{
-    background-color: #ffeaea;
-  }
-  
-  .articledetails-warp{
-    min-height:700px;
-    background: @e0dfdf url(../../../../assets/web/img/banner-bg2.jpg) no-repeat center top;
-    background-size: 100% 248px;
-    padding-bottom: 20px;
-    padding-top: 100px;
-  }
-    .body-content{
-      min-height: calc(100vh - 450px);
-    background-color: @fff;
-    .left-menu{
-      float: left;
-      // margin-top: -25px;
-      width: 250px;
-      .menu-top{
-        position: relative;
-        height: 69px;
-        font-size: 24px;
-        font-weight: lighter;
-        line-height: 74px;
-        text-align: center;
-      }
-      // &::after{
-      //   position: absolute;
-      //   right:0;
-      //   top: 72px;
-      //   bottom: 0;
-      //   width: 6px;
-      //   content: "";
-      //   background: @fff;
-      //   box-shadow:8px 0 10px rgba(0, 0, 0, 0.05);
-      //   z-index: 2;
-      // }
-    }
-    .body-title{
-      margin-left: 250px;
-      position: relative;
-      
-    }
-    .menu-list,.right-content{
-      min-height: 550px;
-      background-color: @fff;
-    }
-    /**左边的列表菜单*/
-    .menu-list{
-      .title{
-        color: @666;
-        display: block;
-        margin: 0 30px;
-        margin-right: 0;
-        margin-top: 20px;
-        line-height: 40px;
-        border-bottom: 1px solid #dedede;
-      }
-      ul{
-        padding-left:30px;
-        padding-right: 0;
-        .child-list{
-          > a{
-            &:after{
-                left: 5px;
-                top: 0px;
-                content: '>';
-              }
-          }
-        }
-        .child-list-active-open{
-          > a{
-            &:after{
-                content: '>';
-                left: 9px;
-                top: 9px;
-                width: 13px;
-                height: 22px;
-                transform: rotate(90deg);
-                border-left-color: transparent !important;
-              }
-          }
-        }
-        .child-list-active-close{
-          > a{
-            &:after{
-                content: '>';
-                left: 5px;
-                top: 0px;
-              }
-          }
-        }
-
-        .child_color_hover{
-            &:hover{
-              > a{
-                &::after{
-                  border-left-color: @fff;
-                }
-              }
-            }
-        }
-
-        li{
-          cursor: pointer;
-          line-height: 36px;
-          font-size: 15px;
-          color: @6b;
-          border-bottom: 1px solid @de;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-          &:hover{
-            color: @fff;
-            a{
-              color: @fff;
-            }
-          }
-          a{
-            position: relative;
-            display: block;
-            color:@6b;
-            padding: 0 20px;
-            &:after{
-              content: '';
-              width: 0;
-              height: 0;
-              position:absolute;
-            }
-          }
-          .sub-menu{
-            background-color: #f9f9f9;
-            padding: 0;
-            a{
-              font-size: 12px;
-              color: #a21e1e;
-              position: relative;
-              display: block;
-              padding-left: 30px;
-              &:hover{
-                text-decoration: revert;
-              }
-              &::after{
-                display: block;
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                background: #a21e1e;
-                position: absolute;
-                left: 20px;
-                top: 15px;
-              }
-            }
-            li{
-              border-bottom: none;
-              &:hover{
-                color: @23;
-              }
-            }
-          }
-          
-        }
-        .active{
-          color: @fff;
-          a{
-            color: @fff;
-          }
-        }
-      }
-    }
-    .right-content{
-      padding: 20px 75px 55px;
-      .content-top-title{
-        border-bottom: 1px solid #dedede;
-        line-height: 40px;
-        margin-bottom: 10px;
-      }
-      /***新闻列表 */
-      .row{
-        padding: 10px 0;
-        border-bottom: 1px dotted #dedede;
-        &:hover{
-          cursor: pointer;
-          .content{
-            color: #232323;
-          }
-        }
-        .msg-warp{
-          .title{
-            font-weight: bold;
-            line-height: 26px;
-          }
-          .msg{
-            width: 100%;
-            color: @999;
-            line-height: 22px;
-            .content{
-              display: inline-block;
-              width: 100%;
-              word-break: break-all;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              display: -webkit-box;
-              -webkit-line-clamp: 3;
-              -webkit-box-orient: vertical;
-              .show-details{
-                white-space: nowrap;
-              }
-            }
-            .txt-right{
-              float: right;
-            }
-          }
-          .c-l{
-            display: inline-block;
-          }
-        }
-      }
-    }
-  }
+  @import "../../../../assets/web/css/style.less";
+  @import "../../../../assets/web/css/color.less";
+  @import "../../../../assets/web/css/temp2/list.less";  
 </style>

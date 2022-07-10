@@ -1,13 +1,15 @@
 <template>
   <div class="list-warp">
     <div class="articledetails-warp">
+
       <div class="m-width top-title">
         <span class="m-title">{{titleJson.name}}</span>
         <span class="m-address">
           当前位置：<span @click="menuClick(titleJson,0, 'first')"  class="cursor">{{titleJson.name}}</span>
           <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"  class="cursor"> > {{subTitle.value}}</span> > 详情
         </span>
-      </div>
+      </div><!--顶部面包屑 end -->
+
      <div class="body-content m-width c-l">
         <div class="left-menu" v-if="is_show_menu">
           <div class="menu-list">
@@ -21,7 +23,8 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div><!--栏目菜单列表 end-->
+
         <div class="body-title" :style="{'margin-right':!is_show_menu?'0':'250px'}" :class="{'empty-box' : loading}">
           <div v-if="!loading && !removed" class="right-content news-img-max-sys">
             <div class="content-top-title">
@@ -30,10 +33,12 @@
                   【<span class="tag" v-for="(i, index) in (detailsData.parentCatalogueKV||[])" :key="index">{{i.value}}&nbsp;</span>】
                 </span>
                 {{detailsData.title||"标题走丢了"}}
-              </span>
+              </span><!--标题信息 end-->
+              
               <div class="audit-process" v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
                 <span v-for="i in auditProcessList">{{i.name}}:{{i.auditManager}}</span>
-              </div>
+              </div><!--审核信息end-->
+
               <div class="news-sub-warp">
                 <span class="name child1_text_color">{{detailsData.publisher||'无'}}</span><!--发布人-->
                 <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
@@ -49,9 +54,11 @@
                 <span v-if="data.isShowHitCount"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
                 <span class="r-share" @click="handleShare()">一键分享</span>
                 <dialogShare ref="dialogShare_ref"></dialogShare>
-              </div>
+              </div><!--顶部-其他基础信息 end-->
+              
             </div>
-            <div class="edit-content" v-html="detailsData.content"></div>
+
+            <div class="edit-content" v-html="detailsData.content"></div><!--富文本详情 end-->
             <!-- <div class="comment">
               <div class="c-title">评论</div>
               <div class="c-input">
@@ -76,23 +83,26 @@
                 </div>
               </div>
               <div class="more">查看更多</div>
-            </div> -->
+            </div> 评论信息-->
           </div>
           <div class="empty-box" v-if="!loading && removed">
             <div class="web-empty-data"></div>
           </div>
           <div class="temp-loading" v-if="loading"></div>
-        </div>
-     </div>
+        </div><!--文章详情页面 end -->
+
+     </div><!--右侧中间区域 end-->
+
     </div>
   </div>
 </template>
 <script>
-import dialogShare from '../../model/dialog_share';
+import dialogShare from '../../model/dialog_share';//分享到第三方
 export default {
   name: 'footerPage',
   components:{dialogShare},
   created(){
+    //栏目信息-是否显示左侧菜单
     this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
       this.is_show_menu = res.data||false;
     })
@@ -117,6 +127,7 @@ export default {
     this.initData();
   },
   methods:{
+    //初始化基础信息
       initData(){
         this.loading = true;
         var _this = this;
@@ -161,6 +172,7 @@ export default {
           console.log(err);
         })
       },
+      //获取标题样式配置
       getTitleClass(type){
         var class_val = '';
         if(this.titleStyleKV)
@@ -179,7 +191,10 @@ export default {
         })
         return class_val;
       },
-      menuClick(item,index,is_open){//标题,index下标
+      /**一级菜单点击事件
+       * 行信息，下标，一级菜单
+       */
+      menuClick(item,index,leve){
         if(item.newsCount && item.newsCount==1){
           this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
           return;
@@ -196,11 +211,12 @@ export default {
             this.menu_list[i]['check'] = false;
           }
         })
-        if(is_open){
+        if(leve){
           this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.menu_list[index].columnID)}})
         }
         this.$forceUpdate();
       },
+      //是否选中状态
       isActive(val,check){
         var cs = '';
         if(val.lableNewsList && val.lableNewsList.length>0){
@@ -218,8 +234,9 @@ export default {
       },
       //分享
       handleShare() {
-      this.$refs.dialogShare_ref.show();
-    },
+        this.$refs.dialogShare_ref.show();
+      },
+    //二级菜单点击事件
     foxbaseClick(val) {
       if(val.newsCount && val.newsCount==1){
           this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} }).catch(()=>{});
@@ -232,7 +249,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "../../../../assets/web/css/style.less";/**通用文件 */
-  @import "../../../../assets/web/css/color.less";/**通用文件 */
-  @import "./detailspage.less";
+  @import "../../../../assets/web/css/style.less";
+  @import "../../../../assets/web/css/color.less";
+  @import "../../../../assets/web/css/temp2/detailspage.less";
 </style>
