@@ -261,7 +261,9 @@ export default {
       this.http.postJsonParameter_url('news-content-get-by-column',this.postForm,'/'+this.postForm.columnID).then(res=>{
         this.loading = false;
         _this.auditStatusCountList = res.data.auditStatusCountList||[];
+        console.log(res.data.auditStatusCountList)
         if(_this.auditStatusCountList.length>0){
+          this.auditStatus_menu = 0;
           if(!_this.postForm.auditStatus && _this.postForm.auditStatus !== 0){
             _this.postForm.auditStatus = _this.auditStatusCountList[0].auditStatus;
           }
@@ -412,6 +414,7 @@ export default {
       // console.log(this.postForm['auditStatus'], this.auditStatus_menu);
       this.postForm.pageIndex = 1;
       this.postForm.pageSize = 50;
+      // console.log(this.auditStatus_menu, this.postForm['auditStatus'])
       this.initDataTable();
     },
     //批量下架
