@@ -91,7 +91,7 @@ export default {
     {
       path: '/admin_preview1',
       name: 'admin_preview1',
-      component: r => require.ensure([], () => r(require('@/components/admin/preview/page1')), 'news_preview'),
+      component: r => require.ensure([], () => r(require('@/components/admin/preview/detailspage1')), 'news_preview'),
       meta: {
         title: [{ name: '预览'}],
         keepAlive: true
@@ -100,7 +100,7 @@ export default {
     {
       path: '/admin_preview2',
       name: 'admin_preview2',
-      component: r => require.ensure([], () => r(require('@/components/admin/preview/page2')), 'news_preview'),
+      component: r => require.ensure([], () => r(require('@/components/admin/preview/detailspage2')), 'news_preview'),
       meta: {
         title: [{ name: '预览'}],
         keepAlive: true
