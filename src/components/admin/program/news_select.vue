@@ -20,7 +20,11 @@
                 <div class="t-p">
                     <el-table stripe :data="tableData" @selection-change="handleSelectionApp" border class="admin-table">
                         <!-- <el-table-column type="selection" width="45"></el-table-column> -->
-                        <el-table-column prop="indexNum" label="序号" align="center" width="58"></el-table-column>
+                        <el-table-column type="index" width="58" align="center" label="序号">
+                          <template slot-scope="scope">
+                            {{getTableSort(scope.$index)}}
+                          </template>
+                        </el-table-column>
                         <el-table-column prop="title" label="标题">
                           <template slot-scope="scope">
                             <span class="news-title" :title="scope.row.title" @click="handleEdit(scope.row)">{{scope.row.title}}</span>
@@ -93,6 +97,9 @@ export default {
       this.initData();
   },
   methods:{
+    getTableSort(index) {
+      return (index+1)+(this.pageData.pageSize*(this.pageData.pageIndex-1))
+    },
     //编辑新闻
     handleEdit(row){
       console.log(row.columnIDs[0]);
