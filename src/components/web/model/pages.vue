@@ -3,7 +3,7 @@
   <div class="page-warp">
     <button class="child_color_hover" @click="first()">首页</button>
     <button class="child_color_hover" @click="pre()">上一页</button>
-    <button class="child_color_hover" v-for="index in pageList" :class="PageIndex==(start_number+index)?'active main_bg child_color_hover':'child_color_hover'" @click="current(start_number+index)">{{start_number+index}}</button>
+    <button class="child_color_hover" v-for="index in pageList" :key="index" :class="PageIndex==(start_number+index)?'active main_bg child_color_hover':'child_color_hover'" @click="current(start_number+index)">{{start_number+index}}</button>
     <button class="child_color_hover" @click="next()">下一页</button>
     <button class="child_color_hover" @click="last()">末页</button>
     <button>共{{total}}页 {{totalCount}}条</button>

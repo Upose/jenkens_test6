@@ -126,6 +126,14 @@ export default {
   mounted(){
     this.initData();
   },
+  watch: {
+    '$route'(nval, oval) {
+      this.id = decodeURI(nval.query.id||'');
+      this.cid = decodeURI(nval.query.cid||'');
+      this.subTitle = JSON.parse(nval.query.subTitle||'{}');
+      this.initData();
+    }
+  },
   methods:{
     //初始化基础信息
       initData(){
@@ -239,7 +247,7 @@ export default {
     //二级菜单点击事件
     foxbaseClick(val) {
       if(val.newsCount && val.newsCount==1){
-          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} }).catch(()=>{});
+          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(val)} }).catch(()=>{});
           return;
         }
       this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.cid), subTitle:JSON.stringify(val)}})

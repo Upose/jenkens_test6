@@ -10,7 +10,9 @@
               <li class="child_color_hover" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item,index,true)">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)" :class="{'cur-sub-key':subTitle.key == it.key}"><a href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)" :class="{'cur-sub-key':subTitle.key == it.key}">
+                    <a href="javascript:;">{{it.value}}</a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -132,6 +134,14 @@ export default {
   mounted(){
     this.initData();
   },
+  watch: {
+    '$route'(nval, oval) {
+      this.id = decodeURI(nval.query.id||'');
+      this.cid = decodeURI(nval.query.cid||'');
+      this.subTitle = JSON.parse(nval.query.subTitle||'{}');
+      this.initData();
+    }
+  },
   methods:{
     //初始化基础信息
       initData(){
@@ -140,6 +150,7 @@ export default {
         var _this = this;
         this.http.getPlain('pront-news-column-list-get','columnid='+this.cid).then(res=>{
             _this.menu_list = res.data||[];
+            
             _this.menu_list.forEach((item,i)=>{
             _this.menu_list[i]['check'] = false;
             if(_this.cid){
@@ -240,7 +251,7 @@ export default {
       //二级菜单点击事件
       foxbaseClick(val) {
         if(val.newsCount && val.newsCount==1){
-          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} }).catch(()=>{});
+          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(val)} }).catch(()=>{});
           return;
         }
         this.$router.push({path:'/web_newsList',query:{cid:encodeURI(this.cid), subTitle:JSON.stringify(val)}})
