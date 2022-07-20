@@ -75,7 +75,7 @@ export default {
   },
   methods:{
     nextStep(data){
-      // console.log(data, 'data', this.postForm);
+      console.log(data, 'data', this.postForm);
       this.cuStep = data.n;
       var list = data.data||{};
       if(data.step == 'next'){
@@ -116,6 +116,36 @@ export default {
     },
     handleCuStep(step) {
       this.cuStep = step;
+      var list =[];
+      list = this.$refs.step_one_ref.postForm;
+      var extensionList = [];
+      list.extension.forEach(item=>{
+        this.$refs.step_one_ref.scalable_data.forEach(item1=>{
+          if(item == item1.key){
+            extensionList.push(item1);
+            return;
+          }
+        })
+      })
+      list.extensionKV = extensionList;
+      
+      if(step == 2){
+        this.postForm['title'] = list['title']||this.postForm['title'];
+        this.postForm['alias'] = list['alias']||this.postForm['alias'];
+        this.postForm['label'] = list['label']||this.postForm['label'];
+        this.postForm['terminals'] = list['terminals'];
+        this.postForm['status'] = list['status']||this.postForm['status'];
+        this.postForm['extensionKV'] = list['extensionKV']||this.postForm['extensionKV']; //要做处理
+        this.postForm['linkUrl'] = list['linkUrl']||this.postForm['linkUrl'];
+        this.postForm['defaultTemplate'] = list['defaultTemplate']||this.postForm['defaultTemplate'];
+        this.postForm['headTemplate'] = list['headTemplate']||this.postForm['headTemplate'];
+        this.postForm['footTemplate'] = list['footTemplate']||this.postForm['footTemplate'];
+        this.postForm['sideList'] = (list['sideList']||[]).toString().replace(/\,/g,';')||this.postForm['sideList'];
+        this.postForm['sysMesList'] = (list['sysMesList']||[]).toString().replace(/\,/g,';')||this.postForm['sysMesList'];
+        this.postForm['isOpenCover'] =  list['isOpenCover'];
+        this.postForm['coverWidth'] =  list['coverWidth']||this.postForm['coverWidth'];
+        this.postForm['coverHeight'] =  list['coverHeight']||this.postForm['coverHeight'];
+      }
     },
     //表单提交
     submitForm() {
@@ -125,7 +155,7 @@ export default {
           {}
         ],
       }
-      // console.log('提交数据',this.postForm);
+      console.log('提交数据',this.postForm);
       if(this.id){
         this.postForm['id'] = this.id;
         this.http.postJsonParameter_url('news-column-update',this.postForm,'/'+this.id).then(res=>{
