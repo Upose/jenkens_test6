@@ -212,7 +212,11 @@ export default {
       //跳转详情
       detailsClick(val){
         if(val.externalLink && val.externalLink!=''){
-          window.open(val.externalLink, '_blank');
+          this.http.getJson('pront-news-content-hit-count', {contentid: val.contentID}).then(res => {
+            window.open(val.externalLink, '_blank');
+          }).catch(err => {
+            console.log(err);
+          })
         }else{
           /**
          * id：新闻详情id
