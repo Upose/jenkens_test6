@@ -213,10 +213,10 @@ export default {
       detailsClick(val){
         if(val.externalLink && val.externalLink!=''){
           this.http.getJson('pront-news-content-hit-count', {contentid: val.contentID}).then(res => {
-            window.open(val.externalLink, '_blank');
           }).catch(err => {
             console.log(err);
           })
+          window.open(val.externalLink, '_blank');
         }else{
           /**
          * id：新闻详情id
