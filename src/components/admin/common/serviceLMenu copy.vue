@@ -1,24 +1,33 @@
 <!--左边菜单-->
 <template>
-  <LeftNavCom :dataList="dataList"/>
+  <div class="header-warp">
+    <div class="m-menu">
+      <div class="m-text">
+        <span class="m">{{appDetails.appName}}</span>
+        <span class="v" @click="openLog(appDetails.logUrl)">{{appDetails.appVersion}}</span>
+      </div>
+    </div>
+    <div class="s-menu">
+      <div class="s-row" :class="isActive(item.component)?'active':''"  :title="item.name" @click="openPage(item.component)" v-for="(item,index) in (this.$store.state.menuList||[])" :key="index+'menu'"><i class="iconfont el-icon-vip-daohanglanmu"></i><span>{{item.name}}</span></div>
+    </div>
+  </div>
 </template>
 
 <script>
-import LeftNavCom from '../model/LeftNavCom/index.vue'
 export default {
   name: 'test',
-  components: {
-    LeftNavCom
-  },
   watch:{
     '$route':'force'
   },
   mounted(){
     var _this = this;
-    this.dataList = this.$store.state.menuList;
+    let appMenu = this.$store.state.menuList;
     let appDetails = this.$store.state.appDetails;
     if(appDetails && appDetails!=null && appDetails!=undefined && appDetails !=''){
       _this.appDetails = appDetails;
+    }
+    if(appMenu && appMenu!=null && appMenu!=undefined && appMenu !='' && appMenu != '[]'){
+      this.dataList = appMenu;
     }
   },
   data () {
@@ -37,6 +46,24 @@ export default {
     },
     force(){
       this.$forceUpdate();
+    },
+    //是否当前菜单
+    isActive(url){
+      var cu_url = this.$route.meta.parentRoute;
+      if(url.indexOf(cu_url)>-1){
+        let is_active = true;
+        if(cu_url == 'admin_programInfo'){
+          var id = this.$route.query.c_id||this.$route.query.id;
+          if(url == '/admin_programInfo?id='+id){
+            is_active = true;
+          }else{
+            is_active = false;
+          }
+        }
+        return is_active;
+      }else{
+        return false;
+      }
     },
   },
 }

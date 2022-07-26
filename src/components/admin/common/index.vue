@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: gongqin
+ * @Date: 2022-03-18 10:36:32
+ * @LastEditors: 最后编辑
+ * @LastEditTime: 2022-07-26 16:30:33
+-->
 <template>
 <div class="warp">
     <headerpage></headerpage>
@@ -20,10 +27,11 @@ export default {
     let appDetails = store.state.appDetails;
     document.title = (appDetails.appName||'')+'-'+JSON.parse(localStorage.getItem('orgInfo')).orgName;
     //菜单
-    if(!appMenu || appMenu==null || appMenu==undefined || appMenu =='' || appMenu == '[]'){
+    if(!appMenu || appMenu.length == 0){
       _that.http.getPlain('news-user-union-column-permission-list','').then((res) => {
-        let dataList = res.data||[];
+        let dataList = res.data.permissionNodes||[];
         store.commit('menuList',dataList);
+        // console.log(res.data, this.$store.state.menuList)
         _that.post_menu = true;
       }).catch((err) => {
         _that.$message({type: 'error',message: '获取菜单失败!'});
