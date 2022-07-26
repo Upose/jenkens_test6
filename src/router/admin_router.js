@@ -24,7 +24,7 @@ export default {
       meta: {
         title: [{ name: '栏目管理'}],
         keepAlive: true,
-        parentRoute:'admin_newsProgram'
+        parentRoute:'/admin_newsProgram'
       },
     },
     {
@@ -34,7 +34,7 @@ export default {
       meta: {
         title: [{ name: '栏目管理',path:'/admin_newsProgram' }, { name: '新闻检索', }],
         keepAlive: true,
-        parentRoute:'admin_newsProgram'
+        parentRoute:'/admin_newsProgram'
       },
     },
     {
@@ -44,7 +44,7 @@ export default {
       meta: {
         title: [{ name: '新闻发布',}],
         keepAlive: true,
-        parentRoute:'admin_programInfo'
+        parentRoute:'/admin_programInfo'
       },
     },
     {
@@ -54,7 +54,7 @@ export default {
       meta: {
         title: [{ name: '新闻发布',}],
         keepAlive: true,
-        parentRoute:'admin_programInfo'
+        parentRoute:'/admin_programInfo'
       },
     },
     {
@@ -65,7 +65,7 @@ export default {
       meta: {
         title: [{ name: '应用设置'}],
         keepAlive: true,
-        parentRoute:'admin_newsSet'
+        parentRoute:'/admin_newsSet'
       },
     },
     {
@@ -75,7 +75,7 @@ export default {
       meta: {
         title: [{ name: '栏目信息管理'}, { name: '日志', }],
         keepAlive: true,
-        parentRoute:'admin_newsProgram'
+        parentRoute:'/admin_newsProgram'
       },
     },
     {
@@ -85,7 +85,7 @@ export default {
       meta: {
         title: [{ name: '栏目管理', path: '/admin_newsProgram' }, { name: '栏目内容', }],
         keepAlive: true,
-        parentRoute:'admin_newsProgram'
+        parentRoute:'/admin_newsProgram'
       },
     },
     {

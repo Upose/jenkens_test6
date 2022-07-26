@@ -2,8 +2,8 @@
  * @Description: 菜单项
  * @Author: wanjikun
  * @Date: 2022-07-25 14:19:52
- * @LastEditTime: 2022-07-26 16:30:01
- * @LastEditors: gongqin
+ * @LastEditTime: 2022-07-26 17:43:44
+ * @LastEditors: 最后编辑
 -->
 <template>
   <div class="s-row" :class="isActive(item.component)?'active':''" :title="item.name" @click="openPage(item)">
