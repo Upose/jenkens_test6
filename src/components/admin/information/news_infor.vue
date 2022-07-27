@@ -243,8 +243,8 @@ export default {
       let authList = this.$store.state.menuList;
       let curAuth = authList && authList.find(item => (item.permission == '新闻管理')) || {};
       let id = this.$route.query.id || '';
-      let subMenu = curAuth.permissionNodes && curAuth.permissionNodes.find(item => item.component == '/admin_programInfo?id=' + id);
-      let curSonAuth = subMenu && subMenu.listPermission.includes(name);
+      let subMenu = curAuth && curAuth.permissionNodes && curAuth.permissionNodes.find(item => item.component == '/admin_programInfo?id=' + id) || {};
+      let curSonAuth = subMenu && Array.isArray(subMenu.listPermission) && subMenu.listPermission.includes(name);
       return curSonAuth ? true : false;
     },
     getTableSort(index) {
