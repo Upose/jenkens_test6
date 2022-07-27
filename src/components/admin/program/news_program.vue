@@ -8,7 +8,7 @@
         <div class="content search-table-general">
           <div class="search-table-w">
               <h1 class="search-title">栏目管理</h1>
-              <div class="search-term">
+              <div class="search-term"  v-if="isAuth('query')">
                   <el-input class="width187" v-model="search_title" size="medium" placeholder="新闻全文检索"></el-input>
                   <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="selectClick()">查找</el-button>
               </div>
@@ -26,11 +26,11 @@
                     <span class="name" @click="coumCover(it)">{{it.title||'暂无'}}</span>
                   </div>
                   <div class="r-box-btns" v-if="it.enable">
-                    <el-button type="primary" v-if="authShowBtn('admin_newsProgram','delete')" class="admin-red-btn" size="medium" icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
-                    <el-button type="primary" v-if="authShowBtn('admin_newsProgram','edit')" size="medium" icon="iconfont el-icon-vip-bianji" @click="editClick(it.columnID)">编辑</el-button>
+                    <el-button type="primary" v-if="isAuth('delete')" class="admin-red-btn" size="medium" icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
+                    <el-button type="primary" v-if="isAuth('edit')" size="medium" icon="iconfont el-icon-vip-bianji" @click="editClick(it.columnID)">编辑</el-button>
                   </div>
                 </div>
-                <div class="row-box set-hover" v-if="authShowBtn('admin_newsProgram','add') && item.lableName=='默认标签'" @click="addClick()">
+                <div class="row-box set-hover" v-if="isAuth('add') && item.lableName=='默认标签'" @click="addClick()">
                   <div class="r-box-bg add-btn">
                     <div class="r-box-add-warp">
                       <i class="iconfont el-icon-vip-tianjia1"></i>
@@ -82,14 +82,13 @@ export default {
   },
   mounted(){
       this.initData();
-      console.log(this.$store.state.menuList, 'this.$store.state.menuList')
   },
   methods:{
     // 页面子权限判定
     isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_databaseNav'));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      let authList = this.$store.state.menuList;
+      let curAuth = authList && authList.find(item => (item.component == '/admin_newsProgram'));
+      let curSonAuth = curAuth ? curAuth.listPermission.includes(name) : null;
       return curSonAuth ? true : false;
     },
     initData(){

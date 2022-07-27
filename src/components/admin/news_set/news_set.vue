@@ -26,14 +26,17 @@
                         <span class="col col3"><span v-for="(ite,k) in (item.managerList||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click.stop="handleSet(item.title,item.columnID,'0',(item.managerList||[]))" class="btns-edit"><i class="iconfont el-icon-vip-bianji"></i>修改</span></span>
                       </template>
                       <div class="table-pd-row" v-for="(it,i) in (item.list||[])" :key="i+'_a'">
-                        <span class="col col1"></span><span class="col col2 fold-line">{{it.auditProcessName||''}}</span><span class="col col3"><span v-for="(ite,k) in (it.listPermissions||[])">{{ite.manager||''}},</span></span><span class="col col4"><span @click.stop="handleSet((item.title||'')+' — '+(it.auditProcessName||''),item.columnID,it.auditProcessStatus,(it.listPermissions||[]))" class="btns-edit"><i class="iconfont el-icon-vip-bianji"></i>修改</span></span></div>
+                        <span class="col col1"></span><span class="col col2 fold-line">{{it.auditProcessName||''}}</span>
+                        <span class="col col3"><span v-for="(ite,k) in (it.listPermissions||[])">{{ite.manager||''}},</span></span>
+                        <span class="col col4" v-if="isAuth('permissionedit')"><span @click.stop="handleSet((item.title||'')+' — '+(it.auditProcessName||''),item.columnID,it.auditProcessStatus,(it.listPermissions||[]))" class="btns-edit"><i class="iconfont el-icon-vip-bianji"></i>修改</span></span>
+                      </div>
                     </el-collapse-item>
                   </el-collapse>
                 </div>
               </el-form-item>
               <el-form-item>
                 <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="resetForm()">重置</el-button>
-                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm('postForm')">保存</el-button>
+                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" v-if="isAuth('save')" type="primary" @click="submitForm('postForm')">保存</el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -90,6 +93,13 @@ export default {
       this.initData();
   },
   methods:{
+    // 页面子权限判定
+    isAuth(name) {
+      let authList = this.$store.state.menuList;
+      let curAuth = authList && authList.find(item => (item.component == '/admin_newsSet'));
+      let curSonAuth = curAuth ? curAuth.listPermission.includes(name) : null;
+      return curSonAuth ? true : false;
+    },
     initData(){
     //获取两个开关
       this.http.postJson('news-settings-get',{}).then(res=>{
