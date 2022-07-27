@@ -2,7 +2,7 @@
  * @Description: 菜单项
  * @Author: wanjikun
  * @Date: 2022-07-25 14:19:52
- * @LastEditTime: 2022-07-26 09:18:00
+ * @LastEditTime: 2022-07-27 11:47:18
  * @LastEditors: gongqin
 -->
 <template>
@@ -47,7 +47,10 @@ export default {
     //是否当前菜单
     isActive(url) {
       let id = this.$route.query.id || this.$route.query.columnId;
-      var cu_href = this.$route.meta.parentRoute == '/admin_programInfo' ? this.$route.meta.parentRoute + '?id=' + id : this.$route.meta.parentRoute;
+      if ((this.$route.path == '/admin_addNews' || this.$route.path == '/admin_newsLog') && this.$route.meta.parentRoute == '/admin_programInfo') {
+        id = this.$route.query.c_id;
+      }
+      let cu_href = this.$route.meta.parentRoute == '/admin_programInfo' ? this.$route.meta.parentRoute + '?id=' + id : this.$route.meta.parentRoute;
       if (url == cu_href) {
         return true;
       } else {

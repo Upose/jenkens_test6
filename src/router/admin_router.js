@@ -75,7 +75,7 @@ export default {
       meta: {
         title: [{ name: '栏目信息管理'}, { name: '日志', }],
         keepAlive: true,
-        parentRoute:'/admin_newsProgram'
+        parentRoute:'/admin_programInfo'
       },
     },
     {
