@@ -183,7 +183,7 @@ export default {
     },
     getColumn(){
       this.http.getPlain('news-user-union-column-permission-list','').then((res) => {
-        let dataList = res.data||[];
+        let dataList = res.data.permissionNodes||[];
         store.commit('menuList',dataList);
       }).catch((err) => {});
     },

@@ -15,17 +15,20 @@ export default {
   },
   mounted(){
     var _this = this;
-    this.dataList = this.$store.state.menuList;
     let appDetails = this.$store.state.appDetails;
     if(appDetails && appDetails!=null && appDetails!=undefined && appDetails !=''){
       _this.appDetails = appDetails;
+    }
+  },
+  computed: {
+    dataList() {
+      return this.$store.state.menuList || [];
     }
   },
   data () {
     return {
       default_img:require('@/assets/admin/img/upload/user-img.png'),
       appDetails:{},//应用详情
-      dataList:[],
     }
   },
   methods:{

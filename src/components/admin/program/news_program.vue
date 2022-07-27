@@ -82,8 +82,16 @@ export default {
   },
   mounted(){
       this.initData();
+      console.log(this.$store.state.menuList, 'this.$store.state.menuList')
   },
   methods:{
+    // 页面子权限判定
+    isAuth(name) {
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item => (item.router == '/admin_databaseNav'));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
+    },
     initData(){
       this.http.getJson('news-column-get-by-manager-id',"").then(res=>{
         this.loading = false;
@@ -137,7 +145,7 @@ export default {
     getColumn(){
       var _this =this;
       this.http.getPlain('news-user-union-column-permission-list','').then((res) => {
-        let dataList = res.data||[];
+        let dataList = res.data.permissionNodes||[];
         store.commit('menuList',dataList);
         _this.$forceUpdate();
       }).catch((err) => {});

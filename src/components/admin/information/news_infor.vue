@@ -18,19 +18,19 @@
             <div class="table-w">
               <div class="search-table-w">
                   <div class="search-term">
-                      <el-input class="width187" v-model="postForm.searchKey" size="medium" placeholder="标题/内容/发布者"></el-input>
-                      <el-select class="width136" v-if="isHasCatalogue" v-model="postForm.lableId" size="medium" placeholder="子类">
+                      <el-input v-if="isAuth('query')" class="width187" v-model="postForm.searchKey" size="medium" placeholder="标题/内容/发布者"></el-input>
+                      <el-select class="width136" v-if="isHasCatalogue && isAuth('query')" v-model="postForm.lableId" size="medium" placeholder="子类">
                           <el-option v-for="item in lableList" :key="item.key" :label="item.value" :value="item.key"></el-option>
                       </el-select>
                       <!-- <el-date-picker class="width187" v-model="postForm.beginCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="创建时间"></el-date-picker>
                       <el-date-picker class="width187" v-model="postForm.endCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="更新时间"></el-date-picker> -->
-                      <el-date-picker v-model="beginCreateTime" type="daterange" range-separator="至" value-format="yyyy-MM-dd" start-placeholder="创建开始日期" end-placeholder="创建结束日期" size="medium"></el-date-picker>
-                      <el-date-picker v-model="endCreateTime" type="daterange" range-separator="至" value-format="yyyy-MM-dd" start-placeholder="更新开始日期" end-placeholder="更新结束日期" size="medium"></el-date-picker>
-                      <el-button type="primary" size="medium" icon="el-icon-search" @click="searchClick()">查找</el-button>
+                      <el-date-picker v-if="isAuth('query')" v-model="beginCreateTime" type="daterange" range-separator="至" value-format="yyyy-MM-dd" start-placeholder="创建开始日期" end-placeholder="创建结束日期" size="medium"></el-date-picker>
+                      <el-date-picker v-if="isAuth('query')" v-model="endCreateTime" type="daterange" range-separator="至" value-format="yyyy-MM-dd" start-placeholder="更新开始日期" end-placeholder="更新结束日期" size="medium"></el-date-picker>
+                      <el-button v-if="isAuth('query')" type="primary" size="medium" icon="el-icon-search" @click="searchClick()">查找</el-button>
                       <div class="r-btn">
-                        <el-button type="primary" size="medium" @click="newsAdd()" v-if="columnDeatils.hasPermission">新增新闻</el-button>
-                        <el-button size="medium" class="gray-btn" @click="allOut()" v-if="columnDeatils.hasPermission">批量下架</el-button>
-                        <el-button size="medium" class="gray-btn" @click="allDel()" v-if="columnDeatils.hasPermission">批量删除</el-button>
+                        <el-button type="primary" size="medium" @click="newsAdd()" v-if="columnDeatils.hasPermission && isAuth('add')">新增新闻</el-button>
+                        <el-button size="medium" class="gray-btn" @click="allOut()" v-if="columnDeatils.hasPermission && isAuth('offshelf')">批量下架</el-button>
+                        <el-button size="medium" class="gray-btn" @click="allDel()" v-if="columnDeatils.hasPermission && isAuth('delete')">批量删除</el-button>
                       </div>
                   </div>
                 </div><!--顶部查询 end-->
@@ -42,7 +42,7 @@
                             {{getTableSort(scope.$index)}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="content" label="排序" align="center" width="85">
+                        <el-table-column prop="content" label="排序" align="center" width="85"  v-if="isAuth('sort')">
                           <template slot="header" slot-scope="scope">
                             <div>
                               <span>排序</span>
@@ -98,12 +98,12 @@
                         </el-table-column>
                         <el-table-column label="操作" fixed="right" align="center" width="310">
                           <template slot-scope="scope">
-                            <el-button @click="handleDel(scope.row)" v-if="columnDeatils.hasPermission" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
+                            <el-button @click="handleDel(scope.row)" v-if="columnDeatils.hasPermission && isAuth('delete')" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
                             <el-button @click="previewPage(scope.row.id)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>预览</el-button>
-                            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-pingshen" v-if="(scope.row.aduitStatus !=8 || scope.row.status!=2) && scope.row.nextAuditBottonName" round >
+                            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-pingshen" v-if="(scope.row.aduitStatus !=8 || scope.row.status!=2) && scope.row.nextAuditBottonName && isAuth('audit')" round >
                               {{scope.row.nextAuditBottonName}}
                             </el-button>
-                            <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round>编辑</el-button>
+                            <el-button @click="handleEdit(scope.row)" v-if="isAuth('edit')" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round>编辑</el-button>
                           </template>
                         </el-table-column>
                         <el-table-column prop="content" label="操作记录" align="center" width="85">
@@ -151,6 +151,7 @@ export default {
         console.log(err);
     })
     this.getColumndetails();
+    console.log(this.$store.state.menuList, 'this.$store.state.menuList')
   },
   watch:{
     '$route':'getId'
@@ -237,6 +238,15 @@ export default {
     }
   },
   methods:{
+    // 页面子权限判定
+    isAuth(name) {
+      let authList = this.$store.state.menuList;
+      let curAuth = authList && authList.find(item => (item.permission == '新闻管理')) || {};
+      let id = this.$route.query.id || '';
+      let subMenu = curAuth.permissionNodes.find(item => item.component == '/admin_programInfo?id=' + id);
+      let curSonAuth = subMenu && subMenu.listPermission.includes(name);
+      return curSonAuth ? true : false;
+    },
     getTableSort(index) {
       return (index+1)+(this.pageData.pageSize*(this.pageData.pageIndex-1))
     },
