@@ -2,12 +2,12 @@
  * @Description: 菜单项
  * @Author: wanjikun
  * @Date: 2022-07-25 14:19:52
- * @LastEditTime: 2022-07-27 11:47:18
+ * @LastEditTime: 2022-07-27 14:16:29
  * @LastEditors: gongqin
 -->
 <template>
   <div class="sub-menu" :class="{'active':$route.meta.parentRoute == '/admin_programInfo'}">
-    <div class="sub-menu-tit" :class="{'expand':showSubMenu}" :title="item.name" @click="showSubMenu = !showSubMenu">
+    <div class="sub-menu-tit" :class="{'expand':showSubMenu}" :title="item.name" @click="changeShowSubMenu(item)">
       <i class="iconfont el-icon-vip-daohanglanmu"></i>
       <span>{{item.name}}</span>
     </div>
@@ -36,10 +36,20 @@ export default {
   },
   data(){
     return{
-      showSubMenu:true
+      showSubMenu:false,
+      curMenu: this.$store.getters.curMenu || '',
+    }
+  },
+  created() {
+    if (!this.curMenu.name || this.item.name == this.curMenu.name) {
+      this.showSubMenu = this.curMenu.expand;
     }
   },
   methods: {
+    changeShowSubMenu(val) {
+      this.showSubMenu = !this.showSubMenu;
+      this.$store.commit('setcurMenu', {name: val.component, expand: this.showSubMenu});
+    },
     openPage(val) {
       let url = val.component.indexOf('?') != -1 ? val.component + '&columnName=' + val.name : val.component + '?columnName=' + val.name;
       this.$router.push(url);

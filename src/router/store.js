@@ -1,3 +1,10 @@
+/*
+ * @Description: 
+ * @Author: gongqin
+ * @Date: 2022-03-18 10:36:32
+ * @LastEditors: gongqin
+ * @LastEditTime: 2022-07-27 14:15:52
+ */
 import Vue from 'vue'
 import Vuex from 'vuex';
 
@@ -11,10 +18,12 @@ export default new Vuex.Store({
     menuList:[],//后台左侧菜单
     appDetails:null,//应用信息
     baseinfo:{},
+    curMenu: {name: '', expand: true},
   },
   getters: {
     token: (state) => state.token,
     language: (state) => state.language||'zh-CN',
+    curMenu: (state) => state.curMenu,
   },
   mutations: {
     baseinfo: (state, data) => {
@@ -47,6 +56,9 @@ export default new Vuex.Store({
       state.token = sessionStorage.getItem('token') || undefined;
       state.language = sessionStorage.getItem('language') || 'zh-CN';
       state.skin_template = sessionStorage.getItem('skin_template') || 'template1';
+    },
+    setcurMenu: (state, data) => {
+      state.curMenu = data;
     },
   },
 });
