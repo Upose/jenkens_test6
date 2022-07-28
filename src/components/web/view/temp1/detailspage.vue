@@ -212,7 +212,10 @@ export default {
        */
       menuClick(item,index,leve){
         if(item.newsCount && item.newsCount==1){
-          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
+          let curId = encodeURI(this.id);
+          if (this.$route.query.id !== curId) {
+            this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(this.id), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
+          }
           return;
         }
         this.titleJson = item;

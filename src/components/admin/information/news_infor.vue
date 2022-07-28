@@ -151,7 +151,6 @@ export default {
         console.log(err);
     })
     this.getColumndetails();
-    console.log(this.$store.state.menuList, 'this.$store.state.menuList')
   },
   watch:{
     '$route':'getId'

@@ -135,7 +135,7 @@ export default {
         this.getNewsList(this.cid,this.l_id);
       },
       //获取新闻列表
-      getNewsList(cid, sub) {//栏目id，labeleid
+      getNewsList(cid, sub, num) {//栏目id，labeleid
         this.cid = cid;
         var list = {
           pageIndex: this.pageIndex,
@@ -157,6 +157,7 @@ export default {
             this.pageSize = res.data.pageSize;
             this.totalCount = res.data.totalCount;
             this.totalPages = res.data.totalPages;
+            console.log(this.news_list, 'this.news_list', num)
           }
         }).catch(err => {
           this.loading = false;
@@ -168,7 +169,8 @@ export default {
        */
       menuClick(item, index, leve) {
         if(item.newsCount && item.newsCount==1){
-          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
+          this.getNewsList(this.menu_list[index].columnID,{},'one');
+          // this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
           return;
         }
         if (leve == 'first') {

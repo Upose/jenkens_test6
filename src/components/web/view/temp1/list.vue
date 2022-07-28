@@ -163,7 +163,8 @@ export default {
      */
     menuClick(item, index, leve) {
       if(item.newsCount && item.newsCount==1){
-        this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
+        this.getNewsList(this.menu_list[index].columnID,{},'one');
+        // this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
         return;
       }
       if (leve == 'first') {
