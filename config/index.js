@@ -3,14 +3,14 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-const os = require('os') 
-let localhost = '' 
-try {   
-  const network = os.networkInterfaces()   
-  localhost = network[Object.keys(network)[0]][1].address 
-} catch (e) {   
-  localhost = 'localhost'; 
-} 
+const os = require('os')
+let localhost = ''
+try {
+  const network = os.networkInterfaces()
+  localhost = network[Object.keys(network)[0]][1].address
+} catch (e) {
+  localhost = 'localhost';
+}
 module.exports = {
   dev: {
 
@@ -27,7 +27,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

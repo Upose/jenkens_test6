@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-03-18 10:36:32
  * @LastEditors: gongqin
- * @LastEditTime: 2022-07-27 18:30:07
+ * @LastEditTime: 2022-07-28 14:22:07
 -->
 <!DOCTYPE html>
 <html>
@@ -36,9 +36,15 @@
     <link rel="stylesheet" href="./static/assets/other/share/css/share.min.css">
     <script src="./static/assets/other/share/js/social-share.min.js"></script>
 
-    <link rel="stylesheet" href="http://192.168.21.46:6900/public/css/color.css"/>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/css/color.css" />
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/css/public.css" />
+    <script src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/ApplicationBuilder.js"></script>
+    <script src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/rxjs.umd.js"></script>
+    <script src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/searchExpressionResolver.js"></script>
+    
+    <!-- <link rel="stylesheet" href="http://192.168.21.46:6900/public/css/color.css"/>
 	  <link rel="stylesheet" href="http://192.168.21.46:6900/public/css/public.css"/>
-    <script src="http://192.168.21.46:6900/public/js/ApplicationBuilder.js"></script>
+    <script src="http://192.168.21.46:6900/public/js/ApplicationBuilder.js"></script> -->
 
     <!-- <link rel="stylesheet" href="https://smart.vipslib.com/cdn/public/css/color.css"/>
 	  <link rel="stylesheet" href="https://smart.vipslib.com/cdn/public/css/public.css"/>
