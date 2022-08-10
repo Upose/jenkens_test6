@@ -10,7 +10,8 @@
     "build": "node build/build.js",
     "build:test": "cross-env NODE_ENV=test node build/build.js",
     "build:online": "cross-env NODE_ENV=online node build/build.js",
-    "build:cqu": "cross-env NODE_ENV=cqu node build/build.js"
+    "build:cqu": "cross-env NODE_ENV=cqu node build/build.js",
+    "build:cdut": "cross-env NODE_ENV=cdut node build/build.js"
   },
   "dependencies": {
     "echarts": "^5.2.2",
