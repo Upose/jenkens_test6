@@ -129,38 +129,38 @@ export default {
     .title{
         float: left;
         width: 100px;
-        color: @34395E;
+        color: @ph-col-n12;
         text-align: right;
         width: 18%;
         min-height: 38px;
         line-height: 38px;
     }
     .txt{
-        color: @313B3D;
+        color: @ph-col-n13;
         float: left;
         width: 80%;
         min-height: 38px;
         line-height: 38px;
         span{
-            border: 1px solid @C9D0FF;
+            border: 1px solid @ph-col-n18;
             border-radius: 13px;
             padding: 3px 8px;
             margin-bottom: 10px;
             margin-right: 10px;
             font-size: 13px;
-            color: @333;
+            color: @ph-col-n15;
             line-height: 20px;
             display: inline-block;
             i{
                 cursor: pointer;
-                color: @6777EF;
+                color: @m-col-b7;
                 margin-left: 8px;
             }
             &:hover{
-                color: @6777EF;
+                color: @m-col-b7;
                 i{
                     &:hover{
-                        color: @333;
+                        color: @ph-col-n15;
                     }
                 }
             }
@@ -182,7 +182,7 @@ export default {
 }
 .search-table{
     .d-title{
-        color: @34395E;
+        color: @ph-col-n12;
         font-size: 14px;
         margin-bottom: 10px;
         span{

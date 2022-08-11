@@ -80,7 +80,7 @@ export default {
     vertical-align: middle;
     width: 200px;
     height: 80px;
-    background: @F4F7FC;
+    background: @ph-col-n2;
     opacity: 1;
     border-radius: 8px;
     position:relative;
@@ -92,11 +92,11 @@ export default {
       height: 40px;
       width: 2px;
       top: 17px;
-      background-color:@6677EF;
+      background-color:@m-col-b9;
     }
     span{
       display: block;
-      color: @6677EF;
+      color: @m-col-b9;
       padding-left: 16px;
     }
     .m{
@@ -115,7 +115,7 @@ export default {
     height: 40px;
     line-height: 40px;
     font-size: 13px;
-    color: @6C757D;
+    color: @ph-col-n10;
     font-weight: bold;
     padding: 0 50px;
     overflow: hidden;
@@ -132,7 +132,7 @@ export default {
       z-index: 20;
       background: #FFFFFF;
       position: relative;
-      color: @6777EF !important;
+      color: @m-col-b7 !important;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
       border-radius: 0px 3px 3px 0px;
       transition: width .3s ease-in-out;
@@ -144,7 +144,7 @@ export default {
         position: absolute;
         right: 0;
         top:13px;
-        background-color: @6777EF;
+        background-color: @m-col-b7;
       }
     }
   }
@@ -153,7 +153,7 @@ export default {
     z-index: 20;
     background: #FFFFFF;
     position: relative;
-    color: @6777EF !important;
+    color: @m-col-b7 !important;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
     border-radius: 0px 3px 3px 0px;
     transition: width .3s ease-in-out;
@@ -165,7 +165,7 @@ export default {
       position: absolute;
       right: 0px;
       top:13px;
-      background-color: @6777EF;
+      background-color: @m-col-b7;
     }
   }
 }

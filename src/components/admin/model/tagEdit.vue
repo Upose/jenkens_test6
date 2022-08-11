@@ -118,8 +118,8 @@ export default {
   width: 100%;
   min-height: 100px;
   .edit-tag-box {
-    background: @fff !important;
-    border: 1px solid @9CADFF !important;
+    background: @m-col-b0 !important;
+    border: 1px solid @m-col-b5 !important;
   }
   .box {
     margin-top: 10px;
@@ -128,12 +128,12 @@ export default {
     height: 32px;
     margin: 10px;
     border-radius: 4px;
-    border: 1px solid @6777EF;
+    border: 1px solid @m-col-b7;
     position: relative;
-    background: @6777EF;
+    background: @m-col-b7;
 
     .tag-text {
-      color: @fff;
+      color: @m-col-b0;
       line-height: 32px;
       span {
         padding-left:8px;
@@ -173,7 +173,7 @@ export default {
         font-size: 16px;
         top: 8px;
         &:hover {
-          color: @6677EF;
+          color: @m-col-b9;
         }
       }
     }
@@ -181,7 +181,7 @@ export default {
 }
 
 .d-title {
-  color: @34395E;
+  color: @ph-col-n12;
   font-size: 14px;
   height: 30px;
   line-height: 30px;
@@ -200,7 +200,7 @@ export default {
     cursor: pointer;
   }
   span {
-    color: @6C757D;
+    color: @ph-col-n10;
     height: 29px;
     line-height: 29px;
     display: inline-block;

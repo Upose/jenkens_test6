@@ -199,7 +199,7 @@ export default {
     border-radius: 4px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
     .admin-form{
-        background-color: @fff;
+        background-color: @m-col-b0;
     }
     .step-bg{
         background-color: #fff;

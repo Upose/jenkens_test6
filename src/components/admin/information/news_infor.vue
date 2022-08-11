@@ -640,10 +640,10 @@ export default {
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
-  color: @6777EF;
+  color: @m-col-b7;
   cursor: pointer;
   &:hover{
-    border-bottom: 1px solid @6777EF;
+    border-bottom: 1px solid @m-col-b7;
   }
 }
 </style>

@@ -176,7 +176,7 @@ export default {
     border-radius: 4px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
     .admin-form{
-        background-color: @fff;
+        background-color: @m-col-b0;
     }
     .form-content{
         box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
@@ -203,28 +203,28 @@ export default {
             display: inline-block;
             text-align: center;
             i.m-icon{
-              color: @6777EF;
+              color: @m-col-b7;
               display: block;
               width: 70px;
               height: 70px;
               line-height: 70px;
               font-size: 30px;
-              border: 2px solid @E4E6FC;
+              border: 2px solid @m-col-b4;
               border-radius: 50%;
             }
             span{
-              color: @ADB6FE;
+              color: @m-col-b11;
               display: block;
               font-size: 14px;
             }
             &:hover{
               span{
-                color: @6777EF;
+                color: @m-col-b7;
               }
               i.m-icon{
-                color: @fff;
-                border: 2px solid @6777EF;
-                background-color:@6777EF;
+                color: @m-col-b0;
+                border: 2px solid @m-col-b7;
+                background-color:@m-col-b7;
               }
             }
             .el-icon-vip-gou2{
@@ -234,12 +234,12 @@ export default {
           }
           .active{
             span{
-              color: @6777EF;
+              color: @m-col-b7;
             }
             i.m-icon{
-              color: @fff;
-              border: 2px solid @6777EF;
-              background-color:@6777EF;
+              color: @m-col-b0;
+              border: 2px solid @m-col-b7;
+              background-color:@m-col-b7;
             }
           }
           .next-icon{
@@ -247,7 +247,7 @@ export default {
             display: inline-block;
             height: 90px;
             line-height: 90px;
-            color: @6777EF;
+            color: @m-col-b7;
             font-size: 20px;
             margin-left: 10px;
             margin-right: 10px;

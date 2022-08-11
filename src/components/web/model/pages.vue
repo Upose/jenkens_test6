@@ -96,23 +96,23 @@ export default {
   margin-top: 30px;
   text-align: right;
   .active {
-    color: @fff;
+    color: @m-col-b0;
   }
   button {
     font-size: 14px;
-    border: 1px solid @999;
+    border: 1px solid @ph-col-n8;
     padding: 0 5px;
     height: 30px;
     outline: none;
-    background: @fff;
+    background: @m-col-b0;
     vertical-align: middle;
     margin-right: 8px;
   }
   .child_color_hover {
     cursor: pointer;
     &:hover {
-      color: @fff;
-      border: 1px solid @fff;
+      color: @m-col-b0;
+      border: 1px solid @m-col-b0;
     }
   }
 }

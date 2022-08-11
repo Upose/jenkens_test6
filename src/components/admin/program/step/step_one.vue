@@ -380,7 +380,7 @@ export default {
     border-radius: 4px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
     .admin-form{
-      background-color: @fff;
+      background-color: @m-col-b0;
     }
     .form-content{
         padding-top: 40px;
@@ -460,7 +460,7 @@ export default {
   padding-bottom: 10px;
 }
 .d-title{
-    color: @34395E;
+    color: @ph-col-n12;
     font-size: 14px;
     margin-bottom: 10px;
     span{

@@ -69,7 +69,7 @@ export default {
     height: 50px;
     .step{
         float: left;
-        color: @34395E;
+        color: @ph-col-n12;
         font-size: 14px;
         text-align: center;
         position: relative;
@@ -183,10 +183,10 @@ export default {
     }
     .icon{
         margin-top:5px;
-        background-color: @ABABAB;
+        background-color: @ph-col-n35;
         width: 22px;
         height: 22px;
-        color: @fff;
+        color: @m-col-b0;
         line-height: 22px;
         text-align: center;
         border-radius: 50%;
@@ -198,8 +198,8 @@ export default {
     .his,.cu{
         margin-top:5px;
         font-size: 22px;
-        color: @6777EF;
-        background: @fff;
+        color: @m-col-b7;
+        background: @m-col-b0;
         border-radius: 50%;
         z-index: 2;
         position: absolute;
@@ -207,7 +207,7 @@ export default {
         margin-left: -10px;
     }
     .his{
-        color: @8CC63F;
+        color: @fun-col-g2;
     }
 }
 </style>

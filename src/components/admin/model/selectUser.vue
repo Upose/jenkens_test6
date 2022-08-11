@@ -168,7 +168,7 @@ export default {
     width: 100%;
 }
 .d-title{
-    color: @34395E;
+    color: @ph-col-n12;
     font-size: 14px;
     margin-bottom: 10px;
     span{
@@ -183,15 +183,15 @@ export default {
     height: 340px;
     overflow-y: auto;
     .box-title{
-        background-color: @EBEEF5;
+        background-color: @ph-col-n3;
         line-height: 40px;
         height: 40px;
-        color: @34395E;
+        color: @ph-col-n12;
         padding: 0 20px;
         font-weight: bold;
         /deep/ .el-checkbox__label{
             font-weight: bold;
-            color: @34395E;
+            color: @ph-col-n12;
         }
     }
     .check-list{

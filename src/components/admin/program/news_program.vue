@@ -13,7 +13,8 @@
                   <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="selectClick()">查找</el-button>
               </div>
           </div><!--顶部查询 end-->
-          <div class="list-content-warp" v-loading="loading" :class="!loading && dataList.length==0?'empty-data-admin':''">
+        <!-- <div class="list-content-warp" v-loading="loading" :class="!loading && dataList.length==0?'empty-data-admin':''"> -->
+        <div class="list-content-warp" v-loading="loading">
           <div class="list-content" v-for="(item,index) in dataList" :key="index+'m'">
             <div class="s-w c-l">
               <span class="m-title"><i class="iconfont el-icon-vip-moren"></i>{{item.lableName}}</span>
@@ -41,6 +42,20 @@
               </div>
             </div>
           </div><!----默认标签 end-->
+          <div class="list-content">
+            <div class="row">
+              <div class="row-list c-l">
+                <div class="row-box set-hover" v-if="isAuth('add') && dataList.length==0" @click="addClick()">
+                  <div class="r-box-bg add-btn">
+                    <div class="r-box-add-warp">
+                      <i class="iconfont el-icon-vip-tianjia1"></i>
+                      <span>新增栏目</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         </div><!---content end--->
         <footerPage class="top20"></footerPage>
@@ -161,10 +176,10 @@ export default {
       min-height: 60px;
       line-height: 57px;
       padding: 0 20px;
-      border-bottom: 1px solid @EBEEF5;
-      background-color: @fff;
+      border-bottom: 1px solid @ph-col-n3;
+      background-color: @m-col-b0;
       .d-title{
-        color: @34395E;
+        color: @ph-col-n12;
         font-size: 14px;
         margin-left: 20px;
       }
@@ -176,11 +191,11 @@ export default {
   /***内容板块***/
   .list-content-warp{
     min-height: 300px;
-    background-color: @fff;
+    background-color: @m-col-b0;
     border-radius: 0 0 4px 4px;
   }
   .list-content{
-    background-color: @fff;
+    background-color: @m-col-b0;
     border-radius: 0 0 4px 4px;
     margin-top: 5px;
     .row{
@@ -209,10 +224,10 @@ export default {
         .add-btn{
           height: 183px;
           padding: 5px;
-          border: 1px dotted @ACACAC;
+          border: 1px dotted @ph-col-n34;
           border-radius: 5px;
           .r-box-add-warp{
-            color: @B7BEC1;
+            color: @ph-col-n27;
             cursor: pointer;
             font-size: 14px;
             width: 100%;
@@ -221,7 +236,7 @@ export default {
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            background-color: @F5F8F9;
+            background-color: @ph-col-n1;
             box-shadow:none;
             i{
               font-size: 26px;
@@ -239,7 +254,7 @@ export default {
         span.name{
           display: block;
           height: 60px;
-          color: @34395E;
+          color: @ph-col-n12;
           font-size: 15px;
           line-height: 60px;
           text-align: center;

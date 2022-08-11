@@ -90,7 +90,7 @@ export default {
   height: 40px;
   line-height: 40px;
   font-size: 13px;
-  color: @6C757D;
+  color: @ph-col-n10;
   font-weight: bold;
   padding: 0 50px;
   overflow: hidden;
@@ -135,7 +135,7 @@ export default {
     &:hover,&.active{
       .sub-menu-item{
         background: #F4F7FC;
-        color:@6C757D;
+        color:@ph-col-n10;
       }
       &:after{
         position: absolute;

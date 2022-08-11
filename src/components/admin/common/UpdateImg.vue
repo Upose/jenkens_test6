@@ -202,7 +202,7 @@ export default {
     border-radius: 2px;
   }
   .cat-warp {
-    background-color: @fff;
+    background-color: @m-col-b0;
     height: 320px;
   }
   .right {
@@ -215,8 +215,8 @@ export default {
       // min-width: 50px;
       // min-height: 50px;
       border-radius: 2px;
-      background: @F9F8FF;
-      border: 1px solid @EBEEF5;
+      background: @m-col-b3;
+      border: 1px solid @ph-col-n3;
     }
     .btn-warp {
       width: 100%;
@@ -228,7 +228,7 @@ export default {
         margin-top: 5px;
       }
       .hint {
-        color: @6C757D;
+        color: @ph-col-n10;
       }
       .btn {
         cursor: pointer;
@@ -236,14 +236,14 @@ export default {
         border-radius: 3px;
         outline: none;
         border: none;
-        color: @6677EF;
-        background-color: @F9F8FF;
-        border: 1px solid @EBEEF5;
+        color: @m-col-b9;
+        background-color: @m-col-b3;
+        border: 1px solid @ph-col-n3;
         margin: 5px;
         padding: 0 6px;
         position: relative;
         &:hover {
-          border: 1px solid @6677EF;
+          border: 1px solid @m-col-b9;
         }
         #uploads {
           cursor: pointer;
@@ -259,8 +259,8 @@ export default {
       .submit {
         height: 32px;
         width: 111px;
-        color: @fff;
-        background-color: @6677EF;
+        color: @m-col-b0;
+        background-color: @m-col-b9;
       }
     }
   }
