@@ -14,7 +14,7 @@
               </div>
           </div><!--顶部查询 end-->
         <!-- <div class="list-content-warp" v-loading="loading" :class="!loading && dataList.length==0?'empty-data-admin':''"> -->
-        <div class="list-content-warp" v-loading="loading">
+        <div class="list-content-warp"  v-if="isAuth('query')" v-loading="loading">
           <div class="list-content" v-for="(item,index) in dataList" :key="index+'m'">
             <div class="s-w c-l">
               <span class="m-title"><i class="iconfont el-icon-vip-moren"></i>{{item.lableName}}</span>
