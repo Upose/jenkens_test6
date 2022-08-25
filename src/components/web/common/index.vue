@@ -8,7 +8,20 @@
 
 <script>
 import store from '@/router/store'
+/**日志分割线begin */
+import mixin from "@/assets/public/js/appLog/appLogMixin"
+/**日志分割线end */
 export default {
+  /**日志分割线begin */
+  mixins: [mixin],
+  provide(){
+    return {
+      fatherMethodSearchOperationWriteLog:this.searchOperationWriteLog,
+      fatherMethodDownloadOperationWriteLog:this.downloadOperationWriteLog,
+      fatherMethodDatabaseClickWriteLog:this.databaseClickWriteLog,
+    }
+  },
+  /**日志分割线end */
   name: 'index',
   created(){
     var _that = this;
