@@ -14,6 +14,7 @@
     "build:cdut": "cross-env NODE_ENV=cdut node build/build.js"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^3.3.4",
     "echarts": "^5.2.2",
     "es6-promise": "^4.2.8",
     "less": "^3.13.1",
