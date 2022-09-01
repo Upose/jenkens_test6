@@ -1,7 +1,14 @@
+/*
+ * @Description: 
+ * @Author: gongqin
+ * @Date: 2022-08-11 15:47:14
+ * @LastEditors: gongqin
+ * @LastEditTime: 2022-09-01 15:42:58
+ */
 'use strict'
 require('./check-versions')()
 
-// process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'production'
 
 const ora = require('ora')
 const rm = require('rimraf')
