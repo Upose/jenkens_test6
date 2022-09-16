@@ -14,7 +14,7 @@
           <div class="menu-list">
             <span class="title">栏目列表</span>
             <ul>
-              <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
+              <li class="thover-bg-c1" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length>0 && item.check">
                   <li v-for="(it,i) in item.lableNewsList" @click="foxbaseClick(it)" :class="{'tbg-hover1':subTitle.key == it.key}"><a class="text-color" href="javascript:;">{{it.value}}</a></li>
@@ -202,7 +202,7 @@ export default {
           cs = 'child-list ';
         }
         if(this.cid == val.columnID){
-          cs = 'active child_bg';
+          cs = 'active tbg-c1';
           if(val.lableNewsList && val.lableNewsList.length>0 && check==true){
             cs = cs + ' child-list-active-open';
           }else if(val.lableNewsList && val.lableNewsList.length>0 && (check==undefined||check==false)){

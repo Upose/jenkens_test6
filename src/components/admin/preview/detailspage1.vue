@@ -8,10 +8,10 @@
             <div class="articledetails-warp">
               <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
                   <div class="left-menu" v-if="is_show_menu">
-                    <div class="menu-top child_bg">{{content_title}}</div>
+                    <div class="menu-top tbg-c1">{{content_title}}</div>
                     <div class="menu-list">
                       <ul>
-                        <li class="child_color_hover" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
+                        <li class="thover-bg-c1" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
                           <a href="javascript:;" @click="menuClick(item.name,index,true)">{{item.name}}</a>
                           <ul class="sub-menu" v-if="item.lableList && item.lableList.length>0 && item.check">
                             <li v-for="(it,i) in item.lableList"><a href="javascript:;">{{it.value}}</a></li>
@@ -22,7 +22,7 @@
                   </div><!--栏目菜单列表 end-->
 
                   <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
-                    <div class="menu-top child_bg">当前位置：{{content_title}} > 详情</div><!--顶部面包屑 end -->
+                    <div class="menu-top tbg-c1">当前位置：{{content_title}} > 详情</div><!--顶部面包屑 end -->
                     
                     <div class="right-content">
                         <div class="news-content-warp news-img-max-sys">
@@ -168,7 +168,7 @@ export default {
           cs = 'child-list ';
         }
         if(this.left_index == val.columnID){
-          cs = 'active child_bg';
+          cs = 'active tbg-c1';
           if(val.lableList && val.lableList.length>0 && check==true){
             cs = cs + ' child-list-active-open';
           }else if(val.lableList && val.lableList.length>0 && (check==undefined||check==false)){
