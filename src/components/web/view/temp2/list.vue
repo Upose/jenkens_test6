@@ -1,5 +1,6 @@
 <template>
   <div class="list-warp">
+    <div class="warp-banner-bg tafter-bg-c2"></div>
     <div class="articledetails-warp">
       <div class="m-width top-title">
         <span class="m-title">{{titleJson.name}}</span>

@@ -5,6 +5,7 @@
       <el-main class="admin-content admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <div class="content search-table-general">
           <div class="list-warp">
+            <div class="warp-banner-bg tafter-bg-c2"></div>
             <div class="articledetails-warp">
               <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
                   <div class="left-menu" v-if="is_show_menu">

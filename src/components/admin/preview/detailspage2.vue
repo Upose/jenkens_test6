@@ -5,6 +5,7 @@
       <el-main class="admin-content admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <div class="content search-table-general">
           <div class="list-warp">
+            <div class="warp-banner-bg tafter-bg-c2"></div>
             <div class="articledetails-warp">
               <div class="m-width top-title">
                 <span class="m-title">{{content_title}}</span>
