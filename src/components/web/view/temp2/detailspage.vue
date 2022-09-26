@@ -41,7 +41,7 @@
               </div><!--审核信息end-->
 
               <div class="news-sub-warp">
-                <span class="name child1_text_color">{{detailsData.publisher||'无'}}</span><!--发布人-->
+                <span class="name tfont-c11">{{detailsData.publisher||'无'}}</span><!--发布人-->
                 <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span><!--发布日期-->
                 <!-- <span v-if="data.isShowAuthor">{{detailsData.author}}</span>作者 -->
                 <!-- <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
@@ -52,7 +52,7 @@
                 <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
                 <span v-if="data.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
                 <span v-if="data.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
-                <span v-if="data.isShowHitCount"><i class="number-icon"></i>({{detailsData.hitCount||0}})浏览量</span>
+                <span v-if="data.isShowHitCount"><i class="iconfont el-icon-vip-yulan-1"></i>{{detailsData.hitCount||0}}浏览量</span>
                 <span class="r-share" @click="handleShare()">一键分享</span>
                 <dialogShare ref="dialogShare_ref"></dialogShare>
               </div><!--顶部-其他基础信息 end-->
@@ -263,5 +263,6 @@ export default {
 <style lang="less" scoped>
   @import "../../../../assets/web/css/style.less";
   @import "../../../../assets/web/css/color.less";
+  @import "../../../../assets/admin/font/iconfont.css";
   @import "../../../../assets/web/css/temp2/detailspage.less";
 </style>
