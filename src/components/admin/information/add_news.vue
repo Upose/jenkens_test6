@@ -231,10 +231,10 @@ export default {
       font_formats: '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;',
       // plugins: 'image,wordcount,charmap,code,hr,lists,advlist,emoticons,fullscreen,help,insertdatetime,link',
 
-      plugins: 'code  quickbars print preview searchreplace autolink directionality powerpaste visualblocks visualchars image link media template codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount textpattern help emoticons autosave bdmap indent2em autoresize importword kityformula-editor',
+      plugins: 'code  quickbars print preview searchreplace autolink directionality powerpaste visualblocks visualchars image link media template codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount textpattern help emoticons autosave bdmap indent2em autoresize kityformula-editor',
       toolbar: 'code undo redo restoredraft | cut copy paste pastetext | forecolor backcolor bold italic underline strikethrough link anchor codesample | alignleft aligncenter alignright alignjustify outdent indent | \
           styleselect formatselect fontselect fontsizeselect | bullist numlist | blockquote subscript superscript removeformat | \
-          table image  media charmap emoticons hr pagebreak insertdatetime print preview | bdmap indent2em lineheight importword kityformula-editor',
+          table image  media charmap emoticons hr pagebreak insertdatetime print preview | bdmap indent2em lineheight kityformula-editor',
       images_upload_handler: (blobInfo, success, failure) => { // 图片上传
         console.log(blobInfo, success, failure);
         this.handleImgUpload(blobInfo, success, failure)
