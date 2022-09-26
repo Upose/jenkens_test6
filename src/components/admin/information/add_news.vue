@@ -240,8 +240,8 @@ export default {
         this.handleImgUpload(blobInfo, success, failure)
       },
       width: 1000,
-      powerpaste_word_import: "clean",
-      powerpaste_html_import: 'clean',
+      powerpaste_word_import: "merge",
+      powerpaste_html_import: 'merge',
       powerpaste_allow_local_images: true,
       powerpaste_keep_unsupported_src:true,
       paste_data_images: true,
