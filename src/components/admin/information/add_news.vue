@@ -93,18 +93,19 @@
                       <div class="filter-f-title">
                         <span class="filter-box-col" @click="handleClick('div1')" :class="activeName=='div1'?'active':''">编辑内容</span>
                         <span class="filter-box-col" @click="handleClick('div2')" :class="activeName=='div2'?'active':''" v-show="isshow_link">链接跳转</span>
-                        <span class="filter-hint">{{activeName=='div2'?'填写链接后，编辑内容将不会显示，直接跳转链接':'可切换编辑器，适应您的使用习惯'}}</span>
+                        <span class="filter-hint">{{activeName=='div2'?'填写链接后，编辑内容将不会显示，直接跳转链接':''}}</span>
                       </div>
                       <div v-show="activeName=='div1'">
-                        <div class="edit-fwb" v-show="contentEditor==1"><textarea id="mytextarea" v-model="postForm.content"></textarea> </div>
-                        <div class="edit-fwb" v-show="contentEditor==2">
+                        <div class="edit-fwb" >
+                          <textarea id="mytextarea" v-model="postForm.content"></textarea>
+                        </div>
+                        <!-- <div class="edit-fwb" v-show="contentEditor==2">
                           <vue-ueditor-wrap v-model="postForm.content" :config="myConfig" class="ueditors"></vue-ueditor-wrap>
-                          <!-- <textarea id="remark_textarea" v-model="postForm.content" style="display: none;"></textarea> -->
-                          </div>
-                        <div class="edit-check-list">
+                        </div> -->
+                        <!-- <div class="edit-check-list">
                           <div class="edit-col" @click="editorCheck(1)" :class="contentEditor==1?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji1 filter-icon"></i>编辑器1</div>
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
-                        </div>
+                        </div> -->
                       </div>
                       <div class="table-pd" v-show="activeName=='div2'">
                       <!-- <el-input type="textarea" class="tab-el-textarea" placeholder="请输入链接地址" v-model="postForm.externalLink" maxlength="500" show-word-limit></el-input> -->
@@ -149,12 +150,12 @@ import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
 import UpdateImg from "@/components/admin/common/UpdateImg";
 import tagEdit from "../model/tagEdit";
-import VueUeditorWrap from 'vue-ueditor-wrap'
+// import VueUeditorWrap from 'vue-ueditor-wrap'
 import { datePipe } from '@/assets/public/js/time'
 // const FuRequire = require("myjs-common").FuRequire;
 export default {
   name: 'index',
-  components:{footerPage,serviceLMenu,breadcrumb,UpdateImg,tagEdit,VueUeditorWrap},
+  components:{footerPage,serviceLMenu,breadcrumb,UpdateImg,tagEdit},
   created(){
     this.bus.$on('collapse', msg => {
         this.$root.collapse = msg;
@@ -219,12 +220,49 @@ export default {
       selector: '#mytextarea',
       language: 'zh_CN',
       height: 400,
-      plugins: 'image',
-      // toolbar: 'code bullist numlist emoticons charmap hr insertdatetime link | help fullscreen image', 
+      min_height: 400,
+      // plugins: 'code, image, autoresize, lists',
+      // toolbar: 'code image',
+      toolbar_mode : 'wrap',
+      branding: false,
+      // toolbar_sticky: true,
+      resize: true,
+      fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px',
+      font_formats: '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;',
       // plugins: 'image,wordcount,charmap,code,hr,lists,advlist,emoticons,fullscreen,help,insertdatetime,link',
+
+      plugins: 'code  quickbars print preview searchreplace autolink directionality powerpaste visualblocks visualchars image link media template codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount textpattern help emoticons autosave bdmap indent2em autoresize importword kityformula-editor',
+      toolbar: 'code undo redo restoredraft | cut copy paste pastetext | forecolor backcolor bold italic underline strikethrough link anchor codesample | alignleft aligncenter alignright alignjustify outdent indent | \
+          styleselect formatselect fontselect fontsizeselect | bullist numlist | blockquote subscript superscript removeformat | \
+          table image  media charmap emoticons hr pagebreak insertdatetime print preview | bdmap indent2em lineheight importword kityformula-editor',
       images_upload_handler: (blobInfo, success, failure) => { // 图片上传
         console.log(blobInfo, success, failure);
         this.handleImgUpload(blobInfo, success, failure)
+      },
+      width: 1000,
+      powerpaste_word_import: "clean",
+      powerpaste_html_import: 'clean',
+      powerpaste_allow_local_images: true,
+      powerpaste_keep_unsupported_src:true,
+      paste_data_images: true,
+      file_picker_types: 'media',
+      media_live_embeds: true,
+      file_picker_callback: (callback, value, meta) => {
+        let input = document.createElement('input');
+          input.setAttribute('type', 'file');
+          input.setAttribute("accept", ".mp4");
+          let that = this;
+          input.onchange = function(){
+            let file = this.files[0];
+            let fd = new FormData();
+            fd.append("files", file);
+            that.handleVideoUpload(fd, callback);
+          }
+          input.click();
+      },
+      video_template_callback: data => {
+        console.log(data)
+        return '<span class="mce-preview-object mce-object-video" contenteditable="false" data-mce-object="video" data-mce-p-allowfullscreen="allowfullscreen" data-mce-p-frameborder="no" data-mce-p-scrolling="no" data-mce-p-src='+data.source+' data-mce-p-width='+data.width+' data-mce-p-height='+data.height+' data-mce-p-controls="controls" data-mce-html="%20"> <video width='+data.width+' height='+data.height+' controls="controls"> <source src='+data.source+' type='+data.sourcemime+'></source> </video> </span>';
       }
     });
     tinyMCE.activeEditor.on('paste', function(e) {
@@ -278,7 +316,7 @@ export default {
           //投递终端
           if(list.terminals){
             this.postForm.terminals = list.terminals.split(';')||[];
-            this.postForm.terminals.forEach((item,index)=>{ 
+            this.postForm.terminals.forEach((item,index)=>{
               this.postForm.terminals[index] = parseInt(item);
             })
           }else{
@@ -413,107 +451,6 @@ export default {
               { min: 0, max: 500, message: '长度在 0 到 500 个字符', trigger: 'blur' }
           ],
       },
-      //百度富文本
-      myConfig: {
-        toolbars: [[
-          // 'anchor', //锚点 
-          'undo', //撤销 
-          'redo', //重做 
-          'bold', //加粗 
-          'indent', //首行缩进 
-          // 'snapscreen', //截图 
-          'italic', //斜体 
-          'underline', //下划线 
-          'strikethrough', //删除线 
-          'subscript', //下标 
-          // 'fontborder', //字符边框 
-          // 'superscript', //上标 
-          'formatmatch', //格式刷 
-          // 'source', //源代码 
-          // 'blockquote', //引用 
-          // 'pasteplain', //纯文本粘贴模式 
-          // 'selectall', //全选 
-          // 'print', //打印 
-          // 'preview', //预览 
-          // 'horizontal', //分隔线 
-          'removeformat', //清除格式 
-          // 'time', //时间 
-          // 'date', //日期 
-          'unlink', //取消链接 
-          'insertrow', //前插入行 
-          'insertcol', //前插入列 
-          // 'mergeright', //右合并单元格 
-          // 'mergedown', //下合并单元格 
-          // 'deleterow', //删除行 
-          // 'deletecol', //删除列 
-          // 'splittorows', //拆分成行 
-          // 'splittocols', //拆分成列 
-          // 'splittocells', //完全拆分单元格 
-          // 'deletecaption', //删除表格标题 
-          // 'inserttitle', //插入标题 
-          // 'mergecells', //合并多个单元格 
-          // 'deletetable', //删除表格 
-          // 'cleardoc', //清空文档 
-          // 'insertparagraphbeforetable', //”表格前插入行” 
-          // 'insertcode', //代码语言 
-          'fontfamily', //字体 
-          'fontsize', //字号 
-          'paragraph', //段落格式 
-          'simpleupload', //单图上传 
-          // 'insertimage', //多图上传 
-          // 'edittable', //表格属性 
-          // 'edittd', //单元格属性 
-          'link', //超链接 
-          // 'emotion', //表情 
-          // 'spechars', //特殊字符 
-          // 'searchreplace', //查询替换 
-          // 'map', //Baidu地图 
-          // 'gmap', //Google地图 
-          // 'insertvideo', //视频 
-          // 'help', //帮助 
-          'justifyleft', //居左对齐 
-          'justifyright', //居右对齐 
-          'justifycenter', //居中对齐 
-          'justifyjustify', //两端对齐 
-          'forecolor', //字体颜色 
-          'backcolor', //背景色 
-          'insertorderedlist', //有序列表 
-          'insertunorderedlist', //无序列表 
-          // 'fullscreen', //全屏 
-          // 'directionalityltr', //从左向右输入 
-          // 'directionalityrtl', //从右向左输入 
-          // 'rowspacingtop', //段前距 
-          // 'rowspacingbottom', //段后距 
-          // 'pagebreak', //分页 
-          // 'insertframe', //插入Iframe 
-          // 'imagenone', //默认 
-          // 'imageleft', //左浮动 
-          // 'imageright', //右浮动 
-          // 'attachment', //附件 
-          'imagecenter', //居中 
-          // 'wordimage', //图片转存 
-          'lineheight', //行间距 
-          // 'edittip ', //编辑提示 
-          // 'customstyle', //自定义标题 
-          // 'autotypeset', //自动排版 
-          // 'webapp', //百度应用 
-          // 'touppercase', //字母大写 
-          // 'tolowercase', //字母小写 
-          // 'background', //背景 
-          // 'template', //模板 
-          // 'scrawl', //涂鸦 
-          // 'music', //音乐 
-          // 'inserttable', //插入表格 
-          // 'drafts', // 从草稿箱加载 
-          // 'charts', // 图表
-        ]],
-        zIndex:3000,
-        autoHeightEnabled: false,// 编辑器不自动被内容撑高
-        initialFrameHeight: 240,// 初始容器高度
-        initialFrameWidth: '100%',// 初始容器宽度
-        serverUrl: localStorage.getItem('fileUrl') + '/api/file/upload-file',// 上传文件接口（这个地址是我为了方便各位体验文件上传功能搭建的临时接口，请勿在生产环境使用！！！）
-        UEDITOR_HOME_URL: './static/assets/other/UEditor/'
-      },
     }
   },
   methods:{
@@ -521,13 +458,18 @@ export default {
       this.baseUrl = '你的baseurl'
       const imgBase64 = `data:${blobInfo.blob().type};base64,${blobInfo.base64()}`
       const data = { img: [imgBase64] }
-      // uploadImgage(data).then(res => {        // 传入success回调里的数据就是富文本编辑器里插入图片的src的值        
+      // uploadImgage(data).then(res => {        // 传入success回调里的数据就是富文本编辑器里插入图片的src的值
       //   success(`${this.baseUrl}/${res.data[0]}`)
       // }).catch(() => { failure('error') })
       let formData = new FormData();
       formData.append('files', blobInfo.blob(), "DX.jpg");
       this.http.postFile('', formData).then(res => {
         success(this.fileUrl+res.data)
+      }).then(err => {});
+    },
+    handleVideoUpload(fd, callback) {
+      this.http.postFile('', fd).then(res => {
+        callback(this.fileUrl+res.data)
       }).then(err => {});
     },
     //标签选择
@@ -726,5 +668,9 @@ export default {
 @import "../../../assets/admin/css/style.less";
 @import "../../../assets/admin/css/form.less";
 @import "../../../assets/admin/css/information/add_news.less";
+
+.edit-fwb{
+  position: relative;
+}
 </style>
 
