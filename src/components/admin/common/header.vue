@@ -14,7 +14,10 @@
     </div><!--菜单列表 end-->
 
     <div class="login-msg-warp">
-      <div class="u-img-w"><el-image class="u-img" v-if="userInfo" :src="$root.fileUrl+userInfo.photo||default_img" :fit="'contain'"></el-image></div>
+      <div class="u-img-w">
+        <el-image class="u-img" v-if="userInfo" :src="fileUrl+userInfo.photo||default_img" :fit="'contain'">
+        </el-image>
+      </div>
       <span class="u-name">{{userInfo.name||''}}</span>
       <i class="iconfont el-icon-vip-tuichu loginOut" title="退出登录" @click="outLogin()"></i>
     </div><!--用户信息-退出登录 end-->
@@ -28,7 +31,7 @@ export default {
   name: 'test',
   data () {
     return {
-      userInfo:{},
+      userInfo:JSON.parse(window.localStorage.getItem('userInfo')||'{}'),
       fileUrl:window.localStorage.getItem('fileUrl'),
       activeName:0,
       default_img:require('@/assets/admin/img/upload/user-img.png'),
@@ -40,7 +43,6 @@ export default {
     }
   },
   mounted(){
-    this.userInfo = JSON.parse(window.localStorage.getItem('userInfo')||'{}');
     this.http.getPlain_url('getmgrtopmenu','').then(res=>{
       this.dataList = res.data.appMenuList||[];
       this.logoList.show = localStorage.getItem('fileUrl')+res.data.simpleLogoUrl;
