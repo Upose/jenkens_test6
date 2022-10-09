@@ -40,7 +40,7 @@
                 <div class="msg c-l">
                   <span class="content">
                     <span v-if="it.isShowContent" v-html="it.content"></span>
-                    <span class="show-details child_text_color">[查看详细]</span>
+                    <span class="show-details child_text_color tfont-c2">[查看详细]</span>
                   </span>
                   <span class="txt-right">
                     <span v-if="it.isShowHitCount">访问次数：{{it.hitCount||0}}</span>
