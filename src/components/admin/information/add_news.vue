@@ -239,7 +239,7 @@ export default {
         console.log(blobInfo, success, failure);
         this.handleImgUpload(blobInfo, success, failure)
       },
-      width: 800,
+      width: 832,
       powerpaste_word_import: "merge",
       powerpaste_html_import: 'merge',
       powerpaste_allow_local_images: true,
