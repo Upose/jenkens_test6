@@ -463,14 +463,14 @@ export default {
       formData.append('files', blobInfo.blob(), "DX.jpg");
       this.http.postFile('', formData).then(res => {
         success(this.fileUrl+res.data)
-      }).then(err => {});
+      }).catch(err => {});
     },
     handleVideoUpload(fd, callback) {
       this.http.postFile('', fd).then(res => {
         if (res.succeeded) {
           callback(this.fileUrl+res.data);
         }
-      }).then(err => {
+      }).catch(err => {
         if (err.errors) {
           this.$message({type: 'error', message: err.errors || ''});
         }
@@ -483,7 +483,7 @@ export default {
         if (res.succeeded) {
           succFun(this.fileUrl+res.data[0], {text: file.name});
         }
-      }).then(err => {
+      }).catch(err => {
         if (err.errors) {
           this.$message({type: 'error', message: err.errors || ''});
         }
