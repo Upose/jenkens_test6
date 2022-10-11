@@ -467,14 +467,22 @@ export default {
     },
     handleVideoUpload(fd, callback) {
       this.http.postFile('', fd).then(res => {
-        callback(this.fileUrl+res.data)
+        if (res.succeeded) {
+          callback(this.fileUrl+res.data);
+        } else {
+          return this.$message({type: 'error',message: res.errors});
+        }
       }).then(err => {});
     },
     handleFileUpload(file, succFun) {
       const formData =  new FormData();
       formData.append('files', file);
       this.http.postFile('', formData).then(res => {
-        succFun(this.fileUrl+res.data[0], {text: file.name});
+        if (res.succeeded) {
+          succFun(this.fileUrl+res.data[0], {text: file.name});
+        } else {
+          return this.$message({type: 'error',message: res.errors});
+        }
       }).then(err => {});
     },
     //标签选择
