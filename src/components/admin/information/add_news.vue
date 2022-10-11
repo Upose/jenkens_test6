@@ -469,10 +469,12 @@ export default {
       this.http.postFile('', fd).then(res => {
         if (res.succeeded) {
           callback(this.fileUrl+res.data);
-        } else {
-          return this.$message({type: 'error',message: res.errors});
         }
-      }).then(err => {});
+      }).then(err => {
+        if (err.errors) {
+          this.$message({type: 'error', message: err.errors || ''});
+        }
+      });
     },
     handleFileUpload(file, succFun) {
       const formData =  new FormData();
@@ -480,10 +482,12 @@ export default {
       this.http.postFile('', formData).then(res => {
         if (res.succeeded) {
           succFun(this.fileUrl+res.data[0], {text: file.name});
-        } else {
-          return this.$message({type: 'error',message: res.errors});
         }
-      }).then(err => {});
+      }).then(err => {
+        if (err.errors) {
+          this.$message({type: 'error', message: err.errors || ''});
+        }
+      });
     },
     //标签选择
     checkTag(val){
