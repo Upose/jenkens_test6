@@ -504,13 +504,32 @@ export default {
     //   let formData = new FormData();
     //   formData.append('files', blobInfo.blob(), "DX.jpg");
     //   this.http.postFile('', formData).then(res => {
-    //     success(this.fileUrl + res.data)
-    //   }).then(err => { });
+    //     success(this.fileUrl+res.data)
+    //   }).catch(err => {});
     // },
     handleVideoUpload(fd, callback) {
       this.http.postFile('', fd).then(res => {
-        callback(this.fileUrl + res.data)
-      }).then(err => { });
+        if (res.succeeded) {
+          callback(this.fileUrl + res.data);
+        }
+      }).catch(err => {
+        if (err.errors) {
+          this.$message({ type: 'error', message: err.errors || '' });
+        }
+      });
+    },
+    handleFileUpload(file, succFun) {
+      const formData = new FormData();
+      formData.append('files', file);
+      this.http.postFile('', formData).then(res => {
+        if (res.succeeded) {
+          succFun(this.fileUrl + res.data[0], { text: file.name });
+        }
+      }).catch(err => {
+        if (err.errors) {
+          this.$message({ type: 'error', message: err.errors || '' });
+        }
+      });
     },
     //标签选择
     checkTag(val) {
@@ -680,7 +699,6 @@ export default {
       }
       if (_this.id) {
         this.http.postJsonParameter_url('news-content-update', _this.postForm, '/' + _this.columnID).then(res => {
-          console.log(res, 'res');
           _this.$message({ type: 'success', message: '提交成功!' });
           _this.backHistory();
         }).catch(err => {
