@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-10-13 10:25:26
  * @LastEditors: gongqin
- * @LastEditTime: 2022-10-13 14:20:21
+ * @LastEditTime: 2022-10-13 15:05:55
 -->
 <template>
   <div class="">
@@ -35,6 +35,7 @@ export default {
   },
   data() {
     return {
+      // fileUrl: window.localStorage.getItem('fileUrl'),
       contValue: '',
       img_list: [],//富文本图片路径
     }

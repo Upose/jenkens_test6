@@ -130,7 +130,7 @@
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
                         </div> -->
                     </div>
-                    <div class="table-pd" v-show="activeName=='div2'">
+                    <div class="table-pd" width="1000" v-show="activeName=='div2'">
                       <!-- <el-input type="textarea" class="tab-el-textarea" placeholder="请输入链接地址" v-model="postForm.externalLink" maxlength="500" show-word-limit></el-input> -->
                       <textarea class="table-el-textarea" @keyup="textareaBlur" v-model="postForm.externalLink"
                         placeholder="请输入链接地址"></textarea>
@@ -239,10 +239,10 @@ export default {
       this.tag_edit_data = res.data || [];
     }).catch(err => { })
   },
-  // beforeDestroy() {
-  //   // 销毁组件前销毁编辑器
-  //   window.tinymce.get('mytextarea').destroy();
-  // },
+  beforeDestroy() {
+    // 销毁组件前销毁编辑器
+    window.tinymce.get('mytextarea').destroy();
+  },
   mounted() {
     var _this = this;
     this.postForm['publisher'] = JSON.parse(this.userInfo).name;//这个地方应该由后台改为自动为登录用户，不用前端传
@@ -329,7 +329,7 @@ export default {
         }
         this.contentEditor = this.postForm.contentEditor || 1;
         // 设置富文本
-        tinymce.activeEditor.setContent(this.postForm.content)
+        tinymce.activeEditor.setContent(this.postForm.content);
         var list = res.data.content || {};
         //按钮集合
         console.log(res.data.nextAuditStatus);
