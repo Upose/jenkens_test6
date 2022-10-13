@@ -119,7 +119,8 @@
                     <div v-show="activeName=='div1'">
                       <div class="edit-fwb">
                         <!-- <textarea id="mytextarea" v-model="postForm.content"></textarea> -->
-                        <Tinymce :contValue.sync="postForm.content" :fileUrl="fileUrl"></Tinymce>
+                        <Tinymce :contValue.sync="postForm.content" width="1000" :fileUrl="fileUrl"
+                          editorId="mytextarea"></Tinymce>
                       </div>
                       <!-- <div class="edit-fwb" v-show="contentEditor==2">
                           <vue-ueditor-wrap v-model="postForm.content" :config="myConfig" class="ueditors"></vue-ueditor-wrap>
@@ -327,7 +328,8 @@ export default {
           this.parentCatalogue_length = this.postForm.parentCatalogue.length || 0;
         }
         this.contentEditor = this.postForm.contentEditor || 1;
-        // tinymce.activeEditor.setContent(this.postForm.content)
+        // 设置富文本
+        tinymce.activeEditor.setContent(this.postForm.content)
         var list = res.data.content || {};
         //按钮集合
         console.log(res.data.nextAuditStatus);

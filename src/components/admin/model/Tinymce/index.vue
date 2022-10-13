@@ -3,27 +3,38 @@
  * @Author: gongqin
  * @Date: 2022-10-13 10:25:26
  * @LastEditors: gongqin
- * @LastEditTime: 2022-10-13 11:36:53
+ * @LastEditTime: 2022-10-13 14:20:21
 -->
 <template>
   <div class="">
-    <textarea id="mytextarea" v-model="contValue"></textarea>
+    <textarea :id="editorId" v-model="contValue"></textarea>
   </div>
 </template>
 
 <script>
-import VueUeditorWrap from 'vue-ueditor-wrap'
+// import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
   props: {
     contValue: String,
+    editorId: {
+      type: String,
+      default: 'mytextarea'
+    },
     fileUrl: {
       type: String,
       default: window.localStorage.getItem('fileUrl')
     },
+    width: {
+      type: Number,
+      default: 650
+    },
+    height: {
+      type: Number,
+      default: 450
+    },
   },
   data() {
     return {
-      // fileUrl: window.localStorage.getItem('fileUrl'),
       contValue: '',
       img_list: [],//富文本图片路径
     }
@@ -41,7 +52,7 @@ export default {
   },
   beforeDestroy() {
     // 销毁组件前销毁编辑器
-    window.tinymce.get('mytextarea').destroy();
+    // window.tinymce.get('this.editorId').destroy();
   },
   methods: {
     //sync 同步props值
@@ -52,10 +63,11 @@ export default {
     tinymceInit() {
       var _this = this;
       tinymce.init({
-        selector: '#mytextarea',
+        selector: `#${_this.editorId}`,
         language: 'zh_CN',
-        height: 400,
-        min_height: 400,
+        height: this.height,
+        min_height: this.height,
+        width: this.width,
         // plugins: 'code, image, autoresize, lists',
         // toolbar: 'code image',
         toolbar_mode: 'wrap',
@@ -74,7 +86,7 @@ export default {
           console.log(blobInfo, success, failure);
           this.handleImgUpload(blobInfo, success, failure)
         },
-        width: 1000,
+
         powerpaste_word_import: "merge",
         powerpaste_html_import: 'merge',
         powerpaste_allow_local_images: true,
@@ -144,5 +156,11 @@ export default {
 </script>
 
 <style>
+.tox .tox-pop__dialog {
+  display: none;
+}
 
+.tox .tox-pop.tox-pop--left::before {
+  display: none;
+}
 </style>
