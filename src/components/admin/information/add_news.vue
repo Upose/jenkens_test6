@@ -130,7 +130,7 @@
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
                         </div> -->
                     </div>
-                    <div class="table-pd" width="1000" v-show="activeName=='div2'">
+                    <div class="table-pd" style="width:1000px;" v-show="activeName=='div2'">
                       <!-- <el-input type="textarea" class="tab-el-textarea" placeholder="请输入链接地址" v-model="postForm.externalLink" maxlength="500" show-word-limit></el-input> -->
                       <textarea class="table-el-textarea" @keyup="textareaBlur" v-model="postForm.externalLink"
                         placeholder="请输入链接地址"></textarea>
