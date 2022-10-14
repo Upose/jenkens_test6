@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-10-13 10:25:26
  * @LastEditors: gongqin
- * @LastEditTime: 2022-10-14 10:12:47
+ * @LastEditTime: 2022-10-14 10:48:13
 -->
 <template>
   <div class="">
@@ -34,7 +34,7 @@ export default {
     },
     maxLen: {
       type: String,
-      default: '50000000',
+      default: '500000000',
     },
   },
   data() {
@@ -151,6 +151,10 @@ export default {
               var content = tinyMCE.activeEditor.getContent();
               this.notifyParentValueChange(content)
             }
+          });
+          editor.on('ExecCommand', (e) => {
+            var content = tinyMCE.activeEditor.getContent();
+            this.notifyParentValueChange(content)
           });
         }
       });
