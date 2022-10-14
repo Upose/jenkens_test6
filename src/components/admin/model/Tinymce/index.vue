@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-10-13 10:25:26
  * @LastEditors: gongqin
- * @LastEditTime: 2022-10-13 15:05:55
+ * @LastEditTime: 2022-10-14 10:12:47
 -->
 <template>
   <div class="">
@@ -31,6 +31,10 @@ export default {
     height: {
       type: Number,
       default: 450
+    },
+    maxLen: {
+      type: String,
+      default: '50000000',
     },
   },
   data() {
@@ -124,17 +128,29 @@ export default {
                     img_data.push(capture);
                   });
                   _this.img_list = img_data;
-                  console.log(img_data);
+                  console.log(img_data, 'img_data');
                   var content = tinyMCE.activeEditor.getContent();
-                  console.log(content, 'pa')
                   _this.notifyParentValueChange(content)
                 }
               })
             }, 50);
           });
           editor.on('input', (e) => {
-            var content = tinyMCE.activeEditor.getContent();
-            this.notifyParentValueChange(content)
+            // 内容是否超长
+            if (tinyMCE.activeEditor.getContent().length > parseInt(this.maxLen)) {
+              // 内容超出还原
+              window.tinymce.activeEditor.setContent(this.contValue);
+              // 禁止再输入
+              window.tinymce.activeEditor.getBody().blur();
+              this.$message({
+                message: '内容超长！',
+                type: 'error'
+              })
+            } else {
+              // 更新富文本
+              var content = tinyMCE.activeEditor.getContent();
+              this.notifyParentValueChange(content)
+            }
           });
         }
       });
