@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-10-13 10:25:26
  * @LastEditors: gongqin
- * @LastEditTime: 2022-10-14 10:48:13
+ * @LastEditTime: 2022-10-14 11:22:04
 -->
 <template>
   <div class="">
@@ -34,7 +34,7 @@ export default {
     },
     maxLen: {
       type: String,
-      default: '500000000',
+      default: '50000000000',
     },
   },
   data() {
@@ -153,8 +153,38 @@ export default {
             }
           });
           editor.on('ExecCommand', (e) => {
-            var content = tinyMCE.activeEditor.getContent();
-            this.notifyParentValueChange(content)
+            // 内容是否超长
+            if (tinyMCE.activeEditor.getContent().length > parseInt(this.maxLen)) {
+              // 内容超出还原
+              window.tinymce.activeEditor.setContent(this.contValue);
+              // 禁止再输入
+              window.tinymce.activeEditor.getBody().blur();
+              this.$message({
+                message: '内容超长！',
+                type: 'error'
+              })
+            } else {
+              // 更新富文本
+              var content = tinyMCE.activeEditor.getContent();
+              this.notifyParentValueChange(content)
+            }
+          });
+          editor.on('keyup', (e) => {
+            // 内容是否超长
+            if (tinyMCE.activeEditor.getContent().length > parseInt(this.maxLen)) {
+              // 内容超出还原
+              window.tinymce.activeEditor.setContent(this.contValue);
+              // 禁止再输入
+              window.tinymce.activeEditor.getBody().blur();
+              this.$message({
+                message: '内容超长！',
+                type: 'error'
+              })
+            } else {
+              // 更新富文本
+              var content = tinyMCE.activeEditor.getContent();
+              this.notifyParentValueChange(content)
+            }
           });
         }
       });
