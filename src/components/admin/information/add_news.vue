@@ -119,8 +119,8 @@
                     <div v-show="activeName=='div1'">
                       <div class="edit-fwb">
                         <!-- <textarea id="mytextarea" v-model="postForm.content"></textarea> -->
-                        <dlib3Tinymce :contValue.sync="postForm.content" width="1000" :fileUrl="fileUrl"
-                          editorId="mytextarea"></dlib3Tinymce>
+                        <Dlib3Tinymce :contValue.sync="postForm.content" width="1000" :fileUrl="fileUrl"
+                          editorId="mytextarea"></Dlib3Tinymce>
                       </div>
                       <!-- <div class="edit-fwb" v-show="contentEditor==2">
                           <vue-ueditor-wrap v-model="postForm.content" :config="myConfig" class="ueditors"></vue-ueditor-wrap>

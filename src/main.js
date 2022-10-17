@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: gongqin
- * @LastEditTime: 2022-10-17 10:17:04
+ * @LastEditTime: 2022-10-17 10:58:31
  */
 import Vue from 'vue'
 import App from './App'
@@ -13,13 +13,13 @@ import store from './router/store'
 import Debounce from '@/assets/public/js/debounce';
 import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
-import dlib3Tinymce from 'dlib3-tinymce'
+import Dlib3Tinymce from 'dlib3-tinymce'
 
 Vue.config.productionTip = false
 
 Vue.component('Debounce',Debounce)
 Vue.use(VueI18n)
-Vue.use(dlib3Tinymce)
+Vue.use(Dlib3Tinymce)
 
 Vue.prototype.http = http;
 Vue.prototype.bus = bus;
