@@ -119,8 +119,8 @@
                     <div v-show="activeName=='div1'">
                       <div class="edit-fwb">
                         <!-- <textarea id="mytextarea" v-model="postForm.content"></textarea> -->
-                        <Tinymce :contValue.sync="postForm.content" width="1000" :fileUrl="fileUrl"
-                          editorId="mytextarea"></Tinymce>
+                        <dlib3Tinymce :contValue.sync="postForm.content" width="1000" :fileUrl="fileUrl"
+                          editorId="mytextarea"></dlib3Tinymce>
                       </div>
                       <!-- <div class="edit-fwb" v-show="contentEditor==2">
                           <vue-ueditor-wrap v-model="postForm.content" :config="myConfig" class="ueditors"></vue-ueditor-wrap>
@@ -185,10 +185,10 @@ import tagEdit from "../model/tagEdit";
 // import VueUeditorWrap from 'vue-ueditor-wrap'
 import { datePipe } from '@/assets/public/js/time'
 // const FuRequire = require("myjs-common").FuRequire;
-import Tinymce from "@/components/admin/model/Tinymce/index";
+// import Tinymce from "@/components/admin/model/Tinymce/index";
 export default {
   name: 'index',
-  components: { footerPage, serviceLMenu, breadcrumb, UpdateImg, tagEdit, Tinymce },
+  components: { footerPage, serviceLMenu, breadcrumb, UpdateImg, tagEdit },
   created() {
     this.bus.$on('collapse', msg => {
       this.$root.collapse = msg;
