@@ -222,14 +222,14 @@ export default {
      * 行信息，下标，一级菜单
      */
     menuClick(item, index, leve) {
+      this.titleJson = item;
       if (item.newsCount && item.newsCount == 1) {
-        let curId = encodeURI(this.id);
-        if (this.$route.query.id !== curId) {
-          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(this.id), cid: encodeURI(this.cid), subTitle: JSON.stringify(this.subTitle) } })
+        // let curId = encodeURI(this.id);
+        if (this.$route.query.id !== this.menu_list[index].newsContentId) {
+          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(this.menu_list[index].newsContentId), cid: encodeURI(this.menu_list[index].columnID), subTitle: JSON.stringify(this.menu_list[index].name) } })
         }
         return;
       }
-      this.titleJson = item;
       this.cid = this.menu_list[index].columnID;
       if (this.menu_list[index]['check'] == undefined) {
         this.menu_list[index]['check'] = false;

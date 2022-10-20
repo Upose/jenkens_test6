@@ -2,30 +2,36 @@
   <div class="list-warp" v-aaa="'aaa'">
     <div class="articledetails-warp">
       <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
-        
+
         <div class="left-menu" v-if="is_show_menu">
           <div class="menu-top tbg-c1"><span>{{titleJson.name}}</span></div>
           <div class="menu-list">
             <ul>
-              <li class="thover-bg-c1" v-for="(item,index) in menu_list" :key="index" :class="isActive(item,item.check)">
+              <li class="thover-bg-c1" v-for="(item,index) in menu_list" :key="index"
+                :class="isActive(item,item.check)">
                 <a href="javascript:;" @click="menuClick(item,index, 'first')">{{item.name}}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)" :class="{'tbg-hover1':subTitle.key == it.key}"><a class="text-color" href="javascript:;">{{it.value}}</a></li>
+                  <li v-for="(it,i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)"
+                    :class="{'tbg-hover1':subTitle.key == it.key}"><a class="text-color"
+                      href="javascript:;">{{it.value}}</a></li>
                 </ul>
               </li>
             </ul>
           </div>
-        </div><!--左侧栏目菜单列表 end-->
+        </div>
+        <!--左侧栏目菜单列表 end-->
 
         <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
           <div class="menu-top tbg-c1">
             当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
             <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{subTitle.value}}</span>
-          </div><!--顶部面包屑 end-->
+          </div>
+          <!--顶部面包屑 end-->
 
           <div class="right-content">
             <ul class="news-ul">
-              <li class="next_hover" @click="detailsClick(it)" v-for="(it,i) in news_list" :key="i+'content'" :class="it.isShowPublishDate?'min-h':''">
+              <li class="next_hover" @click="detailsClick(it)" v-for="(it,i) in news_list" :key="i+'content'"
+                :class="it.isShowPublishDate?'min-h':''">
                 <div class="time n_hover" v-if="it.isShowPublishDate">
                   <span class="data">{{(it.publishDate||'').slice(8,10)}}</span>
                   <span>{{(it.publishDate||'').slice(0,7)}}</span>
@@ -41,12 +47,14 @@
                   <p class="intros" v-if="it.isShowContent"><span v-html="it.content"></span></p>
                 </div>
               </li>
-            </ul><!--顶部-其他基础信息 end-->
+            </ul>
+            <!--顶部-其他基础信息 end-->
 
             <div class="temp-loading" v-if="loading"></div>
             <!--加载中-->
             <div v-if="!loading && news_list.length == 0" class="web-empty-data"></div>
-            <pages :total="totalPages" :Cindex="pageIndex" :totalCount="totalCount" @currentClick="currentClick" v-if="totalCount"></pages>
+            <pages :total="totalPages" :Cindex="pageIndex" :totalCount="totalCount" @currentClick="currentClick"
+              v-if="totalCount"></pages>
           </div>
           <!--新闻列表 end -->
         </div>
@@ -61,12 +69,12 @@ export default {
   name: 'footerPage',
   components: { pages },
   created() {
-    if(this.$route.query.subTitle){
+    if (this.$route.query.subTitle) {
       this.subTitle = JSON.parse(this.$route.query.subTitle);
     }
     //是否显示左侧菜单
-    this.http.getPlain('pront-column-side-type','columnid=' + this.cid).then(res=>{
-      this.is_show_menu = res.data||false;
+    this.http.getPlain('pront-column-side-type', 'columnid=' + this.cid).then(res => {
+      this.is_show_menu = res.data || false;
     })
   },
   data() {
@@ -80,8 +88,8 @@ export default {
       menu_list: [],
       news_list: [],
       titleJson: {},//一级标题
-      subTitle:{},//二级标题
-      is_show_menu:false,//是否显示侧边栏目列表
+      subTitle: {},//二级标题
+      is_show_menu: false,//是否显示侧边栏目列表
     }
   },
   mounted() {
@@ -95,7 +103,7 @@ export default {
       this.http.getPlain('pront-news-column-list-get', 'columnid=' + this.cid).then(res => {
         this.menu_list = res.data || [];
         if (this.cid) {
-          if(this.subTitle && this.subTitle.value){
+          if (this.subTitle && this.subTitle.value) {
             this.menu_list.forEach((item, i) => {
               if (item.columnID == this.cid) {
                 this.titleJson = item;
@@ -103,7 +111,7 @@ export default {
               }
             })
             this.foxbaseClick(this.subTitle);
-          }else{
+          } else {
             this.menu_list.forEach((item, i) => {
               if (item.columnID == this.cid) {
                 setTimeout(() => {
@@ -121,7 +129,7 @@ export default {
         this.loading = false;
       }).catch(err => {
         this.loading = false;
-        this.$message({type: 'error',message: err.errors||'查询内容失败'});
+        this.$message({ type: 'error', message: err.errors || '查询内容失败' });
       })
     },
     //获取分页数据
@@ -145,7 +153,7 @@ export default {
         this.loading = false;
         if (res.data && res.data.items) {
           this.news_list = res.data.items || [];
-          if(this.news_list.length ==1){
+          if (this.news_list.length == 1) {
             this.detailsClick(this.news_list[0]);
           }
           this.pageIndex = res.data.pageIndex;
@@ -162,8 +170,8 @@ export default {
      * 行信息，下标，一级菜单
      */
     menuClick(item, index, leve) {
-      if(item.newsCount && item.newsCount==1){
-        this.getNewsList(this.menu_list[index].columnID,{},'one');
+      if (item.newsCount && item.newsCount == 1) {
+        this.getNewsList(this.menu_list[index].columnID, {}, 'one');
         // this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
         return;
       }
@@ -186,7 +194,7 @@ export default {
           this.menu_list[i]['check'] = false;
         }
       })
-      this.getNewsList(this.menu_list[index].columnID,{});
+      this.getNewsList(this.menu_list[index].columnID, {});
       this.$forceUpdate();
     },
     /***选中状态 */
@@ -208,8 +216,8 @@ export default {
     //点击二级菜单
     foxbaseClick(val) {
       this.subTitle = val;
-      if(val.newsCount && val.newsCount==1){
-        this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} });
+      if (val.newsCount && val.newsCount == 1) {
+        this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid), subTitle: JSON.stringify(this.subTitle) } });
         return;
       }
       this.pageIndex = 1;
@@ -219,7 +227,7 @@ export default {
     /***跳转详情 */
     detailsClick(val) {
       if (val.externalLink && val.externalLink != '') {
-        this.http.getJson('pront-news-content-hit-count', {contentid: val.contentID}).then(res => {
+        this.http.getJson('pront-news-content-hit-count', { contentid: val.contentID }).then(res => {
         }).catch(err => {
           console.log(err);
         })
@@ -230,7 +238,7 @@ export default {
          * cid：栏目id
          * subTitle:副标题
          */
-        this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.contentID), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
+        this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.contentID), cid: encodeURI(this.cid), subTitle: JSON.stringify(this.subTitle) } })
       }
     },
   },
@@ -239,6 +247,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../../assets/web/css/style.less";
-@import "../../../../assets/web/css/color.less"; 
-@import "../../../../assets/web/css/temp1/list.less"; 
+@import "../../../../assets/web/css/color.less";
+@import "../../../../assets/web/css/temp1/list.less";
 </style>
