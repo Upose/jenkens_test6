@@ -26,6 +26,16 @@
     position: absolute;
     width: 100%;
     height: 248px;
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 248px;
+        background-image: linear-gradient(to bottom, #666, #999);
+      }
     &:after{
       content: '';
       position: absolute;
@@ -33,7 +43,7 @@
       top: 0px;
       width: 100%;
       height: 248px;
-      background: @e0dfdf url(../../../../assets/web/img/banner-bg4.png) no-repeat center top;
+      background: transparent url(../../../../assets/web/img/banner-bg4.png) no-repeat center top;
       background-size: 100% 248px;
     }
   }
@@ -43,6 +53,8 @@
     // background-size: 100% 248px;
     padding-bottom: 20px;
     padding-top: 100px;
+    position: relative;
+    z-index: 10;
   }
     .body-content{
     min-height: calc(100vh - 450px);

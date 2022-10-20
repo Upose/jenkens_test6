@@ -323,7 +323,7 @@ export default {
         } else {
           this.postForm = {};
         }
-        console.log(this.postForm, res.data.content)
+        // console.log(this.postForm, res.data.content)
         if (this.postForm.parentCatalogue) {
           this.parentCatalogue_length = this.postForm.parentCatalogue.length || 0;
         }
@@ -332,7 +332,7 @@ export default {
         tinymce.activeEditor.setContent(this.postForm.content);
         var list = res.data.content || {};
         //按钮集合
-        console.log(res.data.nextAuditStatus);
+        // console.log(res.data.nextAuditStatus);
         this.postForm['nextAuditStatus'] = res.data.nextAuditStatus || [];
         if (this.postForm.externalLink) {
           this.externalLink_length = this.postForm.externalLink.length || 0;
@@ -536,7 +536,7 @@ export default {
     //标签选择
     checkTag(val) {
       this.postForm.parentCatalogue = val;
-      console.log(val, this.postForm.parentCatalogue)
+      // console.log(val, this.postForm.parentCatalogue)
       this.inputBlur();
       this.$forceUpdate();
     },
@@ -672,7 +672,7 @@ export default {
       if (val == 9) { //表示退回
         this.draw_back = true;
       } else {
-        console.log(_this.postForm.content, 'cont');
+        // console.log(_this.postForm.content, 'cont');
         _this.postForm['auditStatus'] = val;
         this.$refs[formName].validate((valid) => {
           if (!valid) {
