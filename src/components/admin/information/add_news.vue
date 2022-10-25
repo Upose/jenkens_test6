@@ -3,28 +3,28 @@
   <div class="admin-warp-page">
     <!-- <img width="100" height="100" v-for="i in img_list" :src="'blob:'+i"/> -->
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="2"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
         <breadcrumb :cuMenu="'新闻发布'" ref="breadcrumb_ref" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content">
           <el-form :model="postForm" label-suffix="：" :rules="rules" ref="postForm" label-width="100px"
             class="admin-form">
-            <h1 class="s-b-border-title">{{id?'编辑':'新增'}}新闻</h1>
+            <h1 class="s-b-border-title">{{ id ? '编辑' : '新增' }}新闻</h1>
             <div class="form-content">
               <el-form-item label="新闻标题" prop="title">
                 <el-input v-model="postForm.title" placeholder="请输入新闻标题" maxlength="100" minlength="2" show-word-limit
                   class="txt-set r-pad-num-max-100">
                   <template slot="append">
                     <div class="news-font-set">
-                      <i class="iconfont el-icon-vip-B" @click="fontClick(titleStyleKV.B,'B')"
-                        :class="titleStyleKV.B?'active':''"></i>
-                      <i class="iconfont el-icon-vip-I" @click="fontClick(titleStyleKV.I,'I')"
-                        :class="titleStyleKV.I?'active':''"></i>
-                      <i class="iconfont el-icon-vip-u" @click="fontClick(titleStyleKV.U,'U')"
-                        :class="titleStyleKV.U?'active':''"></i>
+                      <i class="iconfont el-icon-vip-B" @click="fontClick(titleStyleKV.B, 'B')"
+                        :class="titleStyleKV.B ? 'active' : ''"></i>
+                      <i class="iconfont el-icon-vip-I" @click="fontClick(titleStyleKV.I, 'I')"
+                        :class="titleStyleKV.I ? 'active' : ''"></i>
+                      <i class="iconfont el-icon-vip-u" @click="fontClick(titleStyleKV.U, 'U')"
+                        :class="titleStyleKV.U ? 'active' : ''"></i>
                       <el-select class="width60" v-model="titleStyleKV.font" placeholder="请选择">
                         <el-option v-for="item in font_list" :key="item.title" :label="item.title" :value="item.title">
                         </el-option>
@@ -43,7 +43,7 @@
                 <div class="u-list">
                   <input type="text" @keyup="inputBlur" v-model="postForm.parentCatalogue" class="u-input"
                     placeholder="请输入新闻标签" />
-                  <span class="hint-num-max">{{parentCatalogue_length}}/20</span>
+                  <span class="hint-num-max">{{ parentCatalogue_length }}/20</span>
                   <el-button class="u-btn-r" icon="iconfont el-icon-vip-fangdajing" size="medium" type="primary"
                     @click="tagEditShow()">选择已有标签</el-button>
                   <tagEdit :dataList="tag_edit_data" :cType="2" @tagEditHide="tagEditHide" @checkTag="checkTag"
@@ -52,16 +52,16 @@
               </div>
               <el-form-item label="多栏目投递">
                 <div class="btns-colse-warp">
-                  <div class="btns-select-row" v-for="(it,i) in coumn_list" :key="i+'b'">
+                  <div class="btns-select-row" v-for="(it, i) in coumn_list" :key="i + 'b'">
                     <el-select v-model="it.value" placeholder="请选择栏目">
-                      <el-option :label="item.value" :value="item.key" v-for="(item,i) in coumn_data_list"
-                        :key="i+'coumn'">{{item.value||'无'}}</el-option>
+                      <el-option :label="item.value" :value="item.key" v-for="(item, i) in coumn_data_list"
+                        :key="i + 'coumn'">{{ item.value || '无' }}</el-option>
                     </el-select>
-                    <div class="btns-el-btn" @click="removeCoumn(i)" v-if="(coumn_list.length-1)!=i">
+                    <div class="btns-el-btn" @click="removeCoumn(i)" v-if="(coumn_list.length - 1) != i">
                       <i class="iconfont el-icon-vip-jianhao1"></i>
                       <span>删除</span>
                     </div>
-                    <div class="btns-el-btn" @click="addCoumn" v-if="(coumn_list.length-1)==i">
+                    <div class="btns-el-btn" @click="addCoumn" v-if="(coumn_list.length - 1) == i">
                       <i class="iconfont el-icon-vip-tianjia1"></i>
                       <span>投递</span>
                     </div>
@@ -69,11 +69,11 @@
                 </div>
                 <p class="hint">每条内容支持最多同时投递到3个新闻栏目内。</p>
               </el-form-item>
-              <el-form-item label="内容封面" v-if="columnDeatils.isOpenCover==1">
+              <el-form-item label="内容封面" v-if="columnDeatils.isOpenCover == 1">
                 <div class="up-img-form-item">
                   <!-- <div class="up-img-warp up-img-cover-img" v-if="id"> -->
                   <div class="up-img-warp up-img-cover-img" v-if="postForm.cover">
-                    <img :src="fileUrl+postForm.cover">
+                    <img :src="fileUrl + postForm.cover">
                   </div>
                   <div class="up-img-warp up-icon up-img-cover-icon" @click="upImg()">
                     <span>上传封面</span>
@@ -91,32 +91,33 @@
               <el-form-item label="显示状态" prop="status">
                 <el-radio-group v-model="postForm.status">
                   <el-radio :label="1">正常</el-radio>
-                  <el-radio :label="2" :disabled="!($route.query.of==1)">下架</el-radio>
+                  <el-radio :label="2" :disabled="!($route.query.of == 1)">下架</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="投递终端" v-if="columnDeatils.terminals != 1">
                 <el-checkbox-group v-model="postForm.terminals">
-                  <el-checkbox :label="it.key" name="type" v-for="(it,index) in terminals_list"
-                    :key="index+'_terminals'">{{it.value}}</el-checkbox>
+                  <el-checkbox :label="it.key" name="type" v-for="(it, index) in terminals_list"
+                    :key="index + '_terminals'">{{ it.value }}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
-              <el-form-item :label="item.value" v-for="(item,index) in row_list" :key="index +'row'">
-                <el-input v-model="item.input_val" :placeholder="'请输入'+item.value" v-if="item.key !='ExpirationDate'">
+              <el-form-item :label="item.value" v-for="(item, index) in row_list" :key="index + 'row'">
+                <el-input v-model="item.input_val" :placeholder="'请输入' + item.value"
+                  v-if="item.key != 'ExpirationDate'">
                 </el-input>
                 <el-date-picker v-model="item.input_val" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
-                  v-if="item.key =='ExpirationDate'" placeholder="请选择失效日期"></el-date-picker>
+                  v-if="item.key == 'ExpirationDate'" placeholder="请选择失效日期"></el-date-picker>
               </el-form-item>
-              <el-form-item label="内容" :prop="activeName=='div1'?'content':'externalLink'">
+              <el-form-item label="内容" :prop="activeName == 'div1' ? 'content' : 'externalLink'">
                 <div class="filter-form-item">
                   <div class="filter-r-t-editor">
                     <div class="filter-f-title">
                       <span class="filter-box-col" @click="handleClick('div1')"
-                        :class="activeName=='div1'?'active':''">编辑内容</span>
-                      <span class="filter-box-col" @click="handleClick('div2')" :class="activeName=='div2'?'active':''"
-                        v-show="isshow_link">链接跳转</span>
-                      <span class="filter-hint">{{activeName=='div2'?'填写链接后，编辑内容将不会显示，直接跳转链接':''}}</span>
+                        :class="activeName == 'div1' ? 'active' : ''">编辑内容</span>
+                      <span class="filter-box-col" @click="handleClick('div2')"
+                        :class="activeName == 'div2' ? 'active' : ''" v-show="isshow_link">链接跳转</span>
+                      <span class="filter-hint">{{ activeName == 'div2' ? '填写链接后，编辑内容将不会显示，直接跳转链接' : '' }}</span>
                     </div>
-                    <div v-show="activeName=='div1'">
+                    <div v-show="activeName == 'div1'">
                       <div class="edit-fwb">
                         <!-- <textarea id="mytextarea" v-model="postForm.content"></textarea> -->
                         <Dlib3Tinymce :contValue.sync="postForm.content" width="1000" :fileUrl="fileUrl"
@@ -130,11 +131,11 @@
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
                         </div> -->
                     </div>
-                    <div class="table-pd" style="width:1000px;position: relative;" v-show="activeName=='div2'">
+                    <div class="table-pd" style="width:1000px;position: relative;" v-show="activeName == 'div2'">
                       <!-- <el-input type="textarea" class="tab-el-textarea" placeholder="请输入链接地址" v-model="postForm.externalLink" maxlength="500" show-word-limit></el-input> -->
                       <textarea class="table-el-textarea" @keyup="textareaBlur" v-model="postForm.externalLink"
                         placeholder="请输入链接地址"></textarea>
-                      <span class="hint-num-max">{{externalLink_length}}/500</span>
+                      <span class="hint-num-max">{{ externalLink_length }}/500</span>
                     </div>
                   </div>
                 </div>
@@ -146,8 +147,8 @@
                   <el-button icon="iconfont el-icon-vip-yulan1" size="medium" class="admin-green-btn"
                     @click="previewPage()">预览</el-button>
                   <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary"
-                    @click="submitForm('postForm',it.key)" v-for="(it,index) in postForm.nextAuditStatus"
-                    :key="index+'bts'">{{it.value||'保存'}}</el-button>
+                    @click="submitForm('postForm', it.key)" v-for="(it, index) in postForm.nextAuditStatus"
+                    :key="index + 'bts'">{{ it.value || '保存' }}</el-button>
                 </div>
               </el-form-item>
             </div>

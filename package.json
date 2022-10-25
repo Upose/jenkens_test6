@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^3.3.4",
-    "dlib3-tinymce": "^1.0.9",
+    "dlib3-tinymce": "^1.0.12",
     "echarts": "^5.2.2",
     "es6-promise": "^4.2.8",
     "less": "^3.13.1",
