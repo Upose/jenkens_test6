@@ -1,13 +1,14 @@
 <template>
   <div class="list-warp">
-    <div class="warp-banner-bg linear-bg-c12"></div>
+    <div class="warp-banner-bg linear-bg-c13"></div>
     <div class="articledetails-warp">
 
       <div class="m-width top-title">
-        <span class="m-title">{{titleJson.name}}</span>
+        <span class="m-title">{{ titleJson.name }}</span>
         <span class="m-address">
-          当前位置：<span @click="menuClick(titleJson,0, 'first')" class="cursor">{{titleJson.name}}</span>
-          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value" class="cursor"> > {{subTitle.value}}</span> > 详情
+          当前位置：<span @click="menuClick(titleJson, 0, 'first')" class="cursor">{{ titleJson.name }}</span>
+          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value" class="cursor"> > {{ subTitle.value }}</span> >
+          详情
         </span>
       </div>
       <!--顶部面包屑 end -->
@@ -17,13 +18,13 @@
           <div class="menu-list">
             <span class="title">栏目列表</span>
             <ul>
-              <li class="thover-bg-c1" v-for="(item,index) in menu_list" :key="index"
-                :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item,index,true)">{{item.name}}</a>
-                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)"
-                    :class="{'tbg-hover1':subTitle.key == it.key}"><a class="text-color"
-                      href="javascript:;">{{it.value}}</a></li>
+              <li class="thover-bg-c1" v-for="(item, index) in menu_list" :key="index"
+                :class="isActive(item, item.check)">
+                <a href="javascript:;" @click="menuClick(item, index, true)">{{ item.name }}</a>
+                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
+                  <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)"
+                    :class="{ 'tbg-hover1': subTitle.key == it.key }"><a class="text-color" href="javascript:;">{{
+                    it.value }}</a></li>
                 </ul>
               </li>
             </ul>
@@ -31,42 +32,43 @@
         </div>
         <!--栏目菜单列表 end-->
 
-        <div class="body-title" :style="{'margin-right':!is_show_menu?'0':'250px'}" :class="{'empty-box' : loading}">
+        <div class="body-title" :style="{ 'margin-right': !is_show_menu ? '0' : '250px' }"
+          :class="{ 'empty-box': loading }">
           <div v-if="!loading && !removed" class="right-content news-img-max-sys">
             <div class="content-top-title">
               <span class="title"
-                :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
-                <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
-                  【<span class="tag" v-for="(i, index) in (detailsData.parentCatalogueKV||[])"
-                    :key="index">{{i.value}}&nbsp;</span>】
+                :style="{ color: getTitleClass('color'), fontSize: getTitleClass('font') + 'px', fontWeight: getTitleClass('B'), 'text-decoration': getTitleClass('U'), 'font-style': getTitleClass('I') }">
+                <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV || []).length > 0">
+                  【<span class="tag" v-for="(i, index) in (detailsData.parentCatalogueKV || [])" :key="index">{{ i.value
+                  }}&nbsp;</span>】
                 </span>
-                {{detailsData.title||"标题走丢了"}}
+                {{ detailsData.title || "标题走丢了" }}
               </span>
               <!--标题信息 end-->
 
               <div class="audit-process"
-                v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
-                <span v-for="i in auditProcessList">{{i.name}}:{{i.auditManager}}</span>
+                v-if="auditProcessList && auditProcessList.length > 0 && data.isShowAuditProcess">
+                <span v-for="i in auditProcessList">{{ i.name }}:{{ i.auditManager }}</span>
               </div>
               <!--审核信息end-->
 
               <div class="news-sub-warp">
-                <span class="name tfont-c11">{{detailsData.publisher||'无'}}</span>
+                <span class="name tfont-c12">{{ detailsData.publisher || '无' }}</span>
                 <!--发布人-->
-                <span v-if="data.isShowPublishDate"><i
-                    class="time-icon"></i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
+                <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{ (detailsData.publishDate || '').slice(0,
+                10) }}</span>
                 <!--发布日期-->
                 <!-- <span v-if="data.isShowAuthor">{{detailsData.author}}</span>作者 -->
                 <!-- <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
                 <!-- <span v-if="data.isShowExpirationDate">{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
                 <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
-                <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
-                <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
-                <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
-                <span v-if="data.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
-                <span v-if="data.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
-                <span v-if="data.isShowHitCount"><i
-                    class="iconfont el-icon-vip-yulan-1"></i>{{detailsData.hitCount||0}}浏览量</span>
+                <span v-if="data.isShowExpendFiled1">{{ detailsData.expendFiled1 }}</span>
+                <span v-if="data.isShowExpendFiled2">{{ detailsData.expendFiled2 }}</span>
+                <span v-if="data.isShowExpendFiled3">{{ detailsData.expendFiled3 }}</span>
+                <span v-if="data.isShowExpendFiled4">{{ detailsData.expendFiled4 }}</span>
+                <span v-if="data.isShowExpendFiled5">{{ detailsData.expendFiled5 }}</span>
+                <span v-if="data.isShowHitCount"><i class="iconfont el-icon-vip-yulan-1"></i>{{ detailsData.hitCount ||
+                0 }}浏览量</span>
                 <span class="r-share" @click="handleShare()">一键分享</span>
                 <dialogShare ref="dialogShare_ref"></dialogShare>
               </div>

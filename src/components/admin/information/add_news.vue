@@ -120,7 +120,7 @@
                     <div v-show="activeName == 'div1'">
                       <div class="edit-fwb">
                         <!-- <textarea id="mytextarea" v-model="postForm.content"></textarea> -->
-                        <Dlib3Tinymce :contValue.sync="postForm.content" width="1000" :fileUrl="fileUrl"
+                        <Dlib3Tinymce :contValue.sync="postForm.content" width="800" :fileUrl="fileUrl"
                           editorId="mytextarea"></Dlib3Tinymce>
                       </div>
                       <!-- <div class="edit-fwb" v-show="contentEditor==2">
@@ -131,7 +131,7 @@
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
                         </div> -->
                     </div>
-                    <div class="table-pd" style="width:1000px;position: relative;" v-show="activeName == 'div2'">
+                    <div class="table-pd" style="width:800px;position: relative;" v-show="activeName == 'div2'">
                       <!-- <el-input type="textarea" class="tab-el-textarea" placeholder="请输入链接地址" v-model="postForm.externalLink" maxlength="500" show-word-limit></el-input> -->
                       <textarea class="table-el-textarea" @keyup="textareaBlur" v-model="postForm.externalLink"
                         placeholder="请输入链接地址"></textarea>
@@ -662,9 +662,9 @@ export default {
       })
       _this.postForm.contentEditor = _this.contentEditor || 1;
       _this.postForm.columnIDs = coumn_list;
-      // if (_this.contentEditor == 1) {
-      //   _this.postForm.content = tinyMCE.activeEditor.getContent() || '';//获取富文本信息
-      // }
+      if (_this.contentEditor == 1) {
+        _this.postForm.content = tinymce.activeEditor.getContent() || '';//获取富文本信息
+      }
     },
     //表单提交
     submitForm(formName, val) {
@@ -730,6 +730,10 @@ export default {
 @import "../../../assets/admin/css/style.less";
 @import "../../../assets/admin/css/form.less";
 @import "../../../assets/admin/css/information/add_news.less";
+
+.admin-content {
+  min-width: 1200px;
+}
 
 .edit-fwb {
   position: relative;

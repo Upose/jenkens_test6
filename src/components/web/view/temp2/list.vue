@@ -1,12 +1,12 @@
 <template>
   <div class="list-warp">
-    <div class="warp-banner-bg linear-bg-c12"></div>
+    <div class="warp-banner-bg linear-bg-c13"></div>
     <div class="articledetails-warp">
       <div class="m-width top-title">
-        <span class="m-title">{{titleJson.name}}</span>
+        <span class="m-title">{{ titleJson.name }}</span>
         <span class="m-address">
-          当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
-          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{subTitle.value}}</span>
+          当前位置：<span @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span>
+          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{ subTitle.value }}</span>
         </span>
       </div>
       <!--顶部面包屑 end-->
@@ -16,12 +16,12 @@
           <div class="menu-list">
             <span class="title">栏目列表</span>
             <ul>
-              <li class="thover-bg-c1" v-for="(item,index) in menu_list" :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item,index, 'first')">{{item.name}}</a>
-                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableNewsList" @click="foxbaseClick(it)"
-                    :class="{'tbg-hover1':subTitle.key == it.key}"><a class="text-color"
-                      href="javascript:;">{{it.value}}</a></li>
+              <li class="thover-bg-c1" v-for="(item, index) in menu_list" :class="isActive(item, item.check)">
+                <a href="javascript:;" @click="menuClick(item, index, 'first')">{{ item.name }}</a>
+                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
+                  <li v-for="(it, i) in item.lableNewsList" @click="foxbaseClick(it)"
+                    :class="{ 'tbg-hover1': subTitle.key == it.key }"><a class="text-color"
+                      href="javascript:;">{{ it.value }}</a></li>
                 </ul>
               </li>
             </ul>
@@ -29,29 +29,29 @@
         </div>
         <!--左侧栏目菜单列表 end-->
 
-        <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
+        <div class="body-title" :style="{ 'margin-left': !is_show_menu ? '0' : '250px' }">
           <div class="right-content">
             <div class="content-top-title">新闻资讯</div>
             <!--标题信息-->
 
-            <div class="row" v-for="(it,i) in news_list" :key="i+'content'" @click="detailsClick(it)">
+            <div class="row" v-for="(it, i) in news_list" :key="i + 'content'" @click="detailsClick(it)">
               <div class="msg-warp">
                 <div class="title">
                   <span v-if="it.isShowLablesName && it.lablesName.length" class="tag">
-                    【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}</span>】
+                    【<span class="tag" v-for="(ite, k) in (it.lablesName || [])" :key="k + '_label'">{{ ite }}</span>】
                   </span>
-                  {{it.title||'标题走丢了'}}
+                  {{ it.title || '标题走丢了' }}
                 </div>
                 <div class="msg c-l">
                   <span class="content">
                     <span class="cont-txt" v-if="it.isShowContent"
-                      v-html="it.content.length>92?(it.content.slice(0,92)+'...'):it.content"></span>
+                      v-html="it.content.length > 92 ? (it.content.slice(0, 92) + '...') : it.content"></span>
                     <!-- <span class="cont-txt" v-if="it.isShowContent" v-html="it.content"></span> -->
                     <span class="show-details child_text_color tfont-c2">[查看详细]</span>
                   </span>
                   <span class="txt-right">
-                    <span v-if="it.isShowHitCount">访问次数：{{it.hitCount||0}}</span>
-                    <span v-if="it.isShowPublishDate">{{(it.publishDate||'').slice(0,10)}}</span>
+                    <span v-if="it.isShowHitCount">访问次数：{{ it.hitCount || 0 }}</span>
+                    <span v-if="it.isShowPublishDate">{{ (it.publishDate || '').slice(0, 10) }}</span>
                     <!-- <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span> -->
                   </span>
                 </div>

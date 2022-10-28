@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-03-18 10:36:32
  * @LastEditors: gongqin
- * @LastEditTime: 2022-10-21 09:22:10
+ * @LastEditTime: 2022-10-28 16:40:06
 -->
 <template>
   <div class="warp">
@@ -41,9 +41,6 @@ export default {
     } else {
       _that.post_menu = true;
     }
-
-    // 引入富文本js
-    this.loadTinymceScript();
   },
   data() {
     return {
@@ -51,15 +48,6 @@ export default {
     }
   },
   methods: {
-    // 引入富文本js
-    loadTinymceScript() {
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = './static/assets/other/tinymce/v5_5_0/tinymce.min.js';
-      script.type = 'text/javascript';
-      script.id = 'adminTinymce';
-      document.body.appendChild(script);
-    }
   }
 }
 </script>
