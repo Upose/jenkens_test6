@@ -16,12 +16,15 @@
           <div class="menu-list">
             <span class="title">栏目列表</span>
             <ul>
-              <li class="thover-bg-c1" v-for="(item, index) in menu_list" :class="isActive(item, item.check)">
+              <li class="thover-bg-c1" v-for="(item, index) in menu_list" :key="index"
+                :class="isActive(item, item.check)">
                 <a href="javascript:;" @click="menuClick(item, index, 'first')">{{ item.name }}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
-                  <li v-for="(it, i) in item.lableNewsList" @click="foxbaseClick(it)"
-                    :class="{ 'tbg-hover1': subTitle.key == it.key }"><a class="text-color"
-                      href="javascript:;">{{ it.value }}</a></li>
+                  <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
+                    <a href="javascript:;" :class="{ 'tfont-c2': subTitle.key == it.key }">
+                      {{ it.value }}
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -35,8 +38,8 @@
             <!--标题信息-->
 
             <div class="row" v-for="(it, i) in news_list" :key="i + 'content'" @click="detailsClick(it)">
-              <div class="msg-warp">
-                <div class="title">
+              <div class="msg-warp thover-child-font-c1">
+                <div class="title child-font-c1">
                   <span v-if="it.isShowLablesName && it.lablesName.length" class="tag">
                     【<span class="tag" v-for="(ite, k) in (it.lablesName || [])" :key="k + '_label'">{{ ite }}</span>】
                   </span>

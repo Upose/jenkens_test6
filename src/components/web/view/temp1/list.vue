@@ -1,19 +1,19 @@
 <template>
   <div class="list-warp" v-aaa="'aaa'">
     <div class="articledetails-warp">
-      <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
+      <div class="body-content m-width c-l" :class="!is_show_menu ? 'body-content-clear' : ''">
 
         <div class="left-menu" v-if="is_show_menu">
-          <div class="menu-top tbg-c1"><span>{{titleJson.name}}</span></div>
+          <div class="menu-top tbg-c1"><span>{{ titleJson.name }}</span></div>
           <div class="menu-list">
             <ul>
-              <li class="thover-bg-c1" v-for="(item,index) in menu_list" :key="index"
-                :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item,index, 'first')">{{item.name}}</a>
-                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)"
-                    :class="{'tbg-hover1':subTitle.key == it.key}"><a class="text-color"
-                      href="javascript:;">{{it.value}}</a></li>
+              <li class="thover-bg-c1" v-for="(item, index) in menu_list" :key="index"
+                :class="isActive(item, item.check)">
+                <a href="javascript:;" @click="menuClick(item, index, 'first')">{{ item.name }}</a>
+                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
+                  <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
+                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;">{{ it.value }}</a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -21,29 +21,29 @@
         </div>
         <!--左侧栏目菜单列表 end-->
 
-        <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
+        <div class="body-title" :style="{ 'margin-left': !is_show_menu ? '0' : '250px' }">
           <div class="menu-top tbg-c1">
-            当前位置：<span @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
-            <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{subTitle.value}}</span>
+            当前位置：<span @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span>
+            <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{ subTitle.value }}</span>
           </div>
           <!--顶部面包屑 end-->
 
           <div class="right-content">
             <ul class="news-ul">
-              <li class="next_hover" @click="detailsClick(it)" v-for="(it,i) in news_list" :key="i+'content'"
-                :class="it.isShowPublishDate?'min-h':''">
-                <div class="time n_hover" v-if="it.isShowPublishDate">
-                  <span class="data">{{(it.publishDate||'').slice(8,10)}}</span>
-                  <span>{{(it.publishDate||'').slice(0,7)}}</span>
+              <li class="thover-child-bg-c1" @click="detailsClick(it)" v-for="(it, i) in news_list" :key="i + 'content'"
+                :class="it.isShowPublishDate ? 'min-h' : ''">
+                <div class="time child-bg-c1" v-if="it.isShowPublishDate">
+                  <span class="data">{{ (it.publishDate || '').slice(8, 10) }}</span>
+                  <span>{{ (it.publishDate || '').slice(0, 7) }}</span>
                 </div>
-                <div class="title-warp" :class="it.isShowPublishDate?'':'p-l'">
+                <div class="title-warp" :class="it.isShowPublishDate ? '' : 'p-l'">
                   <a href="javascript:void(0)">
                     <span class="tag" v-if="it.isShowLablesName && it.lablesName.length">
-                      【<span class="tag" v-for="(ite,k) in (it.lablesName||[])" :key="k+'_label'">{{ite}}</span>】
+                      【<span class="tag" v-for="(ite, k) in (it.lablesName || [])" :key="k + '_label'">{{ ite }}</span>】
                     </span>
-                    {{it.title||'标题走丢了'}}
+                    {{ it.title || '标题走丢了' }}
                   </a>
-                  <span v-if="it.isShowHitCount">点击量：{{it.hitCount||0}}次</span>
+                  <span v-if="it.isShowHitCount">点击量：{{ it.hitCount || 0 }}次</span>
                   <p class="intros" v-if="it.isShowContent"><span v-html="it.content"></span></p>
                 </div>
               </li>
@@ -226,6 +226,8 @@ export default {
     },
     /***跳转详情 */
     detailsClick(val) {
+      // console.log(val, 'val', this.menu_list[0].lableNewsList)
+
       if (val.externalLink && val.externalLink != '') {
         this.http.getJson('pront-news-content-hit-count', { contentid: val.contentID }).then(res => {
         }).catch(err => {

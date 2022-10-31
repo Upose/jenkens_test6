@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: gongqin
- * @LastEditTime: 2022-10-28 15:59:59
+ * @LastEditTime: 2022-10-31 13:33:48
 -->
 <template>
   <div id="news_sys" class="admin-warp-app">
@@ -22,7 +22,7 @@ export default {
     if (!appDetails || appDetails == null || appDetails == undefined || appDetails == '') {
       this.getAppsDetails();
     }
-    // localStorage.setItem('token', 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJPcmdDb2RlIjoiY3F1IiwiVXNlcktleSI6ImNxdV92aXBzbWFydDAwMDAxIiwiQ2FyZE5vIjoidmlwc21hcnQwMDAwMSIsIkNhc0Zyb20iOiJ2aXBzbWFydCIsIm5iZiI6MTY2NjY3OTQ2MywiZXhwIjoxNjY2Njg2NjYzLCJpc3MiOiJTbWFydExpYnJhcnkuSWRlbnRpdHlDZW50ZXIiLCJhdWQiOiJXZWJBcGkifQ.KwqR5JcWeQ02M8__9sPNW5Jpjf0kfbRyGUj2VSXX2Hwg7D4-OauluL5796jFgEXHNAeNTVmhN-oCHjgTs4m8YXSd2e8if6S1hKThfQoqESyHVt6XERiM2_hyvte68Mu-22T8_-si9iTNJEA5dqO9rbMJFhGr_dvDQrN-AXYnv6olR7jMPeEt9nbCsH7n0ibOyG8gTetoV2YO3hRaoa0QuuxI-HaflN92-FzVR79Qbr90fAUF_QWy-OlUuex355PWy8WxqviLmffMDbLqf1Y2_CNbQMsTU2Kn_Orbvb0SyyT-S7MU9HqUYzrBoEQlv_7O_jj_9bbc0QdlgZitP5LIew')
+    // localStorage.setItem('token', 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJPcmdDb2RlIjoiY3F1IiwiVXNlcktleSI6ImNxdV92aXBzbWFydDAwMDAxIiwiQ2FyZE5vIjoidmlwc21hcnQwMDAwMSIsIkNhc0Zyb20iOiJ2aXBzbWFydCIsIm5iZiI6MTY2NzE5NDA3NiwiZXhwIjoxNjY3MjAxMjc2LCJpc3MiOiJTbWFydExpYnJhcnkuSWRlbnRpdHlDZW50ZXIiLCJhdWQiOiJXZWJBcGkifQ.LyQ6gU_IUJl5wlL0doKyP3JlFNILUQKVU1igdz12CMFjFgIaU-Hfrz4Y8sVdrUabZEpxZm4xqv_4PHKEzB2xhO3Uu-aZ2a4YlP55Sbj9Z9W9RYjbyzR0bJYtln44oPK3K3yAgRi7KYHtKVympVZLusy6-ImIkOxHPGcYjywpZieaZj5Rc_kWY7qweDc_D9gnRIqL-aB4KBD66fRROC0qmbJYovP5ihxehOjMkR6cpcAxrtjSNQOPTTnQYwK1kPf6jY03wkitmckag0vGiDM3k7iSk1cBrBtRGwd5tTcRXCj19LXxZXdnPBrVt6M3h1bXxejAB7XiKyl434hjgVyd0g')
   },
   mounted() {
     // this.$store.commit('getSession');

@@ -1,19 +1,18 @@
 <template>
   <div class="list-warp">
     <div class="articledetails-warp">
-      <div class="body-content m-width c-l" :class="!is_show_menu?'body-content-clear':''">
+      <div class="body-content m-width c-l" :class="!is_show_menu ? 'body-content-clear' : ''">
 
         <div class="left-menu" v-if="is_show_menu">
-          <div class="menu-top tbg-c1">{{titleJson.name}}</div>
+          <div class="menu-top tbg-c1">{{ titleJson.name }}</div>
           <div class="menu-list">
             <ul>
-              <li class="thover-bg-c1" v-for="(item,index) in menu_list" :key="index"
-                :class="isActive(item,item.check)">
-                <a href="javascript:;" @click="menuClick(item,index,true)">{{item.name}}</a>
-                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length>0 && item.check">
-                  <li v-for="(it,i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)"
-                    :class="{'tbg-hover1':subTitle.key == it.key}">
-                    <a class="text-color" href="javascript:;">{{it.value}}</a>
+              <li class="thover-bg-c1" v-for="(item, index) in menu_list" :key="index"
+                :class="isActive(item, item.check)">
+                <a href="javascript:;" @click="menuClick(item, index, true)">{{ item.name }}</a>
+                <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
+                  <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
+                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;">{{ it.value }}</a>
                   </li>
                 </ul>
               </li>
@@ -22,10 +21,11 @@
         </div>
         <!--栏目菜单列表 end-->
 
-        <div class="body-title" :style="{'margin-left':!is_show_menu?'0':'250px'}">
+        <div class="body-title" :style="{ 'margin-left': !is_show_menu ? '0' : '250px' }">
           <div class="menu-top tbg-c1">
-            当前位置：<span class="cursor" @click="menuClick(titleJson,0, 'first')">{{titleJson.name}}</span>
-            <span @click="foxbaseClick(subTitle)" v-if="subTitle.value" class="cursor"> > {{subTitle.value}}</span> > 详情
+            当前位置：<span class="cursor" @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span>
+            <span @click="foxbaseClick(subTitle)" v-if="subTitle.value" class="cursor"> > {{ subTitle.value }}</span> >
+            详情
           </div>
           <!--顶部面包屑 end -->
 
@@ -33,37 +33,38 @@
             <div v-if="!loading && !removed" class="news-content-warp news-img-max-sys">
 
               <h1
-                :style="{color:getTitleClass('color'),fontSize:getTitleClass('font')+'px',fontWeight:getTitleClass('B'),'text-decoration':getTitleClass('U'),'font-style':getTitleClass('I')}">
-                <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV||[]).length>0">
-                  【<span class="tag" v-for="i in (detailsData.parentCatalogueKV||[])"
-                    :key="i.key">{{i.value}}&nbsp;</span>】
+                :style="{ color: getTitleClass('color'), fontSize: getTitleClass('font') + 'px', fontWeight: getTitleClass('B'), 'text-decoration': getTitleClass('U'), 'font-style': getTitleClass('I') }">
+                <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV || []).length > 0">
+                  【<span class="tag" v-for="i in (detailsData.parentCatalogueKV || [])" :key="i.key">{{ i.value
+                  }}&nbsp;</span>】
                 </span>
-                {{detailsData.title||"标题走丢了"}}
+                {{ detailsData.title || "标题走丢了" }}
               </h1>
               <!--标题信息 end-->
 
               <div class="details_content">
                 <div class="audit-process"
-                  v-if="auditProcessList && auditProcessList.length>0 && data.isShowAuditProcess">
-                  <span v-for="(i, index) in auditProcessList" :key="index">{{i.name}}:{{i.auditManager}}</span>
+                  v-if="auditProcessList && auditProcessList.length > 0 && data.isShowAuditProcess">
+                  <span v-for="(i, index) in auditProcessList" :key="index">{{ i.name }}:{{ i.auditManager }}</span>
                 </div>
                 <!--审核信息end-->
 
                 <div class="rich-title">
-                  <span class="col1"><i class="title">发布人：</i>{{detailsData.publisher||'无'}}</span>
-                  <span class="col2" v-if="data.isShowPublishDate"><i
-                      class="title">发布时间：</i>{{(detailsData.publishDate||'').slice(0,10)}}</span>
-                  <span class="col3" v-if="data.isShowHitCount"><i
-                      class="title">访问次数：</i>{{detailsData.hitCount||0}}</span>
+                  <span class="col1"><i class="title">发布人：</i>{{ detailsData.publisher || '无' }}</span>
+                  <span class="col2" v-if="data.isShowPublishDate"><i class="title">发布时间：</i>{{ (detailsData.publishDate
+                      || '').slice(0, 10)
+                  }}</span>
+                  <span class="col3" v-if="data.isShowHitCount"><i class="title">访问次数：</i>{{ detailsData.hitCount || 0
+                  }}</span>
                   <!-- <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span>作者 -->
                   <!-- <span v-if="data.isShowKeywords">关键词：{{detailsData.keywords}}</span>关键词 -->
                   <!-- <a v-if="data.isShowJumpLink && detailsData.jumpLink" :href="detailsData.jumpLink">跳转链接</a>跳转链接 -->
                   <!-- <span v-if="data.isShowExpirationDate">失效日期：{{(detailsData.expirationDate||'').slice(0,10)}}</span>失效日期 -->
-                  <span v-if="data.isShowExpendFiled1">{{detailsData.expendFiled1}}</span>
-                  <span v-if="data.isShowExpendFiled2">{{detailsData.expendFiled2}}</span>
-                  <span v-if="data.isShowExpendFiled3">{{detailsData.expendFiled3}}</span>
-                  <span v-if="data.isShowExpendFiled4">{{detailsData.expendFiled4}}</span>
-                  <span v-if="data.isShowExpendFiled5">{{detailsData.expendFiled5}}</span>
+                  <span v-if="data.isShowExpendFiled1">{{ detailsData.expendFiled1 }}</span>
+                  <span v-if="data.isShowExpendFiled2">{{ detailsData.expendFiled2 }}</span>
+                  <span v-if="data.isShowExpendFiled3">{{ detailsData.expendFiled3 }}</span>
+                  <span v-if="data.isShowExpendFiled4">{{ detailsData.expendFiled4 }}</span>
+                  <span v-if="data.isShowExpendFiled5">{{ detailsData.expendFiled5 }}</span>
                 </div>
                 <!--顶部-其他基础信息 end-->
 

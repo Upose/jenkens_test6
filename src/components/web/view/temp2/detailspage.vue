@@ -22,9 +22,9 @@
                 :class="isActive(item, item.check)">
                 <a href="javascript:;" @click="menuClick(item, index, true)">{{ item.name }}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
-                  <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)"
-                    :class="{ 'tbg-hover1': subTitle.key == it.key }"><a class="text-color" href="javascript:;">{{
-                    it.value }}</a></li>
+                  <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
+                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;">{{ it.value }}</a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -56,7 +56,8 @@
                 <span class="name tfont-c12">{{ detailsData.publisher || '无' }}</span>
                 <!--发布人-->
                 <span v-if="data.isShowPublishDate"><i class="time-icon"></i>{{ (detailsData.publishDate || '').slice(0,
-                10) }}</span>
+                    10)
+                }}</span>
                 <!--发布日期-->
                 <!-- <span v-if="data.isShowAuthor">{{detailsData.author}}</span>作者 -->
                 <!-- <span v-if="data.isShowKeywords">{{detailsData.keywords}}</span>关键词 -->
@@ -68,7 +69,8 @@
                 <span v-if="data.isShowExpendFiled4">{{ detailsData.expendFiled4 }}</span>
                 <span v-if="data.isShowExpendFiled5">{{ detailsData.expendFiled5 }}</span>
                 <span v-if="data.isShowHitCount"><i class="iconfont el-icon-vip-yulan-1"></i>{{ detailsData.hitCount ||
-                0 }}浏览量</span>
+                    0
+                }}浏览量</span>
                 <span class="r-share" @click="handleShare()">一键分享</span>
                 <dialogShare ref="dialogShare_ref"></dialogShare>
               </div>
