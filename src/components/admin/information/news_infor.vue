@@ -2,20 +2,21 @@
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="2"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
         <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'" ref="breadcrumb_ref"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title">{{columnDeatils.columnName||''}}</h1>
-            <div class="search-term" v-if="auditStatusCountList.length>0">
-              <div class="col-select" :class="auditStatus_menu==index?'col-select-active':''"
-                v-for="(it,index) in auditStatusCountList" :key="index+'audit'"
-                @click="auditStatus(index,it.auditStatus)"><span>{{it.name||'无'}}</span><span
-                  class="number">{{it.counts||0}}</span></div>
+            <h1 class="search-title">{{ columnDeatils.columnName || '' }}</h1>
+            <div class="search-term" v-if="auditStatusCountList.length > 0">
+              <div class="col-select" :class="auditStatus_menu == index ? 'col-select-active' : ''"
+                v-for="(it, index) in auditStatusCountList" :key="index + 'audit'"
+                @click="auditStatus(index, it.auditStatus)"><span>{{ it.name || '无' }}</span><span class="number">{{
+                    it.counts || 0
+                }}</span></div>
               <!-- <h2 class="m-title" v-if="auditStatusCountList.length>0">
                     <el-button size="medium" v-for="(it,index) in auditStatusCountList" :key="index+'audit'" class="gray-btn" @click="auditStatus(0)">{{it.name||'无'}}({{it.counts||0}})</el-button>
                   </h2> -->
@@ -59,7 +60,7 @@
                 <el-table-column type="selection" width="50"></el-table-column>
                 <el-table-column type="index" width="58" align="center" label="序号">
                   <template slot-scope="scope">
-                    {{getTableSort(scope.$index)}}
+                    {{ getTableSort(scope.$index) }}
                   </template>
                 </el-table-column>
                 <el-table-column prop="content" label="排序" align="center" width="85" v-if="isAuth('sort')">
@@ -83,18 +84,19 @@
                 </el-table-column>
                 <el-table-column prop="title" label="新闻标题" min-width="150px">
                   <template slot-scope="scope">
-                    <span :class="{'news-title' : isAuth('edit')}" :title="scope.row.title"
-                      @click="isAuth('edit') && handleEdit(scope.row)">{{scope.row.title}}</span>
+                    <span :class="{ 'news-title': isAuth('edit') }" :title="scope.row.title"
+                      @click="isAuth('edit') && handleEdit(scope.row)">{{ scope.row.title }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="parentCatalogue" label="标签" v-if="isHasCatalogue">
                   <template slot-scope="scope">
-                    <span v-for="(item,index) in (scope.row.parentCatalogue||[])" :key="index">{{item.value}},</span>
+                    <span v-for="(item, index) in (scope.row.parentCatalogue || [])" :key="index">{{ item.value
+                    }},</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="aduitStatusName" label="状态" align="center" width="80">
                   <template slot-scope="scope">
-                    <span>{{scope.row.aduitStatusName}}</span>
+                    <span>{{ scope.row.aduitStatusName }}</span>
                   </template>
                 </el-table-column>
                 <!-- <el-table-column prop="aduitStatusName" label="显示状态" align="center" width="80">
@@ -110,12 +112,12 @@
                 <el-table-column prop="publisher" label="发布者" align="center" width="100"></el-table-column>
                 <el-table-column prop="createdTime" label="创建时间" align="center" width="100">
                   <template slot-scope="scope">
-                    <span>{{(scope.row.createdTime||'0000-00-00').substring(0,10)}} </span>
+                    <span>{{ (scope.row.createdTime || '0000-00-00').substring(0, 10) }} </span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="updateTime" label="更新时间" align="center" width="100">
                   <template slot-scope="scope">
-                    <span>{{(scope.row.updateTime||'0000-00-00').substring(0,10)}} </span>
+                    <span>{{ (scope.row.updateTime || '0000-00-00').substring(0, 10) }} </span>
                   </template>
                 </el-table-column>
                 <el-table-column label="操作" fixed="right" align="center" width="310">
@@ -127,9 +129,9 @@
                       icon="iconfont el-icon-vip-yulan" round>预览</el-button>
                     <el-button @click="handleAudit(scope.row)" type="text" size="mini"
                       icon="iconfont el-icon-vip-pingshen"
-                      v-if="(scope.row.aduitStatus !=8 || scope.row.status!=2) && scope.row.nextAuditBottonName && isAuth('audit')"
+                      v-if="(scope.row.aduitStatus != 8 || scope.row.status != 2) && scope.row.nextAuditBottonName && isAuth('audit')"
                       round>
-                      {{scope.row.nextAuditBottonName}}
+                      {{ scope.row.nextAuditBottonName }}
                     </el-button>
                     <el-button @click="handleEdit(scope.row)" v-if="isAuth('edit')" type="text" size="mini"
                       icon="iconfont el-icon-vip-bianji" round>编辑</el-button>
@@ -174,21 +176,22 @@ export default {
     this.bus.$on('collapse', msg => {
       this.$root.collapse = msg;
     })
-    //获取栏目详情
-    this.http.getPlain_url('news-column-content-manage-get', '/' + this.postForm.columnID).then(res => {
-      if (res.data) {
-        this.lableList = res.data.lableList || [];
-        this.isHasCatalogue = res.data.isHasCatalogue;
-      }
-    }).catch(err => {
-      console.log(err);
-    })
-    this.getColumndetails();
   },
   watch: {
-    '$route': 'getId'
+    '$route': 'getId',
+
   },
   mounted() {
+    // //获取栏目详情
+    // this.http.getPlain_url('news-column-content-manage-get', '/' + this.postForm.columnID).then(res => {
+    //   if (res.data) {
+    //     this.lableList = res.data.lableList || [];
+    //     this.isHasCatalogue = res.data.isHasCatalogue;
+    //   }
+    // }).catch(err => {
+    //   console.log(err);
+    // })
+    this.getColumndetails();
     this.postForm.auditStatus = null;
     this.initData(0);
     this.dragSort();
@@ -323,12 +326,25 @@ export default {
       })
     },
     initDataTable() {
+      //获取栏目详情
+      this.http.getPlain_url('news-column-content-manage-get', '/' + this.postForm.columnID).then(res => {
+        if (res.data) {
+          this.lableList = res.data.lableList || [];
+          this.isHasCatalogue = res.data.isHasCatalogue;
+        }
+      }).catch(err => {
+        console.log(err);
+      })
       var _this = this;
       this.tableData = [];
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
       this.http.postJsonParameter_url('news-content-get-by-column', this.postForm, '/' + this.postForm.columnID).then(res => {
         this.tableData = res.data.newsContents.items || [];
+        // if () {
+        //   this.isHasCatalogue =
+        // }
+        console.log(this.tableData, 'table', this.isHasCatalogue)
         _this.pageData.totalCount = res.data.newsContents.totalCount;
         _this.dragSort();
       }).catch(err => {

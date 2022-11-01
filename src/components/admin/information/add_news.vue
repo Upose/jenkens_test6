@@ -405,9 +405,12 @@ export default {
         })
 
         // 设置富文本
-        this.$nextTick(() => {
-          tinymce.activeEditor.setContent(this.postForm.content);
-        })
+        let timer = setInterval(() => {
+          if (tinymce) {
+            tinymce.activeEditor.setContent(this.postForm.content);
+            clearInterval(timer);
+          }
+        }, 500)
 
         this.$forceUpdate();
 
