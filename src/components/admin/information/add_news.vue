@@ -239,6 +239,8 @@ export default {
     this.http.getPlain('lable-info-get-by-type', 'type=2').then(res => {
       this.tag_edit_data = res.data || [];
     }).catch(err => { })
+
+
   },
   beforeDestroy() {
     // 销毁组件前销毁编辑器
@@ -329,8 +331,6 @@ export default {
           this.parentCatalogue_length = this.postForm.parentCatalogue.length || 0;
         }
         this.contentEditor = this.postForm.contentEditor || 1;
-        // 设置富文本
-        tinymce.activeEditor.setContent(this.postForm.content);
         var list = res.data.content || {};
         //按钮集合
         // console.log(res.data.nextAuditStatus);
@@ -403,7 +403,15 @@ export default {
             this.$set(this.row_list, index, { key: item.key, value: item.value, input_val: list.expendFiled5 })
           }
         })
+
+        // 设置富文本
+        this.$nextTick(() => {
+          tinymce.activeEditor.setContent(this.postForm.content);
+        })
+
         this.$forceUpdate();
+
+        // console.log(this.postForm, 'postForm', res)
       }).catch(err => {
         console.log(err);
       })
