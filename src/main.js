@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: huyu
- * @LastEditTime: 2022-11-08 17:39:49
+ * @LastEditTime: 2022-11-08 17:41:58
  */
 import Vue from 'vue'
 import App from './App'
@@ -18,7 +18,7 @@ import Dlib3Tinymce from 'dlib3-tinymce'
 
 //2022.11.8 日志 将日志提出为cdn引入模式
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-logReportPlugin(Vue, { app: "articlerecommend", api: "loganalysis/api/log-write/write-log" }, FingerprintJS)
+logReportPlugin(Vue, { app: "news", api: "loganalysis/api/log-write/write-log" }, FingerprintJS)
 // import logReportPlugin from "log-report-plugin";
 // Vue.use(logReportPlugin, { app: "news", api: "loganalysis/api/log-write/write-log" });
 // app: 应用id
