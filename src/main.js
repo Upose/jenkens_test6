@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
- * @LastEditors: huyu
- * @LastEditTime: 2022-10-17 16:20:14
+ * @LastEditors: gongqin
+ * @LastEditTime: 2022-11-08 15:38:50
  */
 import Vue from 'vue'
 import App from './App'
@@ -13,9 +13,11 @@ import store from './router/store'
 import Debounce from '@/assets/public/js/debounce';
 import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
+import vDebounce from '@/assets/public/js/vdebounce';
 import Dlib3Tinymce from 'dlib3-tinymce'
 
 import logReportPlugin from "log-report-plugin";
+Vue.use(vDebounce);
 Vue.use(logReportPlugin, { app: "news", api: "loganalysis/api/log-write/write-log" });
 // app: 应用id
 // api: 上报接口地址 loganalysis/api/log-write/write-log

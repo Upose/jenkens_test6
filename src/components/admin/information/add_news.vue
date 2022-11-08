@@ -147,8 +147,11 @@
                   <el-button icon="iconfont el-icon-vip-yulan1" size="medium" class="admin-green-btn"
                     @click="previewPage()">预览</el-button>
                   <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary"
-                    @click="submitForm('postForm', it.key)" v-for="(it, index) in postForm.nextAuditStatus"
-                    :key="index + 'bts'">{{ it.value || '保存' }}</el-button>
+                    :loading="btnLoading[index]" :disabled="disabledBtn" v-button-debounce
+                    @click="submitForm('postForm', it.key, index)" v-for="(it, index) in postForm.nextAuditStatus"
+                    :key="index + 'bts'">
+                    {{ it.value || '保存' }}
+                  </el-button>
                 </div>
               </el-form-item>
             </div>
@@ -191,6 +194,7 @@ export default {
   name: 'index',
   components: { footerPage, serviceLMenu, breadcrumb, UpdateImg, tagEdit },
   created() {
+    this.btnLoading = {};
     this.bus.$on('collapse', msg => {
       this.$root.collapse = msg;
     })
@@ -412,6 +416,11 @@ export default {
           }
         }, 500)
 
+        this.postForm.nextAuditStatus.length && this.postForm.nextAuditStatus.forEach((item, index) => {
+          this.btnLoading[index] = false;
+        })
+
+
         this.$forceUpdate();
 
         // console.log(this.postForm, 'postForm', res)
@@ -430,6 +439,8 @@ export default {
   },
   data() {
     return {
+      disabledBtn: false,
+      btnLoading: {},
       img_list: [],//富文本图片路径
       userInfo: window.localStorage.getItem('userInfo'),
       coverHeight: 10,
@@ -678,7 +689,7 @@ export default {
       }
     },
     //表单提交
-    submitForm(formName, val) {
+    submitForm(formName, val, index) {
       var _this = this;
       this.setPostFormPas();
       if (val == 9) { //表示退回
@@ -690,18 +701,18 @@ export default {
           if (!valid) {
             if (_this.postForm.title && _this.postForm.publisher && _this.postForm.status && _this.postForm.publishDate) {
               if (_this.activeName == 'div1') {
-                if (_this.postForm.content) _this.postUrl();
+                if (_this.postForm.content) _this.postUrl(index);
               } else {
-                if (_this.postForm.externalLink) _this.postUrl();
+                if (_this.postForm.externalLink) _this.postUrl(index);
               }
             }
           } else {
-            _this.postUrl();
+            _this.postUrl(index);
           }
         });
       }
     },
-    postUrl() {
+    postUrl(index) {
       var _this = this;
       if (this.activeName == 'div1') {
         _this.postForm['externalLink'] = '';
@@ -712,15 +723,26 @@ export default {
         _this.postForm['ExpirationDate'] = null;
       }
       if (_this.id) {
+        this.$set(this.btnLoading, index, true);
+        this.disabledBtn = true;
+        // console.log(this.btnLoading)
         this.http.postJsonParameter_url('news-content-update', _this.postForm, '/' + _this.columnID).then(res => {
           _this.$message({ type: 'success', message: '提交成功!' });
+          this.btnLoading[index] = false;
+          this.disabledBtn = false;
           _this.backHistory();
         }).catch(err => {
+          this.btnLoading[index] = false;
+          this.disabledBtn = false;
           _this.$message({ type: 'error', message: '提交失败!' });
         })
       } else {
+        this.btnLoading[index] = true;
+        this.disabledBtn = true;
         _this.postForm['columnID'] = _this.columnID;
         this.http.postJsonParameter_url('news-content-add', _this.postForm, '/' + _this.columnID).then(res => {
+          this.btnLoading[index] = false;
+          this.disabledBtn = false;
           if (res.succeeded) {
             _this.$message({ type: 'success', message: '提交成功!' });
             _this.backHistory();
@@ -728,6 +750,8 @@ export default {
             _this.$message({ type: 'error', message: res.data.message || '提交失败' });
           }
         }).catch(err => {
+          this.btnLoading[index] = false;
+          this.disabledBtn = false;
           _this.$message({ type: 'error', message: '提交失败!' });
         })
       }

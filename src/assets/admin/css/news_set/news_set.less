@@ -10,6 +10,7 @@
   }
   .table-warp{
     min-height: 200px;
+    position: relative;
   }
   /****栏目管理权限表格 start */
   .table-pd{
@@ -67,6 +68,8 @@
     }
     .col4{
       width: 10%;
+      position: absolute;
+      right: 10px;
     }
     /deep/.el-collapse-item__arrow{
       display: none;
@@ -130,4 +133,7 @@
       height: 20px;
       border-left: 1px solid @ph-col-n25;
     }
+  }
+  .table-pd .table-pd-title .col4{
+    right: 13px;
   }
