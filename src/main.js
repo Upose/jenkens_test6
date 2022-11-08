@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
- * @LastEditors: gongqin
- * @LastEditTime: 2022-11-08 15:38:50
+ * @LastEditors: huyu
+ * @LastEditTime: 2022-11-08 17:39:49
  */
 import Vue from 'vue'
 import App from './App'
@@ -16,13 +16,16 @@ import bus from '@/assets/public/js/bus';
 import vDebounce from '@/assets/public/js/vdebounce';
 import Dlib3Tinymce from 'dlib3-tinymce'
 
-import logReportPlugin from "log-report-plugin";
-Vue.use(vDebounce);
-Vue.use(logReportPlugin, { app: "news", api: "loganalysis/api/log-write/write-log" });
+//2022.11.8 日志 将日志提出为cdn引入模式
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
+logReportPlugin(Vue, { app: "articlerecommend", api: "loganalysis/api/log-write/write-log" }, FingerprintJS)
+// import logReportPlugin from "log-report-plugin";
+// Vue.use(logReportPlugin, { app: "news", api: "loganalysis/api/log-write/write-log" });
 // app: 应用id
 // api: 上报接口地址 loganalysis/api/log-write/write-log
 
 Vue.config.productionTip = false
+Vue.use(vDebounce);
 
 Vue.component('Debounce', Debounce)
 Vue.use(VueI18n)
