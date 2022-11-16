@@ -409,12 +409,15 @@ export default {
         })
 
         // 设置富文本
-        let timer = setInterval(() => {
-          if (tinymce) {
-            tinymce.activeEditor.setContent(this.postForm.content);
-            clearInterval(timer);
-          }
-        }, 500)
+        // let timer = setInterval(() => {
+        //   if (tinymce) {
+        //     tinymce.activeEditor.setContent(this.postForm.content);
+        //     clearInterval(timer);
+        //   }
+        // }, 500)
+        setTimeout(() => {
+          tinymce.activeEditor.setContent(this.postForm.content);
+        }, 1000)
 
         this.postForm.nextAuditStatus.length && this.postForm.nextAuditStatus.forEach((item, index) => {
           this.btnLoading[index] = false;
