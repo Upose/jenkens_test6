@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: huyu
- * @LastEditTime: 2022-11-08 17:41:58
+ * @LastEditTime: 2022-11-16 17:53:11
  */
 import Vue from 'vue'
 import App from './App'
@@ -92,7 +92,7 @@ Vue.prototype.authShowBtn = function (path, value) {
 }
 
 let timer = setInterval(() => {
-  if (axios && axios.defaults && axios.defaults.loaded) {
+  if (axios && axios.defaults && axios.defaults.loaded && Vue.$createLegacyMixin) {
     clearInterval(timer);
     new Vue({
       el: '#news_sys',
