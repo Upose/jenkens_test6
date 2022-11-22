@@ -379,6 +379,7 @@
               size="medium"
               type="primary"
               @click="sendBackHande"
+              :loading="sendbackLoading"
               >保存
             </el-button>
           </span>
@@ -603,6 +604,7 @@ export default {
           } else {
             this.postForm.terminals = [];
           }
+
           //多栏目投递 columnIDs
           if (list.columnIDs) {
             var c_list = list.columnIDs.split(";") || [];
@@ -684,12 +686,11 @@ export default {
           });
 
           // 设置富文本
-          let timer = setInterval(() => {
+          setTimeout(() => {
             if (tinymce) {
               tinymce.activeEditor.setContent(this.postForm.content);
-              clearInterval(timer);
             }
-          }, 500);
+          }, 1000);
 
           this.postForm.nextAuditStatus.length &&
             this.postForm.nextAuditStatus.forEach((item, index) => {
@@ -715,6 +716,7 @@ export default {
   },
   data() {
     return {
+      sendbackLoading: false,
       disabledBtn: false,
       btnLoading: {},
       img_list: [], //富文本图片路径
@@ -916,9 +918,8 @@ export default {
     drawBackClose() {
       this.draw_back = false;
     },
-    goBack() {
+    goBack(index) {
       console.log("back");
-      this.disabledBtn = true;
       this.$router.push({
         path: "/admin_programInfo",
         query: {
@@ -926,22 +927,32 @@ export default {
           columnName: this.$route.query.columnName,
         },
       });
+      setTimeout(() => {
+        if (index || index === 0) {
+          this.btnLoading[index] = false;
+          this.disabledBtn = false;
+        }
+        this.sendbackLoading = false;
+      }, 5000);
     },
     // 退回新闻
     sendBackHande() {
       if (!this.sendBack.sendBackDesc) {
         return this.$message({ type: "error", message: "退回备注不能为空!" });
       }
+      this.sendbackLoading = true;
       this.sendBack.contentID = this.id;
       this.http
         .postJson("news-content-send-back", this.sendBack)
         .then((res) => {
           this.draw_back = false;
           this.$message({ type: "success", message: "退回成功!" });
+          // this.sendbackLoading = false;
           this.goBack();
         })
         .catch((err) => {
           this.draw_back = false;
+          this.sendbackLoading = false;
           this.$message({ type: "error", message: "退回失败!" });
         });
     },
@@ -1080,11 +1091,11 @@ export default {
           .then((res) => {
             _this.$message({ type: "success", message: "提交成功!" });
 
-            _this.goBack("submit");
-            setTimeout(() => {
-              this.btnLoading[index] = false;
-              this.disabledBtn = false;
-            }, 5000);
+            _this.goBack(index);
+            // setTimeout(() => {
+            //   this.btnLoading[index] = false;
+            //   this.disabledBtn = false;
+            // }, 5000);
           })
           .catch((err) => {
             this.btnLoading[index] = false;
@@ -1104,17 +1115,19 @@ export default {
           .then((res) => {
             if (res.succeeded) {
               _this.$message({ type: "success", message: "提交成功!" });
-              _this.goBack();
+              _this.goBack(index);
             } else {
               _this.$message({
                 type: "error",
                 message: res.data.message || "提交失败",
               });
-            }
-            setTimeout(() => {
               this.btnLoading[index] = false;
               this.disabledBtn = false;
-            }, 5000);
+            }
+            // setTimeout(() => {
+            //   this.btnLoading[index] = false;
+            //   this.disabledBtn = false;
+            // }, 5000);
           })
           .catch((err) => {
             this.btnLoading[index] = false;
