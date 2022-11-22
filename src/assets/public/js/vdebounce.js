@@ -40,7 +40,7 @@ Vue.directive('input-debounce', {
       }
       tiemer = setTimeout(() => {
         binding.value && binding.value();
-      }, 500);
+      }, 1000);
     })
   }
 });
