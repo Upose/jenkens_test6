@@ -205,6 +205,7 @@
               </el-form-item>
               <el-form-item
                 label="投递终端"
+                prop="terminals"
                 v-if="columnDeatils.terminals != 1"
               >
                 <el-checkbox-group v-model="postForm.terminals">
@@ -405,17 +406,17 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, UpdateImg, tagEdit },
   created() {
     this.btnLoading = {};
-    this.bus.$on("collapse", (msg) => {
+    this.bus.$on("collapse", msg => {
       this.$root.collapse = msg;
     });
     //获取有哪些终端
-    this.http.getPlain_url("pront-terminals", "").then((res) => {
+    this.http.getPlain_url("pront-terminals", "").then(res => {
       this.terminals_list = res.data || [];
     });
     //获取当前栏目信息
     this.http
       .getPlain_url("news-column-get", "/" + this.columnID)
-      .then((res) => {
+      .then(res => {
         if (res.data) {
           this.columnDeatils = res.data || {};
           // 开启时默认选全部
@@ -428,7 +429,7 @@ export default {
             this.columnDeatils.extensionKV &&
             this.columnDeatils.extensionKV.length > 0
           ) {
-            this.columnDeatils.extensionKV.forEach((item) => {
+            this.columnDeatils.extensionKV.forEach(item => {
               if (item.key != "ParentCatalogue" && item.key != "JumpLink") {
                 this.row_list.push(item);
               }
@@ -449,12 +450,12 @@ export default {
                 name: this.columnDeatils.title,
                 path: {
                   path: "/admin_programInfo",
-                  query: { id: this.columnDeatils.id },
-                },
+                  query: { id: this.columnDeatils.id }
+                }
               },
-              { name: this.id ? "编辑新闻" : "新增新闻" },
+              { name: this.id ? "编辑新闻" : "新增新闻" }
             ],
-            keepAlive: true,
+            keepAlive: true
           };
           this.$refs.breadcrumb_ref.setMeta(list);
           if (!this.$route.query.id) {
@@ -464,21 +465,21 @@ export default {
           }
         }
       })
-      .catch((err) => {});
+      .catch(err => {});
     //栏目列表
     this.http
       .getPlain("delivery-column-list-get", "columnid=" + this.columnID)
-      .then((res) => {
+      .then(res => {
         this.coumn_data_list = res.data || [];
       })
-      .catch((err) => {});
+      .catch(err => {});
     //获取标签列表
     this.http
       .getPlain("lable-info-get-by-type", "type=2")
-      .then((res) => {
+      .then(res => {
         this.tag_edit_data = res.data || [];
       })
-      .catch((err) => {});
+      .catch(err => {});
   },
   beforeDestroy() {
     // 销毁组件前销毁编辑器
@@ -563,11 +564,11 @@ export default {
           "news-content-manage-get",
           "/" + this.columnID + "?contentid=" + this.id
         )
-        .then((res) => {
+        .then(res => {
           if (res.data.content) {
             this.postForm = {
               ...res.data.content,
-              publishDate: datePipe(res.data.content.publishDate, "yyyy-MM-dd"),
+              publishDate: datePipe(res.data.content.publishDate, "yyyy-MM-dd")
             };
           } else {
             this.postForm = {};
@@ -588,7 +589,7 @@ export default {
           }
           //标题样式设置
           if (list.titleStyleKV && list.titleStyleKV != undefined) {
-            list.titleStyleKV.forEach((item) => {
+            list.titleStyleKV.forEach(item => {
               if (item.key == "B" || item.key == "I" || item.key == "U") {
                 this.titleStyleKV[item.key] = item.value;
               }
@@ -631,56 +632,56 @@ export default {
               this.$set(this.row_list, index, {
                 key: item.key,
                 value: item.value,
-                input_val: list.keywords,
+                input_val: list.keywords
               });
             }
             if (item.key == "Author") {
               this.$set(this.row_list, index, {
                 key: item.key,
                 value: item.value,
-                input_val: list.author,
+                input_val: list.author
               });
             }
             if (item.key == "ExpirationDate") {
               this.$set(this.row_list, index, {
                 key: item.key,
                 value: item.value,
-                input_val: list.expirationDate,
+                input_val: list.expirationDate
               });
             }
             if (item.key == "ExpendFiled1") {
               this.$set(this.row_list, index, {
                 key: item.key,
                 value: item.value,
-                input_val: list.expendFiled1,
+                input_val: list.expendFiled1
               });
             }
             if (item.key == "ExpendFiled2") {
               this.$set(this.row_list, index, {
                 key: item.key,
                 value: item.value,
-                input_val: list.expendFiled2,
+                input_val: list.expendFiled2
               });
             }
             if (item.key == "ExpendFiled3") {
               this.$set(this.row_list, index, {
                 key: item.key,
                 value: item.value,
-                input_val: list.expendFiled3,
+                input_val: list.expendFiled3
               });
             }
             if (item.key == "ExpendFiled4") {
               this.$set(this.row_list, index, {
                 key: item.key,
                 value: item.value,
-                input_val: list.expendFiled4,
+                input_val: list.expendFiled4
               });
             }
             if (item.key == "ExpendFiled5") {
               this.$set(this.row_list, index, {
                 key: item.key,
                 value: item.value,
-                input_val: list.expendFiled5,
+                input_val: list.expendFiled5
               });
             }
           });
@@ -701,7 +702,7 @@ export default {
 
           console.log(this.postForm, "postForm", this.btnLoading);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     }
@@ -712,7 +713,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.postForm.validateField(["content"]);
       });
-    },
+    }
   },
   data() {
     return {
@@ -750,7 +751,7 @@ export default {
         { title: 24 },
         { title: 28 },
         { title: 30 },
-        { title: 32 },
+        { title: 32 }
       ],
       titleStyleKV: {
         //标题样式设置
@@ -758,7 +759,7 @@ export default {
         I: false,
         U: false,
         font: 20,
-        color: "#000000",
+        color: "#000000"
       },
       sendBack: {},
       postForm: {
@@ -768,7 +769,7 @@ export default {
             .toISOString()
             .replace(/\.[\d]{3}Z/, "") + ".000Z",
         status: 1,
-        publisher: "",
+        publisher: ""
       },
       // postForm: {terminals:[1,2,3,4]},
       rules: {
@@ -778,24 +779,24 @@ export default {
             min: 2,
             max: 100,
             message: "标题长度在 2 到 100 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         subTitle: [
           {
             min: 0,
             max: 100,
             message: "长度在 0 到 100 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         parentCatalogue: [
           {
             min: 0,
             max: 20,
             message: "长度在 0 到 20 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         publisher: [
           { required: true, message: "请输入发布人", trigger: "blur" },
@@ -803,14 +804,14 @@ export default {
             min: 2,
             max: 50,
             message: "长度在 2 到 50 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         status: [
-          { required: true, message: "请选择显示状态", trigger: "blur" },
+          { required: true, message: "请选择显示状态", trigger: "blur" }
         ],
         publishDate: [
-          { required: true, message: "请选择日期", trigger: "blur" },
+          { required: true, message: "请选择日期", trigger: "blur" }
         ],
         content: [{ required: true, message: "请输入内容" }],
         externalLink: [
@@ -819,10 +820,13 @@ export default {
             min: 0,
             max: 500,
             message: "长度在 0 到 500 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
-      },
+        terminals: [
+          { required: true, message: "请选择投递终端", trigger: "change" }
+        ]
+      }
     };
   },
   methods: {
@@ -842,12 +846,12 @@ export default {
     handleVideoUpload(fd, callback) {
       this.http
         .postFile("", fd)
-        .then((res) => {
+        .then(res => {
           if (res.succeeded) {
             callback(this.fileUrl + res.data);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.errors) {
             this.$message({ type: "error", message: err.errors || "" });
           }
@@ -858,12 +862,12 @@ export default {
       formData.append("files", file);
       this.http
         .postFile("", formData)
-        .then((res) => {
+        .then(res => {
           if (res.succeeded) {
             succFun(this.fileUrl + res.data[0], { text: file.name });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.errors) {
             this.$message({ type: "error", message: err.errors || "" });
           }
@@ -924,8 +928,8 @@ export default {
         path: "/admin_programInfo",
         query: {
           id: this.$route.query.c_id,
-          columnName: this.$route.query.columnName,
-        },
+          columnName: this.$route.query.columnName
+        }
       });
       setTimeout(() => {
         if (index || index === 0) {
@@ -944,13 +948,13 @@ export default {
       this.sendBack.contentID = this.id;
       this.http
         .postJson("news-content-send-back", this.sendBack)
-        .then((res) => {
+        .then(res => {
           this.draw_back = false;
           this.$message({ type: "success", message: "退回成功!" });
           // this.sendbackLoading = false;
           this.goBack();
         })
-        .catch((err) => {
+        .catch(err => {
           this.draw_back = false;
           this.sendbackLoading = false;
           this.$message({ type: "error", message: "退回失败!" });
@@ -1023,13 +1027,13 @@ export default {
       _this.postForm.titleStyleKV = list;
       //多栏目投递
       var coumn_list = "";
-      _this.coumn_list.forEach((item) => {
+      _this.coumn_list.forEach(item => {
         if (coumn_list.indexOf(item.value) == -1) {
           coumn_list = coumn_list + item.value + ";";
         }
       });
       //扩展项
-      _this.row_list.forEach((item) => {
+      _this.row_list.forEach(item => {
         _this.postForm[item.key] = item.input_val || "";
       });
       _this.postForm.contentEditor = _this.contentEditor || 1;
@@ -1048,7 +1052,7 @@ export default {
       } else {
         // console.log(_this.postForm.content, 'cont');
         _this.postForm["auditStatus"] = val;
-        this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate(valid => {
           if (!valid) {
             if (
               _this.postForm.title &&
@@ -1088,7 +1092,7 @@ export default {
             _this.postForm,
             "/" + _this.columnID
           )
-          .then((res) => {
+          .then(res => {
             _this.$message({ type: "success", message: "提交成功!" });
 
             _this.goBack(index);
@@ -1097,7 +1101,7 @@ export default {
             //   this.disabledBtn = false;
             // }, 5000);
           })
-          .catch((err) => {
+          .catch(err => {
             this.btnLoading[index] = false;
             this.disabledBtn = false;
             _this.$message({ type: "error", message: "提交失败!" });
@@ -1112,14 +1116,14 @@ export default {
             _this.postForm,
             "/" + _this.columnID
           )
-          .then((res) => {
+          .then(res => {
             if (res.succeeded) {
               _this.$message({ type: "success", message: "提交成功!" });
               _this.goBack(index);
             } else {
               _this.$message({
                 type: "error",
-                message: res.data.message || "提交失败",
+                message: res.data.message || "提交失败"
               });
               this.btnLoading[index] = false;
               this.disabledBtn = false;
@@ -1129,14 +1133,14 @@ export default {
             //   this.disabledBtn = false;
             // }, 5000);
           })
-          .catch((err) => {
+          .catch(err => {
             this.btnLoading[index] = false;
             this.disabledBtn = false;
             _this.$message({ type: "error", message: "提交失败!" });
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -1158,4 +1162,3 @@ export default {
   right: 10px;
 }
 </style>
-
