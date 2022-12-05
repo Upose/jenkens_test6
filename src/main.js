@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
- * @LastEditors: huyu
- * @LastEditTime: 2022-11-16 17:53:11
+ * @LastEditors: gongqin
+ * @LastEditTime: 2022-12-05 17:48:20
  */
 import Vue from 'vue'
 import App from './App'
@@ -14,6 +14,7 @@ import Debounce from '@/assets/public/js/debounce';
 import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
 import vDebounce from '@/assets/public/js/vdebounce';
+import '@/assets/public/js/plugin'
 import Dlib3Tinymce from 'dlib3-tinymce'
 
 //2022.11.8 日志 将日志提出为cdn引入模式

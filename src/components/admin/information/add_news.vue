@@ -3,151 +3,65 @@
   <div class="admin-warp-page">
     <!-- <img width="100" height="100" v-for="i in img_list" :src="'blob:'+i"/> -->
     <el-container>
-      <el-aside
-        width="auto"
-        :collapse="$root.collapse"
-        :class="$root.collapse ? 'fold-menu' : ''"
-      >
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="2"></serviceLMenu>
       </el-aside>
-      <el-main
-        class="admin-content pd admin-bg-top"
-        :class="{ 'content-collapse': $root.collapse }"
-      >
-        <breadcrumb
-          :cuMenu="'新闻发布'"
-          ref="breadcrumb_ref"
-          :fontColor="'fff'"
-        ></breadcrumb>
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
+        <breadcrumb :cuMenu="'新闻发布'" ref="breadcrumb_ref" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content">
-          <el-form
-            :model="postForm"
-            label-suffix="："
-            :rules="rules"
-            ref="postForm"
-            label-width="100px"
-            class="admin-form"
-          >
+          <el-form :model="postForm" label-suffix="：" :rules="rules" ref="postForm" label-width="100px"
+            class="admin-form">
             <h1 class="s-b-border-title">{{ id ? "编辑" : "新增" }}新闻</h1>
             <div class="form-content">
-              <el-form-item label="新闻标题" prop="title">
-                <el-input
-                  v-model="postForm.title"
-                  placeholder="请输入新闻标题"
-                  maxlength="100"
-                  minlength="2"
-                  show-word-limit
-                  class="txt-set r-pad-num-max-100"
-                >
+              <el-form-item label="新闻标题" prop="title" class="clearable-input">
+                <el-input v-model="postForm.title" placeholder="请输入新闻标题" maxlength="100" minlength="2" show-word-limit
+                  class="txt-set r-pad-num-max-100" clearable>
                   <template slot="append">
                     <div class="news-font-set">
-                      <i
-                        class="iconfont el-icon-vip-B"
-                        @click="fontClick(titleStyleKV.B, 'B')"
-                        :class="titleStyleKV.B ? 'active' : ''"
-                      ></i>
-                      <i
-                        class="iconfont el-icon-vip-I"
-                        @click="fontClick(titleStyleKV.I, 'I')"
-                        :class="titleStyleKV.I ? 'active' : ''"
-                      ></i>
-                      <i
-                        class="iconfont el-icon-vip-u"
-                        @click="fontClick(titleStyleKV.U, 'U')"
-                        :class="titleStyleKV.U ? 'active' : ''"
-                      ></i>
-                      <el-select
-                        class="width60"
-                        v-model="titleStyleKV.font"
-                        placeholder="请选择"
-                      >
-                        <el-option
-                          v-for="item in font_list"
-                          :key="item.title"
-                          :label="item.title"
-                          :value="item.title"
-                        >
+                      <i class="iconfont el-icon-vip-B" @click="fontClick(titleStyleKV.B, 'B')"
+                        :class="titleStyleKV.B ? 'active' : ''"></i>
+                      <i class="iconfont el-icon-vip-I" @click="fontClick(titleStyleKV.I, 'I')"
+                        :class="titleStyleKV.I ? 'active' : ''"></i>
+                      <i class="iconfont el-icon-vip-u" @click="fontClick(titleStyleKV.U, 'U')"
+                        :class="titleStyleKV.U ? 'active' : ''"></i>
+                      <el-select class="width60" v-model="titleStyleKV.font" placeholder="请选择">
+                        <el-option v-for="item in font_list" :key="item.title" :label="item.title" :value="item.title">
                         </el-option>
                       </el-select>
-                      <el-color-picker
-                        v-model="titleStyleKV.color"
-                      ></el-color-picker>
+                      <el-color-picker v-model="titleStyleKV.color"></el-color-picker>
                     </div>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="副标题" prop="subTitle">
-                <el-input
-                  v-model="postForm.subTitle"
-                  placeholder="请输入副标题"
-                  class="r-pad-num-max-100"
-                  maxlength="100"
-                  minlength="0"
-                  show-word-limit
-                ></el-input>
+              <el-form-item label="副标题" prop="subTitle" class="clearable-input">
+                <el-input v-model="postForm.subTitle" placeholder="请输入副标题" class="r-pad-num-max-100" maxlength="100"
+                  minlength="0" show-word-limit clearable></el-input>
               </el-form-item>
               <div class="user-form-item" v-if="isshow_ParentCatalogue">
-                <label class="u-label"
-                  ><span class="u-el-input">新闻标签：</span></label
-                >
+                <label class="u-label"><span class="u-el-input">新闻标签：</span></label>
                 <div class="u-list">
-                  <input
-                    type="text"
-                    @keyup="inputBlur"
-                    v-model="postForm.parentCatalogue"
-                    class="u-input"
-                    placeholder="请输入新闻标签"
-                  />
-                  <span class="hint-num-max"
-                    >{{ parentCatalogue_length }}/20</span
-                  >
-                  <el-button
-                    class="u-btn-r"
-                    icon="iconfont el-icon-vip-fangdajing"
-                    size="medium"
-                    type="primary"
-                    @click="tagEditShow()"
-                    >选择已有标签</el-button
-                  >
-                  <tagEdit
-                    :dataList="tag_edit_data"
-                    :cType="2"
-                    @tagEditHide="tagEditHide"
-                    @checkTag="checkTag"
-                    v-if="tag_edit"
-                  ></tagEdit>
+                  <el-input type="text" @keyup="inputBlur" v-model="postForm.parentCatalogue" class="u-input"
+                    placeholder="请输入新闻标签" clearable />
+                  <span class="hint-num-max">{{ parentCatalogue_length }}/20</span>
+                  <el-button class="u-btn-r" icon="iconfont el-icon-vip-fangdajing" size="medium" type="primary"
+                    @click="tagEditShow()">选择已有标签</el-button>
+                  <tagEdit :dataList="tag_edit_data" :cType="2" @tagEditHide="tagEditHide" @checkTag="checkTag"
+                    v-if="tag_edit"></tagEdit>
                 </div>
               </div>
               <el-form-item label="多栏目投递">
                 <div class="btns-colse-warp">
-                  <div
-                    class="btns-select-row"
-                    v-for="(it, i) in coumn_list"
-                    :key="i + 'b'"
-                  >
-                    <el-select v-model="it.value" placeholder="请选择栏目">
-                      <el-option
-                        :label="item.value"
-                        :value="item.key"
-                        v-for="(item, i) in coumn_data_list"
-                        :key="i + 'coumn'"
-                        >{{ item.value || "无" }}</el-option
-                      >
+                  <div class="btns-select-row" v-for="(it, i) in coumn_list" :key="i + 'b'">
+                    <el-select v-model="it.value" placeholder="请选择栏目" clearable>
+                      <el-option :label="item.value" :value="item.key" v-for="(item, i) in coumn_data_list"
+                        :key="i + 'coumn'">{{ item.value || "无" }}</el-option>
                     </el-select>
-                    <div
-                      class="btns-el-btn"
-                      @click="removeCoumn(i)"
-                      v-if="coumn_list.length - 1 != i"
-                    >
+                    <div class="btns-el-btn" @click="removeCoumn(i)" v-if="coumn_list.length - 1 != i">
                       <i class="iconfont el-icon-vip-jianhao1"></i>
                       <span>删除</span>
                     </div>
-                    <div
-                      class="btns-el-btn"
-                      @click="addCoumn"
-                      v-if="coumn_list.length - 1 == i"
-                    >
+                    <div class="btns-el-btn" @click="addCoumn" v-if="coumn_list.length - 1 == i">
                       <i class="iconfont el-icon-vip-tianjia1"></i>
                       <span>投递</span>
                     </div>
@@ -155,124 +69,64 @@
                 </div>
                 <p class="hint">每条内容支持最多同时投递到3个新闻栏目内。</p>
               </el-form-item>
-              <el-form-item
-                label="内容封面"
-                v-if="columnDeatils.isOpenCover == 1"
-              >
+              <el-form-item label="内容封面" v-if="columnDeatils.isOpenCover == 1">
                 <div class="up-img-form-item">
                   <!-- <div class="up-img-warp up-img-cover-img" v-if="id"> -->
-                  <div
-                    class="up-img-warp up-img-cover-img"
-                    v-if="postForm.cover"
-                  >
+                  <div class="up-img-warp up-img-cover-img" v-if="postForm.cover">
                     <img :src="fileUrl + postForm.cover" />
                   </div>
-                  <div
-                    class="up-img-warp up-icon up-img-cover-icon"
-                    @click="upImg()"
-                  >
+                  <div class="up-img-warp up-icon up-img-cover-icon" @click="upImg()">
                     <span>上传封面</span>
                   </div>
                 </div>
               </el-form-item>
-              <el-form-item label="发布人" prop="publisher">
-                <el-input
-                  v-model="postForm.publisher"
-                  placeholder="请输入发布人"
-                  class="r-pad-num-max"
-                  maxlength="50"
-                  minlength="0"
-                  show-word-limit
-                ></el-input>
+              <el-form-item label="发布人" prop="publisher" class="clearable-input">
+                <el-input v-model="postForm.publisher" placeholder="请输入发布人" class="r-pad-num-max" maxlength="50"
+                  minlength="0" show-word-limit clearable></el-input>
               </el-form-item>
               <el-form-item label="发布日期" prop="publishDate">
-                <el-date-picker
-                  v-model="postForm.publishDate"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  format="yyyy-MM-dd"
-                  class="data-clear-icon"
-                  placeholder="请选择发布日期"
-                ></el-date-picker>
+                <el-date-picker v-model="postForm.publishDate" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+                  class="data-clear-icon" placeholder="请选择发布日期" clearable></el-date-picker>
               </el-form-item>
               <el-form-item label="显示状态" prop="status">
                 <el-radio-group v-model="postForm.status">
                   <el-radio :label="1">正常</el-radio>
-                  <el-radio :label="2" :disabled="!($route.query.of == 1)"
-                    >下架</el-radio
-                  >
+                  <el-radio :label="2" :disabled="!($route.query.of == 1)">下架</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item
-                label="投递终端"
-                prop="terminals"
-                v-if="columnDeatils.terminals != 1"
-              >
+              <el-form-item label="投递终端" prop="terminals" v-if="columnDeatils.terminals != 1">
                 <el-checkbox-group v-model="postForm.terminals">
-                  <el-checkbox
-                    :label="it.key"
-                    name="type"
-                    v-for="(it, index) in terminals_list"
-                    :key="index + '_terminals'"
-                    >{{ it.value }}</el-checkbox
-                  >
+                  <el-checkbox :label="it.key" name="type" v-for="(it, index) in terminals_list"
+                    :key="index + '_terminals'">{{ it.value }}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
-              <el-form-item
-                :label="item.value"
-                v-for="(item, index) in row_list"
-                :key="index + 'row'"
-              >
-                <el-input
-                  v-model="item.input_val"
-                  :placeholder="'请输入' + item.value"
-                  v-if="item.key != 'ExpirationDate'"
-                >
+              <el-form-item :label="item.value" v-for="(item, index) in row_list" :key="index + 'row'"
+                class="clearable-input">
+                <el-input v-model="item.input_val" :placeholder="'请输入' + item.value" v-if="item.key != 'ExpirationDate'"
+                  clearable>
                 </el-input>
-                <el-date-picker
-                  v-model="item.input_val"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  format="yyyy-MM-dd"
-                  v-if="item.key == 'ExpirationDate'"
-                  placeholder="请选择失效日期"
-                ></el-date-picker>
+                <el-date-picker v-model="item.input_val" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+                  v-if="item.key == 'ExpirationDate'" placeholder="请选择失效日期" clearable></el-date-picker>
               </el-form-item>
-              <el-form-item
-                label="内容"
-                :prop="activeName == 'div1' ? 'content' : 'externalLink'"
-              >
+              <el-form-item label="内容" :prop="activeName == 'div1' ? 'content' : 'externalLink'">
                 <div class="filter-form-item">
                   <div class="filter-r-t-editor">
                     <div class="filter-f-title">
-                      <span
-                        class="filter-box-col"
-                        @click="handleClick('div1')"
-                        :class="activeName == 'div1' ? 'active' : ''"
-                        >编辑内容</span
-                      >
-                      <span
-                        class="filter-box-col"
-                        @click="handleClick('div2')"
-                        :class="activeName == 'div2' ? 'active' : ''"
-                        v-show="isshow_link"
-                        >链接跳转</span
-                      >
+                      <span class="filter-box-col" @click="handleClick('div1')"
+                        :class="activeName == 'div1' ? 'active' : ''">编辑内容</span>
+                      <span class="filter-box-col" @click="handleClick('div2')"
+                        :class="activeName == 'div2' ? 'active' : ''" v-show="isshow_link">链接跳转</span>
                       <span class="filter-hint">{{
-                        activeName == "div2"
-                          ? "填写链接后，编辑内容将不会显示，直接跳转链接"
-                          : ""
+                          activeName == "div2"
+                            ? "填写链接后，编辑内容将不会显示，直接跳转链接"
+                            : ""
                       }}</span>
                     </div>
                     <div v-show="activeName == 'div1'">
                       <div class="edit-fwb">
                         <!-- <textarea id="mytextarea" v-model="postForm.content"></textarea> -->
-                        <Dlib3Tinymce
-                          :contValue.sync="postForm.content"
-                          width="800"
-                          :fileUrl="fileUrl"
-                          editorId="mytextarea"
-                        ></Dlib3Tinymce>
+                        <Dlib3Tinymce :contValue.sync="postForm.content" width="800" :fileUrl="fileUrl"
+                          editorId="mytextarea"></Dlib3Tinymce>
                       </div>
                       <!-- <div class="edit-fwb" v-show="contentEditor==2">
                           <vue-ueditor-wrap v-model="postForm.content" :config="myConfig" class="ueditors"></vue-ueditor-wrap>
@@ -282,51 +136,28 @@
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
                         </div> -->
                     </div>
-                    <div
-                      class="table-pd"
-                      style="width: 800px; position: relative"
-                      v-show="activeName == 'div2'"
-                    >
+                    <div class="table-pd" style="width: 800px; position: relative" v-show="activeName == 'div2'">
                       <!-- <el-input type="textarea" class="tab-el-textarea" placeholder="请输入链接地址" v-model="postForm.externalLink" maxlength="500" show-word-limit></el-input> -->
-                      <textarea
-                        class="table-el-textarea"
-                        @keyup="textareaBlur"
-                        v-model="postForm.externalLink"
-                        placeholder="请输入链接地址"
-                      ></textarea>
-                      <span class="hint-num-max"
-                        >{{ externalLink_length }}/500</span
-                      >
+
+                      <!-- <textarea class="table-el-textarea" @keyup="textareaBlur" v-model="postForm.externalLink"
+                        placeholder="请输入链接地址"></textarea> -->
+                      <Dlib3Textarea :info.sync="postForm.externalLink" :placeholder="'请输入链接地址'" :rows="3"
+                        @updateInfo="updateInfo">
+                      </Dlib3Textarea>
+                      <span class="hint-num-max">{{ externalLink_length }}/500</span>
                     </div>
                   </div>
                 </div>
               </el-form-item>
               <el-form-item>
                 <div>
-                  <el-button
-                    icon="iconfont el-icon-vip-quxiao"
-                    size="medium"
-                    class="admin-gray-btn"
-                    @click="goBack()"
-                    >取消</el-button
-                  >
-                  <el-button
-                    icon="iconfont el-icon-vip-yulan1"
-                    size="medium"
-                    class="admin-green-btn"
-                    @click="previewPage()"
-                    >预览</el-button
-                  >
-                  <el-button
-                    icon="iconfont el-icon-vip-baocun1"
-                    size="medium"
-                    type="primary"
-                    :loading="btnLoading[index]"
-                    :disabled="disabledBtn"
-                    @click="submitForm('postForm', it.key, index)"
-                    v-for="(it, index) in postForm.nextAuditStatus"
-                    :key="index + 'bts'"
-                  >
+                  <el-button icon="iconfont el-icon-vip-quxiao" size="medium" class="admin-gray-btn"
+                    @click="goBack()">取消</el-button>
+                  <el-button icon="iconfont el-icon-vip-yulan1" size="medium" class="admin-green-btn"
+                    @click="previewPage()">预览</el-button>
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary"
+                    :loading="btnLoading[index]" :disabled="disabledBtn" @click="submitForm('postForm', it.key, index)"
+                    v-for="(it, index) in postForm.nextAuditStatus" :key="index + 'bts'">
                     {{ it.value || "保存" }}
                   </el-button>
                 </div>
@@ -335,53 +166,24 @@
           </el-form>
         </div>
         <!---顶部查询板块 end--->
-        <el-dialog
-          append-to-body
-          title="图片上传"
-          :visible.sync="dialogUPimg"
-          width="700px"
-          :close-on-click-modal="false"
-          :before-close="handleClose"
-        >
-          <UpdateImg
-            @imgUrl="imgUrl"
-            :imgWidth="coverWidth"
-            :imgHeight="coverHeight"
-          ></UpdateImg>
+        <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="700px" :close-on-click-modal="false"
+          :before-close="handleClose">
+          <UpdateImg @imgUrl="imgUrl" :imgWidth="coverWidth" :imgHeight="coverHeight"></UpdateImg>
         </el-dialog>
 
-        <el-dialog
-          append-to-body
-          title="退回备注"
-          :visible.sync="draw_back"
-          width="480px"
-          :close-on-click-modal="false"
-        >
+        <el-dialog title="退回备注" :visible.sync="draw_back" width="480px" :modal-append-to-body="true"
+          :append-to-body="true" :close-on-click-modal="false" :close-on-press-escape="false">
           <div class="">
-            <el-input
-              type="textarea"
-              v-model="sendBack.sendBackDesc"
-              maxlength="200"
-              minlength="0"
-              show-word-limit
-              rows="8"
-              placeholder="输入备注原因"
-            ></el-input>
+            <!-- <el-input type="textarea" v-model="sendBack.sendBackDesc" maxlength="200" minlength="0" show-word-limit
+              rows="8" placeholder="输入备注原因" clearable></el-input> -->
+            <Dlib3Textarea :info.sync="sendBack.sendBackDesc" :placeholder="'输入备注原因'" maxlength="200" :rows="6"
+              @updateInfo="updateInfo2">
+            </Dlib3Textarea>
           </div>
           <span slot="footer" class="dialog-footer">
-            <el-button
-              icon="iconfont el-icon-vip-quxiao"
-              size="medium"
-              @click="draw_back = false"
-              >取消</el-button
-            >
-            <el-button
-              icon="iconfont el-icon-vip-baocun1"
-              size="medium"
-              type="primary"
-              @click="sendBackHande"
-              :loading="sendbackLoading"
-              >保存
+            <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="draw_back = false">取消</el-button>
+            <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="sendBackHande"
+              :loading="sendbackLoading">保存
             </el-button>
           </span>
         </el-dialog>
@@ -401,9 +203,11 @@ import tagEdit from "../model/tagEdit";
 import { datePipe } from "@/assets/public/js/time";
 // const FuRequire = require("myjs-common").FuRequire;
 // import Tinymce from "@/components/admin/model/Tinymce/index";
+import Dlib3Textarea from "@/components/admin/model/Dlib3Textarea";
+
 export default {
   name: "index",
-  components: { footerPage, serviceLMenu, breadcrumb, UpdateImg, tagEdit },
+  components: { footerPage, serviceLMenu, breadcrumb, UpdateImg, tagEdit, Dlib3Textarea },
   created() {
     this.btnLoading = {};
     this.bus.$on("collapse", msg => {
@@ -465,21 +269,21 @@ export default {
           }
         }
       })
-      .catch(err => {});
+      .catch(err => { });
     //栏目列表
     this.http
       .getPlain("delivery-column-list-get", "columnid=" + this.columnID)
       .then(res => {
         this.coumn_data_list = res.data || [];
       })
-      .catch(err => {});
+      .catch(err => { });
     //获取标签列表
     this.http
       .getPlain("lable-info-get-by-type", "type=2")
       .then(res => {
         this.tag_edit_data = res.data || [];
       })
-      .catch(err => {});
+      .catch(err => { });
   },
   beforeDestroy() {
     // 销毁组件前销毁编辑器
@@ -1008,10 +812,10 @@ export default {
         if (_this.columnDeatils.defaultTemplate) {
           window.open(
             location.href.split("#")[0] +
-              "#/admin_preview" +
-              _this.columnDeatils.defaultTemplate +
-              "?cid=" +
-              this.columnID
+            "#/admin_preview" +
+            _this.columnDeatils.defaultTemplate +
+            "?cid=" +
+            this.columnID
           );
         }
       }, 200);
@@ -1085,7 +889,7 @@ export default {
       if (_this.id) {
         this.$set(this.btnLoading, index, true);
         this.disabledBtn = true;
-        // console.log(this.btnLoading)
+        console.log(this.postForm, 'postForm')
         this.http
           .postJsonParameter_url(
             "news-content-update",
@@ -1139,7 +943,15 @@ export default {
             _this.$message({ type: "error", message: "提交失败!" });
           });
       }
-    }
+    },
+    // textarea输入框
+    updateInfo(val) {
+      this.postForm.externalLink = val;
+      this.textareaBlur();
+    },
+    updateInfo2(val) {
+      this.sendBack.sendBackDesc = val;
+    },
   }
 };
 </script>
@@ -1160,5 +972,58 @@ export default {
 
 .table-pd .hint-num-max {
   right: 10px;
+}
+
+.user-form-item {
+  .u-label {
+    width: 130px !important;
+  }
+
+  .u-list {
+    margin-left: -4px;
+    padding-right: 130px;
+    background: #fff;
+
+    .u-input {
+      padding-right: 140px;
+      padding-left: 0;
+
+      /deep/ .el-input__inner {
+        border: none;
+        height: 30px;
+        padding-right: 70px;
+      }
+
+      /deep/ .el-input__suffix {
+        right: 180px;
+      }
+    }
+  }
+
+  .u-btn-r {
+    width: 130px;
+  }
+}
+
+.table-pd {
+
+  /deep/ .item-textarea,
+  .item-textarea.no-maxlength {
+    .el-icon-circle-close {
+      left: 725px;
+      bottom: 9px;
+    }
+  }
+}
+
+/deep/ .el-dialog__body {
+  .item-textarea {
+    position: relative;
+
+    .el-icon-circle-close {
+      left: 365px;
+      bottom: 3px;
+    }
+  }
 }
 </style>

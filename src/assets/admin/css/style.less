@@ -29,7 +29,19 @@
   z-index: 15;
   transition: left 0.3s ease-in-out;
 }
+// 重置样式
+.el-input__inner,
+.el-textarea__inner {
+  border: 1px solid @m-col-b4;
+  font-family: 'Microsoft YaHei', helvetica, Arial, Verdana, Sans-serif;
+}
 
+// 有长度限制的可清空输入框
+.clearable-input {
+  .el-input__inner {
+    padding-right: 80px;
+  }
+}
 .el-main {
   padding: 0;
 }

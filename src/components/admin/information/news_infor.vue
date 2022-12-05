@@ -2,36 +2,20 @@
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside
-        width="auto"
-        :collapse="$root.collapse"
-        :class="$root.collapse ? 'fold-menu' : ''"
-      >
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="2"></serviceLMenu>
       </el-aside>
-      <el-main
-        class="admin-content pd admin-bg-top"
-        :class="{ 'content-collapse': $root.collapse }"
-      >
-        <breadcrumb
-          :cuMenu="'新闻发布'"
-          :fontColor="'fff'"
-          ref="breadcrumb_ref"
-        ></breadcrumb>
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
+        <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'" ref="breadcrumb_ref"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
             <h1 class="search-title">{{ columnDeatils.columnName || "" }}</h1>
             <div class="search-term" v-if="auditStatusCountList.length > 0">
-              <div
-                class="col-select"
-                :class="auditStatus_menu == index ? 'col-select-active' : ''"
-                v-for="(it, index) in auditStatusCountList"
-                :key="index + 'audit'"
-                @click="auditStatus(index, it.auditStatus)"
-              >
-                <span>{{ it.name || "无" }}</span
-                ><span class="number">{{ it.counts || 0 }}</span>
+              <div class="col-select" :class="auditStatus_menu == index ? 'col-select-active' : ''"
+                v-for="(it, index) in auditStatusCountList" :key="index + 'audit'"
+                @click="auditStatus(index, it.auditStatus)">
+                <span>{{ it.name || "无" }}</span><span class="number">{{ it.counts || 0 }}</span>
               </div>
               <!-- <h2 class="m-title" v-if="auditStatusCountList.length>0">
                     <el-button size="medium" v-for="(it,index) in auditStatusCountList" :key="index+'audit'" class="gray-btn" @click="auditStatus(0)">{{it.name||'无'}}({{it.counts||0}})</el-button>
@@ -42,180 +26,74 @@
           <div class="table-w">
             <div class="search-table-w">
               <div class="search-term">
-                <el-input
-                  v-if="isAuth('query')"
-                  class="width187"
-                  v-model="postForm.searchKey"
-                  size="medium"
-                  placeholder="标题/内容/发布者"
-                ></el-input>
-                <el-select
-                  class="width136"
-                  v-if="isHasCatalogue && isAuth('query')"
-                  v-model="postForm.lableId"
-                  size="medium"
-                  placeholder="子类"
-                >
-                  <el-option
-                    v-for="item in lableList"
-                    :key="item.key"
-                    :label="item.value"
-                    :value="item.key"
-                  >
+                <el-input v-if="isAuth('query')" class="width187" v-model="postForm.searchKey" size="medium"
+                  placeholder="标题/内容/发布者" clearable></el-input>
+                <el-select class="width136" v-if="isHasCatalogue && isAuth('query')" v-model="postForm.lableId"
+                  size="medium" placeholder="子类" clearable>
+                  <el-option v-for="item in lableList" :key="item.key" :label="item.value" :value="item.key">
                   </el-option>
                 </el-select>
                 <!-- <el-date-picker class="width187" v-model="postForm.beginCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="创建时间"></el-date-picker>
                       <el-date-picker class="width187" v-model="postForm.endCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="更新时间"></el-date-picker> -->
-                <el-date-picker
-                  v-if="isAuth('query')"
-                  v-model="beginCreateTime"
-                  type="daterange"
-                  range-separator="至"
-                  value-format="yyyy-MM-dd"
-                  start-placeholder="创建开始日期"
-                  end-placeholder="创建结束日期"
-                  size="medium"
-                >
+                <el-date-picker v-if="isAuth('query')" v-model="beginCreateTime" type="daterange" range-separator="至"
+                  value-format="yyyy-MM-dd" start-placeholder="创建开始日期" end-placeholder="创建结束日期" size="medium" clearable>
                 </el-date-picker>
-                <el-date-picker
-                  v-if="isAuth('query')"
-                  v-model="endCreateTime"
-                  type="daterange"
-                  range-separator="至"
-                  value-format="yyyy-MM-dd"
-                  start-placeholder="更新开始日期"
-                  end-placeholder="更新结束日期"
-                  size="medium"
-                >
+                <el-date-picker v-if="isAuth('query')" v-model="endCreateTime" type="daterange" range-separator="至"
+                  value-format="yyyy-MM-dd" start-placeholder="更新开始日期" end-placeholder="更新结束日期" size="medium" clearable>
                 </el-date-picker>
-                <el-button
-                  v-if="isAuth('query')"
-                  type="primary"
-                  size="medium"
-                  icon="el-icon-search"
-                  @click="searchClick()"
-                  >查找</el-button
-                >
+                <el-button v-if="isAuth('query')" type="primary" size="medium" icon="el-icon-search"
+                  @click="searchClick()">查找</el-button>
                 <div class="r-btn">
-                  <el-button
-                    type="primary"
-                    size="medium"
-                    @click="newsAdd()"
-                    v-if="columnDeatils.hasPermission && isAuth('add')"
-                    >新增新闻</el-button
-                  >
-                  <el-button
-                    size="medium"
-                    class="gray-btn"
-                    @click="allOut()"
-                    v-if="columnDeatils.hasPermission && isAuth('offshelf')"
-                    >批量下架</el-button
-                  >
-                  <el-button
-                    size="medium"
-                    class="gray-btn"
-                    @click="allDel()"
-                    v-if="columnDeatils.hasPermission && isAuth('delete')"
-                    >批量删除</el-button
-                  >
+                  <el-button type="primary" size="medium" @click="newsAdd()"
+                    v-if="columnDeatils.hasPermission && isAuth('add')">新增新闻</el-button>
+                  <el-button size="medium" class="gray-btn" @click="allOut()"
+                    v-if="columnDeatils.hasPermission && isAuth('offshelf')">批量下架</el-button>
+                  <el-button size="medium" class="gray-btn" @click="allDel()"
+                    v-if="columnDeatils.hasPermission && isAuth('delete')">批量删除</el-button>
                 </div>
               </div>
             </div>
             <!--顶部查询 end-->
             <div class="t-p">
-              <el-table
-                stripe
-                :data="tableData"
-                v-loading="loading"
-                ref="singleTable"
-                @selection-change="handleSelectionApp"
-                border
-                class="admin-table"
-              >
+              <el-table stripe :data="tableData" v-loading="loading" ref="singleTable"
+                @selection-change="handleSelectionApp" border class="admin-table">
                 <el-table-column type="selection" width="50"></el-table-column>
-                <el-table-column
-                  type="index"
-                  width="58"
-                  align="center"
-                  label="序号"
-                >
+                <el-table-column type="index" width="58" align="center" label="序号">
                   <template slot-scope="scope">
                     {{ getTableSort(scope.$index) }}
                   </template>
                 </el-table-column>
-                <el-table-column
-                  prop="content"
-                  label="排序"
-                  align="center"
-                  width="85"
-                  v-if="isAuth('sort')"
-                >
+                <el-table-column prop="content" label="排序" align="center" width="85" v-if="isAuth('sort')">
                   <template slot="header" slot-scope="scope">
                     <div>
                       <span>排序</span>
-                      <el-popover
-                        placement="top-start"
-                        width="300"
-                        trigger="click"
-                      >
+                      <el-popover placement="top-start" width="300" trigger="click">
                         <div>
                           <div>提供两种排序方法：</div>
                           <div>1.按住按钮可直接拖动记录的位置；</div>
                           <div>2.点击按钮，在对话框输入新的位置编号。</div>
                         </div>
-                        <i
-                          slot="reference"
-                          class="el-icon-question"
-                          style="cursor: pointer"
-                        ></i>
+                        <i slot="reference" class="el-icon-question" style="cursor: pointer"></i>
                       </el-popover>
                     </div>
                   </template>
                   <template slot-scope="scope">
-                    <el-button
-                      @click="handleSort(scope.row)"
-                      type="text"
-                      size="mini"
-                      icon="iconfont el-icon-vip-paixu"
-                      class="handleSort"
-                      round
-                      >排序</el-button
-                    >
+                    <el-button @click="handleSort(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-paixu"
+                      class="handleSort" round>排序</el-button>
                   </template>
                 </el-table-column>
-                <el-table-column
-                  prop="title"
-                  label="新闻标题"
-                  min-width="150px"
-                >
+                <el-table-column prop="title" label="新闻标题" min-width="150px">
                   <template slot-scope="scope">
-                    <span
-                      :class="{ 'news-title': isAuth('edit') }"
-                      :title="scope.row.title"
-                      @click="isAuth('edit') && handleEdit(scope.row)"
-                      >{{ scope.row.title }}</span
-                    >
+                    <span :class="{ 'news-title': isAuth('edit') }" :title="scope.row.title"
+                      @click="isAuth('edit') && handleEdit(scope.row)">{{ scope.row.title }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column
-                  prop="parentCatalogue"
-                  label="标签"
-                  v-if="isHasCatalogue"
-                >
+                <el-table-column prop="parentCatalogue" label="标签" v-if="isHasCatalogue">
                   <template slot-scope="scope">
-                    <span
-                      v-for="(item, index) in scope.row.parentCatalogue || []"
-                      :key="index"
-                      >{{ item.value }},</span
-                    >
+                    <span v-for="(item, index) in scope.row.parentCatalogue || []" :key="index">{{ item.value }},</span>
                   </template>
                 </el-table-column>
-                <el-table-column
-                  prop="aduitStatusName"
-                  label="状态"
-                  align="center"
-                  width="80"
-                >
+                <el-table-column prop="aduitStatusName" label="状态" align="center" width="80">
                   <template slot-scope="scope">
                     <span>{{ scope.row.aduitStatusName }}</span>
                   </template>
@@ -230,145 +108,60 @@
                             <span :class="scope.row.aduitStatus==8?'color-blue':'color-red'">{{scope.row.aduitStatusName}}</span>
                           </template>
                         </el-table-column> -->
-                <el-table-column
-                  prop="publisher"
-                  label="发布者"
-                  align="center"
-                  width="100"
-                ></el-table-column>
-                <el-table-column
-                  prop="createdTime"
-                  label="创建时间"
-                  align="center"
-                  width="100"
-                >
+                <el-table-column prop="publisher" label="发布者" align="center" width="100"></el-table-column>
+                <el-table-column prop="createdTime" label="创建时间" align="center" width="100">
                   <template slot-scope="scope">
-                    <span
-                      >{{
+                    <span>{{
                         (scope.row.createdTime || "0000-00-00").substring(0, 10)
-                      }}
+                    }}
                     </span>
                   </template>
                 </el-table-column>
-                <el-table-column
-                  prop="updateTime"
-                  label="更新时间"
-                  align="center"
-                  width="100"
-                >
+                <el-table-column prop="updateTime" label="更新时间" align="center" width="100">
                   <template slot-scope="scope">
-                    <span
-                      >{{
+                    <span>{{
                         (scope.row.updateTime || "0000-00-00").substring(0, 10)
-                      }}
+                    }}
                     </span>
                   </template>
                 </el-table-column>
-                <el-table-column
-                  label="操作"
-                  fixed="right"
-                  align="center"
-                  width="310"
-                >
+                <el-table-column label="操作" fixed="right" align="center" width="310">
                   <template slot-scope="scope">
-                    <el-button
-                      @click="handleDel(scope.row)"
-                      v-if="columnDeatils.hasPermission && isAuth('delete')"
-                      type="text"
-                      size="mini"
-                      icon="iconfont el-icon-vip-shanchu-1"
-                      class="operate-red-btn"
-                      round
-                      >删除
+                    <el-button @click="handleDel(scope.row)" v-if="columnDeatils.hasPermission && isAuth('delete')"
+                      type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除
                     </el-button>
-                    <el-button
-                      @click="previewPage(scope.row.id)"
-                      type="text"
-                      size="mini"
-                      icon="iconfont el-icon-vip-yulan"
-                      round
-                      >预览</el-button
-                    >
-                    <el-button
-                      @click="handleAudit(scope.row)"
-                      type="text"
-                      size="mini"
-                      icon="iconfont el-icon-vip-pingshen"
-                      v-if="
+                    <el-button @click="previewPage(scope.row.id)" type="text" size="mini"
+                      icon="iconfont el-icon-vip-yulan" round>预览</el-button>
+                    <el-button @click="handleAudit(scope.row)" type="text" size="mini"
+                      icon="iconfont el-icon-vip-pingshen" v-if="
                         (scope.row.aduitStatus != 8 || scope.row.status != 2) &&
                         scope.row.nextAuditBottonName &&
                         isAuth('audit')
-                      "
-                      round
-                    >
+                      " round>
                       {{ scope.row.nextAuditBottonName }}
                     </el-button>
-                    <el-button
-                      @click="handleEdit(scope.row)"
-                      v-if="isAuth('edit')"
-                      type="text"
-                      size="mini"
-                      icon="iconfont el-icon-vip-bianji"
-                      round
-                      >编辑</el-button
-                    >
+                    <el-button @click="handleEdit(scope.row)" v-if="isAuth('edit')" type="text" size="mini"
+                      icon="iconfont el-icon-vip-bianji" round>编辑</el-button>
                   </template>
                 </el-table-column>
-                <el-table-column
-                  prop="content"
-                  label="操作记录"
-                  align="center"
-                  width="85"
-                >
+                <el-table-column prop="content" label="操作记录" align="center" width="85">
                   <template slot-scope="scope">
-                    <el-button
-                      @click="handleLog(scope.row)"
-                      type="text"
-                      size="mini"
-                      >日志</el-button
-                    >
+                    <el-button @click="handleLog(scope.row)" type="text" size="mini">日志</el-button>
                   </template>
                 </el-table-column>
               </el-table>
-              <paging
-                :pagedata="pageData"
-                @pagechange="pageChange"
-                v-if="pageData.totalCount"
-              ></paging>
+              <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
             </div>
           </div>
           <!--管理页列表 end--->
-          <el-dialog
-            append-to-body
-            title="退回备注"
-            :visible.sync="draw_back"
-            width="480px"
-            :close-on-click-modal="false"
-          >
+          <el-dialog append-to-body title="退回备注" :visible.sync="draw_back" width="480px" :close-on-click-modal="false">
             <div class="">
-              <el-input
-                type="textarea"
-                v-model="sendBack.sendBackDesc"
-                maxlength="200"
-                minlength="0"
-                show-word-limit
-                rows="8"
-                placeholder="输入备注原因"
-              ></el-input>
+              <el-input type="textarea" v-model="sendBack.sendBackDesc" maxlength="200" minlength="0" show-word-limit
+                rows="8" placeholder="输入备注原因"></el-input>
             </div>
             <span slot="footer" class="dialog-footer">
-              <el-button
-                icon="iconfont el-icon-vip-quxiao"
-                size="medium"
-                @click="draw_back = false"
-                >取消</el-button
-              >
-              <el-button
-                icon="iconfont el-icon-vip-baocun1"
-                size="medium"
-                type="primary"
-                @click="sendBackHande"
-                >保存
+              <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="draw_back = false">取消</el-button>
+              <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="sendBackHande">保存
               </el-button>
             </span>
           </el-dialog>
@@ -533,7 +326,7 @@ export default {
           };
           _this.$refs.breadcrumb_ref.setMeta(list);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     },
     initpageData() {
       this.pageData = {
@@ -547,10 +340,11 @@ export default {
       var _this = this;
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
+      let query = this.$filterQuery(this.postForm);
       this.http
         .postJsonParameter_url(
           "news-content-get-by-column",
-          this.postForm,
+          query,
           "/" + this.$route.query.id
         )
         .then((res) => {
@@ -596,10 +390,11 @@ export default {
       this.tableData = [];
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
+      let query = this.$filterQuery(this.postForm);
       this.http
         .postJsonParameter_url(
           "news-content-get-by-column",
-          this.postForm,
+          query,
           "/" + this.postForm.columnID
         )
         .then((res) => {
@@ -639,12 +434,12 @@ export default {
             if (this.columnDeatils && this.columnDeatils.columnTemplate) {
               window.open(
                 location.href.split("#")[0] +
-                  "#/admin_preview" +
-                  this.columnDeatils.columnTemplate +
-                  "?cid=" +
-                  this.$route.query.id +
-                  "&id=" +
-                  id
+                "#/admin_preview" +
+                this.columnDeatils.columnTemplate +
+                "?cid=" +
+                this.$route.query.id +
+                "&id=" +
+                id
               );
             }
           }, 200);
@@ -941,7 +736,7 @@ export default {
             done();
           }
         },
-      }).catch(() => {});
+      }).catch(() => { });
     },
     // 退回新闻
     sendBackHande() {
@@ -997,6 +792,10 @@ export default {
     //查找
     searchClick() {
       console.log(this.beginCreateTime, this.endCreateTime);
+      this.postForm["beginCreateTime"] = '';
+      this.postForm["endCreateTime"] = '';
+      this.postForm["beginOperateTime"] = '';
+      this.postForm["endOperateTime"] = '';
       if (this.beginCreateTime) {
         this.postForm["beginCreateTime"] = this.beginCreateTime[0];
         this.postForm["endCreateTime"] = this.beginCreateTime[1];
