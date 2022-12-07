@@ -264,7 +264,7 @@ function filterQuery(query) {
   }
   let newQuery = {};
  for (let key in query) {
-    if (query[key]) {
+    if (query[key] || typeof query[key] === 'boolean') {
       newQuery[key] = query[key];
     }
   }
