@@ -12,9 +12,8 @@
           <div class="search-table-w">
             <h1 class="search-title">{{ columnDeatils.columnName || "" }}</h1>
             <div class="search-term" v-if="auditStatusCountList.length > 0">
-              <div class="col-select" :class="auditStatus_menu == index ? 'col-select-active' : ''"
-                v-for="(it, index) in auditStatusCountList" :key="index + 'audit'"
-                @click="auditStatus(index, it.auditStatus)">
+              <div class="col-select" :class="auditStatus_menu == it.auditStatus ? 'col-select-active' : ''"
+                v-for="(it, index) in auditStatusCountList" :key="index + 'audit'" @click="auditStatus(it.auditStatus)">
                 <span>{{ it.name || "无" }}</span><span class="number">{{ it.counts || 0 }}</span>
               </div>
               <!-- <h2 class="m-title" v-if="auditStatusCountList.length>0">
@@ -207,7 +206,7 @@ export default {
     return {
       loading: true,
       draw_back: false, //退回弹窗
-      auditStatus_menu: 0, //菜单
+      auditStatus_menu: null, //菜单
       multipleSelection: [], //选择列表
       pageData: {
         pageIndex: 1,
@@ -352,7 +351,6 @@ export default {
           _this.auditStatusCountList = res.data.auditStatusCountList || [];
           console.log(res.data.auditStatusCountList);
           if (_this.auditStatusCountList.length > 0) {
-            this.auditStatus_menu = 0;
             if (
               !_this.postForm.auditStatus &&
               _this.postForm.auditStatus !== 0
@@ -361,9 +359,9 @@ export default {
                 _this.auditStatusCountList[0].auditStatus;
             }
             _this.auditStatus(
-              idx === 0 ? 0 : this.auditStatus_menu,
               _this.postForm.auditStatus
             );
+            this.auditStatus_menu = _this.postForm.auditStatus;
           }
         })
         .catch((err) => {
@@ -402,8 +400,8 @@ export default {
           // if () {
           //   this.isHasCatalogue =
           // }
-          console.log(this.tableData, "table", this.isHasCatalogue);
-          _this.pageData.totalCount = res.data.newsContents.totalCount;
+          console.log(this.tableData, "table", this.isHasCatalogue, this.postForm, this.auditStatus_menu);
+          this.$set(_this.pageData, 'totalCount', res.data.newsContents.totalCount);
           _this.dragSort();
         })
         .catch((err) => {
@@ -567,9 +565,10 @@ export default {
       });
     },
     //审核状态
-    auditStatus(index, auditStatus) {
-      this.auditStatus_menu = index;
+    auditStatus(auditStatus) {
       this.postForm["auditStatus"] = auditStatus;
+      // this.auditStatus_menu = index;
+      this.auditStatus_menu = auditStatus;
       // console.log(this.postForm['auditStatus'], this.auditStatus_menu);
       this.postForm.pageIndex = 1;
       this.postForm.pageSize = 50;

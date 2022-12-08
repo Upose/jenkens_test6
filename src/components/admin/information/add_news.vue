@@ -628,7 +628,7 @@ export default {
           }
         ],
         terminals: [
-          { required: true, message: "请选择投递终端", trigger: "change" }
+          { type: 'array', required: true, message: "请选择投递终端", trigger: "change" }
         ]
       }
     };
@@ -854,15 +854,16 @@ export default {
         //表示退回
         this.draw_back = true;
       } else {
-        // console.log(_this.postForm.content, 'cont');
         _this.postForm["auditStatus"] = val;
         this.$refs[formName].validate(valid => {
+          // console.log(_this.postForm, 'cont', valid);
           if (!valid) {
             if (
               _this.postForm.title &&
               _this.postForm.publisher &&
               _this.postForm.status &&
-              _this.postForm.publishDate
+              _this.postForm.publishDate &&
+              _this.postForm.terminals.length
             ) {
               if (_this.activeName == "div1") {
                 if (_this.postForm.content) _this.postUrl(index);
