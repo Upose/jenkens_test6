@@ -175,7 +175,7 @@ export default {
 
             window.sessionStorage.removeItem('news-column');
             // window.history.go(-1);
-            this.$router.push({ path: '/admin_newsProgram', query: { columnName: '栏目管理' } });
+            this.$router.replace({ path: '/admin_newsProgram', query: { columnName: '栏目管理' } });
           }, 200)
         }).catch(err => {
           this.$refs.step_two_ref.changeLoading(false);
@@ -191,7 +191,7 @@ export default {
 
             window.sessionStorage.removeItem('news-column');
             // window.history.go(-1);
-            this.$router.push({ path: '/admin_newsProgram', query: { columnName: '栏目管理' } });
+            this.$router.replace({ path: '/admin_newsProgram', query: { columnName: '栏目管理' } });
           }, 200)
         }).catch(err => {
           this.$refs.step_two_ref.changeLoading(false);
