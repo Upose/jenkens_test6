@@ -47,8 +47,7 @@
                 </div>
                 <div class="msg c-l">
                   <span class="content">
-                    <span class="cont-txt" v-if="it.isShowContent"
-                      v-html="it.content.length > 92 ? (it.content.slice(0, 92) + '...') : it.content"></span>
+                    <span class="cont-txt" v-if="it.isShowContent" v-html="getContent(it.content)"></span>
                     <!-- <span class="cont-txt" v-if="it.isShowContent" v-html="it.content"></span> -->
                     <span class="show-details child_text_color tfont-c2">[查看详细]</span>
                   </span>
@@ -109,6 +108,13 @@ export default {
     this.initData();
   },
   methods: {
+    getContent(content) {
+      if (this.is_show_menu) {
+        return content.length > 100 ? (content.slice(0, 100) + '...') : content;
+      } else {
+        return content.length > 250 ? (content.slice(0, 250) + '...') : content;
+      }
+    },
     //获取栏目菜单列表
     initData() {
       this.loading = true;
@@ -156,7 +162,7 @@ export default {
         pageIndex: this.pageIndex,
         pageSize: this.pageSize,
         columnID: cid,
-        contentCutLength: 300,
+        contentCutLength: 600,
         lableID: sub.key,
         searchKey: '',
       }
