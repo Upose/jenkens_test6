@@ -13,8 +13,14 @@
                 <a :href="$setHref({ url: '/web_newsList', query: { cid: menu_list[index].columnID } })"
                   @click="menuClick(item, index, 'first')">{{ item.name }}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
-                  <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
-                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;">{{ it.value }}</a>
+                  <li v-for="(it, i) in item.lableNewsList" :key="i">
+                    <a v-if="it.newsCount && it.newsCount == 1" :class="{ 'tfont-c2': subTitle.key == it.key }"
+                      :href="$setHref({ url: '/web_newsDetails', query: { id: encodeURI(it.newsContentId), cid: encodeURI(cid), subTitle: JSON.stringify(subTitle) } })"
+                      @click="foxbaseClick(it, 'existence')">
+                      {{ it.value }}
+                    </a>
+                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;" @click="foxbaseClick(it)"
+                      v-else>{{ it.value }}</a>
                   </li>
                 </ul>
               </li>
@@ -31,6 +37,9 @@
               :href="$setHref({ url: '/web_newsList', query: { cid: titleJson.columnID } })"
               @click="menuClick(titleJson, ' ', 'first')">{{ titleJson.name }}</a>
             <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{ subTitle.value }}</span>
+            <!-- <span>
+              <a @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{ subTitle.value }}</a>
+            </span> -->
           </div>
           <!--顶部面包屑 end-->
 
@@ -223,9 +232,9 @@ export default {
       return cs;
     },
     //点击二级菜单
-    foxbaseClick(val) {
+    foxbaseClick(val, existence) {
       this.subTitle = val;
-      if (val.newsCount && val.newsCount == 1) {
+      if (!existence && val.newsCount && val.newsCount == 1) {
         this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid), subTitle: JSON.stringify(this.subTitle) } });
         return;
       }
