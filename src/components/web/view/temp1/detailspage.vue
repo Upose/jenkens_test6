@@ -9,7 +9,9 @@
             <ul>
               <li class="thover-bg-c1" v-for="(item, index) in menu_list" :key="index"
                 :class="isActive(item, item.check)">
-                <a href="javascript:;" @click="menuClick(item, index, true)">{{ item.name }}</a>
+                <!-- <a href="javascript:;" @click="menuClick(item, index, true)">{{ item.name }}</a> -->
+                <a :href="$setHref({ url: '/web_newsList', query: { cid: menu_list[index].columnID } })"
+                  @click="menuClick(item, index, true)">{{ item.name }}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
                   <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
                     <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;">{{ it.value }}</a>
@@ -23,7 +25,10 @@
 
         <div class="body-title" :style="{ 'margin-left': !is_show_menu ? '0' : '250px' }">
           <div class="menu-top tbg-c1">
-            当前位置：<span class="cursor" @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span>
+            当前位置：
+            <!-- <span class="cursor" @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span> -->
+            <a :href="$setHref({ url: '/web_newsList', query: { cid: titleJson.columnID } })"
+              @click="menuClick(titleJson, ' ', 'first')">{{ titleJson.name }}</a>
             <span @click="foxbaseClick(subTitle)" v-if="subTitle.value" class="cursor"> > {{ subTitle.value }}</span> >
             详情
           </div>
@@ -35,7 +40,8 @@
               <h1
                 :style="{ color: getTitleClass('color'), fontSize: getTitleClass('font') + 'px', fontWeight: getTitleClass('B'), 'text-decoration': getTitleClass('U'), 'font-style': getTitleClass('I') }">
                 <span class="tag" v-if="data.isShowParentCatalogue && (detailsData.parentCatalogueKV || []).length > 0">
-                  【<span class="tag" v-for="i in (detailsData.parentCatalogueKV || [])" :key="i.key">{{ i.value
+                  【<span class="tag" v-for="i in (detailsData.parentCatalogueKV || [])" :key="i.key">{{
+                    i.value
                   }}&nbsp;</span>】
                 </span>
                 {{ detailsData.title || "标题走丢了" }}
@@ -52,9 +58,10 @@
                 <div class="rich-title">
                   <span class="col1"><i class="title">发布人：</i>{{ detailsData.publisher || '无' }}</span>
                   <span class="col2" v-if="data.isShowPublishDate"><i class="title">发布时间：</i>{{ (detailsData.publishDate
-                      || '').slice(0, 10)
+                    || '').slice(0, 10)
                   }}</span>
-                  <span class="col3" v-if="data.isShowHitCount"><i class="title">访问次数：</i>{{ detailsData.hitCount || 0
+                  <span class="col3" v-if="data.isShowHitCount"><i class="title">访问次数：</i>{{
+                    detailsData.hitCount || 0
                   }}</span>
                   <!-- <span v-if="data.isShowAuthor">作者：{{detailsData.author}}</span>作者 -->
                   <!-- <span v-if="data.isShowKeywords">关键词：{{detailsData.keywords}}</span>关键词 -->
@@ -230,24 +237,22 @@ export default {
       this.titleJson = item;
       if (item.newsCount && item.newsCount == 1) {
         // let curId = encodeURI(this.id);
-        if (this.$route.query.id !== this.menu_list[index].newsContentId) {
-          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(this.menu_list[index].newsContentId), cid: encodeURI(this.menu_list[index].columnID), subTitle: JSON.stringify(this.menu_list[index].name) } })
+        if (this.$route.query.id !== item.newsContentId) {
+          this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(item.newsContentId), cid: encodeURI(item.columnID), subTitle: JSON.stringify(item.name) } })
         }
         return;
       }
-      this.cid = this.menu_list[index].columnID;
-      if (this.menu_list[index]['check'] == undefined) {
-        this.menu_list[index]['check'] = false;
-      } else {
-        this.menu_list[index]['check'] = !this.menu_list[index]['check'];
-      }
+      this.cid = item.columnID;
       this.menu_list.forEach((item, i) => {
-        if (i != index) {
-          this.menu_list[i]['check'] = false;
-        }
+        this.menu_list[i]['check'] = false;
       })
+      if (item['check'] == undefined) {
+        item['check'] = false;
+      } else {
+        item['check'] = !item['check'];
+      }
       if (leve) {
-        this.$router.push({ path: '/web_newsList', query: { cid: encodeURI(this.menu_list[index].columnID) } })
+        this.$router.push({ path: '/web_newsList', query: { cid: encodeURI(item.columnID) } })
       }
       this.$forceUpdate();
     },

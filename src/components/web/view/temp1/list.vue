@@ -28,8 +28,8 @@
             当前位置：
             <!-- <span @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span> -->
             <a v-if="menu_list && menu_list.length"
-              :href="$setHref({ url: '/web_newsList', query: { cid: menu_list[0].columnID } })"
-              @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</a>
+              :href="$setHref({ url: '/web_newsList', query: { cid: titleJson.columnID } })"
+              @click="menuClick(titleJson, ' ', 'first')">{{ titleJson.name }}</a>
             <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{ subTitle.value }}</span>
           </div>
           <!--顶部面包屑 end-->
@@ -185,26 +185,25 @@ export default {
         // this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
         return;
       }
-      if (leve == 'first') {
-        this.$router.push({ path: '/web_newsList', query: { cid: this.menu_list[index].columnID } }).catch((err) => { });
-      }
+      // if (leve == 'first') {
+      //   this.$router.push({ path: '/web_newsList', query: { cid: this.menu_list[index].columnID } }).catch((err) => { });
+      // }
+
       document.title = item.name + '-' + this.$store.state.appDetails.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
       this.pageIndex = 1;
       this.totalCount = 0;
       this.titleJson = item;
       this.subTitle = {};//清空子选项
-      this.cid = this.menu_list[index].columnID;
-      if (this.menu_list[index]['check'] == undefined) {
-        this.menu_list[index]['check'] = false;
-      } else {
-        this.menu_list[index]['check'] = !this.menu_list[index]['check'];
-      }
+      this.cid = item.columnID;
       this.menu_list.forEach((item, i) => {
-        if (i != index) {
-          this.menu_list[i]['check'] = false;
-        }
+        this.menu_list[i]['check'] = false;
       })
-      this.getNewsList(this.menu_list[index].columnID, {});
+      if (item['check'] == undefined) {
+        item['check'] = false;
+      } else {
+        item['check'] = !item['check'];
+      }
+      this.getNewsList(item.columnID, {});
       this.$forceUpdate();
     },
     /***选中状态 */
