@@ -3,13 +3,13 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: gongqin
- * @LastEditTime: 2022-12-05 17:48:20
+ * @LastEditTime: 2023-01-13 09:28:28
  */
 import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import store from './router/store'
+import store from './store/index'
 import Debounce from '@/assets/public/js/debounce';
 import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
@@ -29,20 +29,20 @@ Vue.config.productionTip = false
 Vue.use(vDebounce);
 
 Vue.component('Debounce', Debounce)
-Vue.use(VueI18n)
+// Vue.use(VueI18n)
 Vue.use(Dlib3Tinymce)
 
 Vue.prototype.http = http;
 Vue.prototype.bus = bus;
 
-const i18n = new VueI18n({
-  locale: window.localStorage.getItem('locale') || 'zh-CN',
-  messages: {
-    'zh-CN': require('@/assets/public/lang/zh'),   // 中文
-    'zh-HANT': require('@/assets/public/lang/hant'),    // 繁体
-    'en-US': require('@/assets/public/lang/en')    // 英文
-  }
-})
+// const i18n = new VueI18n({
+//   locale: window.localStorage.getItem('locale') || 'zh-CN',
+//   messages: {
+//     'zh-CN': require('@/assets/public/lang/zh'),   // 中文
+//     'zh-HANT': require('@/assets/public/lang/hant'),    // 繁体
+//     'en-US': require('@/assets/public/lang/en')    // 英文
+//   }
+// })
 Vue.prototype.backHistory = function () {
   window.history.go(-1);
 }
@@ -98,7 +98,7 @@ let timer = setInterval(() => {
     new Vue({
       el: '#news_sys',
       router,
-      i18n,
+      // i18n,
       store,
       components: { App },
       data() {

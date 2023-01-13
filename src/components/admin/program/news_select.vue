@@ -16,7 +16,7 @@
               <el-button type="primary" size="medium" icon="el-icon-search" @click="searchClick()">查找</el-button>
             </div>
           </div><!--顶部查询 end-->
-          <div class="table-w">
+          <div class="table-w" v-loading="loading">
             <h2 class="m-title"><i class="el-icon-date"></i>检索结果列表<div class="r-btn">
                 <!-- <el-button type="primary" size="medium" class="blue-btn">新增管理员</el-button> -->
               </div>
@@ -31,8 +31,9 @@
                 </el-table-column>
                 <el-table-column prop="title" label="标题">
                   <template slot-scope="scope">
-                    <span class="news-title" :title="scope.row.title"
-                      @click="handleEdit(scope.row)">{{ scope.row.title }}</span>
+                    <span class="news-title" :title="scope.row.title" @click="handleEdit(scope.row)">{{
+                      scope.row.title
+                    }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="columnIDs" label="所属栏目">
@@ -41,7 +42,7 @@
                       :key="index + '_' + item.title">{{ item.value }};</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="publisher" align="center" label="发布者" width="110"></el-table-column>
+                <el-table-column prop="publisher" align="center" label="发布者" width="120"></el-table-column>
                 <el-table-column align="center" prop="publishDate" label="发布时间" width="100">
                   <template slot-scope="scope">
                     <span>{{ (scope.row.publishDate || '0000-00-00').slice(0, 10) }}</span>
@@ -87,6 +88,7 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, paging },
   data() {
     return {
+      loading: false,
       pageData: {
         pageIndex: 1,
         pageSize: 50,
@@ -113,17 +115,20 @@ export default {
     },
     //编辑栏目
     ColumnEdit(row) {
-      // this.$router.push({path:'/admin_programAdd',query:{id:row.key}})
       this.$router.push({ path: '/admin_programInfo', query: { id: row.key } })
     },
     initData() {
+      this.loading = true;
+      this.tableData = [];
       this.initpageData();
       this.postForm.pageIndex = this.pageData.pageIndex;
       this.postForm.pageSize = this.pageData.pageSize;
       this.http.postJson('news-content-get-by-search', this.postForm).then(res => {
         this.tableData = res.data.items || [];
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         console.log(err);
       })
     },

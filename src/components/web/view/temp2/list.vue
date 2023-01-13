@@ -5,7 +5,11 @@
       <div class="m-width top-title">
         <span class="m-title">{{ titleJson.name }}</span>
         <span class="m-address">
-          当前位置：<span @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span>
+          当前位置：
+          <!-- <span @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span> -->
+          <a v-if="menu_list && menu_list.length"
+            :href="$setHref({ url: '/web_newsList', query: { cid: menu_list[0].columnID } })"
+            @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</a>
           <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{ subTitle.value }}</span>
         </span>
       </div>
@@ -18,7 +22,9 @@
             <ul>
               <li class="thover-bg-c1" v-for="(item, index) in menu_list" :key="index"
                 :class="isActive(item, item.check)">
-                <a href="javascript:;" @click="menuClick(item, index, 'first')">{{ item.name }}</a>
+                <!-- <a href="javascript:;" @click="menuClick(item, index, 'first')">{{ item.name }}</a> -->
+                <a :href="$setHref({ url: '/web_newsList', query: { cid: menu_list[index].columnID } })"
+                  @click="menuClick(item, index, 'first')">{{ item.name }}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
                   <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
                     <a href="javascript:;" :class="{ 'tfont-c2': subTitle.key == it.key }">
@@ -37,27 +43,29 @@
             <div class="content-top-title">新闻资讯</div>
             <!--标题信息-->
 
-            <div class="row" v-for="(it, i) in news_list" :key="i + 'content'" @click="detailsClick(it)">
-              <div class="msg-warp thover-child-font-c1">
-                <div class="title child-font-c1">
-                  <span v-if="it.isShowLablesName && it.lablesName.length" class="tag">
-                    【<span class="tag" v-for="(ite, k) in (it.lablesName || [])" :key="k + '_label'">{{ ite }}</span>】
-                  </span>
-                  {{ it.title || '标题走丢了' }}
+            <div class="row" v-for="(it, i) in news_list" :key="i + 'content'">
+              <a :href="$setHref(getlink(it))" :target="it.externalLink ? '_blank' : ''" @click="hitClick(it)">
+                <div class="msg-warp thover-child-font-c1">
+                  <div class="title child-font-c1">
+                    <span v-if="it.isShowLablesName && it.lablesName.length" class="tag">
+                      【<span class="tag" v-for="(ite, k) in (it.lablesName || [])" :key="k + '_label'">{{ ite }}</span>】
+                    </span>
+                    {{ it.title || '标题走丢了' }}
+                  </div>
+                  <div class="msg c-l">
+                    <span class="content">
+                      <span class="cont-txt" v-if="it.isShowContent" v-html="getContent(it.content)"></span>
+                      <!-- <span class="cont-txt" v-if="it.isShowContent" v-html="it.content"></span> -->
+                      <span class="show-details child_text_color tfont-c2">[查看详细]</span>
+                    </span>
+                    <span class="txt-right">
+                      <span v-if="it.isShowHitCount">访问次数：{{ it.hitCount || 0 }}</span>
+                      <span v-if="it.isShowPublishDate">{{ (it.publishDate || '').slice(0, 10) }}</span>
+                      <!-- <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span> -->
+                    </span>
+                  </div>
                 </div>
-                <div class="msg c-l">
-                  <span class="content">
-                    <span class="cont-txt" v-if="it.isShowContent" v-html="getContent(it.content)"></span>
-                    <!-- <span class="cont-txt" v-if="it.isShowContent" v-html="it.content"></span> -->
-                    <span class="show-details child_text_color tfont-c2">[查看详细]</span>
-                  </span>
-                  <span class="txt-right">
-                    <span v-if="it.isShowHitCount">访问次数：{{ it.hitCount || 0 }}</span>
-                    <span v-if="it.isShowPublishDate">{{ (it.publishDate || '').slice(0, 10) }}</span>
-                    <!-- <span v-if="it.isShowPublishDate">发布日期：{{(it.publishDate||'').slice(0,10)}}</span> -->
-                  </span>
-                </div>
-              </div>
+              </a>
             </div>
             <!--顶部-其他基础信息 end-->
 
@@ -194,9 +202,9 @@ export default {
         // this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid),subTitle:JSON.stringify(this.subTitle)} })
         return;
       }
-      if (leve == 'first') {
-        this.$router.push({ path: '/web_newsList', query: { cid: this.menu_list[index].columnID } }).catch((err) => { });
-      }
+      // if (leve == 'first') {
+      //   this.$router.push({ path: '/web_newsList', query: { cid: this.menu_list[index].columnID } }).catch((err) => { });
+      // }
       document.title = item.name + '-' + this.$store.state.appDetails.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
       this.pageIndex = 1;
       this.totalCount = 0;
@@ -259,6 +267,21 @@ export default {
       this.pageIndex = 1;
       this.totalCount = 0;
       this.getNewsList(this.cid, val);
+    },
+    getlink(it) {
+      if (it.externalLink) {
+        return { type: 'full', url: it.externalLink };
+      } else {
+        return { type: 'router', url: '/web_newsDetails', query: { id: encodeURI(it.contentID), cid: encodeURI(this.cid), subTitle: JSON.stringify(this.subTitle) } };
+      }
+    },
+    hitClick(val) {
+      if (val && val.externalLink) {
+        this.http.getJson('pront-news-content-hit-count', { contentid: val.contentID }).then(res => {
+        }).catch(err => {
+          console.log(err);
+        })
+      }
     },
   },
 }

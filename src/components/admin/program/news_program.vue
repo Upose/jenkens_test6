@@ -23,7 +23,8 @@
                 <span class="m-title"><i class="iconfont el-icon-vip-moren"></i>{{ item.lableName }}</span>
               </div>
               <div class="row">
-                <div class="row-list c-l" :class="!loading && (item.columnList || []).length == 0 ? 'empty-data-admin' : ''">
+                <div class="row-list c-l"
+                  :class="!loading && (item.columnList || []).length == 0 ? 'empty-data-admin' : ''">
                   <div class="row-box set-hover" v-for="(it, i) in (item.columnList || [])" :key="i + 'a'"
                     :class="it.enable ? '' : 'appsgraycolor'">
                     <div class="r-box-bg">
@@ -75,7 +76,7 @@ import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/common/breadcrumb";
 import serviceLMenu from "@/components/admin/common/serviceLMenu";
 import paging from "@/components/admin/common/paging";
-import store from '@/router/store'
+import store from '@/store/index'
 
 export default {
   name: 'index',

@@ -112,8 +112,8 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="scalableClose()">取消</el-button>
-        <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary"
-          @click="scalableSub()">保存</el-button>
+        <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="scalableSub()"
+          v-button-debounce>保存</el-button>
       </span>
     </el-dialog>
     <head_foter @hfHide="hfHide" @setHeadFoot="setHeadFoot" v-if="head_foter_alert" ref="head_foter_ref"

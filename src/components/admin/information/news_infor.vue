@@ -111,7 +111,7 @@
                 <el-table-column prop="createdTime" label="创建时间" align="center" width="100">
                   <template slot-scope="scope">
                     <span>{{
-                        (scope.row.createdTime || "0000-00-00").substring(0, 10)
+                    (scope.row.createdTime || "0000-00-00").substring(0, 10)
                     }}
                     </span>
                   </template>
@@ -119,7 +119,7 @@
                 <el-table-column prop="updateTime" label="更新时间" align="center" width="100">
                   <template slot-scope="scope">
                     <span>{{
-                        (scope.row.updateTime || "0000-00-00").substring(0, 10)
+                    (scope.row.updateTime || "0000-00-00").substring(0, 10)
                     }}
                     </span>
                   </template>
@@ -335,6 +335,7 @@ export default {
     },
     //初始化数据
     initData(idx) {
+      this.loading = true;
       this.initpageData();
       var _this = this;
       this.postForm.pageIndex = this.pageData.pageIndex;
@@ -369,6 +370,7 @@ export default {
         });
     },
     initDataTable() {
+      this.loading = true;
       //获取栏目详情
       this.http
         .getPlain_url(
@@ -376,12 +378,14 @@ export default {
           "/" + this.postForm.columnID
         )
         .then((res) => {
+          this.loading = false;
           if (res.data) {
             this.lableList = res.data.lableList || [];
             this.isHasCatalogue = res.data.isHasCatalogue;
           }
         })
         .catch((err) => {
+          this.loading = false;
           console.log(err);
         });
       var _this = this;
@@ -803,7 +807,6 @@ export default {
         this.postForm["beginOperateTime"] = this.endCreateTime[0];
         this.postForm["endOperateTime"] = this.endCreateTime[1];
       }
-      this.loading = true;
       this.pageData.pageIndex = 1;
       this.initData();
     },

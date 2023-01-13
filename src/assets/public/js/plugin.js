@@ -5,7 +5,7 @@
  */
 import Vue from 'vue'
 import http from './http';
-import store from '../../../router/store'
+import store from '../../../store/index'
 
 /**
  *高亮

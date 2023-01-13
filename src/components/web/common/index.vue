@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import store from '@/router/store'
+import store from '@/store/index'
 /**日志分割线begin */
 // import mixin from "@/assets/public/js/appLog/appLogMixin"
 /**日志分割线end */
@@ -82,6 +82,7 @@ export default {
   width: 100%;
   min-height: 180px;
 }
+
 .web-warp {
   min-width: 1200px;
   width: 100%;

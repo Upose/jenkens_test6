@@ -9,7 +9,7 @@
         <breadcrumb :cuMenu="'新闻发布'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content">
-          <h1 class="s-b-border-title">{{ id ? '编辑新闻栏目' : '新增新闻栏目' }}</h1>
+          <h1 class="s-b-border-title">{{ id? '编辑新闻栏目': '新增新闻栏目' }}</h1>
           <steps :countNum="countNum" :cuStep="cuStep" class="step-bg" :isEdit="isEdit" @handleCuStep="handleCuStep">
           </steps>
           <step_one v-show="cuStep == 1" @nextStep="nextStep" ref="step_one_ref" :dataDetails="details_ob"
@@ -36,7 +36,7 @@ import step_one from './step/step_one';
 import step_two from './step/step_two';
 // import step_three from './step/step_three';
 // import step_four from './step/step_four';
-import store from '@/router/store'
+import store from '@/store/index'
 export default {
   name: 'index',
   created() {

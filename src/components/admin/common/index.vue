@@ -19,7 +19,7 @@
 <script>
 import headerpage from '@/components/admin/common/header'
 import footerpage from '@/components/admin/common/footer'
-import store from '@/router/store'
+import store from '@/store/index'
 export default {
   name: 'index',
   components: { headerpage, footerpage },
