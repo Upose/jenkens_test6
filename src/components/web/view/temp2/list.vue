@@ -10,7 +10,14 @@
           <a v-if="menu_list && menu_list.length"
             :href="$setHref({ url: '/web_newsList', query: { cid: titleJson.columnID } })"
             @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</a>
-          <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{ subTitle.value }}</span>
+          <!-- <span @click="foxbaseClick(subTitle)" v-show="subTitle.value"> > {{ subTitle.value }}</span> -->
+          <span v-if="subTitle.value">
+            <a @click="foxbaseClick(subTitle, 'existence')" v-if="subTitle.newsCount && subTitle.newsCount == 1"
+              :href="$setHref({ url: '/web_newsDetails', query: { id: encodeURI(subTitle.newsContentId), cid: encodeURI(cid), subTitle: JSON.stringify(subTitle) } })">
+              > {{ subTitle.value }}
+            </a>
+            <span @click="foxbaseClick(subTitle)" v-else> > {{ subTitle.value }}</span>
+          </span>
         </span>
       </div>
       <!--顶部面包屑 end-->
@@ -27,7 +34,16 @@
                   @click="menuClick(item, index, 'first')">{{ item.name }}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
                   <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
-                    <a href="javascript:;" :class="{ 'tfont-c2': subTitle.key == it.key }">
+                    <!-- <a href="javascript:;" :class="{ 'tfont-c2': subTitle.key == it.key }">
+                      {{ it.value }}
+                    </a> -->
+                    <a v-if="it.newsCount && it.newsCount == 1" :class="{ 'tfont-c2': subTitle.key == it.key }"
+                      :href="$setHref({ url: '/web_newsDetails', query: { id: encodeURI(it.newsContentId), cid: encodeURI(cid), subTitle: JSON.stringify(subTitle) } })"
+                      @click="foxbaseClick(it, 'existence')">
+                      {{ it.value }}
+                    </a>
+                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;" @click="foxbaseClick(it)"
+                      v-else>
                       {{ it.value }}
                     </a>
                   </li>
@@ -256,9 +272,9 @@ export default {
       }
     },
     //点击二级菜单
-    foxbaseClick(val) {
+    foxbaseClick(val, existence) {
       this.subTitle = val;
-      if (val.newsCount && val.newsCount == 1) {
+      if (!existence && val.newsCount && val.newsCount == 1) {
         this.$router.push({ path: '/web_newsDetails', query: { id: encodeURI(val.newsContentId), cid: encodeURI(this.cid), subTitle: JSON.stringify(this.subTitle) } });
         return;
       }

@@ -36,10 +36,14 @@
             <a v-if="menu_list && menu_list.length"
               :href="$setHref({ url: '/web_newsList', query: { cid: titleJson.columnID } })"
               @click="menuClick(titleJson, ' ', 'first')">{{ titleJson.name }}</a>
-            <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{ subTitle.value }}</span>
-            <!-- <span>
-              <a @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{ subTitle.value }}</a>
-            </span> -->
+            <!-- <span @click="foxbaseClick(subTitle)" v-if="subTitle.value"> > {{ subTitle.value }}</span> -->
+            <span v-if="subTitle.value">
+              <a @click="foxbaseClick(subTitle, 'existence')" v-if="subTitle.newsCount && subTitle.newsCount == 1"
+                :href="$setHref({ url: '/web_newsDetails', query: { id: encodeURI(subTitle.newsContentId), cid: encodeURI(cid), subTitle: JSON.stringify(subTitle) } })">
+                > {{ subTitle.value }}
+              </a>
+              <span @click="foxbaseClick(subTitle)" v-else> > {{ subTitle.value }}</span>
+            </span>
           </div>
           <!--顶部面包屑 end-->
 

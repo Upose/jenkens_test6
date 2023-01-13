@@ -13,8 +13,17 @@
                 <a :href="$setHref({ url: '/web_newsList', query: { cid: menu_list[index].columnID } })"
                   @click="menuClick(item, index, true)">{{ item.name }}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
-                  <li v-for="(it, i) in item.lableNewsList" :key="i" @click="foxbaseClick(it)">
-                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;">{{ it.value }}</a>
+                  <li v-for="(it, i) in item.lableNewsList" :key="i">
+                    <!-- <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;">{{ it.value }}</a> -->
+                    <a v-if="it.newsCount && it.newsCount == 1" :class="{ 'tfont-c2': subTitle.key == it.key }"
+                      :href="$setHref({ url: '/web_newsDetails', query: { id: encodeURI(it.newsContentId), cid: encodeURI(cid), subTitle: JSON.stringify(it) } })">
+                      {{ it.value }}
+                    </a>
+                    <a :class="{ 'tfont-c2': subTitle.key == it.key }"
+                      :href="$setHref({ url: '/web_newsList', query: { cid: encodeURI(cid), subTitle: JSON.stringify(it) } })"
+                      v-else>
+                      {{ it.value }}
+                    </a>
                   </li>
                 </ul>
               </li>
@@ -29,7 +38,17 @@
             <!-- <span class="cursor" @click="menuClick(titleJson, 0, 'first')">{{ titleJson.name }}</span> -->
             <a :href="$setHref({ url: '/web_newsList', query: { cid: titleJson.columnID } })"
               @click="menuClick(titleJson, ' ', 'first')">{{ titleJson.name }}</a>
-            <span @click="foxbaseClick(subTitle)" v-if="subTitle.value" class="cursor"> > {{ subTitle.value }}</span> >
+            <!-- <span @click="foxbaseClick(subTitle)" v-if="subTitle.value" class="cursor"> > {{ subTitle.value }}</span> > -->
+            <span v-if="subTitle.value" class="cursor">
+              <a v-if="subTitle.newsCount && subTitle.newsCount == 1"
+                :href="$setHref({ url: '/web_newsDetails', query: { id: encodeURI(subTitle.newsContentId), cid: encodeURI(cid), subTitle: JSON.stringify(subTitle) } })">
+                > {{ subTitle.value }}
+              </a>
+              <a v-else
+                :href="$setHref({ url: '/web_newsList', query: { cid: encodeURI(cid), subTitle: JSON.stringify(subTitle) } })">
+                > {{ subTitle.value }}
+              </a>
+            </span> >
             详情
           </div>
           <!--顶部面包屑 end -->
