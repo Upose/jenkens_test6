@@ -83,8 +83,17 @@
                 </el-table-column>
                 <el-table-column prop="title" label="新闻标题" min-width="150px">
                   <template slot-scope="scope">
-                    <span :class="{ 'news-title': isAuth('edit') }" :title="scope.row.title"
-                      @click="isAuth('edit') && handleEdit(scope.row)">{{ scope.row.title }}</span>
+                    <a :class="{ 'news-title': isAuth('edit') }" :title="scope.row.title" :href="isAuth('edit') ? $setHref({
+                      url: '/admin_addNews',
+                      query: {
+                        id: scope.row.id,
+                        c_id: $route.query.id,
+                        columnName: $route.query.columnName,
+                        of: columnDeatils.hasPermission ? 1 : '',
+                      },
+                    }) : 'javascript:;'">
+                      {{ scope.row.title }}
+                    </a>
                   </template>
                 </el-table-column>
                 <el-table-column prop="parentCatalogue" label="标签" v-if="isHasCatalogue">

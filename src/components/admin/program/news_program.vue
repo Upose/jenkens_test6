@@ -27,10 +27,10 @@
                   :class="!loading && (item.columnList || []).length == 0 ? 'empty-data-admin' : ''">
                   <div class="row-box set-hover" v-for="(it, i) in (item.columnList || [])" :key="i + 'a'"
                     :class="it.enable ? '' : 'appsgraycolor'">
-                    <div class="r-box-bg">
-                      <img :src="fileUrl + it.cover" @click="coumCover(it)" />
-                      <span class="name" @click="coumCover(it)">{{ it.title || '暂无' }}</span>
-                    </div>
+                    <a class="r-box-bg" :href="coumCover(it)">
+                      <img :src="fileUrl + it.cover" />
+                      <span class="name">{{ it.title || '暂无' }}</span>
+                    </a>
                     <div class="r-box-btns" v-if="it.enable">
                       <el-button type="primary" v-if="isAuth('delete')" class="admin-red-btn" size="medium"
                         icon="iconfont el-icon-vip-shanchu-1" @click="delClick(it.columnID)">删除</el-button>
@@ -38,13 +38,13 @@
                         @click="editClick(it.columnID)">编辑</el-button>
                     </div>
                   </div>
-                  <div class="row-box set-hover" v-if="isAuth('add') && item.lableName == '默认标签'" @click="addClick()">
-                    <div class="r-box-bg add-btn">
+                  <div class="row-box set-hover" v-if="isAuth('add') && item.lableName == '默认标签'">
+                    <a class="r-box-bg add-btn" :href="$setHref({ url: '/admin_programAdd' })">
                       <div class="r-box-add-warp">
                         <i class="iconfont el-icon-vip-tianjia1"></i>
                         <span>新增栏目</span>
                       </div>
-                    </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -52,13 +52,13 @@
             <div class="list-content">
               <div class="row">
                 <div class="row-list c-l">
-                  <div class="row-box set-hover" v-if="isAuth('add') && dataList.length == 0" @click="addClick()">
-                    <div class="r-box-bg add-btn">
+                  <div class="row-box set-hover" v-if="isAuth('add') && dataList.length == 0">
+                    <a class="r-box-bg add-btn" :href="$setHref({ url: '/admin_programAdd' })">
                       <div class="r-box-add-warp">
                         <i class="iconfont el-icon-vip-tianjia1"></i>
                         <span>新增栏目</span>
                       </div>
-                    </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -124,8 +124,8 @@ export default {
     },
     //栏目封面点击
     coumCover(val) {
-      if (!val.enable) return;
-      this.$router.push({ path: '/admin_programInfo', query: { id: val.columnID } })
+      if (!val.enable) return '';
+      return this.$setHref({ url: '/admin_programInfo', query: { id: val.columnID } })
     },
     //查找
     selectClick() {
@@ -134,10 +134,6 @@ export default {
       } else {
         this.$message({ type: 'info', message: '请输入检索内容' });
       }
-    },
-    //新增栏目
-    addClick() {
-      this.$router.push('/admin_programAdd');
     },
     //编辑栏目
     editClick(val) {
@@ -229,6 +225,7 @@ export default {
       position: relative;
 
       .r-box-bg {
+        display: block;
         cursor: pointer;
         // width: 238px;
         // height: 238px;
