@@ -1,26 +1,28 @@
 <template>
   <div class="header-warp">
-    <div class="logo-w" :class="{'logo-collapse':$root.collapse}">
-      <a href="javascript:;"><img :src="$root.collapse?logoList.show:logoList.hide"></a>
+    <div class="logo-w" :class="{ 'logo-collapse': $root.collapse }">
+      <a href="javascript:;"><img :src="$root.collapse ? logoList.show : logoList.hide"></a>
     </div>
     <!--logo end-->
 
     <!-- <a href="javascript:;" class="m-cut" @click="collapseChage"><i class="iconfont" :class="$root.collapse?'el-icon-vip-zhankai':'el-icon-vip-shouqi'"></i></a> -->
     <!--折叠菜单 end-->
 
-    <div class="m-box-list" :class="{'logo-collapse-left':$root.collapse}">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane :label="item.appName" :name="index" v-for="(item,index) in dataList" :key="index"></el-tab-pane>
+    <div class="m-box-list" :class="{ 'logo-collapse-left': $root.collapse }">
+      <el-tabs v-model="activeName">
+        <el-tab-pane :label="item.appName" :name="index" v-for="(item, index) in dataList" :key="index">
+          <a slot="label" :href="handleClick(index)">{{ item.appName }}</a>
+        </el-tab-pane>
       </el-tabs>
     </div>
     <!--菜单列表 end-->
 
     <div class="login-msg-warp">
       <div class="u-img-w">
-        <el-image class="u-img" v-if="userInfo" :src="fileUrl+userInfo.photo||default_img" :fit="'contain'">
+        <el-image class="u-img" v-if="userInfo" :src="fileUrl + userInfo.photo || default_img" :fit="'contain'">
         </el-image>
       </div>
-      <span class="u-name">{{userInfo.name||''}}</span>
+      <span class="u-name">{{ userInfo.name || '' }}</span>
       <i class="iconfont el-icon-vip-tuichu loginOut" title="退出登录" @click="outLogin()"></i>
     </div>
     <!--用户信息-退出登录 end-->
@@ -61,7 +63,8 @@ export default {
     },
     //跳转页面
     handleClick(tab, event) {
-      window.location.href = this.dataList[this.activeName].backendUrl || '#';
+      // window.location.href = this.dataList[this.activeName].backendUrl || '#';
+      return this.$setHref({ type: 'full', url: this.dataList[tab].backendUrl })
     },
     //退出登录
     outLogin() {
@@ -85,8 +88,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../assets/admin/css/style.less";
+
 .header-warp {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
   color: @ph-col-n10;
@@ -94,9 +99,11 @@ export default {
   z-index: 25;
   position: relative;
   background-color: @m-col-b0;
+
   a {
     color: @ph-col-n10;
   }
+
   .logo-w {
     vertical-align: middle;
     display: inline-block;
@@ -104,6 +111,7 @@ export default {
     width: 240px;
     height: 100%;
     transition: width 0.3s ease-in-out;
+
     a {
       color: #fff;
       margin-left: 25px;
@@ -113,27 +121,33 @@ export default {
       width: 100%;
       display: flex;
       align-items: center;
+
       img {
         max-height: 35px;
         max-width: 185px;
       }
     }
   }
+
   .logo-collapse {
     width: 80px;
+
     a {
       margin-left: 4px;
+
       img {
         max-height: 35px;
         max-width: 60px;
       }
     }
   }
+
   .m-cut {
     font-size: 16px;
     vertical-align: middle;
     margin-left: 16px;
   }
+
   /**box-菜单**/
   .m-box-list {
     display: inline-block;
@@ -143,27 +157,33 @@ export default {
     left: 240px;
     right: 200px;
     transition: left 0.3s ease-in-out;
+
     .m-box {
       line-height: 40px;
       margin-right: 20px;
       font-size: 13px;
       font-weight: 500;
       font-family: "Microsoft YaHei";
+
       &:first-child {
         margin-left: 16px;
       }
+
       &:last-child {
         margin-right: 0;
       }
+
       i {
         font-size: 24px;
         vertical-align: middle;
       }
+
       span.name {
         vertical-align: middle;
       }
     }
   }
+
   .logo-collapse-left {
     left: 115px;
     transition: left 0.3s ease-in-out;
@@ -176,6 +196,7 @@ export default {
     top: 0;
     z-index: 9;
     line-height: 40px;
+
     .u-img-w {
       width: 30px;
       height: 30px;
@@ -184,45 +205,56 @@ export default {
       background-color: @ph-col-n28;
       border-radius: 50%;
       overflow: hidden;
+
       .u-img {
         width: 30px;
         height: 30px;
         padding: 3px;
+
         /deep/.el-image__inner {
           border-radius: 50%;
         }
       }
     }
+
     .u-name {
       font-size: 14px;
       margin: 0 8px;
     }
+
     .loginOut {
       cursor: pointer;
       font-size: 14px;
       vertical-align: middle;
+
       &:hover {
         color: #000;
       }
     }
   }
 }
+
 /**重置样式**/
 /deep/.el-tabs__item.is-active {
   color: @ph-col-n10;
 }
+
 /deep/.el-tabs__item {
   color: @ph-col-n10;
 }
+
 /deep/.el-tabs__item:hover {
   color: @m-col-b7;
 }
+
 /deep/.el-tabs__active-bar {
   display: none;
 }
+
 /deep/.el-tabs__content {
   display: none;
 }
+
 /deep/.el-tabs__nav-wrap::after {
   height: 0;
 }
