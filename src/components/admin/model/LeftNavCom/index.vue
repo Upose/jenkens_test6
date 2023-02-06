@@ -2,24 +2,24 @@
  * @Description: 后台左侧导航栏
  * @Author: wanjikun
  * @Date: 2022-07-25 14:10:18
- * @LastEditTime: 2022-07-26 16:26:48
+ * @LastEditTime: 2023-02-06 11:06:02
  * @LastEditors: gongqin
 -->
 <template>
   <div class="header-warp">
     <div class="m-menu">
       <div class="m-text">
-        <span class="m">{{appInfo.appName}}</span>
+        <span class="m">{{ appInfo.appName }}</span>
         <div class="v-cont">
-          <span class="v" @click="openLog(appInfo.logUrl)">v{{appInfo.appVersion}}</span>
-          <img  @click="collapseChage" :src="$root.collapse ? zhankai :shouqi" class="img-collapse"/>
+          <a class="v" :href="openLog(appInfo.logUrl)">v{{ appInfo.appVersion }}</a>
+          <img @click="collapseChage" :src="$root.collapse ? zhankai : shouqi" class="img-collapse" />
         </div>
       </div>
     </div>
     <div class="s-menu">
-      <template v-for="(item,index) in dataList">
-        <MenuItem :key="index+'menu'" v-if="!(item.permissionNodes && item.permissionNodes.length)" :item="item"/>
-        <SubMenu v-else :key="index+'menu'" :item="item"/>
+      <template v-for="(item, index) in dataList">
+        <MenuItem :key="index + 'menu'" v-if="!(item.permissionNodes && item.permissionNodes.length)" :item="item" />
+        <SubMenu v-else :key="index + 'menu'" :item="item" />
       </template>
     </div>
   </div>
@@ -30,7 +30,7 @@ import bus from '@/assets/public/js/bus';
 import MenuItem from './components/menu-item.vue'
 import SubMenu from './components/sub-menu.vue'
 export default {
-  props:['dataList'],
+  props: ['dataList'],
   name: 'test',
   components: {
     MenuItem,
@@ -40,8 +40,8 @@ export default {
     return {
       default_img: require('@/assets/admin/img/upload/user-img.png'),
       appInfo: this.$store.state.appDetails,//应用信息 应用名、版本号
-      zhankai:require('./img/zhankai.svg'),
-      shouqi:require('./img/shouqi.svg')
+      zhankai: require('./img/zhankai.svg'),
+      shouqi: require('./img/shouqi.svg')
     }
   },
   methods: {
@@ -60,7 +60,7 @@ export default {
       }
     },
     openLog(url) {
-      window.location.href = url;
+      return this.$setHref({ url: url, type: 'full' });
     },
     // 侧边栏折叠展开
     collapseChage() {
@@ -72,11 +72,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~@/assets/admin/css/color.less"; /**颜色配置 */
+@import "~@/assets/admin/css/color.less";
+
+/**颜色配置 */
 .m-menu {
   padding-left: 20px;
   padding-top: 22px;
   padding-bottom: 22px;
+
   .m-text {
     display: inline-block;
     vertical-align: middle;
@@ -88,63 +91,76 @@ export default {
     position: relative;
     padding-left: 30px;
     padding-top: 17px;
+
     &::after {
       content: "";
       position: absolute;
       height: 40px;
       width: 4px;
       // top: 17px;
-      top:50%;
+      top: 50%;
       transform: translateY(-50%);
       background-color: @m-col-b9;
     }
-    span {
+
+    span,
+    .v {
       display: block;
       color: #3E54EE;
       padding-left: 16px;
     }
+
     .m {
       font-size: 24px;
       font-weight: bold;
     }
+
     .v {
       cursor: pointer;
       display: block;
       font-size: 12px;
     }
-    .v-cont{
-      display:flex;
+
+    .v-cont {
+      display: flex;
       flex-direction: row;
-      justify-content:space-between;
-      align-items:center;
-      .img-collapse{
+      justify-content: space-between;
+      align-items: center;
+
+      .img-collapse {
         margin-right: 10px;
         cursor: pointer;
       }
     }
   }
 }
+
 /***折叠后菜单**/
 .fold-menu {
   .m-menu {
     padding-left: 6px;
-    border-bottom: 1px solid  #F4F7FC;
+    border-bottom: 1px solid #F4F7FC;
     padding-bottom: 10px;
     margin-bottom: 12px;
+
     .m-text {
       width: 80px;
       height: 57px;
       padding-left: 0;
       padding-top: 4px;
       border-radius: 3px;
-      background:transparent;
+      background: transparent;
       padding-bottom: 0;
+
       &::after {
         height: 0;
       }
-      span {
+
+      span,
+      .v {
         padding-left: 4px;
       }
+
       .m {
         font-size: 18px;
         overflow: hidden;
