@@ -2,12 +2,13 @@
 <template>
   <div class="breadcrumb-page">
     <el-breadcrumb separator-class="el-icon-arrow-right" :class="fontColor ? 'fff' : 'gray'">
-      <a class="el-breadcrumb__item cu-p" aria-current="page" :href="toWorkbench()">
+      <span class="el-breadcrumb__item cu-p" aria-current="page" @click="toWorkbench()">
         <span role="link" class="el-breadcrumb__inner"><i class="el-icon-s-home"></i></span>
         <i class="el-breadcrumb__separator el-icon-arrow-right"></i>
-      </a>
-      <el-breadcrumb-item class="cu-p" v-for="(item, index) in breadcrumbList" :key="index"
-        :to="item.path">{{ item.name }}</el-breadcrumb-item>
+      </span>
+      <el-breadcrumb-item class="cu-p" v-for="(item, index) in breadcrumbList" :key="index" :to="item.path">{{
+        item.name
+      }}</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>
@@ -34,7 +35,7 @@ export default {
     toWorkbench() {
       let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
       let info = urlInfo.find(item => item.code == 'workbench');
-      return this.$setHref({ url: info.path + '/workbench/#/admin_workbench', type: 'full' });
+      window.location.href = info.path + '/workbench/#/admin_workbench';
     },
     //针对栏目页面-单独重置栏目面包屑
     setMeta(list) {
