@@ -15,12 +15,13 @@
 <script>
 export default {
   name: 'news_sys',
-  created() {
-    this.getBaseInfo();
+  async created() {
+    await casCallbake('/web_newsList');
+    await this.getBaseInfo();
     let appDetails = this.$store.state.appDetails;
     //详情
     if (!appDetails || appDetails == null || appDetails == undefined || appDetails == '') {
-      this.getAppsDetails();
+      await this.getAppsDetails();
     }
     // localStorage.setItem('token', 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJPcmdDb2RlIjoiY3F1IiwiVXNlcktleSI6ImNxdV92aXBzbWFydDAwMDAxIiwiQ2FyZE5vIjoidmlwc21hcnQwMDAwMSIsIkNhc0Zyb20iOiJ2aXBzbWFydCIsIm5iZiI6MTY2NzE5NDA3NiwiZXhwIjoxNjY3MjAxMjc2LCJpc3MiOiJTbWFydExpYnJhcnkuSWRlbnRpdHlDZW50ZXIiLCJhdWQiOiJXZWJBcGkifQ.LyQ6gU_IUJl5wlL0doKyP3JlFNILUQKVU1igdz12CMFjFgIaU-Hfrz4Y8sVdrUabZEpxZm4xqv_4PHKEzB2xhO3Uu-aZ2a4YlP55Sbj9Z9W9RYjbyzR0bJYtln44oPK3K3yAgRi7KYHtKVympVZLusy6-ImIkOxHPGcYjywpZieaZj5Rc_kWY7qweDc_D9gnRIqL-aB4KBD66fRROC0qmbJYovP5ihxehOjMkR6cpcAxrtjSNQOPTTnQYwK1kPf6jY03wkitmckag0vGiDM3k7iSk1cBrBtRGwd5tTcRXCj19LXxZXdnPBrVt6M3h1bXxejAB7XiKyl434hjgVyd0g')
   },

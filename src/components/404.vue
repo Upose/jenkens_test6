@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       code:'index',
-      path:'/#/index',
+      path:'/index',
       home:'web',
     }
   },
@@ -36,10 +36,10 @@ export default {
     document.title = '404'
     if(this.home == 'admin'){
       this.code = 'workbench'
-      this.path = '/workbench/#/admin_workbench';
+      this.path = '/workbench/admin_workbench';
     }else{
       this.code = 'index';
-      this.path = '/#/index?page=1';
+      this.path = '/index?page=1';
     }
   },
   methods:{

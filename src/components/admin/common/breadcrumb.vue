@@ -35,7 +35,7 @@ export default {
     toWorkbench() {
       let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
       let info = urlInfo.find(item => item.code == 'workbench');
-      window.location.href = info.path + '/workbench/#/admin_workbench';
+      window.location.href = info.path + '/workbench/admin_workbench';
     },
     //针对栏目页面-单独重置栏目面包屑
     setMeta(list) {
