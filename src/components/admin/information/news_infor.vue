@@ -366,7 +366,7 @@ export default {
               _this.postForm.auditStatus !== 0
             ) {
               _this.postForm.auditStatus =
-                _this.auditStatusCountList[0].auditStatus;
+                _this.auditStatusCountList[0].auditStatus.toString();
             }
             _this.auditStatus(
               _this.postForm.auditStatus
@@ -579,9 +579,9 @@ export default {
     },
     //审核状态
     auditStatus(auditStatus) {
-      this.postForm["auditStatus"] = auditStatus;
+      this.postForm["auditStatus"] = auditStatus.toString();
       // this.auditStatus_menu = index;
-      this.auditStatus_menu = auditStatus;
+      this.auditStatus_menu = auditStatus.toString();
       // console.log(this.postForm['auditStatus'], this.auditStatus_menu);
       this.postForm.pageIndex = 1;
       this.postForm.pageSize = 50;
