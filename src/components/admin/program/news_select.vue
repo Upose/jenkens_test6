@@ -31,15 +31,15 @@
                 </el-table-column>
                 <el-table-column prop="title" label="标题">
                   <template slot-scope="scope">
-                    <span class="news-title" :title="scope.row.title" @click="handleEdit(scope.row)">{{
-                      scope.row.title
-                    }}</span>
+                    <a class="news-title" :title="scope.row.title" :href="handleEdit(scope.row)">
+                      {{ scope.row.title }}
+                    </a>
                   </template>
                 </el-table-column>
                 <el-table-column prop="columnIDs" label="所属栏目">
                   <template slot-scope="scope">
-                    <span class="news-title" v-for="(item, index) in scope.row.columnIDs" @click="ColumnEdit(item)"
-                      :key="index + '_' + item.title">{{ item.value }};</span>
+                    <a class="news-title" v-for="(item, index) in scope.row.columnIDs" :href="ColumnEdit(item)"
+                      :key="index + '_' + item.title">{{ item.value }};</a>
                   </template>
                 </el-table-column>
                 <el-table-column prop="publisher" align="center" label="发布者" width="120"></el-table-column>
@@ -110,12 +110,23 @@ export default {
     },
     //编辑新闻
     handleEdit(row) {
-      console.log(row.columnIDs[0]);
-      this.$router.push({ path: '/admin_addNews', query: { id: row.id, c_id: row.columnIDs[0].key } })
+      // console.log(row.columnIDs[0]);
+      // this.$router.push({ path: '/admin_addNews', query: { id: row.id, c_id: row.columnIDs[0].key } })
+      if (row.columnIDs.length) {
+        let key = row.columnIDs[0].key;
+        return this.$setHref({ url: '/admin_addNews', query: { id: row.id, c_id: key } });
+      } else {
+        return "javascript:;";
+      }
     },
     //编辑栏目
     ColumnEdit(row) {
-      this.$router.push({ path: '/admin_programInfo', query: { id: row.key } })
+      // this.$router.push({ path: '/admin_programInfo', query: { id: row.key } })
+      if (row.key) {
+        return this.$setHref({ url: '/admin_programInfo', query: { id: row.key } });
+      } else {
+        return "javascript:;";
+      }
     },
     initData() {
       this.loading = true;
