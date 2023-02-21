@@ -16,9 +16,9 @@
                 v-for="(it, index) in auditStatusCountList" :key="index + 'audit'" @click="auditStatus(it.auditStatus)">
                 <span>{{ it.name || "无" }}</span><span class="number">{{ it.counts || 0 }}</span>
               </div>
-              <!-- <h2 class="m-title" v-if="auditStatusCountList.length>0">
+            <!-- <h2 class="m-title" v-if="auditStatusCountList.length>0">
                     <el-button size="medium" v-for="(it,index) in auditStatusCountList" :key="index+'audit'" class="gray-btn" @click="auditStatus(0)">{{it.name||'无'}}({{it.counts||0}})</el-button>
-                  </h2> -->
+                            </h2> -->
             </div>
           </div>
           <!--顶部查询 end-->
@@ -32,8 +32,8 @@
                   <el-option v-for="item in lableList" :key="item.key" :label="item.value" :value="item.key">
                   </el-option>
                 </el-select>
-                <!-- <el-date-picker class="width187" v-model="postForm.beginCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="创建时间"></el-date-picker>
-                      <el-date-picker class="width187" v-model="postForm.endCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="更新时间"></el-date-picker> -->
+              <!-- <el-date-picker class="width187" v-model="postForm.beginCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="创建时间"></el-date-picker>
+                                <el-date-picker class="width187" v-model="postForm.endCreateTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" size="medium" type="date" placeholder="更新时间"></el-date-picker> -->
                 <el-date-picker v-if="isAuth('query')" v-model="beginCreateTime" type="daterange" range-separator="至"
                   value-format="yyyy-MM-dd" start-placeholder="创建开始日期" end-placeholder="创建结束日期" size="medium" clearable>
                 </el-date-picker>
@@ -106,21 +106,21 @@
                     <span>{{ scope.row.aduitStatusName }}</span>
                   </template>
                 </el-table-column>
-                <!-- <el-table-column prop="aduitStatusName" label="显示状态" align="center" width="80">
+              <!-- <el-table-column prop="aduitStatusName" label="显示状态" align="center" width="80">
                           <template slot-scope="scope">
                             <span :class="scope.row.status==1?'color-blue':'color-red'">{{scope.row.status==1?'上架':'下架'}}</span>
                           </template>
-                        </el-table-column> -->
-                <!-- <el-table-column prop="aduitStatusName" label="审核状态" align="center" width="80">
+                                  </el-table-column> -->
+              <!-- <el-table-column prop="aduitStatusName" label="审核状态" align="center" width="80">
                           <template slot-scope="scope">
                             <span :class="scope.row.aduitStatus==8?'color-blue':'color-red'">{{scope.row.aduitStatusName}}</span>
                           </template>
-                        </el-table-column> -->
+                                  </el-table-column> -->
                 <el-table-column prop="publisher" label="发布者" align="center" width="100"></el-table-column>
                 <el-table-column prop="createdTime" label="创建时间" align="center" width="100">
                   <template slot-scope="scope">
                     <span>{{
-                    (scope.row.createdTime || "0000-00-00").substring(0, 10)
+                      (scope.row.createdTime || "0000-00-00").substring(0, 10)
                     }}
                     </span>
                   </template>
@@ -128,7 +128,7 @@
                 <el-table-column prop="updateTime" label="更新时间" align="center" width="100">
                   <template slot-scope="scope">
                     <span>{{
-                    (scope.row.updateTime || "0000-00-00").substring(0, 10)
+                      (scope.row.updateTime || "0000-00-00").substring(0, 10)
                     }}
                     </span>
                   </template>
@@ -443,15 +443,23 @@ export default {
           setTimeout(() => {
             //这里还需要根据栏目选择的模板，确定预览某一个模板，默认是1
             if (this.columnDeatils && this.columnDeatils.columnTemplate) {
-              window.open(
-                location.href.split("#")[0] +
-                "#/admin_preview" +
-                this.columnDeatils.columnTemplate +
-                "?cid=" +
-                this.$route.query.id +
-                "&id=" +
-                id
-              );
+              // window.open(
+              //   location.href.split("#")[0] +
+              //   "#/admin_preview" +
+              //   this.columnDeatils.columnTemplate +
+              //   "?cid=" +
+              //   this.$route.query.id +
+              //   "&id=" +
+              //   id
+              // );
+              let routeData = this.$router.resolve({
+                path: "/admin_preview" + this.columnDeatils.columnTemplate,
+                query: {
+                  cid: this.$route.query.id,
+                  id: id,
+                }
+              });
+              window.open(routeData.href, '_blank')
             }
           }, 200);
         })

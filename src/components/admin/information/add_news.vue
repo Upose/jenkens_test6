@@ -117,9 +117,9 @@
                       <span class="filter-box-col" @click="handleClick('div2')"
                         :class="activeName == 'div2' ? 'active' : ''" v-show="isshow_link">链接跳转</span>
                       <span class="filter-hint">{{
-                          activeName == "div2"
-                            ? "填写链接后，编辑内容将不会显示，直接跳转链接"
-                            : ""
+                        activeName == "div2"
+                        ? "填写链接后，编辑内容将不会显示，直接跳转链接"
+                        : ""
                       }}</span>
                     </div>
                     <div v-show="activeName == 'div1'">
@@ -128,19 +128,19 @@
                         <Dlib3Tinymce :contValue.sync="postForm.content" width="800" :fileUrl="fileUrl"
                           editorId="mytextarea"></Dlib3Tinymce>
                       </div>
-                      <!-- <div class="edit-fwb" v-show="contentEditor==2">
+                    <!-- <div class="edit-fwb" v-show="contentEditor==2">
                           <vue-ueditor-wrap v-model="postForm.content" :config="myConfig" class="ueditors"></vue-ueditor-wrap>
-                        </div> -->
-                      <!-- <div class="edit-check-list">
+                              </div> -->
+                    <!-- <div class="edit-check-list">
                           <div class="edit-col" @click="editorCheck(1)" :class="contentEditor==1?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji1 filter-icon"></i>编辑器1</div>
                           <div class="edit-col" @click="editorCheck(2)" :class="contentEditor==2?'edit-col-active':''"><i class="iconfont el-icon-vip-bianji2 filter-icon"></i>编辑器2</div>
-                        </div> -->
+                              </div> -->
                     </div>
                     <div class="table-pd" style="width: 800px; position: relative" v-show="activeName == 'div2'">
                       <!-- <el-input type="textarea" class="tab-el-textarea" placeholder="请输入链接地址" v-model="postForm.externalLink" maxlength="500" show-word-limit></el-input> -->
 
-                      <!-- <textarea class="table-el-textarea" @keyup="textareaBlur" v-model="postForm.externalLink"
-                        placeholder="请输入链接地址"></textarea> -->
+                    <!-- <textarea class="table-el-textarea" @keyup="textareaBlur" v-model="postForm.externalLink"
+                              placeholder="请输入链接地址"></textarea> -->
                       <Dlib3Textarea :info.sync="postForm.externalLink" :placeholder="'请输入链接地址'" :rows="3"
                         @updateInfo="updateInfo">
                       </Dlib3Textarea>
@@ -155,8 +155,8 @@
                     @click="goBack()">取消</el-button>
                   <el-button icon="iconfont el-icon-vip-yulan1" size="medium" class="admin-green-btn"
                     @click="previewPage()">预览</el-button>
-                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary"
-                    :loading="btnLoading[index]" :disabled="disabledBtn" @click="submitForm('postForm', it.key, index)"
+                  <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" :loading="btnLoading[index]"
+                    :disabled="disabledBtn" @click="submitForm('postForm', it.key, index)"
                     v-for="(it, index) in postForm.nextAuditStatus" :key="index + 'bts'">
                     {{ it.value || "保存" }}
                   </el-button>
@@ -174,8 +174,8 @@
         <el-dialog title="退回备注" :visible.sync="draw_back" width="480px" :modal-append-to-body="true"
           :append-to-body="true" :close-on-click-modal="false" :close-on-press-escape="false">
           <div class="">
-            <!-- <el-input type="textarea" v-model="sendBack.sendBackDesc" maxlength="200" minlength="0" show-word-limit
-              rows="8" placeholder="输入备注原因" clearable></el-input> -->
+          <!-- <el-input type="textarea" v-model="sendBack.sendBackDesc" maxlength="200" minlength="0" show-word-limit
+                    rows="8" placeholder="输入备注原因" clearable></el-input> -->
             <Dlib3Textarea :info.sync="sendBack.sendBackDesc" :placeholder="'输入备注原因'" maxlength="200" :rows="6"
               @updateInfo="updateInfo2">
             </Dlib3Textarea>
@@ -810,13 +810,20 @@ export default {
       setTimeout(() => {
         //这里还需要根据栏目选择的模板，确定预览某一个模板，默认是1
         if (_this.columnDeatils.defaultTemplate) {
-          window.open(
-            location.href.split("#")[0] +
-            "#/admin_preview" +
-            _this.columnDeatils.defaultTemplate +
-            "?cid=" +
-            this.columnID
-          );
+          // window.open(
+          //   location.href.split("#")[0] +
+          //   "#/admin_preview" +
+          //   _this.columnDeatils.defaultTemplate +
+          //   "?cid=" +
+          //   this.columnID
+          // );
+          let routeData = this.$router.resolve({
+            path: "/admin_preview" + _this.columnDeatils.defaultTemplate,
+            query: {
+              cid: this.columnID
+            }
+          });
+          window.open(routeData.href, '_blank')
         }
       }, 200);
     },
