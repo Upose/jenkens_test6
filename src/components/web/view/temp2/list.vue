@@ -37,13 +37,14 @@
                     <!-- <a href="javascript:;" :class="{ 'tfont-c2': subTitle.key == it.key }">
                       {{ it.value }}
                     </a> -->
-                    <a v-if="it.newsCount && it.newsCount == 1" :class="{ 'tfont-c2': subTitle.key == it.key }"
+                    <a v-if="it.newsCount && it.newsCount == 1"
+                      :class="{ 'tfont-c2': subTitle && subTitle.key == it.key }"
                       :href="$setHref({ url: '/web_newsDetails', query: { id: encodeURI(it.newsContentId), cid: encodeURI(cid), subTitle: JSON.stringify(subTitle) } })"
                       @click="foxbaseClick(it, 'existence')">
                       {{ it.value }}
                     </a>
-                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;" @click="foxbaseClick(it)"
-                      v-else>
+                    <a :class="{ 'tfont-c2': subTitle && subTitle.key == it.key }" href="javascript:;"
+                      @click="foxbaseClick(it)" v-else>
                       {{ it.value }}
                     </a>
                   </li>
@@ -187,7 +188,7 @@ export default {
         pageSize: this.pageSize,
         columnID: cid,
         contentCutLength: 600,
-        lableID: sub.key,
+        lableID: sub && sub.key ? sub.key : "",
         searchKey: '',
       }
       this.news_list = [];

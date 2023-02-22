@@ -14,13 +14,14 @@
                   @click="menuClick(item, index, 'first')">{{ item.name }}</a>
                 <ul class="sub-menu" v-if="item.lableNewsList && item.lableNewsList.length > 0 && item.check">
                   <li v-for="(it, i) in item.lableNewsList" :key="i">
-                    <a v-if="it.newsCount && it.newsCount == 1" :class="{ 'tfont-c2': subTitle.key == it.key }"
+                    <a v-if="it.newsCount && it.newsCount == 1"
+                      :class="{ 'tfont-c2': subTitle && subTitle.key == it.key }"
                       :href="$setHref({ url: '/web_newsDetails', query: { id: encodeURI(it.newsContentId), cid: encodeURI(cid), subTitle: JSON.stringify(subTitle) } })"
                       @click="foxbaseClick(it, 'existence')">
                       {{ it.value }}
                     </a>
-                    <a :class="{ 'tfont-c2': subTitle.key == it.key }" href="javascript:;" @click="foxbaseClick(it)"
-                      v-else>{{ it.value }}</a>
+                    <a :class="{ 'tfont-c2': subTitle && subTitle.key == it.key }" href="javascript:;"
+                      @click="foxbaseClick(it)" v-else>{{ it.value }}</a>
                   </li>
                 </ul>
               </li>
