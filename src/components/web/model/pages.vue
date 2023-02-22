@@ -3,10 +3,12 @@
   <div class="page-warp">
     <button class="thover-bg-c1" @click="first()">首页</button>
     <button class="thover-bg-c1" @click="pre()">上一页</button>
-    <button class="thover-bg-c1" v-for="index in pageList" :key="index" :class="PageIndex==(start_number+index)?'main_bg thover-bg-c1':'thover-bg-c1'" @click="current(start_number+index)">{{start_number+index}}</button>
+    <button class="thover-bg-c1" v-for="index in pageList" :key="index"
+      :class="PageIndex == (start_number + index) ? 'tbg-c1 thover-bg-c1' : 'thover-bg-c1'"
+      @click="current(start_number + index)">{{ start_number + index }}</button>
     <button class="thover-bg-c1" @click="next()">下一页</button>
     <button class="thover-bg-c1" @click="last()">末页</button>
-    <button>共{{total}}页 {{totalCount}}条</button>
+    <button>共{{ total }}页 {{ totalCount }}条</button>
   </div>
   <!--分页 end-->
 </template>
@@ -20,14 +22,14 @@ export default {
   },
   watch: {
     total(newVal, oldVal) {
-      this.pageList =newVal < 5 ? newVal : 5;
+      this.pageList = newVal < 5 ? newVal : 5;
     },
     PageIndex() {
       if (this.total > 5 && this.PageIndex >= 3 && this.PageIndex < this.total - 3) {
         this.start_number = this.PageIndex - 3;
       } else if (this.total > 5 && this.PageIndex > this.total - 3) {
         this.start_number = this.total - 5;
-      }else{
+      } else {
         this.start_number = 0;
       }
     }
@@ -89,15 +91,18 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/web/css/color.less"; /**通用文件 */
+@import "../../../assets/web/css/color.less";
+/**通用文件 */
 /**分页 */
 
 .page-warp {
   margin-top: 30px;
   text-align: right;
+
   .active {
     color: @m-col-b0;
   }
+
   button {
     font-size: 14px;
     border: 1px solid @ph-col-n8;
@@ -108,8 +113,14 @@ export default {
     vertical-align: middle;
     margin-right: 8px;
   }
+
   .thover-bg-c1 {
     cursor: pointer;
+
+    &.tbg-c1 {
+      color: @m-col-b0;
+    }
+
     &:hover {
       color: @m-col-b0;
       border: 1px solid @m-col-b0;
