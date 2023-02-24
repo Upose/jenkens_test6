@@ -169,7 +169,7 @@ export default {
         pageSize: this.pageSize,
         columnID: cid,
         contentCutLength: 300,
-        lableID: sub.key,
+        lableID: sub ? sub.key : '',
         searchKey: '',
       }
       this.news_list = [];
