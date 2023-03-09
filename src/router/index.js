@@ -45,14 +45,15 @@ export default new Router({
       name: "500",
       component: () => import("@/components/500")
     },
-    // {//重定向中间件
-    //   path: '/',
-    //   name: 'reset',
-    //   beforeEnter:async (to, from, next) => {
-    //     let path = await casCallbake('/admin_newsProgram');
-    //     next(path);
-    //   }
-    // },
+    {
+      //重定向中间件
+      path: "/",
+      name: "reset",
+      beforeEnter: async (to, from, next) => {
+        let path = await casCallbake("/admin_newsProgram");
+        next(path);
+      }
+    },
     {
       path: "*",
       redirect: "/404"
