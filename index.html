@@ -12,6 +12,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+
+  <!-- 不缓存 -->
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
   <title></title>
 
   <script src="./static/assets/other/babel-polyfill/polyfill.min.js"></script>
@@ -33,11 +38,16 @@
   <script src="./static/assets/other/share/js/social-share.min.js"></script>
 
   <!-- <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/css/color.css" /> -->
-  <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/css/vipsmart-dalib3-skin.css" />
-  <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/css/public.css" />
-  <script src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/ApplicationBuilder.js"></script>
-  <script src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/log.js"></script>
-  <script src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/common.js"></script>
+  <link rel="stylesheet"
+    href="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/css/vipsmart-dalib3-skin.css?t=<%=htmlWebpackPlugin.options.configVersion%>" />
+  <link rel="stylesheet"
+    href="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/css/public.css?t=<%=htmlWebpackPlugin.options.configVersion%>" />
+  <script
+    src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/ApplicationBuilder.js?t=<%=htmlWebpackPlugin.options.configVersion%>"></script>
+  <script
+    src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/log.js?t=<%=htmlWebpackPlugin.options.configVersion%>"></script>
+  <script
+    src="<%= htmlWebpackPlugin.options.htmlFileUrl %>public/js/common.js?t=<%=htmlWebpackPlugin.options.configVersion%>"></script>
 
 </head>
 
