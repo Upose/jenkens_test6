@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
- * @LastEditors: gongqin
- * @LastEditTime: 2023-01-13 09:28:28
+ * @LastEditors: lxx1997 lujiangpeng@vipinfo.com.cn
+ * @LastEditTime: 2023-03-14 11:43:54
  */
 import Vue from 'vue'
 import App from './App'
@@ -13,6 +13,7 @@ import store from './store/index'
 import Debounce from '@/assets/public/js/debounce';
 import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
+import "@/assets/public/js/directive";
 import vDebounce from '@/assets/public/js/vdebounce';
 import '@/assets/public/js/plugin'
 import Dlib3Tinymce from 'dlib3-tinymce'
