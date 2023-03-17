@@ -2,7 +2,7 @@
  * @Author: lxx1997 lujiangpeng@vipinfo.com.cn
  * @Date: 2023-03-13 11:02:10
  * @LastEditors: lxx1997 lujiangpeng@vipinfo.com.cn
- * @LastEditTime: 2023-03-14 15:27:31
+ * @LastEditTime: 2023-03-14 17:17:16
  * @FilePath: \unified_retrieval_sys\src\components\web\model\search-detail\reader-comments\readcomment.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -17,7 +17,7 @@
 
 <!-- 读者评论 评论+评分 仅评论 仅评分  【组件】 -->
 <template>
-  <div class="template1 common-bg-grey"  v-if="ReaderCommentConfig.isOn">
+  <div class="template1 common-bg-grey" v-if="ReaderCommentConfig.isOn">
     <!-- h1 读者评论 标题 -->
     <div class="readComment">
       <div class="readerComments tbefore-bg-c1">
@@ -470,7 +470,7 @@
 <script>
 // import { resolve } from "q";
 export default {
-  props: ["path", "approutecode", "objectid", "objectname"],
+  props: ["path", "approutecode", "objectid", "objectname", "columnid"],
   name: "readcomment",
   data() {
     return {
@@ -516,7 +516,7 @@ export default {
     };
   },
   created() {
-    console.log(this.path, this.approutecode, this.objectid);
+    console.log(this.path, this.approutecode, this.objectid, this.columnid);
     // var s = location.hash;
     // this.path = s.substr(1);
     // console.log(this.path);
@@ -539,7 +539,7 @@ export default {
     // this.AddReaderComment(); //添加评论
     // this.AddCommentReply()//添加评论的回复
     this.GetReaderCommentList(); //全部评论列表
-    this.GetCommentSensitiveWords();//铭感词
+    this.GetCommentSensitiveWords(); //铭感词
   },
   methods: {
     GetCommentSensitiveWords() {
@@ -573,7 +573,7 @@ export default {
       let url = `${this.mybaseUrl}${this.mybaseApi}GetReaderCommentConfig`;
       let data = {
         approutecode: this.approutecode,
-        columnid: "DHVvI6KsZy^DDa3U"
+        columnid: this.columnid
       };
       this.mygethttp(url, data).then(data => {
         this.ReaderCommentConfig = data.data;
@@ -638,7 +638,7 @@ export default {
               score: 0,
               content: this.myCommentData,
               articleTypes: "",
-              columnId: "DHVvI6KsZy^DDa3U",
+              columnId: this.columnid,
               targetUrl: this.path
             };
             this.AddReaderComment(data, "评论");
@@ -665,7 +665,7 @@ export default {
         score: e,
         content: "",
         articleTypes: "",
-        columnId: "DHVvI6KsZy^DDa3U",
+        columnId: this.columnid,
         targetUrl: this.path
       };
       // let fn = this.throttle(this.AddReaderComment(), 1500, data);
@@ -972,7 +972,7 @@ export default {
           score: 3,
           content: this.editor_reply_data,
           articleTypes: "",
-          columnId: "DHVvI6KsZy^DDa3U",
+          columnId: this.columnid,
           targetUrl: this.path,
           replyTo: item.userName,
           replyTarget: item.id
