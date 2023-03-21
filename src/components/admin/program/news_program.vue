@@ -149,11 +149,15 @@ export default {
         type: 'warning'
       }).then(() => {
         this.http.getPlain_url('column_delete', '/' + val).then(res => {
-          _this.$message({ type: 'success', message: '删除成功!' });
-          _this.getColumn();
-          _this.initData();
+          if (res.statusCode==200 && res.data.succeeded) {
+            _this.$message({ type: 'success', message: '删除成功!' });
+            _this.getColumn();
+            _this.initData();
+          } else {
+            _this.$message({ type: 'error', message: res.data.message ? res.data.message : '删除失败!' });
+          }
         }).catch(err => {
-          _this.$message({ type: 'error', message: '删除失败!' });
+          _this.$message({ type: 'error', message: res.data.message ? res.data.message : '删除失败!' });
         })
       }).catch(() => {
         _this.$message({ type: 'info', message: '已取消删除' });
