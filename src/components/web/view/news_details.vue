@@ -1,8 +1,8 @@
 <!--
  * @Author: lxx1997 lujiangpeng@vipinfo.com.cn
  * @Date: 2023-03-14 10:31:29
- * @LastEditors: lxx1997 lujiangpeng@vipinfo.com.cn
- * @LastEditTime: 2023-03-17 12:35:05
+ * @LastEditors: LuJiangPeng-lxx lujiangpeng@vipinfo.com.cn
+ * @LastEditTime: 2023-03-22 21:59:37
  * @FilePath: \news_sys\src\components\web\view\news_details.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -85,7 +85,7 @@ export default {
         .substr(1)
         .match(/cid=[^\&]+/)[0]
         .substr(4),
-      commnetscope: "",//评论范围
+      commnetscope: "", //评论范围
       title: ""
     };
   },
@@ -105,7 +105,7 @@ export default {
     addComponent() {
       setTimeout(() => {
         var url =
-          "http://192.168.21.46:80/cdn/public/template/readers_comments/temp1";
+          process.env.VUE_TMP_URL + "public/template/readers_comments/temp1";
         var link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
         link.setAttribute("type", "text/css");
@@ -141,7 +141,7 @@ export default {
         .then(res => {
           // console.log(res);
           if (res.data) {
-            this.commnetscope = res.data.columnName // 获取评论范围
+            this.commnetscope = res.data.columnName; // 获取评论范围
             this.template_num = res.data.template || 0;
           }
           this.request_of = false;
