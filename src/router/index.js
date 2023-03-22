@@ -11,9 +11,14 @@ import webRouter from "./web_router";
 import adminRouter from "./admin_router";
 Vue.use(Router);
 
+const dlibAppRouterPrefix = window.dlibAppRouterPrefix;
+const ruterBase = dlibAppRouterPrefix
+  ? dlibAppRouterPrefix + "/news/"
+  : "/news/";
+
 export default new Router({
   mode: "history",
-  base: process.env.NODE_ENV == "production" ? "/news/" : "", // 打包时需要配置二级目录名
+  base: process.env.NODE_ENV == "production" ? ruterBase : "", // 打包时需要配置二级目录名
   routes: [
     { path: "/admin", redirect: "/admin_newsProgram" },
     {
