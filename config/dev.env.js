@@ -15,4 +15,5 @@ module.exports = merge(prodEnv, {
   // VUE_APP_FILE_URL:'http://192.168.21.46/cdn/',//图片路径、域名前缀
   VUE_APP_template_url:'"http://192.168.21.71:9000"',//模板路径名
   VUE_APP_BASE_API:'"http://192.168.21.46:8000"',//请求地址
+  VUE_TMP_URL: '"http://192.168.21.46:80/cdn/"',
 })
