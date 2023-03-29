@@ -19,7 +19,9 @@
 
     <div class="login-msg-warp">
       <div class="u-img-w">
-        <el-image class="u-img" v-if="userInfo" :src="fileUrl + userInfo.photo || default_img" :fit="'contain'">
+        <!-- <el-image class="u-img" v-if="userInfo" :src="fileUrl + userInfo.photo || default_img" :fit="'contain'">
+        </el-image> -->
+        <el-image class="u-img" v-if="userInfo" :src="userInfo.photo || default_img" :fit="'contain'">
         </el-image>
       </div>
       <span class="u-name">{{ userInfo.name || '' }}</span>
