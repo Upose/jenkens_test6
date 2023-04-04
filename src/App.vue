@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: LuJiangPeng-lxx lujiangpeng@vipinfo.com.cn
- * @LastEditTime: 2023-03-29 14:11:23
+ * @LastEditTime: 2023-04-04 23:19:30
 -->
 <template>
   <div id="news_sys" class="admin-warp-app">
@@ -22,14 +22,6 @@ export default {
   async created() {
     await casCallbake("/web_newsList");
     await this.getBaseInfo(); // 获取用户信息 并存入localstorage
-    if (window.localStorage.getItem("userInfo")) {
-      let info = JSON.parse(window.localStorage.getItem("userInfo"));
-      info.photo = this.$imgUrlComple(info.photo);
-      let jsinfo = JSON.stringify(info);
-      // window.localStorage.removeItem("userInfo");
-      window.localStorage.setItem("userInfo", jsinfo);
-      // console.log(window.localStorage);
-    }
     let appDetails = this.$store.state.appDetails;
     //详情
     if (

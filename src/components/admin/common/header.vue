@@ -1,7 +1,9 @@
 <template>
   <div class="header-warp">
     <div class="logo-w" :class="{ 'logo-collapse': $root.collapse }">
-      <a href="javascript:;"><img :src="$root.collapse ? logoList.show : logoList.hide"></a>
+      <a href="javascript:;"
+        ><img :src="$root.collapse ? logoList.show : logoList.hide"
+      /></a>
     </div>
     <!--logo end-->
 
@@ -10,7 +12,12 @@
 
     <div class="m-box-list" :class="{ 'logo-collapse-left': $root.collapse }">
       <el-tabs v-model="activeName">
-        <el-tab-pane :label="item.appName" :name="index" v-for="(item, index) in dataList" :key="index">
+        <el-tab-pane
+          :label="item.appName"
+          :name="index"
+          v-for="(item, index) in dataList"
+          :key="index"
+        >
           <a slot="label" :href="handleClick(index)">{{ item.appName }}</a>
         </el-tab-pane>
       </el-tabs>
@@ -21,72 +28,101 @@
       <div class="u-img-w">
         <!-- <el-image class="u-img" v-if="userInfo" :src="fileUrl + userInfo.photo || default_img" :fit="'contain'">
         </el-image> -->
-        <el-image class="u-img" v-if="userInfo" :src="userInfo.photo || default_img" :fit="'contain'">
+        <el-image
+          class="u-img"
+          v-if="userInfo"
+          :src="userInfo.photo || default_img"
+          :fit="'contain'"
+        >
         </el-image>
       </div>
-      <span class="u-name">{{ userInfo.name || '' }}</span>
-      <i class="iconfont el-icon-vip-tuichu loginOut" title="退出登录" @click="outLogin()"></i>
+      <span class="u-name">{{ userInfo.name || "" }}</span>
+      <i
+        class="iconfont el-icon-vip-tuichu loginOut"
+        title="退出登录"
+        @click="outLogin()"
+      ></i>
     </div>
     <!--用户信息-退出登录 end-->
-
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'test',
+  name: "test",
   data() {
     return {
-      userInfo: JSON.parse(window.localStorage.getItem('userInfo') || '{}'),
-      fileUrl: window.localStorage.getItem('fileUrl'),
+      userInfo: JSON.parse(window.localStorage.getItem("userInfo") || "{}"),
+      fileUrl: window.localStorage.getItem("fileUrl"),
       activeName: 0,
-      default_img: require('@/assets/admin/img/upload/user-img.png'),
+      default_img: require("@/assets/admin/img/upload/user-img.png"),
       logoList: {
-        show: window.localStorage.getItem('fileUrl') + '/uploads/cqu/scene/admin-logo-min.png',
-        hide: window.localStorage.getItem('fileUrl') + '/uploads/cqu/scene/admin-logo-text.png',
+        show:
+          window.localStorage.getItem("fileUrl") +
+          "/uploads/cqu/scene/admin-logo-min.png",
+        hide:
+          window.localStorage.getItem("fileUrl") +
+          "/uploads/cqu/scene/admin-logo-text.png"
       },
-      dataList: [],
-    }
+      dataList: []
+    };
+  },
+  created() {
+    this.updateUserPhotoUrl();
   },
   mounted() {
-    this.http.getPlain_url('getmgrtopmenu', '').then(res => {
-      this.dataList = res.data.appMenuList || [];
-      this.logoList.show = localStorage.getItem('fileUrl') + res.data.simpleLogoUrl;
-      this.logoList.hide = localStorage.getItem('fileUrl') + res.data.logoUrl;
-    }).catch(err => {
-    })
+    this.http
+      .getPlain_url("getmgrtopmenu", "")
+      .then(res => {
+        this.dataList = res.data.appMenuList || [];
+        this.logoList.show =
+          localStorage.getItem("fileUrl") + res.data.simpleLogoUrl;
+        this.logoList.hide = localStorage.getItem("fileUrl") + res.data.logoUrl;
+      })
+      .catch(err => {});
   },
   methods: {
+    //统一补全用户头像url格式规范 userInfo.photo
+    updateUserPhotoUrl() {
+      this.$set(
+        this.userInfo,
+        "photo",
+        this.$imgUrlComple(this.userInfo.photo)
+      );
+    },
     // 侧边栏折叠展开
     collapseChage() {
       this.$root.collapse = !this.$root.collapse;
-      this.bus.$emit('collapse', this.$root.collapse);
+      this.bus.$emit("collapse", this.$root.collapse);
     },
     //跳转页面
     handleClick(tab, event) {
       // window.location.href = this.dataList[this.activeName].backendUrl || '#';
-      return this.$setHref({ type: 'full', url: this.dataList[tab].backendUrl })
+      return this.$setHref({
+        type: "full",
+        url: this.dataList[tab].backendUrl
+      });
     },
     //退出登录
     outLogin() {
-      this.$confirm('是否确认退出?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        // localStorage.clear();
-        // let current = window.location.href;
-        // localStorage.setItem('COM+', current);
-        // location.href = window.casBaseUrl+'/cas/logout?service=' + encodeURIComponent(window.location);
+      this.$confirm("是否确认退出?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // localStorage.clear();
+          // let current = window.location.href;
+          // localStorage.setItem('COM+', current);
+          // location.href = window.casBaseUrl+'/cas/logout?service=' + encodeURIComponent(window.location);
 
-        // ApplicationBuilder.js 统一退出方法
-        logoutCallback();
-      }).catch(() => {
-      });
-    },
-  },
-}
+          // ApplicationBuilder.js 统一退出方法
+          logoutCallback();
+        })
+        .catch(() => {});
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
