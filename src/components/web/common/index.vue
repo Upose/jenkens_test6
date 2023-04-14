@@ -3,14 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: gongqin
- * @LastEditTime: 2023-04-14 11:45:18
--->
-<!--
- * @Description: 
- * @Author: gongqin
- * @Date: 2022-08-11 15:47:15
- * @LastEditors: gongqin
- * @LastEditTime: 2023-04-14 10:44:07
+ * @LastEditTime: 2023-04-14 17:13:58
 -->
 <template>
   <div class="web-warp" :class="skin_template">
