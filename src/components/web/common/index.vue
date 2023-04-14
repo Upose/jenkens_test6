@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: gongqin
- * @LastEditTime: 2023-04-14 10:59:02
+ * @LastEditTime: 2023-04-14 11:45:18
 -->
 <!--
  * @Description: 
@@ -58,6 +58,8 @@ export default {
     }
   },
   created() {
+    this.getHeadFoot();
+
     var _that = this;
     let appDetails = store.state.appDetails;
     //详情
@@ -73,7 +75,6 @@ export default {
     } else {
       _that.post_details = true;
     }
-    this.getHeadFoot();
   },
   mounted() {
     if (this.headerFooterInfo && this.headerFooterInfo != null && this.headerFooterInfo != undefined && this.headerFooterInfo != 'undefined') {
@@ -82,14 +83,12 @@ export default {
   },
   methods: {
     getHeadFoot() {
-      if (this.headerFooterInfo) {
-        this.headerTemplateCode = this.headerFooterInfo.headerTemplateCode || '';
-        this.footerTemplateCode = this.headerFooterInfo.footerTemplateCode || '';
-        this.headerRouter = this.headerFooterInfo.headerRouter;
-        this.footerRouter = this.headerFooterInfo.footerRouter;
-
-        this.getServerHeadFoot();
-      }
+      let headerFooterInfo = JSON.parse(localStorage.getItem('headerFooterInfo'));
+      this.headerTemplateCode = headerFooterInfo.headerTemplateCode || '';
+      this.footerTemplateCode = headerFooterInfo.footerTemplateCode || '';
+      this.headerRouter = headerFooterInfo.headerRouter;
+      this.footerRouter = headerFooterInfo.footerRouter;
+      this.getServerHeadFoot();
     },
     // 获取信息导航特定头底部-设置
     getServerHeadFoot() {
