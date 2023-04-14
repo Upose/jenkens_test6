@@ -178,9 +178,11 @@ export default {
   },
   watch: {
     '$route'(nval, oval) {
+      console.log(nval, 'nval');
       this.id = decodeURI(nval.query.id || '');
       this.cid = decodeURI(nval.query.cid || '');
       this.subTitle = JSON.parse(nval.query.subTitle || '{}');
+      console.log(this.id, this.cid, this.subTitle, 'nval');
       this.initData();
     }
   },
