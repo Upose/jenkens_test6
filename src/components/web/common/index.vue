@@ -1,12 +1,26 @@
+<!--
+ * @Description: 
+ * @Author: gongqin
+ * @Date: 2022-08-11 15:47:15
+ * @LastEditors: gongqin
+ * @LastEditTime: 2023-04-14 10:59:02
+-->
+<!--
+ * @Description: 
+ * @Author: gongqin
+ * @Date: 2022-08-11 15:47:15
+ * @LastEditors: gongqin
+ * @LastEditTime: 2023-04-14 10:44:07
+-->
 <template>
   <div class="web-warp" :class="skin_template">
-    <div :class="header_class" id="jl_vip_zt_header_warp">
+    <div :class="headerTemplateCode" id="jl_vip_zt_header_warp">
       <div id="jl_vip_zt_header"></div>
     </div>
     <div class="content-warp">
       <router-view v-if="post_details"></router-view>
     </div>
-    <div :class="footer_class" id="jl_vip_zt_footer_warp">
+    <div :class="footerTemplateCode" id="jl_vip_zt_footer_warp">
       <div id="jl_vip_zt_footer"></div>
     </div>
   </div>
@@ -31,6 +45,18 @@ export default {
   },
   /**日志分割线end */
   name: 'index',
+  data() {
+    return {
+      headerFooterInfo: JSON.parse(localStorage.getItem('headerFooterInfo')),
+      post_details: false,
+      headerTemplateCode: '',
+      footerTemplateCode: '',
+      headerRouter: '',
+      footerRouter: '',
+      skin_template: this.$store.state.skin_template || 'template1',
+      cId: this.$route.query.cid,
+    }
+  },
   created() {
     var _that = this;
     let appDetails = store.state.appDetails;
@@ -47,32 +73,56 @@ export default {
     } else {
       _that.post_details = true;
     }
-    if (this.headerFooterInfo) {
-      this.header_class = this.headerFooterInfo.headerTemplateCode || '';
-      this.footer_class = this.headerFooterInfo.footerTemplateCode || '';
-      this.addStyle(this.headerFooterInfo.headerRouter + '/component.css');
-      this.addScript(this.headerFooterInfo.headerRouter + '/component.js');
-
-      this.addStyle(this.headerFooterInfo.footerRouter + '/component.css');
-      this.addScript(this.headerFooterInfo.footerRouter + '/component.js');
-    }
+    this.getHeadFoot();
   },
   mounted() {
     if (this.headerFooterInfo && this.headerFooterInfo != null && this.headerFooterInfo != undefined && this.headerFooterInfo != 'undefined') {
       this.skin_template = this.headerFooterInfo.themeColor || 'template1';
     }
   },
-  data() {
-    return {
-      headerFooterInfo: JSON.parse(localStorage.getItem('headerFooterInfo')),
-      post_details: false,
-      header_class: '',
-      footer_class: '',
-      skin_template: this.$store.state.skin_template || 'template1',
-    }
-  },
   methods: {
+    getHeadFoot() {
+      if (this.headerFooterInfo) {
+        this.headerTemplateCode = this.headerFooterInfo.headerTemplateCode || '';
+        this.footerTemplateCode = this.headerFooterInfo.footerTemplateCode || '';
+        this.headerRouter = this.headerFooterInfo.headerRouter;
+        this.footerRouter = this.headerFooterInfo.footerRouter;
 
+        this.getServerHeadFoot();
+      }
+    },
+    // 获取信息导航特定头底部-设置
+    getServerHeadFoot() {
+      this.http.getJsonSelf('template-detail-by-column-id', `/${this.cId}`).then(res => {
+        this.headerTemplateCode = res.data.headTemplateModel.headerTemplateCode ? res.data.headTemplateModel.headerTemplateCode : this.headerTemplateCode;
+        this.footerTemplateCode = res.data.footTemplateModel.footerTemplateCode ? res.data.footTemplateModel.footerTemplateCode : this.footerTemplateCode;
+        this.headerRouter = res.data.headTemplateModel.headerRouter ? res.data.headTemplateModel.headerRouter : this.headerRouter;
+        this.footerRouter = res.data.footTemplateModel.footerRouter ? res.data.footTemplateModel.footerRouter : this.footerRouter;
+        this.addTemp(this.headerRouter);
+        this.addTemp(this.footerRouter);
+      }).catch(err => {
+        // this.$message({ type: 'error', message: '获取数据失败!' });
+        this.addTemp(this.headerRouter);
+        this.addTemp(this.footerRouter);
+      });
+    },
+    addTemp(url) {
+      this.addStyle(url + '/component.css?v=' + new Date().getTime());
+      this.addScript(url + '/component.js?v=' + new Date().getTime());
+    },
+    addStyle(url) {
+      var link = document.createElement("link");
+      link.setAttribute("rel", "stylesheet");
+      link.setAttribute("type", "text/css");
+      link.setAttribute("href", url);
+      document.getElementsByTagName("body")[0].appendChild(link);
+    },
+    addScript(url) {
+      var js_element = document.createElement("script");
+      js_element.setAttribute("type", "text/javascript");
+      js_element.setAttribute("src", url);
+      document.getElementsByTagName("body")[0].appendChild(js_element);
+    },
   }
 }
 </script>
