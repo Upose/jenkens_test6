@@ -1,10 +1,4 @@
-<!--
- * @Description: 
- * @Author: gongqin
- * @Date: 2022-08-11 15:47:15
- * @LastEditors: gongqin
- * @LastEditTime: 2023-04-14 17:13:58
--->
+
 <template>
   <div class="web-warp" :class="skin_template">
     <div :class="headerTemplateCode" id="jl_vip_zt_header_warp">
@@ -86,10 +80,15 @@ export default {
     // 获取信息导航特定头底部-设置
     getServerHeadFoot() {
       this.http.getJsonSelf('template-detail-by-column-id', `/${this.cId}`).then(res => {
-        this.headerTemplateCode = res.data.headTemplateModel.headerTemplateCode ? res.data.headTemplateModel.headerTemplateCode : this.headerTemplateCode;
-        this.footerTemplateCode = res.data.footTemplateModel.footerTemplateCode ? res.data.footTemplateModel.footerTemplateCode : this.footerTemplateCode;
-        this.headerRouter = res.data.headTemplateModel.headerRouter ? res.data.headTemplateModel.headerRouter : this.headerRouter;
-        this.footerRouter = res.data.footTemplateModel.footerRouter ? res.data.footTemplateModel.footerRouter : this.footerRouter;
+        if (res.data.headTemplateModel.headerTemplateCode && res.data.headTemplateModel.headerRouter) {
+          this.headerTemplateCode = res.data.headTemplateModel.headerTemplateCode;
+          this.headerRouter = res.data.headTemplateModel.headerRouter;
+        }
+        if (res.data.footTemplateModel.footerTemplateCode && res.data.footTemplateModel.footerRouter) {
+          this.footerTemplateCode = res.data.footTemplateModel.footerTemplateCode;
+          this.footerRouter = res.data.footTemplateModel.footerRouter;
+        }
+
         this.addTemp(this.headerRouter);
         this.addTemp(this.footerRouter);
       }).catch(err => {
