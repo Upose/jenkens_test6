@@ -3,7 +3,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: gongqin
- * @LastEditTime: 2023-04-19 17:57:31
+ * @LastEditTime: 2023-04-20 14:59:56
 -->
 <!--
  * @Description: 
@@ -77,13 +77,13 @@ export default {
     }
   },
   mounted() {
-    if (this.headerFooterInfo && this.headerFooterInfo != null && this.headerFooterInfo != undefined && this.headerFooterInfo != 'undefined') {
-      this.skin_template = this.headerFooterInfo.themeColor || 'template1';
-    }
   },
   methods: {
     getHeadFoot() {
-      let headerFooterInfo = JSON.parse(localStorage.getItem('headerFooterInfo'));
+      let headerFooterInfo = JSON.parse(localStorage.getItem('headerFooterInfo')) || {};
+      if (headerFooterInfo && headerFooterInfo != 'undefined') {
+        this.skin_template = headerFooterInfo.themeColor || 'template1';
+      }
       this.headerTemplateCode = headerFooterInfo.headerTemplateCode || '';
       this.footerTemplateCode = headerFooterInfo.footerTemplateCode || '';
       this.headerRouter = headerFooterInfo.headerRouter;
@@ -93,6 +93,10 @@ export default {
     // 获取信息导航特定头底部-设置
     getServerHeadFoot() {
       this.http.getJsonSelf('template-detail-by-column-id', `/${this.cId}`).then(res => {
+        if (res.data.headTemplateModel.themeColor) {
+          this.skin_template = res.data.headTemplateModel.themeColor;
+        }
+
         if (res.data.headTemplateModel.headerTemplateCode && res.data.headTemplateModel.headerRouter) {
           this.headerTemplateCode = res.data.headTemplateModel.headerTemplateCode;
           this.headerRouter = res.data.headTemplateModel.headerRouter;
