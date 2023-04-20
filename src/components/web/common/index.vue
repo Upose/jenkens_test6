@@ -93,7 +93,7 @@ export default {
         if (!res.data.headTemplateModel.themeColor && res.data.footTemplateModel.themeColor) {
           this.skin_template = res.data.footTemplateModel.themeColor;
         }
-        console.log(this.cId, 'cid', res.data, 'res.data', this.skin_template, 'skin_template')
+        // console.log(this.cId, 'cid', res.data, 'res.data', this.skin_template, 'skin_template')
 
         if (res.data.headTemplateModel.headerTemplateCode && res.data.headTemplateModel.headerRouter) {
           this.headerTemplateCode = res.data.headTemplateModel.headerTemplateCode;
