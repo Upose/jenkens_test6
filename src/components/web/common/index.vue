@@ -4,7 +4,7 @@
  * @Author: gongqin
  * @Date: 2022-08-11 15:47:15
  * @LastEditors: gongqin
- * @LastEditTime: 2023-04-20 15:03:11
+ * @LastEditTime: 2023-04-20 15:16:01
 -->
 <template>
   <div class="web-warp" :class="skin_template">
@@ -74,9 +74,9 @@ export default {
   },
   methods: {
     getHeadFoot() {
-      let headerFooterInfo = JSON.parse(localStorage.getItem('headerFooterInfo')) || {};
-      if (headerFooterInfo && headerFooterInfo != 'undefined') {
-        this.skin_template = headerFooterInfo.themeColor || 'template1';
+      let headerFooterInfo = JSON.parse(localStorage.getItem('headerFooterInfo') || '{}');
+      if (headerFooterInfo && headerFooterInfo != 'undefined' && headerFooterInfo.themeColor) {
+        this.skin_template = headerFooterInfo.themeColor;
       }
       this.headerTemplateCode = headerFooterInfo.headerTemplateCode || '';
       this.footerTemplateCode = headerFooterInfo.footerTemplateCode || '';
@@ -93,6 +93,7 @@ export default {
         if (!res.data.headTemplateModel.themeColor && res.data.footTemplateModel.themeColor) {
           this.skin_template = res.data.footTemplateModel.themeColor;
         }
+        console.log(this.cId, 'cid', res.data, 'res.data', this.skin_template, 'skin_template')
 
         if (res.data.headTemplateModel.headerTemplateCode && res.data.headTemplateModel.headerRouter) {
           this.headerTemplateCode = res.data.headTemplateModel.headerTemplateCode;
