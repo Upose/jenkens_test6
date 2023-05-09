@@ -16,7 +16,7 @@ import bus from '@/assets/public/js/bus';
 import "@/assets/public/js/directive";
 import vDebounce from '@/assets/public/js/vdebounce';
 import '@/assets/public/js/plugin'
-import Dlib3Tinymce from 'dlib3-tinymce'
+import Dlib3Tinymce from '@vpscope/dlib3-tinymce'
 
 //2022.11.8 日志 将日志提出为cdn引入模式
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
