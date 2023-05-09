@@ -21,10 +21,6 @@ import Dlib3Tinymce from '@vpscope/dlib3-tinymce'
 //2022.11.8 日志 将日志提出为cdn引入模式
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 logReportPlugin(Vue, { app: "news", api: "loganalysis/api/log-write/write-log" }, FingerprintJS)
-// import logReportPlugin from "log-report-plugin";
-// Vue.use(logReportPlugin, { app: "news", api: "loganalysis/api/log-write/write-log" });
-// app: 应用id
-// api: 上报接口地址 loganalysis/api/log-write/write-log
 
 Vue.config.productionTip = false
 Vue.use(vDebounce);
